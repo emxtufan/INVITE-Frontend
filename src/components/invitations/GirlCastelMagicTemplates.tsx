@@ -65,6 +65,30 @@ const SANS   = "'Montserrat', sans-serif";
 const INTO_TEXT = "'ROMANTIC', cursive";
 const HeroText = "'Cormorant Garamond', serif"
 const FamilyText ="'Great Vibes', cursive "
+const API_ORIGIN = API_URL.replace(/\/api\/?$/, "");
+
+function resolvePublicImageUrl(raw?: string): string | undefined {
+  if (!raw) return undefined;
+  const value = raw.trim();
+  if (!value) return undefined;
+
+  if (value.startsWith("/uploads/")) {
+    return `${API_ORIGIN}${value}`;
+  }
+
+  try {
+    const parsed = new URL(value);
+    if (
+      (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") &&
+      parsed.pathname.startsWith("/uploads/")
+    ) {
+      return `${API_ORIGIN}${parsed.pathname}`;
+    }
+    return value;
+  } catch {
+    return value;
+  }
+}
 // ── Music player ──────────────────────────────────────────────────────────────
 declare global { interface Window { YT: any; onYouTubeIframeAPIReady: () => void; } }
 let ytApiLoaded_cm  = false;
@@ -1097,7 +1121,7 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
     id: 'def-photo-1',
     type: 'photo' as const,
     show: true,
-    imageData: 'https://clubulbebelusilor.ro/wp-content/uploads/2021/02/bebelusi-sfaturi-pentru-mamici.jpg',
+    imageData: 'https://github.com/emxtufan/images/blob/main/083bc564e4351696f53a7fc0aeb196f3.jpg?raw=true',
     altText: 'Fotografia prințesei',
     aspectRatio: '3:4' as const,
     photoClip: 'arch' as const,
@@ -1640,11 +1664,20 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
         {(() => {
           const isMob =
             typeof window !== "undefined" && window.innerWidth < 768;
-          const FALLBACK =
-            "https://images.pexels.com/photos/28680696/pexels-photo-28680696.jpeg";
+          const FALLBACKmobile =
+            "https://github.com/emxtufan/images/blob/main/3d507e7897fb9e53df9ba97bb1630ef2.jpg?raw=true";
+          const FALLBACKDesktop =
+            "https://github.com/emxtufan/images/blob/main/3d507e7897fb9e53df9ba97bb1630ef2.jpg?raw=true";
+          const desktopImage = resolvePublicImageUrl(heroContentImage);
+          const mobileImage = resolvePublicImageUrl(heroContentImageMobile);
           const imgSrc = isMob
-            ? heroContentImageMobile || heroContentImage || FALLBACK
-            : heroContentImage || heroContentImageMobile || FALLBACK;
+            ? mobileImage || desktopImage || FALLBACKmobile
+            : desktopImage || mobileImage || FALLBACKDesktop;
+          const fallbackSrc = isMob ? FALLBACKmobile : FALLBACKDesktop;
+          const stackedBg =
+            imgSrc && imgSrc !== fallbackSrc
+              ? `url(${imgSrc}), url(${fallbackSrc})`
+              : `url(${fallbackSrc})`;
           return (
             <div
               style={{
@@ -1658,7 +1691,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                 style={{
                   position: "absolute",
                   inset: 0,
-                  backgroundImage: `url(${imgSrc})`,
+                  backgroundImage: stackedBg,
                   backgroundSize: "cover",
                   backgroundPosition: "top",
                   backgroundRepeat: "no-repeat",
@@ -1806,7 +1839,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
               <div className="mb-6 inline-block relative">
                 <div className="absolute -inset-4 bg-pink-200/30 blur-xl rounded-full" />
                 {/* <Sparkles className="w-12 h-12 text-pink-400 relative z-10 animate-pulse" /> */}
-                <svg
+                {/* <svg
                   version="1.1"
                   viewBox="0 0 512 512"
                   className="w-12 h-12 relative z-10 animate-pulse"
@@ -1862,7 +1895,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                       </g>
                     </g>
                   </g>
-                </svg>
+                </svg> */}
               </div>
 
               <InlineEdit

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import {
   Heart, Baby, PartyPopper, Briefcase,
   Save, Trash2, Plus, AlertCircle, Info, RotateCcw, ChevronDown,
-  Calendar, Palette, Clock, Sparkles, Sliders,
+  Calendar, Palette, Clock, Sparkles, Sliders, ExternalLink, Copy,
 } from "lucide-react";
 import Button from "./ui/button";
 import Input from "./ui/input";
@@ -39,6 +39,7 @@ import { CASTLE_THEMES, GIRL_THEMES, BOY_THEMES, CASTLE_DEFAULTS, CASTLE_DEFAULT
 import { getTemplateDefaultBlocks, getTemplateDefaultProfile } from "./invitations/registry";
 import { TemplateMeta } from "./invitations/types";
 import { API_URL } from "../config/api";
+import { Joyride, ACTIONS, STATUS, Step, EventData } from "react-joyride";
 
 type EditableTemplateProps = ClassicTemplateProps | RoyalRoseProps | DarkRoyalProps | BlushBloomProps | GardenRomanticProps | VelumProps | EternBotanicaProps | TerraBohoProps | ArchRoseProps;
 const EDITABLE_TEMPLATES: Record<string, React.FC<EditableTemplateProps>> = {
@@ -83,6 +84,25 @@ const INTRO_TEMPLATES = new Set([
   'jurassic-park',
 ]);
 
+const CONFIG_TEMPLATE_TOUR_VERSION = "v1";
+const HAS_COLOR_THEME_PANEL = (templateId?: string) =>
+  !!templateId && (
+    templateId.startsWith("castle-magic") ||
+    templateId === "lord-effects" ||
+    templateId === "romantic" ||
+    templateId === "royal-rose" ||
+    templateId === "blush-bloom" ||
+    templateId === "velum" ||
+    templateId === "etern-botanica" ||
+    templateId === "gabbys-dollhouse" ||
+    templateId === "frozen" ||
+    templateId === "unicorn-academy" ||
+    templateId === "adventure-road" ||
+    templateId === "jurassic-park" ||
+    templateId === "zootropolis" ||
+    templateId === "little-mermaid"
+  );
+
 interface SettingsViewProps {
   session: UserSession;
   onUpdateProfile: (profile: UserProfile) => Promise<void>;
@@ -119,8 +139,9 @@ const Collapsible: React.FC<{
   variant?: "card" | "sub";
   openSignal?: any;
   highlight?: boolean;
+  tourId?: string;
   children: React.ReactNode;
-}> = ({ title, defaultOpen = true, hint, desc, icon: Icon, variant = "card", openSignal, highlight, children }) => {
+}> = ({ title, defaultOpen = true, hint, desc, icon: Icon, variant = "card", openSignal, highlight, tourId, children }) => {
   const [open, setOpen] = useState(defaultOpen);
   const toggleOpen = () => setOpen(o => !o);
   const isCard = variant === "card";
@@ -133,10 +154,13 @@ const Collapsible: React.FC<{
     }
   }, [openSignal]);
   return (
-    <section className={cn(
+    <section
+      data-tour={tourId}
+      className={cn(
       isCard && "rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-4 shadow-sm",
       highlight && "ring-2 ring-amber-400/70 shadow-[0_0_18px_rgba(251,191,36,0.35)] animate-pulse"
-    )}>
+      )}
+    >
       <div
         role="button"
         tabIndex={0}
@@ -342,9 +366,26 @@ const SettingsContent: React.FC<{
   selectedTextKey?: string;
   selectedBlockId?: string;
   selectedBlockType?: string;
-}> = ({ profile, timeline, isActive, hc, guard, pushTimeline, selectedTemplate, templateMeta, doorImages = {}, introVariants = {}, defaultIntroVariant, inlineBlockPanel, introPreview = false, onIntroPreviewChange, hasIntro = false, selectedTextKey, selectedBlockId, selectedBlockType }) => {
+  tourFocus?: string;
+}> = ({ profile, timeline, isActive, hc, guard, pushTimeline, selectedTemplate, templateMeta, doorImages = {}, introVariants = {}, defaultIntroVariant, inlineBlockPanel, introPreview = false, onIntroPreviewChange, hasIntro = false, selectedTextKey, selectedBlockId, selectedBlockType, tourFocus }) => {
   const [expandedTheme, setExpandedTheme] = React.useState<string | null>(null);
   const useInlineTimeline = INLINE_TIMELINE_TEMPLATES.has(selectedTemplate || "");
+  const publicInviteUrl = React.useMemo(() => {
+    if (!profile.inviteSlug) return "";
+    const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+    return `${baseUrl}/events/${profile.inviteSlug}/public`;
+  }, [profile.inviteSlug]);
+  const isTouringDateEvent = [
+    "panel-date-event",
+    "field-event-date",
+    "panel-public-link",
+    "field-event-slug",
+    "panel-public-link-actions",
+  ].includes(tourFocus || "");
+  const isTouringColorTheme = ["panel-color-theme", "panel-color-expand", "panel-color-preview"].includes(tourFocus || "");
+  const isTouringIntro = ["panel-intro", "intro-preview-toggle"].includes(tourFocus || "");
+  const isTouringTimeline = tourFocus === "panel-timeline";
+  const isTouringProperties = tourFocus === "panel-properties";
   return (
   <div className="w-full">
     <div className="p-5 space-y-6">
@@ -355,10 +396,12 @@ const SettingsContent: React.FC<{
         hint={profile.weddingDate || "neconfigurată"}
         desc="Data eveniment, nume participanți și link public."
         icon={Calendar}
+        tourId="panel-date-event"
+        openSignal={isTouringDateEvent ? `tour-${tourFocus}` : undefined}
         defaultOpen={false}
       >
         <div className="space-y-4">
-          <div>
+          <div data-tour="field-event-date">
             <Lbl>Data evenimentului</Lbl>
             <Input type="date" value={profile.weddingDate || ""}
               onChange={(e: any) => hc("weddingDate", e.target.value)}
@@ -416,19 +459,58 @@ const SettingsContent: React.FC<{
               </div>
             );
           })()}
-          <div>
+          <div data-tour="panel-public-link">
             <Lbl>Link public</Lbl>
-            <div className="flex items-center">
+            <div data-tour="field-event-slug" className="flex items-center">
               <span className="bg-zinc-50 dark:bg-zinc-800 px-2 py-[7px] rounded-l border border-r-0 text-[10px] text-zinc-400 whitespace-nowrap">events/</span>
               <Input className="rounded-l-none h-8 text-xs" placeholder="slug-url"
                 value={profile.inviteSlug || ""}
                 onChange={(e: any) => hc("inviteSlug", e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
                 disabled={!isActive} />
             </div>
+            <div data-tour="panel-public-link-actions" className="mt-2 flex items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={!publicInviteUrl}
+                className="h-8 text-xs"
+                onClick={() => {
+                  if (!publicInviteUrl) return;
+                  window.open(publicInviteUrl, "_blank", "noopener,noreferrer");
+                }}
+              >
+                <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
+                Open
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={!publicInviteUrl}
+                className="h-8 text-xs"
+                onClick={async () => {
+                  if (!publicInviteUrl) return;
+                  try {
+                    await navigator.clipboard.writeText(publicInviteUrl);
+                  } catch {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = publicInviteUrl;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textArea);
+                  }
+                }}
+              >
+                <Copy className="w-3.5 h-3.5 mr-1.5" />
+                Copy
+              </Button>
+            </div>
             {profile.inviteSlug && (
               <p className="mt-1 text-[10px] font-mono text-zinc-400 truncate flex items-center gap-1">
                 <Info className="w-3 h-3 shrink-0" />
-                {typeof window !== "undefined" ? window.location.origin : ""}/events/{profile.inviteSlug}/public
+                {publicInviteUrl}
               </p>
             )}
           </div>
@@ -476,12 +558,16 @@ const SettingsContent: React.FC<{
             title="Paleta de culori"
             hint={activeTheme ? activeTheme.name : "neconfigurat"}
             desc="Alege tema cromatică a invitației."
-            icon={Palette}
-            defaultOpen={false}
-          >
+	            icon={Palette}
+	            tourId="panel-color-theme"
+	            openSignal={isTouringColorTheme ? `tour-${tourFocus}` : undefined}
+	            defaultOpen={false}
+	          >
               <div className="space-y-1">
-                {themes.map(t => {
-                  const active = ((profile as any).colorTheme ?? 'default') === t.id;
+	                {themes.map((t, idx) => {
+	                  const effectiveExpandedTheme =
+	                    expandedTheme ?? (tourFocus === "panel-color-preview" ? themes[0]?.id ?? null : null);
+	                  const active = ((profile as any).colorTheme ?? 'default') === t.id;
                   const selectTheme = () => hc('colorTheme' as any, t.id);
                   return (
                     <React.Fragment key={t.id}>
@@ -511,17 +597,18 @@ const SettingsContent: React.FC<{
                           ))}
                         </div>
                         <span className="flex-1 text-[11px] font-semibold text-zinc-700 dark:text-zinc-200">{t.emoji} {t.name}</span>
-                        <button
-                          type="button"
-                          onClick={e => { e.stopPropagation(); setExpandedTheme(expandedTheme === t.id ? null : t.id); }}
-                          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', display: 'flex', alignItems: 'center', flexShrink: 0 }}
+	                        <button
+	                          data-tour={idx === 0 ? "panel-color-expand" : undefined}
+	                          type="button"
+	                          onClick={e => { e.stopPropagation(); setExpandedTheme(effectiveExpandedTheme === t.id ? null : t.id); }}
+	                          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', display: 'flex', alignItems: 'center', flexShrink: 0 }}
                           title={doorImages[t.id]?.desktop ? "Vezi imaginile ușilor" : "Fără imagini încărcate"}
                         >
                           <svg
                             width="12" height="12" viewBox="0 0 12 12"
                             style={{
                               color: doorImages[t.id]?.desktop ? '#6b7280' : '#d1d5db',
-                              transform: expandedTheme === t.id ? 'rotate(180deg)' : 'none',
+	                              transform: effectiveExpandedTheme === t.id ? 'rotate(180deg)' : 'none',
                               transition: 'transform 0.2s',
                             }}
                             fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
@@ -537,8 +624,8 @@ const SettingsContent: React.FC<{
                       </div>
 
                       {/* Collapsible door preview */}
-                      {expandedTheme === t.id && (
-                        <div style={{
+	                      {effectiveExpandedTheme === t.id && (
+	                        <div data-tour={idx === 0 ? "panel-color-preview" : undefined} style={{
                           marginTop: 4, marginBottom: 4,
                           borderRadius: 10,
                           border: '1px solid',
@@ -618,8 +705,13 @@ const SettingsContent: React.FC<{
               : "Font, dimensiune, spațiere și culoare pentru textul selectat."
           }
           icon={Sliders}
+          tourId="panel-properties"
           defaultOpen={false}
-          openSignal={selectedTextKey || (selectedBlockType === 'photo' ? selectedBlockId : undefined)}
+          openSignal={
+            isTouringProperties
+              ? `tour-${tourFocus}`
+              : (selectedTextKey || (selectedBlockType === 'photo' ? selectedBlockId : undefined))
+          }
           highlight={!!selectedTextKey || selectedBlockType === 'photo'}
         >
           {inlineBlockPanel}
@@ -631,10 +723,12 @@ const SettingsContent: React.FC<{
           title="Intro"
           desc="Animația de început, texte și variante."
           icon={Sparkles}
-          defaultOpen={true}
+	          tourId="panel-intro"
+	          openSignal={isTouringIntro ? `tour-${tourFocus}` : undefined}
+	          defaultOpen={true}
         >
           <div className="space-y-4">
-            <div className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 px-3 py-2">
+	            <div data-tour="intro-preview-toggle" className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 px-3 py-2">
               <div>
                 <p className="text-xs font-medium text-zinc-700 dark:text-zinc-200">Arată intro în preview</p>
                 <p className="text-[10px] text-zinc-400">Util pentru a regla textele înainte de publicare.</p>
@@ -1033,7 +1127,9 @@ const SettingsContent: React.FC<{
           defaultOpen={false}
           desc="Programul zilei și momentele cheie."
           icon={Clock}
-        >
+	          tourId="panel-timeline"
+	          openSignal={isTouringTimeline ? `tour-${tourFocus}` : undefined}
+	        >
           <div className="flex items-center gap-2 mb-3">
             <Toggle on={!!profile.showTimeline} onChange={v => hc("showTimeline", v)} />
             <button type="button" disabled={!isActive}
@@ -1608,6 +1704,12 @@ const SettingsView: React.FC<SettingsViewProps> = ({
   const [isMobile,  setIsMobile]  = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
   const [activeTab, setActiveTab] = useState<'preview' | 'settings'>('preview');
   const [mobilePropsOpen, setMobilePropsOpen] = useState(false);
+  const [runConfigTemplateTour, setRunConfigTemplateTour] = useState(false);
+  const [configTemplateTourStepIndex, setConfigTemplateTourStepIndex] = useState(0);
+  const configTemplateTourStorageKey = useMemo(
+    () => `weddingPro_tour_config_template_${CONFIG_TEMPLATE_TOUR_VERSION}_${session.userId || "anon"}`,
+    [session.userId],
+  );
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -1622,6 +1724,17 @@ const SettingsView: React.FC<SettingsViewProps> = ({
   }, [isMobile]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (isMobile) return;
+    if (localStorage.getItem(configTemplateTourStorageKey) === "1") return;
+    const timer = window.setTimeout(() => {
+      setConfigTemplateTourStepIndex(0);
+      setRunConfigTemplateTour(true);
+    }, 450);
+    return () => window.clearTimeout(timer);
+  }, [isMobile, configTemplateTourStorageKey]);
+
+  useEffect(() => {
     if (!isMobile) return;
     if (activeTab === 'settings') setMobilePropsOpen(false);
   }, [activeTab, isMobile]);
@@ -1629,6 +1742,9 @@ const SettingsView: React.FC<SettingsViewProps> = ({
   // ── Resizable settings panel (desktop) ───────────────────────────────────────
   const [settingsW,      setSettingsW]      = useState(450);
   const [settingsOpen, setSettingsOpen] = useState(true);
+  useEffect(() => {
+    if (runConfigTemplateTour && !settingsOpen) setSettingsOpen(true);
+  }, [runConfigTemplateTour, settingsOpen]);
   const dragRef = useRef<{ startX: number; startW: number } | null>(null);
   const [previewScroller, setPreviewScroller] = useState<HTMLDivElement | null>(null);
   const MOBILE_PREVIEW_SCALE = 0.62;
@@ -2028,6 +2144,142 @@ const SettingsView: React.FC<SettingsViewProps> = ({
   };
 
   const hasIntro = !!selectedTemplate && INTRO_TEMPLATES.has(selectedTemplate);
+  const hasColorThemePanel = HAS_COLOR_THEME_PANEL(selectedTemplate);
+  const hasTimelinePanel = !INLINE_TIMELINE_TEMPLATES.has(selectedTemplate || "");
+
+  const markConfigTemplateTourSeen = useCallback(() => {
+    try {
+      localStorage.setItem(configTemplateTourStorageKey, "1");
+    } catch {}
+  }, [configTemplateTourStorageKey]);
+
+  const handleConfigTemplateTourCallback = useCallback((data: EventData) => {
+    if (typeof data.index === "number") {
+      setConfigTemplateTourStepIndex(Math.max(0, data.index));
+    }
+    const isFinished =
+      data.status === STATUS.FINISHED ||
+      data.status === STATUS.SKIPPED ||
+      data.action === ACTIONS.CLOSE;
+    if (!isFinished) return;
+    setRunConfigTemplateTour(false);
+    markConfigTemplateTourSeen();
+  }, [markConfigTemplateTourSeen]);
+
+  const configTemplateTourSteps = useMemo<Step[]>(() => {
+    const steps: Step[] = [
+      {
+        target: '[data-tour="settings-spine"]',
+        title: "Config Template",
+        content: "Acest cotor deschide/inchide sliderul de setari din dreapta.",
+        placement: "left",
+      },
+      {
+        target: '[data-tour="settings-header"]',
+        title: "Actiuni rapide",
+        content: "Aici ai butoanele principale pentru reset si salvare.",
+        placement: "left",
+      },
+      {
+        target: '[data-tour="settings-save"]',
+        title: "Salveaza",
+        content: "Salveaza imediat modificarile facute in template.",
+        placement: "left",
+      },
+      {
+        target: '[data-tour="settings-reset"]',
+        title: "Reset",
+        content: "Reseteaza configurarea la valorile implicite ale template-ului curent.",
+        placement: "left",
+      },
+      {
+        target: '[data-tour="panel-date-event"]',
+        title: "Date Eveniment",
+        content: "Aici configurezi toate datele de baza ale invitatiei publice.",
+        placement: "left",
+      },
+      {
+        target: '[data-tour="field-event-date"]',
+        title: "Data evenimentului",
+        content: "Setezi data exacta a evenimentului. Countdown-ul si afisarea publica folosesc aceasta valoare.",
+        placement: "left",
+      },
+      {
+        target: '[data-tour="field-event-slug"]',
+        title: "Slug invitatie",
+        content: "Acesta este identificatorul din URL-ul invitatiei. Este bine sa ramana simplu si usor de distribuit.",
+        placement: "left",
+      },
+      {
+        target: '[data-tour="panel-public-link-actions"]',
+        title: "Link public",
+        content: "Cu Open deschizi invitatia, iar cu Copy copiezi link-ul pentru distribuire.",
+        placement: "left",
+      },
+    ];
+
+    if (hasColorThemePanel) {
+      steps.push({
+        target: '[data-tour="panel-color-theme"]',
+        title: "Paleta de culori",
+        content: "Aici alegi stilul cromatic. Exemplu elegant: ivory + auriu cald + accent verde salvie.",
+        placement: "left",
+      });
+      steps.push({
+        target: '[data-tour="panel-color-expand"]',
+        title: "Expand tema",
+        content: "Apasa pe expand ca sa deschizi preview-ul vizual al temei selectate.",
+        placement: "left",
+      });
+      steps.push({
+        target: '[data-tour="panel-color-preview"]',
+        title: "Preview imagini",
+        content: "Dupa expand apar cele 2 poze de referinta: Desktop si Mobile, ca sa vezi rapid cum arata tema.",
+        placement: "left",
+      });
+    }
+
+    if (hasIntro) {
+      steps.push({
+        target: '[data-tour="panel-intro"]',
+        title: "Intro",
+        content: "Sectiunea intro se extinde automat ca sa configurezi deschiderea invitatiei.",
+        placement: "left",
+      });
+      steps.push({
+        target: '[data-tour="intro-preview-toggle"]',
+        title: "Preview intro",
+        content: "Activeaza intro in preview ca sa vezi imediat pozele si efectele de deschidere.",
+        placement: "left",
+      });
+    }
+
+    if (hasTimelinePanel) {
+      steps.push({
+        target: '[data-tour="panel-timeline"]',
+        title: "Cronologie",
+        content: "Configurezi programul evenimentului: momente, ore si detalii.",
+        placement: "left",
+      });
+    }
+
+    steps.push({
+      target: '[data-tour="preview-canvas"]',
+      title: "Preview live",
+      content: "In stanga poti edita direct in pagina: selectezi texte sau imagini si ajustezi instant. Din iconita + adaugi sectiuni noi, apoi poti seta absolut tot pentru fiecare bloc.",
+      placement: "right",
+    });
+
+    return steps;
+  }, [hasColorThemePanel, hasIntro, hasTimelinePanel]);
+
+  const configTemplateTourFocus = useMemo(() => {
+    if (!runConfigTemplateTour) return undefined;
+    const currentTarget = configTemplateTourSteps[configTemplateTourStepIndex]?.target;
+    if (typeof currentTarget !== "string") return undefined;
+    const match = currentTarget.match(/^\[data-tour="(.+)"\]$/);
+    return match?.[1];
+  }, [runConfigTemplateTour, configTemplateTourSteps, configTemplateTourStepIndex]);
 
   // ── Template panel JSX — memoized so heavy template doesn't re-render on every state change
   const EditableTpl = getEditableTemplate(selectedTemplate);
@@ -2096,16 +2348,62 @@ const SettingsView: React.FC<SettingsViewProps> = ({
     selectedTextKey: selectedBlock?.textKey,
     selectedBlockId: selectedBlock?.block?.id,
     selectedBlockType: selectedBlock?.block?.type,
+    tourFocus: configTemplateTourFocus,
   };
+
+  const configTemplateTour = (
+    <Joyride
+      run={runConfigTemplateTour && !isMobile}
+      steps={configTemplateTourSteps}
+      continuous
+      scrollToFirstStep
+      options={{
+        showProgress: true,
+        buttons: ["back", "close", "primary", "skip"],
+        skipBeacon: true,
+        spotlightPadding: 8,
+        spotlightRadius: 12,
+        overlayColor: "rgba(15, 18, 28, 0.56)",
+        primaryColor: "#111827",
+        zIndex: 12000,
+      }}
+      onEvent={handleConfigTemplateTourCallback}
+      styles={{
+        overlay: {
+          backdropFilter: "blur(0px)",
+        },
+        spotlight: {
+          stroke: "rgba(255,255,255,0.96)",
+          strokeWidth: 2.2,
+          filter: "drop-shadow(0 0 12px rgba(0,0,0,0.45))",
+        },
+        tooltip: {
+          borderRadius: 12,
+          boxShadow: "0 20px 55px rgba(0,0,0,0.35)",
+        },
+        tooltipTitle: {
+          fontWeight: 800,
+        },
+      }}
+      locale={{
+        back: "Inapoi",
+        close: "Inchide",
+        last: "Finalizare",
+        next: "Urmator",
+        skip: "Sari",
+      }}
+    />
+  );
 
   // ── MOBILE ────────────────────────────────────────────────────────────────────
   if (isMobile) {
     const showProps = selectedBlock != null;
     const hideMobileTopChrome = activeTab === "preview" && showProps && mobilePropsOpen;
 
-    return (
-      <div className="relative flex flex-col h-full overflow-hidden bg-zinc-50 dark:bg-zinc-950/50">
-        {/* Top actions + tabs */}
+	    return (
+	      <div className="relative flex flex-col h-full overflow-hidden bg-zinc-50 dark:bg-zinc-950/50">
+	        {configTemplateTour}
+	        {/* Top actions + tabs */}
         <div
           ref={mobileTopChromeRef}
           className={cn(
@@ -2312,10 +2610,11 @@ const SettingsView: React.FC<SettingsViewProps> = ({
 
   // ── DESKTOP ───────────────────────────────────────────────────────────────────
   return (
-    <div className="flex h-full overflow-hidden bg-zinc-50 dark:bg-zinc-950/50">
+	    <div className="flex h-full overflow-hidden bg-zinc-50 dark:bg-zinc-950/50">
+	      {configTemplateTour}
 
       {/* Invitație */}
-      <div ref={setPreviewScrollerRef} className="flex-1 overflow-y-auto bg-stone-100 min-w-0">
+	      <div data-tour="preview-canvas" ref={setPreviewScrollerRef} className="flex-1 overflow-y-auto bg-stone-100 min-w-0">
         <div className="relative overflow-hidden" style={{ transform: 'translateZ(0)' }}>
           {templatePanel}
         </div>
@@ -2325,8 +2624,9 @@ const SettingsView: React.FC<SettingsViewProps> = ({
       <div className="flex shrink-0 h-full">
 
         {/* Spine cotor */}
-        <div
-          onClick={() => setSettingsOpen(o => !o)}
+	        <div
+	          data-tour="settings-spine"
+	          onClick={() => setSettingsOpen(o => !o)}
           className={cn(
             "w-8 h-full flex flex-col items-center justify-between py-4 cursor-pointer select-none shrink-0 border-l border-r",
             "bg-white border-zinc-200 hover:bg-zinc-50",
@@ -2361,17 +2661,17 @@ const SettingsView: React.FC<SettingsViewProps> = ({
           </div>
 
           {/* Header */}
-          <div className="shrink-0 px-4 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black flex items-center justify-between gap-2 shadow-sm">
+	          <div data-tour="settings-header" className="shrink-0 px-4 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black flex items-center justify-between gap-2 shadow-sm">
             <div className="flex items-center gap-2 min-w-0">
               <span className="text-xs font-black tracking-tight whitespace-nowrap text-zinc-900 dark:text-zinc-100">Setări</span>
               <EventTypeBadge et={et} />
             </div>
             <div className="flex items-center gap-2 shrink-0">
-              <button type="button" onClick={() => setShowResetConfirm(true)} disabled={!isActive}
+	              <button data-tour="settings-reset" type="button" onClick={() => setShowResetConfirm(true)} disabled={!isActive}
                 className="h-7 px-2 rounded flex items-center gap-1 text-[10px] font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-300 hover:text-red-500 hover:border-red-200 dark:hover:border-red-400/40 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
                 <RotateCcw className="w-3 h-3" /> Reset
               </button>
-              <Button size="sm" className="h-7 bg-black text-white hover:bg-zinc-800 gap-1 text-[10px]"
+	              <Button data-tour="settings-save" size="sm" className="h-7 bg-black text-white hover:bg-zinc-800 gap-1 text-[10px]"
                 onClick={saveAll} disabled={!isActive}>
                 <Save className="w-3 h-3" /> Salvează
               </Button>
