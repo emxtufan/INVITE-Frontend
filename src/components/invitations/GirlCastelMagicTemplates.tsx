@@ -65,30 +65,7 @@ const SANS   = "'Montserrat', sans-serif";
 const INTO_TEXT = "'ROMANTIC', cursive";
 const HeroText = "'Cormorant Garamond', serif"
 const FamilyText ="'Great Vibes', cursive "
-const API_ORIGIN = API_URL.replace(/\/api\/?$/, "");
 
-function resolvePublicImageUrl(raw?: string): string | undefined {
-  if (!raw) return undefined;
-  const value = raw.trim();
-  if (!value) return undefined;
-
-  if (value.startsWith("/uploads/")) {
-    return `${API_ORIGIN}${value}`;
-  }
-
-  try {
-    const parsed = new URL(value);
-    if (
-      (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") &&
-      parsed.pathname.startsWith("/uploads/")
-    ) {
-      return `${API_ORIGIN}${parsed.pathname}`;
-    }
-    return value;
-  } catch {
-    return value;
-  }
-}
 // ── Music player ──────────────────────────────────────────────────────────────
 declare global { interface Window { YT: any; onYouTubeIframeAPIReady: () => void; } }
 let ytApiLoaded_cm  = false;
@@ -1666,16 +1643,9 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
             "https://github.com/emxtufan/images/blob/main/3d507e7897fb9e53df9ba97bb1630ef2.jpg?raw=true";
           const FALLBACKDesktop =
             "https://github.com/emxtufan/images/blob/main/3d507e7897fb9e53df9ba97bb1630ef2.jpg?raw=true";
-          const desktopImage = resolvePublicImageUrl(heroContentImage);
-          const mobileImage = resolvePublicImageUrl(heroContentImageMobile);
           const imgSrc = isMob
-            ? mobileImage || desktopImage || FALLBACKmobile
-            : desktopImage || mobileImage || FALLBACKDesktop;
-          const fallbackSrc = isMob ? FALLBACKmobile : FALLBACKDesktop;
-          const stackedBg =
-            imgSrc && imgSrc !== fallbackSrc
-              ? `url(${imgSrc}), url(${fallbackSrc})`
-              : `url(${fallbackSrc})`;
+            ? heroContentImageMobile || heroContentImage || FALLBACKmobile
+            : heroContentImage || heroContentImageMobile || FALLBACKDesktop;
           return (
             <div
               style={{
@@ -1689,7 +1659,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                 style={{
                   position: "absolute",
                   inset: 0,
-                  backgroundImage: stackedBg,
+                  backgroundImage: `url(${imgSrc})`,
                   backgroundSize: "cover",
                   backgroundPosition: "top",
                   backgroundRepeat: "no-repeat",
