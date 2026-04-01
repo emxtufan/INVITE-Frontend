@@ -30,8 +30,8 @@ export default function Navbar() {
         <div className="wp-nav-inner">
           <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
             <a href="/" className="wp-nav-logo">
-              <div className="wp-nav-logo-icon">W</div>
-              WeddingPro
+              <div className="wp-nav-logo-icon p-4">ESA</div>
+              
             </a>
             <ul className="wp-nav-links">
               <li><a href="#features" onClick={e => { e.preventDefault(); scrollTo("features"); }}>Funcționalități</a></li>

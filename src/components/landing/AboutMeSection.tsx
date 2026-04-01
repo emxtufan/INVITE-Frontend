@@ -20,7 +20,7 @@ export default function AboutMeSection() {
                         {/* Platform/Event Image */}
                         <img 
                            src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1000&auto=format&fit=crop" 
-                           alt="YES Studio Platform" 
+                           alt="" 
                            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700"
                         />
                         
@@ -29,7 +29,7 @@ export default function AboutMeSection() {
                         
                         {/* Floating Brand Tag */}
                         <div className="absolute bottom-6 left-6 right-6">
-                            <h3 className="text-xl md:text-2xl font-bold text-white mb-1">YES Studio</h3>
+                            <h3 className="text-xl md:text-2xl font-bold text-white mb-1">ESA</h3>
                             <div className="flex items-center gap-2">
                                 <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
                                 <p className="text-xs md:text-sm text-indigo-400 font-mono uppercase tracking-wider">Event Tech Platform</p>
@@ -61,7 +61,7 @@ export default function AboutMeSection() {
 
                 <div className="space-y-6 text-gray-400 text-base md:text-lg leading-relaxed">
                     <p>
-                        <span className="text-white font-bold">YES Studio</span> a apărut din dorința de a elimina haosul din organizarea nunților și a evenimentelor speciale. Știm că fiecare detaliu contează, iar instrumentele tradiționale nu mai sunt suficiente.
+                        <span className="text-white font-bold">Event Smart Asisstant</span> a apărut din dorința de a elimina haosul din organizarea nunților și a evenimentelor speciale. Știm că fiecare detaliu contează, iar instrumentele tradiționale nu mai sunt suficiente.
                     </p>
                     <p>
                         Nu suntem doar un builder de invitații. Suntem platforma care centralizează totul: de la designul impecabil al invitației digitale, la gestionarea listei de oaspeți și confirmări în timp real.

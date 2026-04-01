@@ -658,7 +658,7 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
           </div>
           <CardTitle className="text-2xl font-bold tracking-tight">{isRegister ? "Creează Cont Nou" : "Autentificare"}</CardTitle>
           <p className="text-sm text-muted-foreground mt-2">
-            {isRegister ? "Completează detaliile pentru a începe planificarea." : "Bine ai revenit în WeddingPro!"}
+            {isRegister ? "Completează detaliile pentru a începe planificarea." : "Bine ai revenit în ESA!"}
           </p>
         </CardHeader>
         <CardContent>

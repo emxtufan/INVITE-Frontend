@@ -1,7 +1,16 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { ArrowRight, Instagram, Facebook, Linkedin, Twitter, Mail, X, Shield, FileText, Cookie, Lock } from 'lucide-react';
+import NTPLogo from "ntp-logo-react";
 
-type LegalSection = 'terms' | 'privacy' | 'cookies' | 'gdpr' | null;
+type LegalSection =
+  | 'terms'
+  | 'privacy'
+  | 'cookies'
+  | 'gdpr'
+  | 'delivery'
+  | 'cancellation'
+  | 'returns'
+  | null;
 
 const LEGAL_CONTENT = {
   terms: {
@@ -32,7 +41,7 @@ const LEGAL_CONTENT = {
     )
   },
   privacy: {
-    title: "Politica de Confidențialitate",
+    title: "Politică de Confidențialitate",
     icon: Lock,
     content: (
       <div className="space-y-4 text-gray-300 text-sm leading-relaxed">
@@ -63,11 +72,11 @@ const LEGAL_CONTENT = {
     )
   },
   cookies: {
-    title: "Politica Cookie",
+    title: "Politică Cookie",
     icon: Cookie,
     content: (
       <div className="space-y-4 text-gray-300 text-sm leading-relaxed">
-        <p>Site-ul yes.events utilizează cookie-uri pentru a vă oferi o experiență de navigare optimă.</p>
+        <p>Site-ul ESA utilizează cookie-uri pentru a vă oferi o experiență de navigare optimă.</p>
 
         <h4 className="text-white font-bold mt-4">1. Ce sunt cookie-urile?</h4>
         <p>Un cookie este un fișier text de mici dimensiuni salvat pe dispozitivul dvs. atunci când vizitați un site web. Acesta permite site-ului să țină minte acțiunile și preferințele dvs. pentru o perioadă de timp.</p>
@@ -105,7 +114,70 @@ const LEGAL_CONTENT = {
 
         <h4 className="text-white font-bold mt-4">Contact DPO</h4>
         <p>Pentru orice solicitare legată de prelucrarea datelor cu caracter personal, vă rugăm să contactați Responsabilul cu Protecția Datelor la:</p>
-        <p className="text-white font-mono bg-white/10 p-2 rounded inline-block mt-2">privacy@yes.events</p>
+        <p className="text-white font-mono bg-white/10 p-2 rounded inline-block mt-2">emitufan30@gmail.com</p>
+      </div>
+    )
+  },
+  delivery: {
+    title: "Politică de Livrare Comandă",
+    icon: FileText,
+    content: (
+      <div className="space-y-4 text-gray-300 text-sm leading-relaxed">
+        <p>Serviciile Event Smart Assistant sunt servicii digitale livrate online.</p>
+        <h4 className="text-white font-bold mt-4">1. Modalitate de livrare</h4>
+        <p>
+          După confirmarea plății, activarea planului (Basic/Pro) se face automat în contul utilizatorului.
+          Nu se livrează produse fizice.
+        </p>
+        <h4 className="text-white font-bold mt-4">2. Timp de livrare</h4>
+        <p>
+          În mod normal, accesul este acordat instant sau în câteva minute de la confirmarea tranzacției.
+          În situații excepționale poate exista o întârziere tehnică.
+        </p>
+        <h4 className="text-white font-bold mt-4">3. Documente fiscale</h4>
+        <p>Factura fiscală este transmisă electronic pe emailul asociat comenzii.</p>
+      </div>
+    )
+  },
+  cancellation: {
+    title: "Politică de Anulare Comandă",
+    icon: FileText,
+    content: (
+      <div className="space-y-4 text-gray-300 text-sm leading-relaxed">
+        <p>Comenzile pentru servicii digitale pot fi anulate doar înainte de confirmarea plății.</p>
+        <h4 className="text-white font-bold mt-4">1. Înainte de plată</h4>
+        <p>Dacă plata nu a fost finalizată, comanda poate fi anulată fără costuri.</p>
+        <h4 className="text-white font-bold mt-4">2. După plată</h4>
+        <p>
+          După activarea serviciului digital în cont, anularea se analizează individual în funcție de stadiul
+          executării serviciului și de legislația aplicabilă.
+        </p>
+        <h4 className="text-white font-bold mt-4">3. Contact anulare</h4>
+        <p>Pentru solicitări, ne poți contacta la: <span className="text-white">emitufan30@gmail.com</span></p>
+      </div>
+    )
+  },
+  returns: {
+    title: "Politică de Returnare / Rambursare",
+    icon: FileText,
+    content: (
+      <div className="space-y-4 text-gray-300 text-sm leading-relaxed">
+        <p>Platforma furnizează conținut și funcționalități digitale, nu produse fizice.</p>
+        <h4 className="text-white font-bold mt-4">1. Drept de retragere</h4>
+        <p>
+          Pentru serviciile digitale prestate imediat după plată, dreptul de retragere poate fi limitat
+          conform legislației aplicabile.
+        </p>
+        <h4 className="text-white font-bold mt-4">2. Rambursare</h4>
+        <p>
+          Cererile de rambursare sunt evaluate punctual, în special în cazuri de eroare tehnică majoră
+          care împiedică folosirea serviciului.
+        </p>
+        <h4 className="text-white font-bold mt-4">3. Cum trimiți solicitarea</h4>
+        <p>
+          Trimite cererea la <span className="text-white">emitufan30@gmail.com</span>, incluzând emailul contului,
+          ID-ul tranzacției și descrierea problemei.
+        </p>
       </div>
     )
   }
@@ -147,21 +219,36 @@ export default function Footer() {
             {/* Column 1: Brand & Contact */}
             <div className="md:col-span-4 flex flex-col items-start">
               <div className="flex items-center gap-2 mb-6">
-                  <div className="w-8 h-8 bg-white text-black flex items-center justify-center rounded-full font-serif font-bold text-lg">Y</div>
-                  <span className="font-bold text-white text-xl tracking-tight">YES.</span>
+                  <span className="font-bold text-white text-xl tracking-tight">Event Smart Assistant</span>
               </div>
               <p className="text-gray-400 text-sm mb-8 max-w-xs leading-relaxed">
                 Platforma completă pentru nunta ta. <br/>
                 AI agents for modern event workflows.
               </p>
 
+              <div className="mb-6 w-full max-w-md rounded-xl border border-white/10 bg-white/[0.03] p-4 text-xs text-gray-300 space-y-1">
+                <p className="font-semibold text-white">ELEXA SOCIETY SRL</p>
+                <p>CUI: 52745149</p>
+                <p>Nr. Reg. Com.: J2025080665008</p>
+                <p>EUID: ROONRC.J2025080665008</p>
+                <p>Data înființării: 2025-10-21</p>
+                <p>Județ: București | Localitate: Sectorul 6</p>
+                <p>Adresă: Bdul. Timișoara 101 V Et. P Ap. 4, Cod 061327</p>
+                <p>
+                  Telefon: <a href="tel:+40755938367" className="text-white hover:underline">0755 938 367</a>
+                </p>
+                <p>
+                  E-mail: <a href="mailto:emitufan30@gmail.com" className="text-white hover:underline">emitufan30@gmail.com</a>
+                </p>
+              </div>
+
               <div className="flex flex-col gap-4">
                   <a href="/contact" className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-[#18181b] border border-white/10 hover:bg-white hover:text-black hover:border-white text-white text-sm font-bold transition-all duration-300 group w-fit">
                     Contactează-ne <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform"/>
                   </a>
 
-                  <a href="mailto:support@yes.events" className="flex items-center gap-2 text-sm text-gray-500 hover:text-white transition-colors pl-1">
-                    support@yes.events <ArrowRight size={12} />
+                  <a href="mailto:emitufan30@gmail.com" className="flex items-center gap-2 text-sm text-gray-500 hover:text-white transition-colors pl-1">
+                    emitufan30@gmail.com<ArrowRight size={12} />
                   </a>
               </div>
             </div>
@@ -186,13 +273,22 @@ export default function Footer() {
                     <button onClick={() => setActiveModal('terms')} className="hover:text-white transition-colors text-left">Termeni & Condiții</button>
                   </li>
                   <li>
-                    <button onClick={() => setActiveModal('privacy')} className="hover:text-white transition-colors text-left">Confidențialitate</button>
+                    <button onClick={() => setActiveModal('privacy')} className="hover:text-white transition-colors text-left">Politică Confidențialitate</button>
                   </li>
                   <li>
-                    <button onClick={() => setActiveModal('cookies')} className="hover:text-white transition-colors text-left">Politica Cookie</button>
+                    <button onClick={() => setActiveModal('cookies')} className="hover:text-white transition-colors text-left">Politică Cookie</button>
                   </li>
                   <li>
                     <button onClick={() => setActiveModal('gdpr')} className="hover:text-white transition-colors text-left">GDPR</button>
+                  </li>
+                  <li>
+                    <button onClick={() => setActiveModal('delivery')} className="hover:text-white transition-colors text-left">Politică Livrare</button>
+                  </li>
+                  <li>
+                    <button onClick={() => setActiveModal('cancellation')} className="hover:text-white transition-colors text-left">Anulare Comandă</button>
+                  </li>
+                  <li>
+                    <button onClick={() => setActiveModal('returns')} className="hover:text-white transition-colors text-left">Returnare / Rambursare</button>
                   </li>
               </ul>
             </div>
@@ -212,17 +308,57 @@ export default function Footer() {
                   </a>
               </div>
             </div>
+            
 
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 font-mono tracking-wide">
-              <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/5">
-                  <img src="https://github.com/shadcn.png" className="w-4 h-4 rounded-full grayscale opacity-50" alt="Sandy" />
-                  <span className="opacity-70">Created by YES Team</span>
+          <div className="pt-8 border-t border-white/5 grid grid-cols-1 lg:grid-cols-3 gap-6 items-center text-xs text-gray-500 font-mono tracking-wide">
+              <div className="flex flex-col items-center lg:items-start gap-3">
+                <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
+                  <img
+                    src="https://github.com/shadcn.png"
+                    className="w-4 h-4 rounded-full grayscale opacity-50"
+                    alt="ESA Team"
+                  />
+                  <span className="opacity-80">Created by ESA TEAM</span>
+                </div>
+                <span className="text-[11px] text-gray-600">
+                  (c) {new Date().getFullYear()} Event Smart Assistant. Toate drepturile rezervate.
+                </span>
               </div>
-              <div className="flex gap-6">
-                  <span>© 2024 YES. Studio. Toate drepturile rezervate.</span>
+              <div className="flex justify-center">
+                <div className="px-1 py-2 rounded-xl bg-white/5 border border-white/10">
+                  <NTPLogo color="#FFFFFF" version="orizontal" secret="163127" />
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-2">
+                <a
+                  href="https://anpc.ro/ce-este-sal/"
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  className="inline-flex"
+                  style={{ margin: 0, lineHeight: 1, padding: 0, textDecoration: "none" }}
+                >
+                  <img
+                    src="https://etamade-com.github.io/anpc-sal-sol-logo/anpc-sal.svg"
+                    alt="Solutionarea Alternativa a Litigiilor"
+                    className="inline-block border-0 w-[150px] sm:w-[180px]"
+                  />
+                </a>
+                <a
+                  href="https://ec.europa.eu/consumers/odr"
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  className="inline-flex"
+                  style={{ margin: 0, lineHeight: 1, padding: 0, textDecoration: "none" }}
+                >
+                  <img
+                    src="https://etamade-com.github.io/anpc-sal-sol-logo/anpc-sol.svg"
+                    alt="Solutionarea Online a Litigiilor"
+                    className="inline-block border-0 w-[150px] sm:w-[180px]"
+                  />
+                </a>
               </div>
           </div>
         </div>
@@ -276,3 +412,4 @@ export default function Footer() {
     </>
   );
 }
+

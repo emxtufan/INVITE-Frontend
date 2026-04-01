@@ -7,7 +7,7 @@ const TESTIMONIALS = [
     couple: "Alex & Maria",
     type: "Modern Garden Wedding",
     location: "Palatul Snagov",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/31757195/pexels-photo-31757195.jpeg",
     story: "Ne doream o nuntă relaxată, fără stresul listelor pe hârtie. Platforma ne-a permis să centralizăm totul. Invitații au fost impresionați de designul digital, iar noi am putut vedea confirmările în timp real.",
     stats: [
       { value: "98%", label: "Rată RSVP" },
@@ -24,7 +24,7 @@ const TESTIMONIALS = [
     couple: "Andrei & Ioana",
     type: "Classic Cathedral",
     location: "Cluj-Napoca",
-    image: "https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=1974&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/14304756/pexels-photo-14304756.jpeg",
     story: "Aveam invitați din toată lumea. Faptul că am putut pune link-uri de Waze și recomandări de cazare direct în invitație a fost un game-changer. Nimeni nu ne-a sunat să ne întrebe unde este locația.",
     stats: [
       { value: "250+", label: "Invitați Gestionați" },
@@ -41,8 +41,8 @@ const TESTIMONIALS = [
     couple: "Ștefan & Elena",
     type: "Destination Wedding",
     location: "Toscana, Italy",
-    image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1974&auto=format&fit=crop",
-    story: "Să organizezi o nuntă în altă țară e un coșmar logistic. YES ne-a ajutat să ținem toți invitații informați cu schimbările de program. Designul 'Botanical' s-a potrivit perfect cu peisajul.",
+    image: "https://images.pexels.com/photos/32468906/pexels-photo-32468906.png",
+    story: "Să organizezi o nuntă în altă țară e un coșmar logistic. ESA ne-a ajutat să ținem toți invitații informați cu schimbările de program. Designul 'Botanical' s-a potrivit perfect cu peisajul.",
     stats: [
       { value: "100%", label: "Feedback Pozitiv" },
       { value: "3", label: "Update-uri Trimise" }

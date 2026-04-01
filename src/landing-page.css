@@ -391,7 +391,7 @@
 
 /* PRICING */
 #landing-root .wp-pricing-section { padding: 100px 0; background: transparent;  }
-#landing-root .wp-pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 0 auto; }
+#landing-root .wp-pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; max-width: 1120px; margin: 0 auto; }
 #landing-root .wp-price-card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-card); padding: 36px; position: relative; overflow: hidden; transition: transform .25s; }
 #landing-root .wp-price-card:hover { transform: translateY(-2px); }
 #landing-root .wp-price-card.featured { border-color: rgba(232,121,249,.3); }
@@ -574,5 +574,4 @@
 
 
 }
-
 
