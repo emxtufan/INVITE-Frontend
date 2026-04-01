@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://isolated-wives-ave-informed.trycloudflare.com/uploads/:path*"
+    }
+  ]
+}
