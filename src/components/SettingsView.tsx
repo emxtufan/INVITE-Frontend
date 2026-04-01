@@ -2006,6 +2006,28 @@ const SettingsView: React.FC<SettingsViewProps> = ({
     setShowResetConfirm(false);
   };
 
+  useEffect(() => {
+    if (selectedTemplate !== "castle-magic-girl") return;
+    if (!isActive) return;
+
+    const girlResetKey = `weddingPro_force_reset_castle_magic_girl_${session.userId || "anon"}`;
+    const shouldForceReset = localStorage.getItem(girlResetKey);
+    if (!shouldForceReset) return;
+
+    localStorage.removeItem(girlResetKey);
+    setShowResetConfirm(true);
+    toast({
+      title: "Please wait",
+      description: "Please wait to reset default...",
+    });
+
+    const timer = window.setTimeout(() => {
+      resetToDefault();
+    }, 180);
+
+    return () => window.clearTimeout(timer);
+  }, [isActive, resetToDefault, selectedTemplate, session.userId, toast]);
+
   const pushTimeline = (nt: TimelineItem[]) => {
     setTimeline(nt);
     patchProfile({ timeline: JSON.stringify(nt) });

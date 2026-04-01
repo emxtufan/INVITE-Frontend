@@ -2072,7 +2072,12 @@ const DashboardApp = () => {
     (id: string, options?: { skipActionCheck?: boolean }) => {
       if (!options?.skipActionCheck && !handleActionAttempt()) return;
       if (id === selectedTemplate) return;
+      const girlResetKey = `weddingPro_force_reset_castle_magic_girl_${session?.userId || "anon"}`;
+      const shouldTriggerGirlReset = id === "castle-magic-girl" && !options?.skipActionCheck;
       if (!session?.profile) {
+        if (shouldTriggerGirlReset) {
+          localStorage.setItem(girlResetKey, String(Date.now()));
+        }
         setSelectedTemplate(id);
         return;
       }
@@ -2139,6 +2144,9 @@ const DashboardApp = () => {
       };
 
       setSelectedTemplate(id);
+      if (shouldTriggerGirlReset) {
+        localStorage.setItem(girlResetKey, String(Date.now()));
+      }
       handleUpdateProfile(nextProfile);
     },
     [handleActionAttempt, handleUpdateProfile, selectedTemplate, session]
