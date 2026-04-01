@@ -669,7 +669,11 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
                       Developer: Configurează GOOGLE_CLIENT_ID în AuthForm.tsx
                   </p>
               )}
-              <div ref={googleBtnRef} className="w-full"></div>
+              <div
+                ref={googleBtnRef}
+                className="w-full flex justify-center"
+                style={{ display: "flex", justifyContent: "center" }}
+              ></div>
           </div>
 
           <div className="relative mb-4">
