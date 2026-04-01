@@ -323,9 +323,9 @@ export default function Footer() {
                   />
                   <span className="opacity-80">Created by ESA TEAM</span>
                 </div>
-                <span className="text-[11px] text-gray-600">
+                {/* <span className="text-[11px] text-gray-600">
                   (c) {new Date().getFullYear()} Event Smart Assistant. Toate drepturile rezervate.
-                </span>
+                </span> */}
               </div>
               <div className="flex justify-center">
                 <div className="px-1 py-2 rounded-xl bg-white/5 border border-white/10">

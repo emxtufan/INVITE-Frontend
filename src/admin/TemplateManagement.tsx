@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Save, Upload, Check, Loader2, Trash2, ChevronDown, ChevronUp, RefreshCw, Plus } from 'lucide-react';
 import { CASTLE_THEMES, GIRL_THEMES, BOY_THEMES, getCastleTheme, getLordTheme, CastleColorTheme, ROMANTIC_THEMES, LORD_MONO_THEMES, JURASSIC_BOY_THEMES, JURASSIC_GIRL_THEMES, getJurassicTheme, ZOOTROPOLIS_BOY_THEMES, ZOOTROPOLIS_GIRL_THEMES, getZootropolisTheme, MERMAID_BOY_THEMES, MERMAID_GIRL_THEMES, getMermaidTheme } from '../components/invitations/castleDefaults';
+import { templates as hardcodedTemplates } from '../components/invitations/registry';
+import { TemplateVisibilityStatus } from '../components/invitations/types';
 import { API_URL } from '../config/api';
 
 const tok = () =>
@@ -19,6 +21,13 @@ interface VariantConfig {
   defaultIntroVariant?: string;
 }
 type AllConfigs = Record<string, VariantConfig>;
+type TemplateStatusMap = Record<string, TemplateVisibilityStatus>;
+interface MarketplaceTemplateItem {
+  id: string;
+  name: string;
+  category?: string;
+  source: 'built-in' | 'dynamic';
+}
 
 // ── Template-uri ──────────────────────────────────────────────────────────────
 const VARIANTS = [
@@ -44,11 +53,99 @@ const TemplateManagement: React.FC = () => {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
     'castle-magic': true, 'castle-magic-boys': true, 'castle-magic-girl': true, 'lord-effects': true, 'jurassic-park': true, 'zootropolis': true,'little-mermaid': true,
   });
+  const [marketplaceTemplates, setMarketplaceTemplates] = useState<MarketplaceTemplateItem[]>([]);
+  const [templateVisibility, setTemplateVisibility] = useState<TemplateStatusMap>({});
+  const [visibilityLoading, setVisibilityLoading] = useState(true);
+  const [visibilitySaving, setVisibilitySaving] = useState<Record<string, boolean>>({});
 
   // ── Load all variants on mount ─────────────────────────────────────────────
   useEffect(() => {
     VARIANTS.forEach(v => loadVariant(v.id));
+    loadTemplateVisibility();
   }, []);
+
+  const normalizeTemplateStatus = (value: any): TemplateVisibilityStatus =>
+    value === 'coming_soon' ? 'coming_soon' : 'live';
+
+  const loadTemplateVisibility = async () => {
+    setVisibilityLoading(true);
+    try {
+      const [visibilityRes, dynamicRes] = await Promise.all([
+        fetch(`${API_URL}/config/template-visibility`),
+        fetch(`${API_URL}/admin/templates`, {
+          headers: { Authorization: `Bearer ${tok()}` },
+        }),
+      ]);
+
+      const rawVisibility = visibilityRes.ok
+        ? ((await visibilityRes.json())?.templates || {})
+        : {};
+
+      const normalizedVisibility = Object.fromEntries(
+        Object.entries(rawVisibility).map(([templateId, status]) => [
+          templateId,
+          normalizeTemplateStatus(status),
+        ])
+      ) as TemplateStatusMap;
+      setTemplateVisibility(normalizedVisibility);
+
+      const dynamicTemplates = dynamicRes.ok ? await dynamicRes.json() : [];
+      const merged = new Map<string, MarketplaceTemplateItem>();
+
+      hardcodedTemplates.forEach((tpl) => {
+        if (!tpl?.id) return;
+        merged.set(tpl.id, {
+          id: tpl.id,
+          name: tpl.name || tpl.id,
+          category: tpl.category,
+          source: 'built-in',
+        });
+      });
+
+      dynamicTemplates.forEach((tpl: any) => {
+        if (!tpl?.id || merged.has(tpl.id)) return;
+        merged.set(tpl.id, {
+          id: tpl.id,
+          name: tpl.name || tpl.id,
+          category: tpl.category,
+          source: 'dynamic',
+        });
+      });
+
+      setMarketplaceTemplates(
+        Array.from(merged.values()).sort((a, b) => a.name.localeCompare(b.name, 'ro'))
+      );
+    } catch (e) {
+      console.error('Failed to load template visibility', e);
+    } finally {
+      setVisibilityLoading(false);
+    }
+  };
+
+  const saveTemplateVisibilityStatus = async (templateId: string, status: TemplateVisibilityStatus) => {
+    setVisibilitySaving(prev => ({ ...prev, [templateId]: true }));
+    try {
+      const res = await fetch(`${API_URL}/admin/config/template-visibility/${encodeURIComponent(templateId)}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${tok()}`,
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.error || 'Nu am putut salva statusul template-ului.');
+      }
+
+      setTemplateVisibility(prev => ({ ...prev, [templateId]: status }));
+    } catch (e: any) {
+      alert(e?.message || 'Eroare la salvare status template.');
+    } finally {
+      setVisibilitySaving(prev => ({ ...prev, [templateId]: false }));
+    }
+  };
 
   const loadVariant = async (id: string) => {
     setLoading(prev => ({ ...prev, [id]: true }));
@@ -193,6 +290,80 @@ Fișierele vor fi șterse permanent.`)) return;
       </div>
 
       {/* ── Un card per variantă ────────────────────────────────────────────── */}
+      <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e5e7eb', padding: '16px 18px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
+        <div style={{ marginBottom: 12 }}>
+          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: '#111' }}>Disponibilitate template-uri in dashboard</h3>
+          <p style={{ margin: '4px 0 0', fontSize: 12, color: '#6b7280' }}>
+            'Coming Soon' afiseaza template-ul in lista, dar blocheaza selectarea lui pentru utilizatori.
+          </p>
+        </div>
+
+        {visibilityLoading ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#6b7280', fontSize: 12 }}>
+            <Loader2 size={14} style={{ animation: 'spin 0.7s linear infinite' }} />
+            Se incarca lista de template-uri...
+          </div>
+        ) : marketplaceTemplates.length === 0 ? (
+          <div style={{ fontSize: 12, color: '#6b7280' }}>Nu am gasit template-uri pentru gestionare status.</div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 10 }}>
+            {marketplaceTemplates.map((tpl) => {
+              const status = templateVisibility[tpl.id] === 'coming_soon' ? 'coming_soon' : 'live';
+              const isSavingStatus = !!visibilitySaving[tpl.id];
+              return (
+                <div key={tpl.id} style={{ border: '1px solid #e5e7eb', borderRadius: 10, padding: '10px 12px', background: '#fff' }}>
+                  <div style={{ marginBottom: 8 }}>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#111', lineHeight: 1.2 }}>{tpl.name}</p>
+                    <p style={{ margin: '3px 0 0', fontSize: 10, color: '#9ca3af', fontFamily: 'monospace' }}>
+                      {tpl.id} {tpl.source === 'dynamic' ? '- custom' : '- built-in'}
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button
+                      type="button"
+                      disabled={isSavingStatus || status === 'live'}
+                      onClick={() => saveTemplateVisibilityStatus(tpl.id, 'live')}
+                      style={{
+                        flex: 1,
+                        borderRadius: 8,
+                        border: status === 'live' ? '1px solid #16a34a' : '1px solid #e5e7eb',
+                        background: status === 'live' ? '#dcfce7' : '#fff',
+                        color: status === 'live' ? '#166534' : '#6b7280',
+                        fontWeight: 700,
+                        fontSize: 11,
+                        padding: '7px 8px',
+                        cursor: isSavingStatus ? 'not-allowed' : 'pointer',
+                        opacity: isSavingStatus ? 0.65 : 1,
+                      }}
+                    >
+                      Live
+                    </button>
+                    <button
+                      type="button"
+                      disabled={isSavingStatus || status === 'coming_soon'}
+                      onClick={() => saveTemplateVisibilityStatus(tpl.id, 'coming_soon')}
+                      style={{
+                        flex: 1,
+                        borderRadius: 8,
+                        border: status === 'coming_soon' ? '1px solid #d97706' : '1px solid #e5e7eb',
+                        background: status === 'coming_soon' ? '#fef3c7' : '#fff',
+                        color: status === 'coming_soon' ? '#92400e' : '#6b7280',
+                        fontWeight: 700,
+                        fontSize: 11,
+                        padding: '7px 8px',
+                        cursor: isSavingStatus ? 'not-allowed' : 'pointer',
+                        opacity: isSavingStatus ? 0.65 : 1,
+                      }}
+                    >
+                      Coming Soon
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
       {VARIANTS.map(variant => {
         const cfg     = configs[variant.id] || emptyConfig();
         const isLoading = loading[variant.id];
@@ -609,3 +780,6 @@ const MiniVideoField: React.FC<{
 };
 
 export default TemplateManagement;
+
+
+

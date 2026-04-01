@@ -137,7 +137,11 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import UpgradeModal from "./UpgradeModal";
-import { getTemplateDefaultBlocks, getTemplateMeta } from "./invitations/registry";
+import {
+  getTemplateDefaultBlocks,
+  getTemplateDefaultProfile,
+  getTemplateMeta,
+} from "./invitations/registry";
 
 const initialPanX = MARGIN_PX;
 const initialPanY = MARGIN_PX;
@@ -693,6 +697,9 @@ const DashboardApp = () => {
   );
   const [totalBudget, setTotalBudget] = useState<number>(0);
   const [selectedTemplate, setSelectedTemplate] = useState<string>("classic");
+  const [templateVisibility, setTemplateVisibility] = useState<
+    Record<string, "live" | "coming_soon">
+  >({});
 
   const [allGuests, setAllGuests] = useState<GuestListEntry[]>([]);
   const guestInputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -1908,6 +1915,25 @@ const DashboardApp = () => {
   }, []); // Only runs once on mount
 
   useEffect(() => {
+    let cancelled = false;
+    const loadTemplateVisibility = async () => {
+      try {
+        const res = await fetch(`${API_URL}/config/template-visibility`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (cancelled) return;
+        setTemplateVisibility((data?.templates || {}) as Record<string, "live" | "coming_soon">);
+      } catch (error) {
+        console.error("Failed to load template visibility", error);
+      }
+    };
+    loadTemplateVisibility();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("weddingPro_theme", isDarkMode ? "dark" : "light");
     if (isDarkMode) document.documentElement.classList.add("dark");
     else document.documentElement.classList.remove("dark");
@@ -2041,6 +2067,102 @@ const DashboardApp = () => {
     setSaveStatus("unsaved");
     setProfileDirtyTick((v) => v + 1);
   }, [session]);
+
+  const selectTemplateWithFullReset = useCallback(
+    (id: string, options?: { skipActionCheck?: boolean }) => {
+      if (!options?.skipActionCheck && !handleActionAttempt()) return;
+      if (id === selectedTemplate) return;
+      if (!session?.profile) {
+        setSelectedTemplate(id);
+        return;
+      }
+
+      const defaults = getTemplateDefaultBlocks(id);
+      const tplProfileDefaults = getTemplateDefaultProfile(id);
+      const ts = Date.now();
+      const seeded =
+        Array.isArray(defaults) && defaults.length > 0
+          ? defaults.map((b, i) => ({
+              ...b,
+              id: b.id || `def-${ts}-${i}`,
+            }))
+          : [];
+
+      const baseReset: Record<string, any> = tplProfileDefaults
+        ? { ...tplProfileDefaults }
+        : {
+            showWelcomeText: true,
+            showCelebrationText: true,
+            showTimeline: true,
+            showCountdown: true,
+            showRsvpButton: true,
+            welcomeText: "",
+            celebrationText: "",
+            partner1Name: "",
+            partner2Name: "",
+            weddingDate: "",
+            rsvpButtonText: "",
+            churchLabel: "",
+            venueLabel: "",
+            civilLabel: "",
+            colorTheme: "default",
+          };
+
+      // Curata campurile ramase de la template-ul precedent.
+      const templateFieldClear = {
+        heroBgImage: "",
+        heroBgImageMobile: "",
+        castleVideoUrl: "",
+        castleIntroSubtitle: "",
+        castleIntroWelcome: "",
+        castleInviteTop: "",
+        castleInviteMiddle: "",
+        castleInviteBottom: "",
+        castleInviteTag: "",
+        jungleHeaderText: "",
+        jungleOverlayText: "",
+        jungleFooterText: "",
+      };
+
+      baseReset.colorTheme = "default";
+      baseReset.weddingDate = session.profile.weddingDate ?? baseReset.weddingDate;
+      baseReset.heroTextStyles = undefined;
+      baseReset.introTextStyles = undefined;
+      baseReset.timelineTextStyles = undefined;
+      baseReset.customSections = JSON.stringify(seeded);
+      baseReset.timeline = JSON.stringify([]);
+
+      const nextProfile: UserProfile = {
+        ...session.profile,
+        ...templateFieldClear,
+        ...baseReset,
+      };
+
+      setSelectedTemplate(id);
+      handleUpdateProfile(nextProfile);
+    },
+    [handleActionAttempt, handleUpdateProfile, selectedTemplate, session]
+  );
+
+  useEffect(() => {
+    if (!session?.profile) return;
+    if (viewingSnapshotId) return;
+    if (!isEventActive) return;
+    if (selectedTemplate === "classic") return;
+
+    const status = templateVisibility[selectedTemplate];
+    if (status !== "coming_soon") return;
+
+    // Daca template-ul curent este marcat Coming Soon, fortam fallback la Classic.
+    selectTemplateWithFullReset("classic", { skipActionCheck: true });
+  }, [
+    isEventActive,
+    selectedTemplate,
+    selectTemplateWithFullReset,
+    session?.profile,
+    templateVisibility,
+    viewingSnapshotId,
+  ]);
 
   const handleUpgradeSuccess = (payments?: any[]) => {
     if (!session) return;
@@ -3842,31 +3964,7 @@ const DashboardApp = () => {
           ) : view === "invitations" ? (
             <InvitationMarketplace
               selectedTemplate={selectedTemplate}
-              onSelectTemplate={(id) => {
-                if (!handleActionAttempt()) return;
-                if (id === selectedTemplate) return;
-                setSelectedTemplate(id);
-                if (!session?.profile) return;
-                const defaults = getTemplateDefaultBlocks(id);
-                const textStyleReset = { heroTextStyles: null, introTextStyles: null, timelineTextStyles: null };
-                if (defaults && defaults.length > 0) {
-                  const seeded = defaults.map((b, i) => ({
-                    ...b,
-                    id: b.id || `def-${Date.now()}-${i}`,
-                  }));
-                  handleUpdateProfile({
-                    ...session.profile,
-                    ...textStyleReset,
-                    customSections: JSON.stringify(seeded),
-                  });
-                } else {
-                  handleUpdateProfile({
-                    ...session.profile,
-                    ...textStyleReset,
-                    customSections: "[]",
-                  });
-                }
-              }}
+              onSelectTemplate={selectTemplateWithFullReset}
               eventType={session.profile?.eventType || 'wedding'}
               onEditTemplate={(id) => {
                 if (id !== selectedTemplate) {

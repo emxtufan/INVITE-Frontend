@@ -29,12 +29,15 @@ export type TemplateTag =
   | 'kids'
   | 'all';
 
+export type TemplateVisibilityStatus = 'live' | 'coming_soon';
+
 export interface TemplateMeta {
   id: string;
   name: string;
   description: string;
   category: 'all' | 'wedding' | 'baptism' | 'anniversary' | 'kids';
-  tags?: TemplateTag[];   // ← NOU: poate fi pe mai multe categorii
+  tags?: TemplateTag[];   // â† NOU: poate fi pe mai multe categorii
+  visibilityStatus?: TemplateVisibilityStatus;
   colors: string[];
   previewClass: string;
   elementsClass?: string;
@@ -45,3 +48,4 @@ export interface TemplateModule {
   default: React.FC<InvitationTemplateProps>;
   meta: TemplateMeta;
 }
+
