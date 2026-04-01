@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/uploads/:path*",
-      "destination": "https://event-smart-assistant.com/uploads/:path*"
+      "destination": "https://api.event-smart-assistant.com/uploads/:path*"
     },
     {
       "source": "/((?!.*\\..*).*)",
