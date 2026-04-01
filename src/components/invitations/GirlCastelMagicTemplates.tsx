@@ -1357,7 +1357,6 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
     .cm-wrap .animate-pulse { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
   `;
 
-  // Imaginile default — în ordinea în care apar blocurile foto în template
   const DEFAULT_PHOTO_URLS = (CASTLE_DEFAULT_BLOCKS as any[])
     .filter(b => b.type === 'photo' && b.imageData)
     .map(b => b.imageData as string);
