@@ -2929,7 +2929,7 @@ const DashboardApp = () => {
         >
           <div className="flex items-center overflow-hidden">
             <div className="w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center shrink-0">
-              <Utensils className="w-5 h-5" />
+              <Sparkles className="w-5 h-5" />
             </div>
             <span
               className={cn(
@@ -3197,7 +3197,7 @@ const DashboardApp = () => {
           onClick={() => setIsAccountPanelOpen(false)}
         >
           <div
-            className="absolute inset-y-0 right-0 w-full max-w-2xl bg-background border-l border-border shadow-2xl flex flex-col animate-in slide-in-from-right"
+            className="absolute inset-y-0 right-0 w-full max-w-2xl bg-background text-foreground border-l border-border shadow-2xl flex flex-col animate-in slide-in-from-right"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-3 border-b border-border px-4 md:px-6 py-4 shrink-0">

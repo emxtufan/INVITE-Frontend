@@ -48,7 +48,7 @@ export const DialogContent = ({ className, children, ...props }: any) => {
             {/* Content */}
             <div 
                 className={cn(
-                    "relative z-[1000] grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg duration-200 animate-in fade-in-90 zoom-in-95 sm:rounded-lg",
+                    "relative z-[1000] grid w-full max-w-lg gap-4 border bg-background text-foreground p-6 shadow-lg duration-200 animate-in fade-in-90 zoom-in-95 sm:rounded-lg",
                     className
                 )}
                 {...props}
