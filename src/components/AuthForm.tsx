@@ -26,10 +26,9 @@ declare global {
     }
 }
 
-// --- IMPORTANT: INLOCUIESTE AICI CU ID-UL TAU DIN GOOGLE CLOUD CONSOLE ---
 // 1. Mergi la https://console.cloud.google.com/apis/credentials
 // 2. Asigura-te ca la "Authorized JavaScript origins" ai pus: http://localhost:3000
-const GOOGLE_CLIENT_ID = "1061599529105-6ph72mkm6v5sd70bf9skh08mh271momv.apps.googleusercontent.com"; 
+const GOOGLE_CLIENT_ID = "1061599529105-6ph72mkm6v5sd70bf9skh08mh271momv.apps.googleusercontent.com" ; 
 
 const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = true }: AuthFormProps) => {
   const [isRegister, setIsRegister] = useState(initialView === 'register');
