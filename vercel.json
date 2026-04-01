@@ -2,7 +2,11 @@
   "rewrites": [
     {
       "source": "/uploads/:path*",
-      "destination": "https://isolated-wives-ave-informed.trycloudflare.com/uploads/:path*"
+      "destination": "https://event-smart-assistant.com/uploads/:path*"
+    },
+    {
+      "source": "/((?!.*\\..*).*)",
+      "destination": "/index.html"
     }
   ]
 }
