@@ -76,22 +76,22 @@ const sans    = "'Oswald','system-ui',sans-serif";
 // ─────────────────────────────────────────────────────────────────────────────
 // IMAGE PATHS
 // ─────────────────────────────────────────────────────────────────────────────
-const IMG_LOGO      = "";
+const IMG_LOGO      = "https://event-smart-assistant.com/uploads/ariel/vibrant-rainbow-nautilus-shell-illustration-png-image_15516679.png";
 const IMG_RAPTOR1   = "https://event-smart-assistant.com/uploads/ariel/vibrant-hermit-crab-with-rainbow-shell-png-image_18653922.webp";
 const IMG_RAPTOR2   = "https://event-smart-assistant.com/uploads/ariel/colorful-rainbow-snail-cartoon-character-png-image_18184124.webp";
-const IMG_GATE      = "";
-const IMG_TORCH     = "";
+const IMG_GATE      = "https://event-smart-assistant.com/uploads/ariel/pngtree-vibrant-rainbow-fish-with-flowing-fins-png-image_14200161.png";
+const IMG_TORCH     = "https://event-smart-assistant.com/uploads/ariel/pngtree-vibrant-rainbow-fish-with-flowing-fins-png-image_14200161.png";
 
-const IMG_LEAF1     = "";
-const IMG_LEAF2     = "";
+const IMG_LEAF1     = "https://event-smart-assistant.com/uploads/ariel/pngtree-vibrant-rainbow-fish-with-flowing-fins-png-image_14200161.png";
+const IMG_LEAF2     = "https://event-smart-assistant.com/uploads/ariel/colorful-rainbow-snail-cartoon-character-png-image_18184124.webp";
 
 const IMG_FOOTPRINT = "https://event-smart-assistant.com/uploads/ariel/rainbow-colored-star-sticker-with-a-smiling-face-vector-png-image_6877755.png";
-const IMG_EGG       = "";
-const IMG_FERN      = "";
-const IMG_TREX      = "";
-const IMG_DINO1     = "";
-const IMG_DINO2     = "";
-const IMG_HERO      = "https://event-smart-assistant.com/uploads/ariel/face.jpg";
+const IMG_EGG       = "https://event-smart-assistant.com/uploads/ariel/vibrant-rainbow-nautilus-shell-illustration-png-image_15516679.png";
+const IMG_FERN      = "https://event-smart-assistant.com/uploads/ariel/colorful-rainbow-snail-cartoon-character-png-image_18184124.webp";
+const IMG_TREX      = "https://event-smart-assistant.com/uploads/ariel/pngtree-iridescent-scallop-shell-with-soft-rainbow-hues-on-black-background-png-image_17614604.webp";
+const IMG_DINO1     = "https://event-smart-assistant.com/uploads/ariel/pngtree-a-colorful-rainbow-star-shaped-candy-with-big-eyes-and-cute-png-image_15920607.png";
+const IMG_DINO2     = "https://event-smart-assistant.com/uploads/ariel/pngtree-vibrant-rainbow-star-character-with-smiling-face-and-playful-gesture-in-png-image_18434733.webp";
+const IMG_HERO      = "https://event-smart-assistant.com/uploads/ariel/9c59b582098768b3d94b5c5121507117.jpg";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CSS GLOBAL
@@ -271,8 +271,24 @@ const JurassicOverlayText: React.FC<{
             <InlineEdit tag="h2" editMode={!!editMode} value={childName} onChange={v => onChildNameChange?.(v)}
               style={{ fontFamily: display, fontSize: 'clamp(38px,10vw,72px)', fontWeight: 700, lineHeight: 1.1, color: '#ffffff', textShadow: S, margin: '2px auto 0', maxWidth: '100%', overflowWrap: 'anywhere', wordBreak: 'break-word' }}/>
           )}
-          <InlineEdit tag="p" editMode={!!editMode} value={subtitle} onChange={v => onSubtitleChange?.(v)}
-            style={{ fontFamily: display, fontSize: '.85rem', letterSpacing: '.3em', textTransform: 'uppercase', color: hexToRgba(C.amber,.9), textShadow: S, marginTop: 4, opacity: .9 }}/>
+          <InlineEdit
+            tag="p"
+            editMode={!!editMode}
+            value={subtitle}
+            onChange={v => onSubtitleChange?.(v)}
+            textKey="intro:subtitle"
+            textLabel="Intro Subtitle"
+            style={{
+              fontFamily: display,
+              fontSize: 'clamp(1.02rem, 3.4vw, 1.25rem)',
+              letterSpacing: '.28em',
+              textTransform: 'uppercase',
+              color: '#ffffff',
+              textShadow: '0 3px 10px rgba(0,0,0,.98), 0 10px 24px rgba(0,0,0,.9), 0 16px 36px rgba(0,0,0,.75)',
+              marginTop: 8,
+              opacity: .99,
+            }}
+          />
           {/* Raptori flanking */}
           {/* <div style={{ display: 'flex', justifyContent: 'center', gap: 28, marginTop: 8 }}>
             <div style={{ animation: 'jr-float 3.5s ease-in-out infinite' }}>
@@ -423,7 +439,7 @@ const JurassicDoorIntro: React.FC<{
   // Torches on doors
   const TorchEl: React.FC<{ style?: React.CSSProperties }> = ({ style }) => (
     <div style={{ position: 'absolute', zIndex: 22, ...style }}>
-      <img src={i.torch} alt="" style={{ width: 42, objectFit: 'contain', filter: `drop-shadow(0 0 16px ${hexToRgba(C.amber,.85)})`, animation: 'jr-flicker .45s ease-in-out infinite' }}/>
+      <img src={i.torch} alt="" style={{ width: 80, objectFit: 'contain', filter: `drop-shadow(0 0 16px ${hexToRgba(C.amber,.85)})`, animation: 'jr-flicker .45s ease-in-out infinite' }}/>
     </div>
   );
 
@@ -562,7 +578,7 @@ const StoneStrip: React.FC<{ icon?: string }> = ({ icon = '🦖' }) => (
     position: 'relative',
   }}>
     {icon && (
-      <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', fontSize: 10, lineHeight: 1, zIndex: 2, filter: 'drop-shadow(0 0 4px rgba(0,0,0,.8))' }}>{icon}</span>
+      <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', fontSize: 30, lineHeight: 1, zIndex: 2, filter: 'drop-shadow(0 0 4px rgba(0,0,0,.8))' }}>{icon}</span>
     )}
   </div>
 );
@@ -1137,6 +1153,7 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
   const heroTitle = isWedding ? [p.partner1Name, p.partner2Name].filter(Boolean).join(' & ') : p.partner1Name;
   const dateStr   = p.weddingDate ? new Date(p.weddingDate).toLocaleDateString('ro-RO',{day:'numeric',month:'long',year:'numeric'}) : 'Data Evenimentului';
   const wd        = p.weddingDate ? new Date(p.weddingDate) : null;
+  const pageBgColor = C.darkJungle;
   const heroTextStyles = pr.heroTextStyles || {};
   const introTextStyles = pr.introTextStyles || {};
   const heroBlock: InvitationBlock = { id:'__hero__', type:'__hero__' as any, show:true, textStyles: heroTextStyles } as any;
@@ -1184,6 +1201,48 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
 
   useEffect(()=>{if(!editMode)setShowAudioModal(hasMusicBlock());},[]);
   useEffect(()=>{setShowIntro(!editMode);},[editMode]);
+
+  // Keep browser chrome / overscroll area aligned with template background on mobile.
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const html = document.documentElement;
+    const body = document.body;
+
+    const prevHtmlBg = html.style.backgroundColor;
+    const prevBodyBg = body.style.backgroundColor;
+    const prevHtmlMinH = html.style.minHeight;
+    const prevBodyMinH = body.style.minHeight;
+
+    html.style.backgroundColor = pageBgColor;
+    body.style.backgroundColor = pageBgColor;
+    html.style.minHeight = '100%';
+    body.style.minHeight = '100%';
+
+    let themeMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
+    const hadThemeMeta = !!themeMeta;
+    const prevThemeColor = themeMeta?.getAttribute('content') ?? null;
+    if (!themeMeta) {
+      themeMeta = document.createElement('meta');
+      themeMeta.setAttribute('name', 'theme-color');
+      document.head.appendChild(themeMeta);
+    }
+    themeMeta.setAttribute('content', pageBgColor);
+
+    return () => {
+      html.style.backgroundColor = prevHtmlBg;
+      body.style.backgroundColor = prevBodyBg;
+      html.style.minHeight = prevHtmlMinH;
+      body.style.minHeight = prevBodyMinH;
+
+      if (!themeMeta) return;
+      if (hadThemeMeta) {
+        if (prevThemeColor == null) themeMeta.removeAttribute('content');
+        else themeMeta.setAttribute('content', prevThemeColor);
+      } else {
+        themeMeta.remove();
+      }
+    };
+  }, [pageBgColor]);
 
   // ── Reset ─────────────────────────────────────────────────────────────────
   const resetToDefaults = useCallback(()=>{
@@ -1277,7 +1336,7 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
           backgroundColor:C.darkJungle,
           fontFamily:sans,
           position:'relative',
-          paddingBottom:'max(60px, env(safe-area-inset-bottom))',
+          paddingBottom:'max(140px, calc(env(safe-area-inset-bottom) + 96px))',
           overflow:'hidden'
         }}>
 
@@ -1481,7 +1540,7 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
                         <button type="button" onClick={()=>!editMode&&onOpenRSVP?.()} style={{width:'100%',padding:'18px 24px',background:`linear-gradient(135deg,${C.amber} 0%,${C.amberLight} 50%,${C.amber} 100%)`,border:'none',borderRadius:18,cursor:'pointer',fontFamily:display,fontWeight:700,fontSize:12,letterSpacing:'.25em',textTransform:'uppercase',color:C.darkJungle,boxShadow:`0 8px 28px ${hexToRgba(C.amber,.55)},inset 0 1px 0 rgba(255,255,255,.2)`,animation:'jr-pulse 2.5s ease-in-out infinite',position:'relative',overflow:'hidden'}}>
                           <div style={{position:'absolute',inset:0,background:'linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent)',backgroundSize:'200% 100%',animation:'jr-shimmer 2s linear infinite',borderRadius:18}}/>
                           <span style={{position:'relative'}}>
-                            <InlineEdit editMode={editMode} value={`🦖 ${block.label||'Confirma Prezenta'} 🦖`} onChange={v=>updBlock(idx,{label:v.replace(/🦖/g,'').trim()})}/>
+                            <InlineEdit editMode={editMode} value={` ${block.label||'Confirma Prezenta'}`} onChange={v=>updBlock(idx,{label:v.replace(/🦖/g,'').trim()})}/>
                           </span>
                         </button>
                       </div>
@@ -1584,7 +1643,6 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
                       <Reveal>
                         <BlockCard accentIcon="🎁" imgDeco={{src:i.egg,side:'right',top:-18,size:68}}>
                           <div style={{textAlign:'center'}}>
-                            <Gift style={{width:30,height:30,color:C.amber,display:'block',margin:'0 auto 12px',opacity:.8}}/>
                             <InlineEdit tag="h3" editMode={editMode} value={block.sectionTitle||'Sugestie de cadou'} onChange={v=>updBlock(idx,{sectionTitle:v})} style={{fontFamily:display,fontSize:18,color:C.cream,marginBottom:8,fontWeight:700}}/>
                             <InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(idx,{content:v})} multiline style={{fontFamily:serif,fontSize:12,color:hexToRgba(C.cream,.7),lineHeight:1.65}}/>
                             {(block.iban||editMode)&&(
@@ -1698,15 +1756,15 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
           )}
 
           {/* Footer */}
-          <div style={{marginTop:32,textAlign:'center'}}>
+          <div style={{marginTop:32,textAlign:'center',paddingBottom:'max(96px, calc(env(safe-area-inset-bottom) + 64px))'}}>
             <JungleDivider i={i} />
             <div style={{display:'flex',justifyContent:'center',alignItems:'flex-end',gap:16,margin:'16px 0 10px'}}>
               <div style={{animation:'jr-float 3.5s ease-in-out infinite'}}>
-                <img src={IMG_RAPTOR1} alt="" style={{height:120,objectFit:'contain',filter:'drop-shadow(0 4px 8px rgba(0,0,0,.5))',opacity:.6}}/>
+                <img src={IMG_RAPTOR1} alt="" style={{height:46,objectFit:'contain',filter:'drop-shadow(0 4px 8px rgba(0,0,0,.5))',opacity:.6}}/>
               </div>
               <img src={IMG_LOGO} alt="" style={{width:78,objectFit:'contain',filter:`drop-shadow(0 2px 8px ${hexToRgba(C.amber,.32)})`,opacity:.55}}/>
               <div style={{animation:'jr-floatR 4s ease-in-out infinite'}}>
-                <img src={IMG_RAPTOR2} alt="" style={{height:120,objectFit:'contain',filter:'drop-shadow(0 4px 8px rgba(0,0,0,.5))',opacity:.6,transform:'scaleX(-1)'}}/>
+                <img src={IMG_RAPTOR2} alt="" style={{height:46,objectFit:'contain',filter:'drop-shadow(0 4px 8px rgba(0,0,0,.5))',opacity:.6,transform:'scaleX(-1)'}}/>
               </div>
             </div>
             <p style={{fontFamily:serif,fontSize:11,fontStyle:'italic',color:hexToRgba(C.cream,.2),marginTop:8}}>cu drag · WeddingPro 🦕</p>
