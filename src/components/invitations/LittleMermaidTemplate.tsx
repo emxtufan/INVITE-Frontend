@@ -97,17 +97,17 @@ const getScanlines = (): React.CSSProperties => ({
 // ─────────────────────────────────────────────────────────────────────────────
 // IMAGE PATHS — /public/mermaid/
 // ─────────────────────────────────────────────────────────────────────────────
-const IMG_ARIEL     = "/mermaid/ariel.png";     // Ariel sirenă
-const IMG_BABY      = "/mermaid/baby.png";       // Baby Ariel / copilul
-const IMG_BANNER    = "/mermaid/banner.png";     // Banner scenă (Disney)
-const IMG_CORAL     = "/mermaid/coral.png";      // Fundal corali subacvatici
-const IMG_MOONSCENE = "/mermaid/moonscene.png";  // Scenă lună pe ocean
-const IMG_LOGO      = "/mermaid/logo.png";       // Logo Mica Sirenă
-const IMG_SEBASTIAN = "/mermaid/sebastian.png";  // Sebastian racul
-const IMG_FLOUNDER  = "/mermaid/flounder.png";   // Flounder peștele
-const IMG_SHELL     = "/mermaid/shell.png";      // Scoică decorativă
-const IMG_PEARL     = "/mermaid/pearl.png";      // Perlă
-const IMG_BG        = "/mermaid/ariel.png"; 
+const IMG_ARIEL     = "https://event-smart-assistant.com/uploads/ariel/mermaid.png";     // Ariel sirenă
+const IMG_BABY      = "";       // Baby Ariel / copilul
+const IMG_BANNER    = "https://event-smart-assistant.com/uploads/ariel/face.jpg";     // Banner scenă (Disney)
+const IMG_CORAL     = "https://event-smart-assistant.com/uploads/ariel/quo1U.jpg";      // Fundal corali subacvatici
+const IMG_MOONSCENE = "https://event-smart-assistant.com/uploads/ariel/face.jpg";  // Scenă lună pe ocean
+const IMG_LOGO      = "https://event-smart-assistant.com/uploads/ariel/face.jpg";       // Logo Mica Sirenă
+const IMG_SEBASTIAN = "https://event-smart-assistant.com/uploads/ariel/face.jpg";  // Sebastian racul
+const IMG_FLOUNDER  = "https://event-smart-assistant.com/uploads/ariel/face.jpg";   // Flounder peștele
+const IMG_SHELL     = "https://event-smart-assistant.com/uploads/ariel/face.jpg";      // Scoică decorativă
+const IMG_PEARL     = "https://event-smart-assistant.com/uploads/ariel/face.jpg";      // Perlă
+const IMG_BG        = "https://event-smart-assistant.com/uploads/ariel/face.jpg"; 
 // ─────────────────────────────────────────────────────────────────────────────
 // CSS — exact reference keyframes + door extras
 // ─────────────────────────────────────────────────────────────────────────────
@@ -293,7 +293,7 @@ const MermaidOverlayText: React.FC<{
 
       {/* Logo top */}
       <div style={{position:'absolute',top:'4%',left:0,right:0,textAlign:'center',zIndex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6}}>
-        <img src={i.logo} alt="Mica Sirenă" style={{width:'min(180px,48vw)',objectFit:'contain',filter:`brightness(0) invert(1) drop-shadow(0 0 16px ${hexToRgba(C.teal,.7)})`,opacity:.9}}/>
+        {/* <img src={i.logo} alt="Mica Sirenă" style={{width:'min(180px,48vw)',objectFit:'contain',filter:`brightness(0) invert(1) drop-shadow(0 0 16px ${hexToRgba(C.teal,.7)})`,opacity:.9}}/> */}
         <div style={{display:'flex',gap:6,justifyContent:'center'}}>
           {RAINBOW.slice(0,5).map((c,i)=>(
             <SeaStar key={i} size={14+((i*3)%6)} color={c} style={{animation:`ar-starSpin ${2+i*.4}s ${i*.2}s ease-in-out infinite`,filter:`drop-shadow(0 0 5px ${c})`}}/>
@@ -319,9 +319,6 @@ const MermaidOverlayText: React.FC<{
             style={{fontFamily:F.magic,fontSize:'1.3rem',color:C.tealPale,textShadow:S,marginTop:2,opacity:.9}}/>
           {/* Ariel + Baby */}
           <div style={{display:'flex',justifyContent:'center',gap:16,marginTop:8}}>
-            <div style={{animation:'ar-swim 5s ease-in-out infinite'}}>
-              <img src={i.baby} alt="" style={{height:58,objectFit:'contain',filter:`drop-shadow(0 4px 12px rgba(255,107,107,.6))`}}/>
-            </div>
             <div style={{animation:'ar-float 4s .4s ease-in-out infinite'}}>
               <img src={i.ariel} alt="" style={{height:70,objectFit:'contain',filter:`drop-shadow(0 4px 14px ${hexToRgba(C.teal,.6)})`}}/>
             </div>
@@ -796,18 +793,18 @@ export const CASTLE_DEFAULTS = {
 
 export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
   {id:'def-music',    type:'music'    as const,show:true,musicTitle:'',musicArtist:'',musicUrl:'',musicType:'none' as const},
-  {id:'def-photo-1',  type:'photo'    as const,show:true,imageData:'',altText:'Foto',aspectRatio:'3:4' as const,photoClip:'arch' as const,photoMasks:['fade-b'] as any},
+  {id:'def-photo-1',  type:'photo'    as const,show:true,imageData:'https://event-smart-assistant.com/uploads/ariel/AwAU3.jpg',altText:'Foto',aspectRatio:'3:4' as const,photoClip:'arch' as const,photoMasks:['fade-b'] as any},
   {id:'def-text-1',   type:'text'     as const,show:true,content:'Undeva, departe, sub valurile mării, se află o lume de poveste. Vă invităm să fiți alături de noi în această zi magică!'},
   {id:'def-divider-1',type:'divider'  as const,show:true},
   {id:'def-family-1', type:'family'   as const,show:true,label:'Părinții',content:'Cu drag și bucurie',members:JSON.stringify([{name1:'Mama',name2:'Tata'}])},
   {id:'def-family-2', type:'family'   as const,show:true,label:'Nașii',content:'Cu drag și recunoștință',members:JSON.stringify([{name1:'Nașa',name2:'Nașul'}])},
   {id:'def-calendar', type:'calendar' as const,show:true},
-  {id:'def-countdown',type:'countdown'as const,show:true},
+  {id:'def-countdown',type:'countdown'as const,show:true}, 
   {id:'def-divider-2',type:'divider'  as const,show:true},
   {id:'def-loc-1',    type:'location' as const,show:true,label:'Botezul',time:'11:00',locationName:'Paraclisul Sfânta Maria',locationAddress:'Str. Mării 1, București',wazeLink:''},
   {id:'def-loc-2',    type:'location' as const,show:true,label:'Petrecerea',time:'15:00',locationName:'Salon Sub Valuri',locationAddress:'Aleea Coralilor 5, București',wazeLink:''},
   {id:'def-divider-3',type:'divider'  as const,show:true},
-  {id:'def-photo-2',  type:'photo'    as const,show:true,imageData:'',altText:'Foto',aspectRatio:'1:1' as const,photoClip:'circle' as const,photoMasks:['vignette'] as any},
+  {id:'def-photo-2',  type:'photo'    as const,show:true,imageData:'https://event-smart-assistant.com/uploads/ariel/DiQ3O.jpg',altText:'Foto',aspectRatio:'1:1' as const,photoClip:'circle' as const,photoMasks:['vignette'] as any},
   {id:'def-gift',     type:'gift'     as const,show:true,sectionTitle:'Sugestie de cadou',content:'Cel mai frumos cadou este prezența voastră alături de noi.',iban:'',ibanName:''},
   {id:'def-rsvp',     type:'rsvp'     as const,show:true,label:'Confirmă Prezența'},
 ];
@@ -1036,9 +1033,9 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
                   <img src={i.banner} alt="Mica Sirenă" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center 25%',filter:'brightness(.75) saturate(1.3)'}}/>
                   <div style={{position:'absolute',bottom:0,left:0,right:0,height:80,background:`linear-gradient(to top,${hexToRgba(C.ocean,.98)},transparent)`}}/>
                   {/* Ariel floats over banner */}
-                  <div style={{position:'absolute',right:-8,bottom:0,animation:'ar-float 4s ease-in-out infinite',filter:`drop-shadow(0 6px 20px ${hexToRgba(C.teal,.4)})`}}>
-                    <img src={i.ariel} alt="Ariel" style={{height:160,objectFit:'contain',objectPosition:'bottom',filter:'drop-shadow(0 4px 14px rgba(0,0,0,.75))'}}/>
-                  </div>
+                  {/* <div style={{position:'absolute',right:-8,bottom:0,animation:'ar-float 4s ease-in-out infinite',filter:`drop-shadow(0 6px 20px ${hexToRgba(C.teal,.4)})`}}>
+                    <img src={i.ariel} alt="Ariel" style={{height:60,objectFit:'contain',objectPosition:'bottom',filter:'drop-shadow(0 4px 14px rgba(0,0,0,.75))'}}/>
+                  </div> */}
                   {/* Rainbow stars in banner */}
                   <div style={{position:'absolute',inset:0,pointerEvents:'none',overflow:'hidden'}}>
                     {RAINBOW.map((c,i)=>(
@@ -1128,7 +1125,7 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
 
                   {/* Baby Ariel + sea stars */}
                   <Reveal from="bottom" delay={0.42}>
-                    <div style={{display:'flex',justifyContent:'center',alignItems:'flex-end',gap:10,marginBottom:16}}>
+                    <div style={{display:'flex',justifyContent:'center',alignItems:'flex-end',marginBottom:16}}>
                       <div style={{animation:'ar-swim 5s ease-in-out infinite'}}>
                         <img src={i.baby} alt="" style={{height:80,objectFit:'contain',filter:`drop-shadow(0 4px 14px rgba(255,107,107,.4))`}}/>
                       </div>
