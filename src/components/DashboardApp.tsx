@@ -365,11 +365,11 @@ const buildAccountDraft = (session: UserSession | null): AccountDraft => {
     billingRegNo: String(profile?.billingRegNo || ""),
     billingEmail: String(profile?.billingEmail || ""),
     billingPhone: String(profile?.billingPhone || ""),
-    billingAddress: String(profile?.billingAddress || profile?.address || ""),
-    billingCity: String(profile?.billingCity || profile?.city || ""),
+    billingAddress: String(profile?.billingAddressData?.streetAddress || profile?.billingAddress || profile?.address || ""),
+    billingCity: String(profile?.billingAddressData?.city || profile?.billingCity || profile?.city || ""),
     billingSector: String(profile?.billingSector || ""),
-    billingCounty: String(profile?.billingCounty || profile?.county || ""),
-    billingCountry: String(profile?.billingCountry || profile?.country || "Romania"),
+    billingCounty: String(profile?.billingAddressData?.county || profile?.billingCounty || profile?.county || ""),
+    billingCountry: String(profile?.billingAddressData?.country || profile?.billingCountry || profile?.country || "Romania"),
   };
 };
 
@@ -1027,6 +1027,14 @@ const DashboardApp = () => {
       billingEmail: accountDraft.billingEmail.trim(),
       billingPhone: accountDraft.billingPhone.trim(),
       billingAddress: accountDraft.billingAddress.trim(),
+      billingAddressData: {
+        country: accountDraft.billingCountry.trim(),
+        county: accountDraft.billingCounty.trim(),
+        city: accountDraft.billingCity.trim(),
+        streetAddress: accountDraft.billingAddress.trim(),
+        postalCode: accountDraft.shippingPostalCode.trim(),
+        addressLine2: '',
+      },
       billingCity: accountDraft.billingCity.trim(),
       billingSector: normalizeSector(accountDraft.billingSector),
       billingCounty: accountDraft.billingCounty.trim(),
@@ -3651,7 +3659,7 @@ const DashboardApp = () => {
                       }}
                     />
                   </div>
-                  {accountDraft.billingType === "company" && isBucharestCity(accountDraft.billingCity) && (
+                  {isBucharestCity(accountDraft.billingCity) && (
                     <div className="space-y-1">
                       <label className="text-xs text-muted-foreground">Sector facturare</label>
                       <select
@@ -3667,7 +3675,7 @@ const DashboardApp = () => {
                         ))}
                       </select>
                       <p className="text-[11px] text-muted-foreground">
-                        Pentru firme din Bucuresti, localitatea SmartBill va fi sectorul selectat.
+                        Pentru Bucuresti, sectorul este obligatoriu la facturare.
                       </p>
                     </div>
                   )}

@@ -1,47 +1,10 @@
-export const RO_COUNTIES = [
-  "Alba",
-  "Arad",
-  "Arges",
-  "Bacau",
-  "Bihor",
-  "Bistrita-Nasaud",
-  "Botosani",
-  "Braila",
-  "Brasov",
-  "Bucuresti",
-  "Buzau",
-  "Calarasi",
-  "Caras-Severin",
-  "Cluj",
-  "Constanta",
-  "Covasna",
-  "Dambovita",
-  "Dolj",
-  "Galati",
-  "Giurgiu",
-  "Gorj",
-  "Harghita",
-  "Hunedoara",
-  "Ialomita",
-  "Iasi",
-  "Ilfov",
-  "Maramures",
-  "Mehedinti",
-  "Mures",
-  "Neamt",
-  "Olt",
-  "Prahova",
-  "Salaj",
-  "Satu Mare",
-  "Sibiu",
-  "Suceava",
-  "Teleorman",
-  "Timis",
-  "Tulcea",
-  "Valcea",
-  "Vaslui",
-  "Vrancea",
-] as const;
+import {
+  ROMANIA_COUNTIES as RO_COUNTIES,
+  isBucharestCityName,
+  normalizeRomanianText,
+} from "./roLocation";
+
+export { RO_COUNTIES };
 
 export type ShippingAddressDraft = {
   county: string;
@@ -63,18 +26,10 @@ export const normalizeRoText = (value: string) =>
     .replace(/\s+/g, " ");
 
 export const normalizeForCompare = (value: string) =>
-  String(value || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\./g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+  normalizeRomanianText(value);
 
 export const isBucharest = (city: string) =>
-  ["bucuresti", "bucharest", "municipiul bucuresti", "mun bucuresti"].includes(
-    normalizeForCompare(city),
-  );
+  isBucharestCityName(city);
 
 export const isValidRoPhone = (value: string) => {
   const digits = String(value || "").replace(/\D/g, "");

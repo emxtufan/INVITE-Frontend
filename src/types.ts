@@ -168,6 +168,15 @@ export type InvitationSection = InvitationBlock;
 
 export type EventType = 'wedding' | 'baptism' | 'anniversary' | 'kids' | 'office';
 
+export interface BillingAddressData {
+  country?: string;
+  county?: string;
+  city?: string;
+  streetAddress?: string;
+  postalCode?: string;
+  addressLine2?: string;
+}
+
 export interface UserProfile {
   isSetupComplete?: boolean;
   eventName?: string;
@@ -204,6 +213,7 @@ export interface UserProfile {
   billingVatCode?: string;
   billingRegNo?: string;
   billingAddress?: string;
+  billingAddressData?: BillingAddressData;
   billingCity?: string;
   billingSector?: string;
   billingCounty?: string;
@@ -303,6 +313,7 @@ export interface PaymentRecord {
   amount: number;
   invoiceId: string;
   billingEmail: string;
+  billingAddressData?: BillingAddressData;
     paymentMethod?: string;
     status: 'Paid' | 'Pending' | 'Failed';
     invoiceNumber?: string;

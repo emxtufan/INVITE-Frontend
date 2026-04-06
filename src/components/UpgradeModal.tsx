@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Loader2, Check, ExternalLink, AlertTriangle, CreditCard } from 'lucide-react';
+import { Loader2, Check, AlertTriangle, CreditCard } from 'lucide-react';
 import { Dialog, DialogContent } from './ui/dialog';
 import Button from './ui/button';
 import Input from './ui/input';
@@ -8,13 +8,18 @@ import { UserProfile } from '../types';
 import {
   RO_COUNTIES,
   ShippingAddressDraft,
-  composeAddressLine,
-  isAddressComplete,
   isBucharest,
   isValidRoPhone,
   isValidRoPostalCode,
   shortAddressSummary,
 } from '../lib/roAddress';
+import {
+  getRomanianCitySuggestions,
+  inferCountyFromCity,
+  isCityMatchingCounty,
+  normalizeRomanianCounty,
+  normalizeRomanianText,
+} from '../lib/roLocation';
 
 interface UpgradeModalProps {
   isOpen: boolean;
@@ -43,19 +48,9 @@ const CartIcon = () => (
   </svg>
 );
 
-const BUCHAREST_KEYS = new Set(['bucuresti', 'bucharest', 'municipiul bucuresti', 'mun bucuresti']);
 const SECTOR_OPTIONS = ['Sector 1', 'Sector 2', 'Sector 3', 'Sector 4', 'Sector 5', 'Sector 6'];
-
-const normalizeText = (value: string) =>
-  String(value || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\./g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-const isBucharestCity = (city: string) => BUCHAREST_KEYS.has(normalizeText(city));
+const COUNTRY_OPTIONS = ['Romania', 'Bulgaria', 'Ungaria', 'Alta tara'];
+const ROMANIAN_CITY_SUGGESTIONS = getRomanianCitySuggestions(120);
 
 const normalizeSector = (value: string) => {
   const raw = String(value || '').trim();
@@ -63,6 +58,20 @@ const normalizeSector = (value: string) => {
   const m = raw.match(/([1-6])/);
   if (!m) return '';
   return `Sector ${m[1]}`;
+};
+
+const inferAddressNumber = (addressLine = '') => {
+  const match = String(addressLine || '').match(/\b\d+[A-Za-z0-9/-]*\b/);
+  return match?.[0] || '1';
+};
+
+const isCheckoutAddressComplete = (value: CheckoutContactAddress) => {
+  const country = String(value.country || '').trim();
+  const city = String(value.city || '').trim();
+  const county = String(value.county || '').trim();
+  const street = String(value.street || '').trim();
+  const postalCode = String(value.postalCode || '').trim();
+  return Boolean(country && city && county && street && isValidRoPostalCode(postalCode));
 };
 
 type CheckoutContactAddress = ShippingAddressDraft & {
@@ -117,7 +126,6 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
   const [isCheckoutAddressEditable, setIsCheckoutAddressEditable] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<'basic' | 'premium'>('premium');
   const [error, setError] = useState<string | null>(null);
-  const bucharestSelected = isBucharest(checkoutAddress.city);
   const normalizedCurrentPlan: 'free' | 'basic' | 'premium' =
     currentPlan === 'basic' || currentPlan === 'premium' ? currentPlan : 'free';
   const planRank: Record<'free' | 'basic' | 'premium', number> = { free: 0, basic: 1, premium: 2 };
@@ -146,8 +154,9 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
     billingType === 'company'
       ? 'RO12345678'
       : '13 cifre (daca il lasi gol, se genereaza automat)';
-  const hasSavedAddress = isAddressComplete(savedCheckoutAddress);
+  const hasSavedAddress = isCheckoutAddressComplete(savedCheckoutAddress);
   const displayCheckoutAddressSummary = shortAddressSummary(checkoutAddress);
+  const bucharestSelected = isBucharest(checkoutAddress.city);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -156,22 +165,41 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
 
     const profile = userProfile || {};
     const fullName = [profile.firstName, profile.lastName].filter(Boolean).join(' ').trim();
+    const billingAddressData = profile.billingAddressData || {};
     const savedFromProfile: CheckoutContactAddress = {
       firstName: profile.firstName || '',
       lastName: profile.lastName || '',
       phone: profile.phone || profile.billingPhone || '',
       email: (profile.email || profile.billingEmail || userEmail || '').trim(),
-      county: profile.shippingCounty || profile.county || profile.billingCounty || '',
-      city: profile.shippingCity || profile.city || profile.billingCity || '',
-      street: profile.shippingStreet || '',
+      county:
+        profile.shippingCounty ||
+        profile.county ||
+        profile.billingCounty ||
+        billingAddressData.county ||
+        '',
+      city:
+        profile.shippingCity ||
+        profile.city ||
+        profile.billingCity ||
+        billingAddressData.city ||
+        '',
+      street:
+        profile.shippingStreet ||
+        billingAddressData.streetAddress ||
+        '',
       number: profile.shippingNumber || '',
       block: profile.shippingBlock || '',
       staircase: profile.shippingStaircase || '',
       floor: profile.shippingFloor || '',
       apartment: profile.shippingApartment || '',
-      postalCode: profile.shippingPostalCode || '',
-      landmark: profile.shippingLandmark || '',
-      country: profile.shippingCountry || profile.country || profile.billingCountry || 'Romania',
+      postalCode: profile.shippingPostalCode || billingAddressData.postalCode || '',
+      landmark: profile.shippingLandmark || billingAddressData.addressLine2 || '',
+      country:
+        profile.shippingCountry ||
+        profile.billingCountry ||
+        billingAddressData.country ||
+        profile.country ||
+        'Romania',
     };
     const fallbackForManual = {
       ...createEmptyCheckoutAddress(),
@@ -179,11 +207,32 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
       lastName: profile.lastName || '',
       phone: profile.phone || '',
       email: (profile.email || userEmail || '').trim(),
-      county: profile.shippingCounty || profile.county || '',
-      city: profile.shippingCity || profile.city || '',
-      country: profile.shippingCountry || profile.country || 'Romania',
+      county:
+        profile.shippingCounty ||
+        profile.county ||
+        profile.billingCounty ||
+        billingAddressData.county ||
+        '',
+      city:
+        profile.shippingCity ||
+        profile.city ||
+        profile.billingCity ||
+        billingAddressData.city ||
+        '',
+      street:
+        profile.shippingStreet ||
+        billingAddressData.streetAddress ||
+        '',
+      postalCode: profile.shippingPostalCode || billingAddressData.postalCode || '',
+      landmark: profile.shippingLandmark || billingAddressData.addressLine2 || '',
+      country:
+        profile.shippingCountry ||
+        profile.billingCountry ||
+        billingAddressData.country ||
+        profile.country ||
+        'Romania',
     };
-    const initialMode: 'saved_account' | 'manual_entry' = isAddressComplete(savedFromProfile)
+    const initialMode: 'saved_account' | 'manual_entry' = isCheckoutAddressComplete(savedFromProfile)
       ? 'saved_account'
       : 'manual_entry';
     setAddressMode(initialMode);
@@ -205,21 +254,17 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
   const getBillingPayload = () => {
     const email = (checkoutAddress.email || billingEmail || userEmail || '').trim();
     const normalizedSector = normalizeSector(billingSector);
-    const normalizedCounty = (isBucharest(checkoutAddress.city) ? 'Bucuresti' : checkoutAddress.county).trim();
-    const normalizedCountry = (checkoutAddress.country || 'Romania').trim() || 'Romania';
-    const composedAddress = composeAddressLine({
-      county: normalizedCounty,
-      city: checkoutAddress.city,
-      street: checkoutAddress.street,
-      number: checkoutAddress.number,
-      block: checkoutAddress.block,
-      staircase: checkoutAddress.staircase,
-      floor: checkoutAddress.floor,
-      apartment: checkoutAddress.apartment,
-      postalCode: checkoutAddress.postalCode,
-      landmark: checkoutAddress.landmark,
-      country: normalizedCountry,
-    });
+    const normalizedCountry = String(checkoutAddress.country || 'Romania').trim() || 'Romania';
+    const normalizedCounty = normalizeRomanianCounty(
+      isBucharest(checkoutAddress.city) ? 'Bucuresti' : checkoutAddress.county,
+      normalizedCountry,
+    ).trim();
+    const addressLine1 = checkoutAddress.street.trim();
+    const addressLine2 = checkoutAddress.landmark.trim();
+    const normalizedCity = checkoutAddress.city.trim();
+    const normalizedPostalCode = checkoutAddress.postalCode.trim();
+    const inferredAddressNumber = inferAddressNumber(addressLine1);
+    const composedAddress = [addressLine1, addressLine2].filter(Boolean).join(', ');
     const contactFullName = `${checkoutAddress.firstName} ${checkoutAddress.lastName}`.trim();
     return {
       type: billingType,
@@ -228,24 +273,35 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
       vatCode: billingVatCode.trim(),
       regNo: billingRegNo.trim(),
       address: composedAddress,
-      city: checkoutAddress.city.trim(),
+      city: normalizedCity,
       sector: normalizedSector,
       county: normalizedCounty,
       country: normalizedCountry,
+      streetAddress: addressLine1,
+      postalCode: normalizedPostalCode,
+      addressLine2,
+      billingAddress: {
+        country: normalizedCountry,
+        county: normalizedCounty,
+        city: normalizedCity,
+        streetAddress: addressLine1,
+        postalCode: normalizedPostalCode,
+        addressLine2,
+      },
       email,
       phone: checkoutAddress.phone.trim(),
       firstName: checkoutAddress.firstName.trim(),
       lastName: checkoutAddress.lastName.trim(),
       shippingCounty: normalizedCounty,
-      shippingCity: checkoutAddress.city.trim(),
-      shippingStreet: checkoutAddress.street.trim(),
-      shippingNumber: checkoutAddress.number.trim(),
-      shippingBlock: checkoutAddress.block?.trim() || '',
-      shippingStaircase: checkoutAddress.staircase?.trim() || '',
-      shippingFloor: checkoutAddress.floor?.trim() || '',
-      shippingApartment: checkoutAddress.apartment?.trim() || '',
-      shippingPostalCode: checkoutAddress.postalCode.trim(),
-      shippingLandmark: checkoutAddress.landmark?.trim() || '',
+      shippingCity: normalizedCity,
+      shippingStreet: addressLine1,
+      shippingNumber: inferredAddressNumber,
+      shippingBlock: '',
+      shippingStaircase: '',
+      shippingFloor: '',
+      shippingApartment: '',
+      shippingPostalCode: normalizedPostalCode,
+      shippingLandmark: addressLine2,
       shippingCountry: normalizedCountry,
       source: addressMode,
       addressSource: addressMode,
@@ -259,7 +315,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
       accountApartment: savedCheckoutAddress.apartment || '',
       accountPostalCode: savedCheckoutAddress.postalCode || '',
       accountLandmark: savedCheckoutAddress.landmark || '',
-      accountCountry: savedCheckoutAddress.country || '',
+      accountCountry: savedCheckoutAddress.country || 'Romania',
     };
   };
 
@@ -274,8 +330,20 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
     if (!payload.phone || !isValidRoPhone(payload.phone)) {
       return 'Completeaza un numar de telefon valid.';
     }
-    if (!payload.shippingCounty || !payload.shippingCity || !payload.shippingStreet || !payload.shippingNumber) {
-      return 'Completeaza judetul, localitatea, strada si numarul.';
+    if (!payload.country) {
+      return 'Țara este obligatorie';
+    }
+    if (!payload.county) {
+      return 'Județul este obligatoriu';
+    }
+    if (!payload.city) {
+      return 'Localitatea este obligatorie';
+    }
+    if (!isCityMatchingCounty(payload.city, payload.county, payload.country)) {
+      return 'Localitatea nu corespunde județului selectat';
+    }
+    if (!payload.streetAddress) {
+      return 'Adresa este obligatorie';
     }
     if (!isValidRoPostalCode(payload.shippingPostalCode)) {
       return 'Codul postal trebuie sa aiba 6 cifre.';
@@ -289,17 +357,8 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
     if (!payload.address) {
       return 'Completeaza adresa de facturare.';
     }
-    if (!payload.city) {
-      return 'Completeaza orasul de facturare.';
-    }
-    if (payload.type === 'company' && isBucharestCity(payload.city) && !payload.sector) {
-      return 'Pentru firme din Bucuresti, selecteaza sectorul.';
-    }
-    if (!payload.county) {
-      return 'Completeaza judetul de facturare.';
-    }
-    if (!payload.country) {
-      return 'Completeaza tara de facturare.';
+    if (normalizeRomanianText(payload.country) === 'romania' && isBucharest(payload.city) && !payload.sector) {
+      return 'Pentru Bucuresti, selecteaza sectorul.';
     }
     return null;
   };
@@ -430,22 +489,31 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
           'Calendar, task-uri, buget complet',
           'Servicii, istoric, tool-uri premium',
         ];
+  const selectClassName =
+    'w-full h-10 rounded-md border border-input bg-background px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring';
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl p-0 overflow-hidden border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950 shadow-2xl">
-        <div className="bg-neutral-50 dark:bg-neutral-900/50 p-6 flex flex-col items-center justify-center border-b border-neutral-100 dark:border-neutral-800">
-          <div className="mb-4 p-3 bg-white dark:bg-neutral-800 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700">
-            <CartIcon />
+      <DialogContent className="w-[calc(100vw-1rem)] max-w-2xl max-h-[90vh] overflow-y-auto p-0 border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950 shadow-2xl">
+        <div className="p-4 sm:p-6 space-y-5">
+          <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/40 p-4 sm:p-5">
+            <div className="flex items-start gap-3">
+              <div className="p-2.5 bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700 shrink-0">
+                <CartIcon />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100 tracking-tight">
+                  Upgrade plan
+                </h2>
+                <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 leading-relaxed">
+                  Alege planul, completeaza rapid adresa de facturare si continua spre plata.
+                </p>
+              </div>
+            </div>
           </div>
-          <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 tracking-tight">Alege planul potrivit</h2>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-2 text-center max-w-[360px] leading-relaxed">
-            Basic pentru invitatii si RSVP, Premium pentru acces complet.
-          </p>
-        </div>
-
-        <div className="p-6 max-h-[75vh] overflow-y-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+          <section className="space-y-3">
+            <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">1. Alege planul</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => {
@@ -490,30 +558,29 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
               </p>
               <p className="text-sm text-muted-foreground mt-1">{displayPremiumPrice} LEI</p>
             </button>
-          </div>
+            </div>
 
-          <div className="space-y-3 mb-6">
-            {features.map((feature, idx) => (
-              <div key={idx} className="flex items-center gap-3 group">
-                <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                  <Check className="w-3 h-3 text-primary" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              {features.map((feature, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary shrink-0" />
+                  <span className="text-sm text-neutral-600 dark:text-neutral-300">{feature}</span>
                 </div>
-                <span className="text-sm text-neutral-600 dark:text-neutral-300 font-medium">{feature}</span>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </section>
 
-          <div className="mb-6 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 bg-neutral-50/60 dark:bg-neutral-900/30">
-            <div className="mb-3">
-              <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Checkout rapid</p>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                Folosim datele din cont ca sa completezi cat mai putin.
+          <section className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/25 p-4 sm:p-5 space-y-4">
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">2. Date pentru facturare</p>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                Completeaza doar campurile de baza. Restul adreselor sunt optionale.
               </p>
             </div>
 
-            <div className="space-y-2 mb-4">
-              <p className="text-xs font-semibold text-muted-foreground">Folosesti adresa salvata in cont?</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div className="space-y-2">
+              <p className="text-xs font-semibold text-muted-foreground">Adresa folosita pentru checkout</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => {
@@ -529,14 +596,19 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
                       : 'border-neutral-200 dark:border-neutral-700 hover:border-indigo-300'
                   } ${!hasSavedAddress ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  Da, folosesc adresa din cont
+                  Folosesc adresa din cont
                 </button>
                 <button
                   type="button"
                   onClick={() => {
+                    const source = hasSavedAddress ? savedCheckoutAddress : checkoutAddress;
                     setAddressMode('manual_entry');
                     setIsCheckoutAddressEditable(true);
-                    setCheckoutAddress(createEmptyCheckoutAddress());
+                    setCheckoutAddress({
+                      ...createEmptyCheckoutAddress(),
+                      ...source,
+                      country: source.country || 'Romania',
+                    });
                   }}
                   className={`rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
                     addressMode === 'manual_entry'
@@ -544,17 +616,17 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
                       : 'border-neutral-200 dark:border-neutral-700 hover:border-indigo-300'
                   }`}
                 >
-                  Nu, folosesc alta adresa
+                  Completez manual
                 </button>
               </div>
             </div>
 
             {addressMode === 'saved_account' && (
-              <div className="rounded-lg border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/70 dark:bg-emerald-950/20 p-3 mb-4">
+              <div className="rounded-lg border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/70 dark:bg-emerald-950/20 p-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
-                      Adresa salvata in cont
+                      Adresa salvata
                     </p>
                     <p className="text-sm font-medium mt-1">
                       {checkoutAddress.firstName} {checkoutAddress.lastName}
@@ -567,7 +639,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
                     size="sm"
                     onClick={() => setIsCheckoutAddressEditable((v) => !v)}
                   >
-                    {isCheckoutAddressEditable ? 'Ascunde editarea' : 'Editeaza'}
+                    {isCheckoutAddressEditable ? 'Ascunde' : 'Editeaza'}
                   </Button>
                 </div>
               </div>
@@ -575,7 +647,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
 
             {(addressMode === 'manual_entry' || isCheckoutAddressEditable) && (
               <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
                     <label className="text-xs font-semibold text-muted-foreground">Prenume *</label>
                     <Input
@@ -615,82 +687,136 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground">Judet *</label>
+                    <label className="text-xs font-semibold text-muted-foreground">Tara *</label>
                     <select
-                      value={checkoutAddress.county}
-                      onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, county: e.target.value }))}
-                      className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                      value={checkoutAddress.country}
+                      onChange={(e) => {
+                        const nextCountry = e.target.value;
+                        const isRomania = normalizeRomanianText(nextCountry) === 'romania';
+                        setCheckoutAddress((prev) => ({
+                          ...prev,
+                          country: nextCountry,
+                          county: isRomania ? prev.county : '',
+                        }));
+                        if (!isRomania) {
+                          setBillingSector('');
+                        }
+                      }}
+                      className={selectClassName}
                     >
-                      <option value="">Selecteaza judet</option>
-                      {RO_COUNTIES.map((county) => (
-                        <option key={county} value={county}>
-                          {county}
+                      <option value="">Selecteaza tara</option>
+                      {COUNTRY_OPTIONS.map((country) => (
+                        <option key={country} value={country}>
+                          {country}
                         </option>
                       ))}
                     </select>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground">Localitate *</label>
-                    <Input
-                      autoComplete="address-level2"
-                      value={checkoutAddress.city}
-                      onChange={(e) => {
-                        const city = e.target.value;
-                        setCheckoutAddress((prev) => ({
-                          ...prev,
-                          city,
-                          county: isBucharest(city) ? 'Bucuresti' : prev.county,
-                        }));
-                      }}
-                    />
+                    <label className="text-xs font-semibold text-muted-foreground">Oras *</label>
+                    <>
+                      <Input
+                        autoComplete="address-level2"
+                        value={checkoutAddress.city}
+                        onChange={(e) => {
+                          const city = e.target.value;
+                          const bucharest = isBucharest(city);
+                          const canInferCounty =
+                            normalizeRomanianText(checkoutAddress.country) === 'romania';
+                          const inferredCounty = canInferCounty
+                            ? (bucharest ? 'Bucuresti' : inferCountyFromCity(city))
+                            : '';
+                          setCheckoutAddress((prev) => ({
+                            ...prev,
+                            city,
+                            county: inferredCounty
+                              ? inferredCounty
+                              : normalizeRomanianText(prev.county) === 'bucuresti' && !bucharest
+                                ? ''
+                                : prev.county,
+                          }));
+                          if (!bucharest && billingSector) {
+                            setBillingSector('');
+                          }
+                        }}
+                        placeholder="Ex: Cluj-Napoca"
+                        list={normalizeRomanianText(checkoutAddress.country) === 'romania' ? 'ro-city-suggestions' : undefined}
+                      />
+                      {normalizeRomanianText(checkoutAddress.country) === 'romania' && (
+                        <datalist id="ro-city-suggestions">
+                          {ROMANIAN_CITY_SUGGESTIONS.map((city) => (
+                            <option key={city} value={city} />
+                          ))}
+                        </datalist>
+                      )}
+                    </>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground">Strada *</label>
+                    {normalizeRomanianText(checkoutAddress.country) === 'romania' && bucharestSelected ? (
+                      <>
+                        <label className="text-xs font-semibold text-muted-foreground">Sector *</label>
+                        <select
+                          value={normalizeSector(billingSector)}
+                          onChange={(e) => setBillingSector(e.target.value)}
+                          className={selectClassName}
+                        >
+                          <option value="">Alege sectorul</option>
+                          {SECTOR_OPTIONS.map((s) => (
+                            <option key={s} value={s}>
+                              {s}
+                            </option>
+                          ))}
+                        </select>
+                      </>
+                    ) : normalizeRomanianText(checkoutAddress.country) === 'romania' ? (
+                      <>
+                        <label className="text-xs font-semibold text-muted-foreground">Judet *</label>
+                        <select
+                          value={checkoutAddress.county}
+                          onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, county: e.target.value }))}
+                          className={selectClassName}
+                        >
+                          <option value="">Selecteaza judet</option>
+                          {RO_COUNTIES.map((county) => (
+                            <option key={county} value={county}>
+                              {county}
+                            </option>
+                          ))}
+                        </select>
+                      </>
+                    ) : (
+                      <>
+                        <label className="text-xs font-semibold text-muted-foreground">Regiune / Judet *</label>
+                        <Input
+                          value={checkoutAddress.county}
+                          onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, county: e.target.value }))}
+                          placeholder="Ex: Ilfov"
+                        />
+                      </>
+                    )}
+                  </div>
+                  <div className="space-y-1 sm:col-span-2">
+                    <label className="text-xs font-semibold text-muted-foreground">Adresa *</label>
                     <Input
                       autoComplete="address-line1"
                       value={checkoutAddress.street}
                       onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, street: e.target.value }))}
+                      placeholder="Bulevardul Timisoara 101V"
                     />
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground">Numar *</label>
+                  <div className="space-y-1 sm:col-span-2">
+                    <label className="text-xs font-semibold text-muted-foreground">Adresa line 2 (optional)</label>
                     <Input
-                      value={checkoutAddress.number}
-                      onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, number: e.target.value }))}
+                      autoComplete="address-line2"
+                      value={checkoutAddress.landmark}
+                      onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, landmark: e.target.value }))}
+                      placeholder="Apt 4, Bloc 1"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground">Bloc (optional)</label>
-                    <Input
-                      value={checkoutAddress.block || ''}
-                      onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, block: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground">Scara (optional)</label>
-                    <Input
-                      value={checkoutAddress.staircase || ''}
-                      onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, staircase: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground">Etaj (optional)</label>
-                    <Input
-                      value={checkoutAddress.floor || ''}
-                      onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, floor: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground">Apartament (optional)</label>
-                    <Input
-                      value={checkoutAddress.apartment || ''}
-                      onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, apartment: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground">Cod postal *</label>
+                    <label className="text-xs font-semibold text-muted-foreground">ZIP *</label>
                     <Input
                       autoComplete="postal-code"
                       inputMode="numeric"
@@ -702,32 +828,28 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
                           postalCode: String(e.target.value || '').replace(/\D/g, '').slice(0, 6),
                         }))
                       }
-                    />
-                  </div>
-                  <div className="space-y-1 md:col-span-2">
-                    <label className="text-xs font-semibold text-muted-foreground">
-                      Reper / detalii livrare (optional)
-                    </label>
-                    <Input
-                      value={checkoutAddress.landmark || ''}
-                      onChange={(e) => setCheckoutAddress((prev) => ({ ...prev, landmark: e.target.value }))}
+                      placeholder="000000"
                     />
                   </div>
                 </div>
               </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-muted-foreground">Tip facturare</label>
                 <select
                   value={billingType}
                   onChange={(e) => setBillingType(e.target.value === 'company' ? 'company' : 'individual')}
-                  className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  className={selectClassName}
                 >
                   <option value="individual">Persoana fizica</option>
                   <option value="company">Companie</option>
                 </select>
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-muted-foreground">Nume pe factura</label>
+                <Input value={billingName} onChange={(e) => setBillingName(e.target.value)} placeholder="Ex: Andrei Popescu" />
               </div>
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-muted-foreground">{taxCodeLabel}</label>
@@ -743,86 +865,37 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
                     <label className="text-xs font-semibold text-muted-foreground">Nr. Reg. Comertului</label>
                     <Input value={billingRegNo} onChange={(e) => setBillingRegNo(e.target.value)} placeholder="J40/0000/2026" />
                   </div>
-                  {bucharestSelected && (
-                    <div className="space-y-1 md:col-span-2">
-                      <label className="text-xs font-semibold text-muted-foreground">Sector (obligatoriu pentru firme din Bucuresti)</label>
-                      <select
-                        value={normalizeSector(billingSector)}
-                        onChange={(e) => setBillingSector(e.target.value)}
-                        className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                      >
-                        <option value="">Alege sectorul</option>
-                        {SECTOR_OPTIONS.map((s) => (
-                          <option key={s} value={s}>
-                            {s}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
                 </>
               )}
             </div>
-          </div>
+          </section>
 
           {error && (
-            <div className="flex items-center gap-2 p-3 mb-4 bg-red-50 dark:bg-red-900/10 rounded-md text-red-600 text-xs font-medium animate-in fade-in">
+            <div className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-900/10 rounded-md text-red-600 text-sm font-medium animate-in fade-in">
               <AlertTriangle className="w-4 h-4 shrink-0" />
               {error}
             </div>
           )}
 
-          <div className="flex items-center justify-between mb-6 p-4 rounded-lg bg-neutral-50 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800">
-            <div className="flex flex-col">
-              <span className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
-                {normalizedCurrentPlan === 'basic' && selectedPlan === 'premium' ? 'De plata (diferenta)' : 'Pret de plata'}
-              </span>
-              <div className="flex items-baseline gap-1.5">
-                {displayOldPrice && (
-                  <span className="text-sm text-neutral-400 line-through decoration-neutral-400/50">{displayOldPrice} LEI</span>
-                )}
+          <section className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/40 p-4 sm:p-5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
+                  {normalizedCurrentPlan === 'basic' && selectedPlan === 'premium' ? 'De plata (diferenta)' : 'Pret de plata'}
+                </p>
+                <p className="text-[11px] text-neutral-500 mt-1">
+                  Plan curent: {normalizedCurrentPlan === 'free' ? 'Free' : normalizedCurrentPlan === 'basic' ? 'Basic' : 'Premium'} ({displayCurrentPlanPrice} LEI)
+                </p>
+                {displayOldPrice && <p className="text-sm text-neutral-400 line-through mt-1">{displayOldPrice} LEI</p>}
               </div>
-              <span className="text-[11px] text-neutral-500 mt-1">
-                Plan curent: {normalizedCurrentPlan === 'free' ? 'Free' : normalizedCurrentPlan === 'basic' ? 'Basic' : 'Premium'} ({displayCurrentPlanPrice} LEI)
-              </span>
+              <p className="text-2xl font-bold text-neutral-900 dark:text-white">{displayPrice} LEI</p>
             </div>
-            <div className="text-right">
-              <span className="text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">{displayPrice} LEI</span>
-            </div>
-          </div>
-          <div></div>
-          {/* <Button
-            type="button"
-            className="w-full h-11 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 bg-[#635BFF] hover:bg-[#5851E3] text-white"
-            onClick={handlePayment}
-            disabled={isProcessing || isProcessingNetopia || !canProceedToPayment}
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Se initiaza plata...
-              </>
-            ) : (
-              <>
-                <ExternalLink className="w-4 h-4 mr-2" /> {canProceedToPayment ? `Plateste upgrade la planul ${selectedPlan === 'basic' ? 'Basic' : 'Premium'} cu Stripe` : 'Plan deja activ'}
-              </>
-            )}
-          </Button> */}  
-
-
-
-
-
-
-          <div className="flex items-center gap-3 my-3">
-            <div className="flex-1 h-px bg-neutral-100 dark:bg-neutral-800" />
-            <span className="text-[10px] text-neutral-400 font-medium">SAU</span>
-            <div className="flex-1 h-px bg-neutral-100 dark:bg-neutral-800" />
-          </div>
+          </section>
 
           <Button
             type="button"
             variant="outline"
-            className="w-full h-11 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 bg-[#635BFF] hover:bg-[#5851E3] text-white transition-all"
+            className="w-full h-11 text-base font-medium shadow-lg hover:shadow-xl bg-[#635BFF] hover:bg-[#5851E3] text-white"
             onClick={handleNetopiaPayment}
             disabled={isProcessing || isProcessingNetopia || !canProceedToPayment}
           >
@@ -837,8 +910,8 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
             )}
           </Button>
 
-          <p className="text-[10px] text-center text-neutral-400 mt-4">
-            Plata securizata. Nu stocam datele cardului tau.
+          <p className="text-[11px] text-center text-neutral-400 pb-1">
+            Plata securizata. Nu stocam datele cardului.
           </p>
         </div>
       </DialogContent>
