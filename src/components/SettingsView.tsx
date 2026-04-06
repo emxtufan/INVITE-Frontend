@@ -82,6 +82,7 @@ const INTRO_TEMPLATES = new Set([
   'christening-dark',
   'regal',
   'jurassic-park',
+  'little-mermaid',
 ]);
 
 const CONFIG_TEMPLATE_TOUR_VERSION = "v1";
@@ -345,6 +346,8 @@ const INLINE_TIMELINE_TEMPLATES = new Set([
   "frozen",
   "unicorn-academy",
   "etern-botanica",
+  "little-mermaid",
+  "jurassic-park",
 ]);
 
 const SettingsContent: React.FC<{
@@ -736,7 +739,7 @@ const SettingsContent: React.FC<{
               <Toggle on={introPreview} onChange={(v) => onIntroPreviewChange?.(v)} />
             </div>
 
-            {(selectedTemplate?.startsWith('castle-magic') || selectedTemplate === 'lord-effects') && (
+            {(selectedTemplate?.startsWith('castle-magic') || selectedTemplate === 'lord-effects' || selectedTemplate === 'little-mermaid') && (
               <Collapsible title="Texte Intro Castel" defaultOpen={false} variant="sub">
                 <div className="space-y-3">
                   <p className="text-[9px] text-zinc-400 italic mb-2">
@@ -2007,26 +2010,17 @@ const SettingsView: React.FC<SettingsViewProps> = ({
   };
 
   useEffect(() => {
-    if (selectedTemplate !== "castle-magic-girl") return;
+    const tpl = selectedTemplate || "";
+    if (!["castle-magic-girl", "little-mermaid"].includes(tpl)) return;
     if (!isActive) return;
 
-    const girlResetKey = `weddingPro_force_reset_castle_magic_girl_${session.userId || "anon"}`;
-    const shouldForceReset = localStorage.getItem(girlResetKey);
+    const forceResetKey = `weddingPro_force_reset_${tpl}_${session.userId || "anon"}`;
+    const shouldForceReset = localStorage.getItem(forceResetKey);
     if (!shouldForceReset) return;
 
-    localStorage.removeItem(girlResetKey);
+    localStorage.removeItem(forceResetKey);
     setShowResetConfirm(true);
-    toast({
-      title: "Please wait",
-      description: "Please wait to reset default...",
-    });
-
-    const timer = window.setTimeout(() => {
-      resetToDefault();
-    }, 180);
-
-    return () => window.clearTimeout(timer);
-  }, [isActive, resetToDefault, selectedTemplate, session.userId, toast]);
+  }, [isActive, selectedTemplate, session.userId]);
 
   const pushTimeline = (nt: TimelineItem[]) => {
     setTimeline(nt);

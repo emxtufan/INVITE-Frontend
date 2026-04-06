@@ -245,18 +245,36 @@ const OceanDoorSeam: React.FC<{side:'left'|'right'}> = ({side})=>(
     <div style={{
       position:'absolute',top:0,left:side==='left'?'100%':0,width:3,height:'100%',
       background:`linear-gradient(to bottom,transparent 0%,${C.tealPale} 6%,${C.tealPale} 94%,transparent 100%)`,
-      boxShadow:`0 0 8px 4px ${hexToRgba(C.tealPale,.95)},0 0 20px 10px ${hexToRgba(C.teal,.8)},0 0 50px 22px ${hexToRgba(C.bright,.5)},0 0 100px 40px rgba(122,79,190,.3)`,
+      boxShadow:`0 0 6px 3px ${hexToRgba(C.tealPale,.95)},0 0 18px 8px ${hexToRgba(C.teal,.75)},0 0 45px 18px ${hexToRgba(C.bright,.5)},0 0 90px 35px ${hexToRgba(C.teal,.28)}`,
       animation:'seam-pulse 2.8s ease-in-out infinite',
     }}/>
-    <div style={{position:'absolute',top:0,left:0,width:220,height:'100%',transform:side==='left'?'translateX(-100%)':'translateX(0%)',background:side==='left'?`linear-gradient(to left,${C.tealPale} 0%,${hexToRgba(C.teal,.6)} 3%,${hexToRgba(C.bright,.25)} 12%,transparent 100%)`:`linear-gradient(to right,${C.tealPale} 0%,${hexToRgba(C.teal,.6)} 3%,${hexToRgba(C.bright,.25)} 12%,transparent 100%)`,filter:'blur(10px)',animation:'seam-halo 2.8s ease-in-out infinite',pointerEvents:'none'}}/>
-    <div style={{position:'absolute',top:0,left:0,width:400,height:'100%',transform:side==='left'?'translateX(-100%)':'translateX(0%)',background:side==='left'?`linear-gradient(to left,${hexToRgba(C.teal,.3)} 0%,rgba(122,79,190,.1) 20%,transparent 100%)`:`linear-gradient(to right,${hexToRgba(C.teal,.3)} 0%,rgba(122,79,190,.1) 20%,transparent 100%)`,filter:'blur(30px)',animation:'seam-halo 2.8s ease-in-out infinite',pointerEvents:'none'}}/>
+    <div style={{
+      position:'absolute',top:0,left:0,width:200,height:'100%',
+      transform:side==='left'?'translateX(-100%)':'translateX(0%)',
+      background:side==='left'
+        ? `linear-gradient(to left,${C.tealPale} 0%,${hexToRgba(C.teal,.7)} 3%,${hexToRgba(C.bright,.35)} 10%,${hexToRgba(C.teal,.1)} 30%,transparent 100%)`
+        : `linear-gradient(to right,${C.tealPale} 0%,${hexToRgba(C.teal,.7)} 3%,${hexToRgba(C.bright,.35)} 10%,${hexToRgba(C.teal,.1)} 30%,transparent 100%)`,
+      filter:'blur(8px)',
+      animation:'seam-halo 2.8s ease-in-out infinite',
+      pointerEvents:'none',
+    }}/>
+    <div style={{
+      position:'absolute',top:0,left:0,width:380,height:'100%',
+      transform:side==='left'?'translateX(-100%)':'translateX(0%)',
+      background:side==='left'
+        ? `linear-gradient(to left,${hexToRgba(C.teal,.35)} 0%,${hexToRgba(C.teal,.12)} 20%,transparent 100%)`
+        : `linear-gradient(to right,${hexToRgba(C.teal,.35)} 0%,${hexToRgba(C.teal,.12)} 20%,transparent 100%)`,
+      filter:'blur(28px)',
+      animation:'seam-halo 2.8s ease-in-out infinite',
+      pointerEvents:'none',
+    }}/>
   </div>
 );
 
 const DoorHint: React.FC = ()=>(
   <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:8}}>
     <span style={{fontFamily:F.label,fontSize:8,letterSpacing:'.4em',textTransform:'uppercase',color:hexToRgba(C.tealPale,.85)}}>Scroll down</span>
-    <span style={{fontSize:14,color:hexToRgba(C.tealPale,.85),animation:'dh-down 1.6s ease-in-out infinite'}}>↓</span>
+    <span style={{fontSize:14,color:hexToRgba(C.tealPale,.85)}}>↓</span>
   </div>
 );
 
@@ -264,21 +282,21 @@ const DoorHint: React.FC = ()=>(
 // MERMAID OVERLAY TEXT — pe uși (faza 1 + faza 2)
 // ─────────────────────────────────────────────────────────────────────────────
 const MermaidOverlayText: React.FC<{
-  childName:string; subtitle:string; isWedding?:boolean; partner2Name?:string;
+  childName:string; subtitle:string; welcomeText:string; isWedding?:boolean; partner2Name?:string;
   editMode?:boolean;
   overlayRef?:React.RefObject<HTMLDivElement>;
   nameRef?:React.RefObject<HTMLDivElement>;
   inviteRef?:React.RefObject<HTMLDivElement>;
-  onChildNameChange?:(v:string)=>void; onSubtitleChange?:(v:string)=>void;
+  onChildNameChange?:(v:string)=>void; onSubtitleChange?:(v:string)=>void; onWelcomeChange?:(v:string)=>void;
   inviteTop?:string; inviteMiddle?:string; inviteBottom?:string; inviteTag?:string; dateStr?:string;
   onInviteTopChange?:(v:string)=>void; onInviteMiddleChange?:(v:string)=>void;
   onInviteBottomChange?:(v:string)=>void; onInviteTagChange?:(v:string)=>void;
   previewMode?:'doors'|'static';
   i: any;
-}> = ({childName,subtitle,isWedding,partner2Name,editMode,overlayRef,nameRef,inviteRef,
-       onChildNameChange,onSubtitleChange,inviteTop,inviteMiddle,inviteBottom,inviteTag,dateStr,
+}> = ({childName,subtitle,welcomeText,isWedding,partner2Name,editMode,overlayRef,nameRef,inviteRef,
+       onChildNameChange,onSubtitleChange,onWelcomeChange,inviteTop,inviteMiddle,inviteBottom,inviteTag,dateStr,
        onInviteTopChange,onInviteMiddleChange,onInviteBottomChange,onInviteTagChange,previewMode,i})=>{
-  const S = '0 2px 12px rgba(0,0,0,.95),0 4px 28px rgba(0,0,0,.7)';
+  const S = '0 1px 6px rgba(0,0,0,.7)';
   const isStatic = previewMode==='static';
   const nameTop       = isStatic?'33%':(editMode?'14%':'50%');
   const nameTransform = isStatic?'translateY(-50%)':(editMode?'none':'translateY(-50%)');
@@ -293,12 +311,9 @@ const MermaidOverlayText: React.FC<{
 
       {/* Logo top */}
       <div style={{position:'absolute',top:'4%',left:0,right:0,textAlign:'center',zIndex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6}}>
-        {/* <img src={i.logo} alt="Mica Sirenă" style={{width:'min(180px,48vw)',objectFit:'contain',filter:`brightness(0) invert(1) drop-shadow(0 0 16px ${hexToRgba(C.teal,.7)})`,opacity:.9}}/> */}
-        <div style={{display:'flex',gap:6,justifyContent:'center'}}>
-          {RAINBOW.slice(0,5).map((c,i)=>(
-            <SeaStar key={i} size={14+((i*3)%6)} color={c} style={{animation:`ar-starSpin ${2+i*.4}s ${i*.2}s ease-in-out infinite`,filter:`drop-shadow(0 0 5px ${c})`}}/>
-          ))}
-        </div>
+        <InlineEdit tag="p" editMode={!!editMode} value={welcomeText} onChange={v=>onWelcomeChange?.(v)}
+          textKey="intro:welcome" textLabel="Intro Welcome"
+          style={{fontFamily:F.label,fontSize:'.62rem',fontWeight:700,letterSpacing:'.44em',textTransform:'uppercase',color:C.tealPale,textShadow:S,margin:'3px 0 0',opacity:.92}}/>
       </div>
 
       {/* Phase 1 — name */}
@@ -307,22 +322,19 @@ const MermaidOverlayText: React.FC<{
           {isWedding?(
             <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'0.2em'}}>
               <InlineEdit tag="span" editMode={!!editMode} value={childName} onChange={v=>onChildNameChange?.(v)}
+                textKey="intro:name" textLabel="Intro Name"
                 style={{fontFamily:F.display,fontSize:'clamp(36px,9vw,62px)',fontWeight:900,color:C.white,textShadow:S,lineHeight:1}}/>
               <span style={{fontFamily:F.magic,fontSize:'clamp(22px,5vw,36px)',color:C.tealPale,textShadow:S}}>&amp;</span>
               <span style={{fontFamily:F.display,fontSize:'clamp(36px,9vw,62px)',fontWeight:900,color:C.white,textShadow:S,lineHeight:1}}>{partner2Name}</span>
             </div>
           ):(
             <InlineEdit tag="h2" editMode={!!editMode} value={childName} onChange={v=>onChildNameChange?.(v)}
+              textKey="intro:name" textLabel="Intro Name"
               style={{fontFamily:F.display,fontSize:'clamp(38px,10vw,68px)',fontWeight:900,lineHeight:1.05,color:C.white,textShadow:S,margin:'2px auto 0',maxWidth:'100%',overflowWrap:'anywhere',wordBreak:'break-word',letterSpacing:3}}/>
           )}
           <InlineEdit tag="p" editMode={!!editMode} value={subtitle} onChange={v=>onSubtitleChange?.(v)}
+            textKey="intro:subtitle" textLabel="Intro Subtitle"
             style={{fontFamily:F.magic,fontSize:'1.3rem',color:C.tealPale,textShadow:S,marginTop:2,opacity:.9}}/>
-          {/* Ariel + Baby */}
-          <div style={{display:'flex',justifyContent:'center',gap:16,marginTop:8}}>
-            <div style={{animation:'ar-float 4s .4s ease-in-out infinite'}}>
-              <img src={i.ariel} alt="" style={{height:70,objectFit:'contain',filter:`drop-shadow(0 4px 14px ${hexToRgba(C.teal,.6)})`}}/>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -330,12 +342,16 @@ const MermaidOverlayText: React.FC<{
       <div style={{position:'absolute',top:inviteTopPos,left:0,right:0,transform:inviteTransform,textAlign:'center',zIndex:1,padding:'0 36px',pointerEvents:editMode?'auto':'none'}}>
         <div ref={inviteRef} style={{display:'flex',flexDirection:'column',gap:12,width:'100%',opacity:inviteOpacity}}>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteTop||'Cu bucurie vă anunțăm'} onChange={v=>onInviteTopChange?.(v)}
+            textKey="intro:inviteTop" textLabel="Intro Top"
             style={{fontFamily:F.label,fontSize:'.65rem',fontWeight:700,letterSpacing:'.5em',textTransform:'uppercase',color:C.white,textShadow:S,margin:0}}/>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteMiddle||dateStr||'Data Evenimentului'} onChange={v=>onInviteMiddleChange?.(v)}
+            textKey="intro:inviteMiddle" textLabel="Intro Middle"
             style={{fontFamily:F.magic,fontSize:'2rem',lineHeight:1.2,color:C.tealPale,textShadow:S,margin:0}}/>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteBottom||'va fi botezată'} onChange={v=>onInviteBottomChange?.(v)}
+            textKey="intro:inviteBottom" textLabel="Intro Bottom"
             style={{fontFamily:F.label,fontSize:'.68rem',fontWeight:400,letterSpacing:'.35em',textTransform:'uppercase',color:C.white,textShadow:S,margin:0,lineHeight:2}}/>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteTag||'🐚 deschide valurile 🌊'} onChange={v=>onInviteTagChange?.(v)}
+            textKey="intro:inviteTag" textLabel="Intro Tag"
             style={{fontFamily:F.label,fontSize:'.55rem',fontWeight:700,letterSpacing:'.5em',textTransform:'uppercase',color:C.tealPale,textShadow:S,margin:'2px 0 0',opacity:.85}}/>
         </div>
       </div>
@@ -350,8 +366,8 @@ const MermaidDoorIntro: React.FC<{
   editMode?:boolean; previewMode?:'doors'|'static';
   contentEl?:HTMLElement|null; scrollContainer?:HTMLElement|null;
   childName?:string; partner2Name?:string; isWedding?:boolean;
-  subtitle?:string; inviteTop?:string; inviteMiddle?:string; inviteBottom?:string; inviteTag?:string; dateStr?:string;
-  onChildNameChange?:(v:string)=>void; onSubtitleChange?:(v:string)=>void;
+  subtitle?:string; welcomeText?:string; inviteTop?:string; inviteMiddle?:string; inviteBottom?:string; inviteTag?:string; dateStr?:string;
+  onChildNameChange?:(v:string)=>void; onSubtitleChange?:(v:string)=>void; onWelcomeChange?:(v:string)=>void;
   onInviteTopChange?:(v:string)=>void; onInviteMiddleChange?:(v:string)=>void;
   onInviteBottomChange?:(v:string)=>void; onInviteTagChange?:(v:string)=>void;
   onDoorsOpen?:()=>void;
@@ -360,9 +376,9 @@ const MermaidDoorIntro: React.FC<{
 }> = ({
   editMode,previewMode='doors',contentEl,scrollContainer,
   childName='Ariel',partner2Name='',isWedding=false,
-  subtitle='te invită în lumea subacvatică',
+  subtitle='te invită în lumea subacvatică',welcomeText='WELCOME',
   inviteTop,inviteMiddle,inviteBottom,inviteTag,dateStr,
-  onChildNameChange,onSubtitleChange,
+  onChildNameChange,onSubtitleChange,onWelcomeChange,
   onInviteTopChange,onInviteMiddleChange,onInviteBottomChange,onInviteTagChange,
   onDoorsOpen,
   doorImg: doorImgProp, doorImgMobile: doorImgMobileProp,
@@ -417,18 +433,12 @@ const MermaidDoorIntro: React.FC<{
 
     const doorImg = (isMobile ? doorImgMobileProp : doorImgProp) || doorImgProp || IMG_BG;
 
-  const overlayProps={childName,subtitle,isWedding,partner2Name,editMode:!!editMode,inviteTop,inviteMiddle,inviteBottom,inviteTag,dateStr,onChildNameChange,onSubtitleChange,onInviteTopChange,onInviteMiddleChange,onInviteBottomChange,onInviteTagChange,previewMode,i};
+  const overlayProps={childName,subtitle,welcomeText,isWedding,partner2Name,editMode:!!editMode,inviteTop,inviteMiddle,inviteBottom,inviteTag,dateStr,onChildNameChange,onSubtitleChange,onWelcomeChange,onInviteTopChange,onInviteMiddleChange,onInviteBottomChange,onInviteTagChange,previewMode,i};
 
   const DoorHalf: React.FC<{side:'left'|'right'}> = ({side})=>(
     <>
       {/* width:200% + ancorat pe aceeași latură → fiecare ușă vede JUMĂTATEA ei din imagine */}
       <div style={{position:'absolute',top:0,[side]:0,width:'200%',height:'100%',backgroundImage:`url(${doorImg})`,backgroundSize:'cover',backgroundPosition:'center'}}/>
-      {/* Bubbles */}
-      <div style={{position:'absolute',inset:0,overflow:'hidden',pointerEvents:'none'}}>
-        {Array.from({length:6},(_,idx)=>(
-          <div key={idx} style={{position:'absolute',left:`${20+idx*14}%`,bottom:0,width:8+idx*3,height:8+idx*3,borderRadius:'50%',background:`radial-gradient(circle at 35% 30%,rgba(255,255,255,.4),${hexToRgba(C.teal,.1)})`,border:`1px solid ${hexToRgba(C.tealPale,.3)}`,animation:`ar-bubble ${3+idx*.8}s ${idx*.6}s ease-in infinite`}}/>
-        ))}
-      </div>
     </>
   );
 
@@ -786,6 +796,7 @@ export const CASTLE_DEFAULTS = {
   showWelcomeText:true, showCelebrationText:true,
   weddingDate:'', rsvpButtonText:'Confirmă Prezența',
   castleIntroSubtitle:'te invită în lumea subacvatică',
+  castleIntroWelcome:'WELCOME',
   castleInviteTop:'Cu multă bucurie vă anunțăm',
   castleInviteMiddle:'', castleInviteBottom:'va fi botezată',
   castleInviteTag:'🐚 deschide valurile 🌊', colorTheme:'default',
@@ -833,20 +844,30 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
 
   const safeJSON=(s:string|undefined,fb:any)=>{try{return s?JSON.parse(s):fb;}catch{return fb;}};
   const pr=profile as any;
+  const _pq=useRef<Record<string,any>>({});
+  const _pt=useRef<ReturnType<typeof setTimeout>|null>(null);
+  const getProfileValue = useCallback(<T,>(field: string, fallback: T): T => {
+    if (Object.prototype.hasOwnProperty.call(_pq.current, field)) {
+      return _pq.current[field] as T;
+    }
+    const fromProfile = pr[field];
+    return (fromProfile ?? fallback) as T;
+  }, [pr]);
   const p={
-    partner1Name: pr.partner1Name??CASTLE_DEFAULTS.partner1Name,
-    partner2Name: pr.partner2Name??'',
-    eventType:    pr.eventType??'baptism',
-    weddingDate:  pr.weddingDate??'',
-    welcomeText:  pr.welcomeText??CASTLE_DEFAULTS.welcomeText,
-    celebrationText: pr.celebrationText??CASTLE_DEFAULTS.celebrationText,
-    showWelcomeText:     pr.showWelcomeText??true,
-    showCelebrationText: pr.showCelebrationText??true,
-    castleIntroSubtitle: pr.castleIntroSubtitle??CASTLE_DEFAULTS.castleIntroSubtitle,
-    castleInviteTop:     pr.castleInviteTop??CASTLE_DEFAULTS.castleInviteTop,
-    castleInviteMiddle:  pr.castleInviteMiddle??CASTLE_DEFAULTS.castleInviteMiddle,
-    castleInviteBottom:  pr.castleInviteBottom??CASTLE_DEFAULTS.castleInviteBottom,
-    castleInviteTag:     pr.castleInviteTag??CASTLE_DEFAULTS.castleInviteTag,
+    partner1Name: getProfileValue('partner1Name',CASTLE_DEFAULTS.partner1Name),
+    partner2Name: getProfileValue('partner2Name',''),
+    eventType:    getProfileValue('eventType','baptism'),
+    weddingDate:  getProfileValue('weddingDate',''),
+    welcomeText:  getProfileValue('welcomeText',CASTLE_DEFAULTS.welcomeText),
+    celebrationText: getProfileValue('celebrationText',CASTLE_DEFAULTS.celebrationText),
+    showWelcomeText: getProfileValue('showWelcomeText',true),
+    showCelebrationText: getProfileValue('showCelebrationText',true),
+    castleIntroSubtitle: getProfileValue('castleIntroSubtitle',CASTLE_DEFAULTS.castleIntroSubtitle),
+    castleIntroWelcome: getProfileValue('castleIntroWelcome',CASTLE_DEFAULTS.castleIntroWelcome),
+    castleInviteTop: getProfileValue('castleInviteTop',CASTLE_DEFAULTS.castleInviteTop),
+    castleInviteMiddle: getProfileValue('castleInviteMiddle',CASTLE_DEFAULTS.castleInviteMiddle),
+    castleInviteBottom: getProfileValue('castleInviteBottom',CASTLE_DEFAULTS.castleInviteBottom),
+    castleInviteTag: getProfileValue('castleInviteTag',CASTLE_DEFAULTS.castleInviteTag),
   };
   const isWedding=['wedding','anniversary'].includes(p.eventType.toLowerCase());
   const babyName=p.partner1Name;
@@ -856,6 +877,10 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
   const displayYear    = wd?wd.getFullYear():'';
   const displayWeekday = wd?wd.toLocaleDateString('ro-RO',{weekday:'long'}):'';
   const dateStr        = wd?wd.toLocaleDateString('ro-RO',{day:'numeric',month:'long',year:'numeric'}):'Data Evenimentului';
+  const heroTextStyles = getProfileValue<Record<string, any>>('heroTextStyles', {});
+  const introTextStyles = getProfileValue<Record<string, any>>('introTextStyles', {});
+  const heroBlock: InvitationBlock = { id:'__hero__', type:'__hero__' as any, show:true, textStyles: heroTextStyles } as any;
+  const introBlock: InvitationBlock = { id:'__intro__', type:'intro' as any, show:true, textStyles: introTextStyles } as any;
 
   // Blocks
   const blocksFromDB:InvitationBlock[]|null=safeJSON(pr.customSections,null);
@@ -872,8 +897,6 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
   const addBlockAt=useCallback((afterIdx:number,type:string,def:any)=>{setBlocks(prev=>{const nb=[...prev];nb.splice(afterIdx+1,0,{id:Date.now().toString(),type:type as InvitationBlockType,show:true,...def});onBlocksUpdate?.(nb);return nb;});},[onBlocksUpdate]);
   const handleInsertAt=(afterIdx:number,type:string,def:any)=>{addBlockAt(afterIdx,type,def);setOpenInsertAt(null);};
 
-  const _pq=useRef<Record<string,any>>({});
-  const _pt=useRef<ReturnType<typeof setTimeout>|null>(null);
   const upProfile=useCallback((field:string,value:any)=>{_pq.current={..._pq.current,[field]:value};if(_pt.current)clearTimeout(_pt.current);_pt.current=setTimeout(()=>{onProfileUpdate?.(_pq.current);_pq.current={};},400);},[onProfileUpdate]);
 
   // Timeline
@@ -960,10 +983,10 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
       )}
 
       {showIntro&&(
-        <BlockStyleProvider value={{blockId:'__intro__',textStyles:pr.introTextStyles}}>
+        <BlockStyleProvider value={{blockId:'__intro__',textStyles:introTextStyles}}>
           <MermaidDoorIntro contentEl={contentEl} scrollContainer={scrollContainer}
             childName={p.partner1Name} partner2Name={p.partner2Name}
-            isWedding={isWedding} subtitle={p.castleIntroSubtitle}
+            isWedding={isWedding} subtitle={p.castleIntroSubtitle} welcomeText={p.castleIntroWelcome}
             inviteTop={p.castleInviteTop} inviteMiddle={p.castleInviteMiddle||dateStr}
             inviteBottom={p.castleInviteBottom} inviteTag={p.castleInviteTag} dateStr={dateStr}
             doorImg={heroBgImage} doorImgMobile={heroBgImageMobile}
@@ -977,16 +1000,17 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
           <div style={{marginBottom:32,padding:20,background:`${hexToRgba(C.ocean,.9)}`,borderRadius:20,border:`1px solid ${hexToRgba(C.teal,.3)}`}}>
             <p style={{fontFamily:F.label,fontSize:10,letterSpacing:'.4em',color:C.teal,textTransform:'uppercase',marginBottom:12}}>Preview intro (editabil)</p>
             <div style={{borderRadius:14,overflow:'hidden',border:`1px solid ${hexToRgba(C.teal,.25)}`}}>
-              <BlockStyleProvider value={{blockId:'__intro__',textStyles:pr.introTextStyles,onTextSelect:(k,l)=>onBlockSelect?.({id:'__intro__',type:'intro' as any,show:true} as any,-1,k,l)}}>
+              <BlockStyleProvider value={{blockId:'__intro__',textStyles:introTextStyles,onTextSelect:(k,l)=>onBlockSelect?.(introBlock,-1,k,l)}}>
                 <MermaidDoorIntro editMode previewMode="static"
                   childName={p.partner1Name} partner2Name={p.partner2Name}
-                  isWedding={isWedding} subtitle={p.castleIntroSubtitle}
+                  isWedding={isWedding} subtitle={p.castleIntroSubtitle} welcomeText={p.castleIntroWelcome}
                   inviteTop={p.castleInviteTop} inviteMiddle={p.castleInviteMiddle||dateStr}
                   inviteBottom={p.castleInviteBottom} inviteTag={p.castleInviteTag} dateStr={dateStr}
                   doorImg={heroBgImage} doorImgMobile={heroBgImageMobile}
                   i={i}
                   onChildNameChange={v=>upProfile('partner1Name',v)}
                   onSubtitleChange={v=>upProfile('castleIntroSubtitle',v)}
+                  onWelcomeChange={v=>upProfile('castleIntroWelcome',v)}
                   onInviteTopChange={v=>upProfile('castleInviteTop',v)}
                   onInviteMiddleChange={v=>upProfile('castleInviteMiddle',v)}
                   onInviteBottomChange={v=>upProfile('castleInviteBottom',v)}
@@ -1023,7 +1047,7 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
         <div style={{position:'relative',zIndex:2,maxWidth:440,margin:'0 auto',padding:'28px 16px 0'}}>
 
           {/* ── HERO CARD — exact reference structure ── */}
-          <BlockStyleProvider value={{blockId:'__hero__',textStyles:pr.heroTextStyles||{},onTextSelect:(k,l)=>onBlockSelect?.({id:'__hero__',type:'__hero__' as any,show:true} as any,-1,k,l)}}>
+          <BlockStyleProvider value={{blockId:'__hero__',textStyles:heroTextStyles,onTextSelect:(k,l)=>onBlockSelect?.(heroBlock,-1,k,l)}}>
             <Reveal from="fade">
               <div style={{...getSectionStyle(),textAlign:'center',padding:'0 0 28px'}}>
                 <WaveBar rainbow/>
@@ -1067,6 +1091,7 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
                   {p.showWelcomeText&&(
                     <Reveal from="bottom" delay={0.2}>
                       <InlineEdit tag="p" editMode={editMode} value={p.welcomeText} onChange={v=>upProfile('welcomeText',v)}
+                        textKey="hero:welcome" textLabel="Hero Welcome"
                         style={{fontFamily:F.body,fontSize:13,fontWeight:700,fontStyle:'italic',color:hexToRgba(C.tealPale,.6),margin:'0 0 14px',lineHeight:1.7}}/>
                     </Reveal>
                   )}
@@ -1075,10 +1100,12 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
                   <Reveal from="bottom" delay={0.25}>
                     {!isWedding?(
                       <InlineEdit tag="h1" editMode={editMode} value={p.partner1Name||'Prenume'} onChange={v=>upProfile('partner1Name',v)}
+                        textKey="hero:name1" textLabel="Hero Name 1"
                         style={{fontFamily:F.display,fontWeight:900,fontSize:'clamp(32px,8vw,50px)',color:C.white,margin:'0 0 4px',lineHeight:1.05,letterSpacing:3,textShadow:`0 0 28px ${hexToRgba(C.teal,.6)},0 2px 0 rgba(0,0,0,.5)`}}/>
                     ):(
                       <div style={{margin:'0 0 4px'}}>
                         <InlineEdit tag="h1" editMode={editMode} value={p.partner1Name||'Prenume 1'} onChange={v=>upProfile('partner1Name',v)}
+                          textKey="hero:name1" textLabel="Hero Name 1"
                           style={{fontFamily:F.display,fontWeight:900,fontSize:'clamp(26px,7vw,40px)',color:C.white,margin:0,lineHeight:1.1,letterSpacing:3,textShadow:`0 0 24px ${hexToRgba(C.teal,.5)},0 2px 0 rgba(0,0,0,.5)`}}/>
                         <div style={{margin:'10px 0',display:'flex',alignItems:'center',gap:14,justifyContent:'center'}}>
                           <div style={{flex:1,height:'.8px',background:`linear-gradient(to right,transparent,${C.teal})`,opacity:.5}}/>
@@ -1086,6 +1113,7 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
                           <div style={{flex:1,height:'.8px',background:`linear-gradient(to left,transparent,${C.teal})`,opacity:.5}}/>
                         </div>
                         <InlineEdit tag="h1" editMode={editMode} value={p.partner2Name||'Prenume 2'} onChange={v=>upProfile('partner2Name',v)}
+                          textKey="hero:name2" textLabel="Hero Name 2"
                           style={{fontFamily:F.display,fontWeight:900,fontSize:'clamp(26px,7vw,40px)',color:C.white,margin:0,lineHeight:1.1,letterSpacing:3,textShadow:`0 0 24px ${hexToRgba(C.teal,.5)},0 2px 0 rgba(0,0,0,.5)`}}/>
                       </div>
                     )}
@@ -1094,6 +1122,7 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
                   {p.showCelebrationText&&(
                     <Reveal from="bottom" delay={0.3}>
                       <InlineEdit tag="p" editMode={editMode} value={p.celebrationText} onChange={v=>upProfile('celebrationText',v)}
+                        textKey="hero:celebration" textLabel="Hero Celebration"
                         style={{fontFamily:F.magic,fontSize:18,color:C.tealPale,margin:'10px 0 0',textShadow:`0 0 14px ${hexToRgba(C.teal,.5)}`}}/>
                     </Reveal>
                   )}

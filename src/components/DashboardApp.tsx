@@ -2125,11 +2125,13 @@ const DashboardApp = () => {
     (id: string, options?: { skipActionCheck?: boolean }) => {
       if (!options?.skipActionCheck && !handleActionAttempt()) return;
       if (id === selectedTemplate) return;
-      const girlResetKey = `weddingPro_force_reset_castle_magic_girl_${session?.userId || "anon"}`;
-      const shouldTriggerGirlReset = id === "castle-magic-girl" && !options?.skipActionCheck;
+      const shouldTriggerTemplateResetConfirm =
+        ["castle-magic-girl", "little-mermaid"].includes(id) &&
+        !options?.skipActionCheck;
+      const forceResetKey = `weddingPro_force_reset_${id}_${session?.userId || "anon"}`;
       if (!session?.profile) {
-        if (shouldTriggerGirlReset) {
-          localStorage.setItem(girlResetKey, String(Date.now()));
+        if (shouldTriggerTemplateResetConfirm) {
+          localStorage.setItem(forceResetKey, String(Date.now()));
         }
         setSelectedTemplate(id);
         return;
@@ -2197,8 +2199,8 @@ const DashboardApp = () => {
       };
 
       setSelectedTemplate(id);
-      if (shouldTriggerGirlReset) {
-        localStorage.setItem(girlResetKey, String(Date.now()));
+      if (shouldTriggerTemplateResetConfirm) {
+        localStorage.setItem(forceResetKey, String(Date.now()));
       }
       handleUpdateProfile(nextProfile);
     },

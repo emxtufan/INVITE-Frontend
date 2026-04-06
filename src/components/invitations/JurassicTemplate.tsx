@@ -1123,6 +1123,10 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
   const heroTitle = isWedding ? [p.partner1Name, p.partner2Name].filter(Boolean).join(' & ') : p.partner1Name;
   const dateStr   = p.weddingDate ? new Date(p.weddingDate).toLocaleDateString('ro-RO',{day:'numeric',month:'long',year:'numeric'}) : 'Data Evenimentului';
   const wd        = p.weddingDate ? new Date(p.weddingDate) : null;
+  const heroTextStyles = pr.heroTextStyles || {};
+  const introTextStyles = pr.introTextStyles || {};
+  const heroBlock: InvitationBlock = { id:'__hero__', type:'__hero__' as any, show:true, textStyles: heroTextStyles } as any;
+  const introBlock: InvitationBlock = { id:'__intro__', type:'intro' as any, show:true, textStyles: introTextStyles } as any;
 
   // ── Blocks ────────────────────────────────────────────────────────────────
   const blocksFromDB: InvitationBlock[]|null = safeJSON(pr.customSections, null);
@@ -1209,7 +1213,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
 
       {/* Intro doors */}
       {showIntro && (
-        <BlockStyleProvider value={{blockId:'__intro__',textStyles:pr.introTextStyles}}>
+        <BlockStyleProvider value={{blockId:'__intro__',textStyles:introTextStyles}}>
           <JurassicDoorIntro
             contentEl={contentEl} scrollContainer={scrollContainer}
             childName={p.partner1Name||'Rex'} partner2Name={p.partner2Name}
@@ -1229,7 +1233,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
           <div style={{marginBottom:32,padding:20,background:hexToRgba(C.midJungle,.5),borderRadius:20,border:`1px solid ${hexToRgba(C.amber,.2)}`}}>
             <p style={{fontFamily:sans,fontSize:10,letterSpacing:'.3em',fontWeight:700,color:hexToRgba(C.amber,.6),textTransform:'uppercase',marginBottom:12}}>Preview intro (editabil)</p>
             <div style={{borderRadius:14,overflow:'hidden',border:`1px solid ${hexToRgba(C.amber,.2)}`}}>
-              <BlockStyleProvider value={{blockId:'__intro__',textStyles:pr.introTextStyles,onTextSelect:(k,l)=>onBlockSelect?.({id:'__intro__',type:'intro' as any,show:true} as any,-1,k,l)}}>
+              <BlockStyleProvider value={{blockId:'__intro__',textStyles:introTextStyles,onTextSelect:(k,l)=>onBlockSelect?.(introBlock,-1,k,l)}}>
                 <JurassicDoorIntro
                   editMode previewMode="static"
                   childName={p.partner1Name||'Rex'} partner2Name={p.partner2Name}
@@ -1273,7 +1277,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
         <div style={{ position:'relative', zIndex:1, maxWidth:440, margin:'0 auto', padding:'0 16px' }}>
 
           {/* ── HERO CARD ────────────────────────────────────────────────── */}
-          <BlockStyleProvider value={{blockId:'__hero__',textStyles:pr.heroTextStyles||{},onTextSelect:(k,l)=>onBlockSelect?.({id:'__hero__',type:'__hero__' as any,show:true} as any,-1,k,l)}}>
+          <BlockStyleProvider value={{blockId:'__hero__',textStyles:heroTextStyles,onTextSelect:(k,l)=>onBlockSelect?.(heroBlock,-1,k,l)}}>
             <div style={{ background:`linear-gradient(160deg,${hexToRgba(C.midJungle,.94)} 0%,${C.darkJungle} 100%)`, borderRadius:22, border:`1.5px solid ${hexToRgba(C.amber,.2)}`, overflow:'hidden', position:'relative', boxShadow:`0 24px 80px rgba(0,0,0,.65)` }}>
               {/* Hero bg */}
               <div style={{position:'absolute',inset:0,pointerEvents:'none'}}>

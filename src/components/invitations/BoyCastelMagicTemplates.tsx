@@ -1501,6 +1501,8 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
   const dateStr  = p.weddingDate ? new Date(p.weddingDate).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data Evenimentului';
   const showRsvp = p.showRsvpButton;
   const rsvpText = p.rsvpButtonText?.trim() || CASTLE_DEFAULTS.rsvpButtonText;
+  const heroTextStyles = (profile as any).heroTextStyles || {};
+  const heroBlock: InvitationBlock = { id: "__hero__", type: "__hero__" as any, show: true, textStyles: heroTextStyles } as any;
 
   const BLOCK_TYPES = [
     { type: 'photo',     label: '📷 Foto',      def: { imageData: undefined, aspectRatio: '1:1', photoClip: 'rect', photoMasks: [] } },
@@ -1758,6 +1760,14 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
         <div className="max-w-2xl mx-auto px-6 relative z-10">
 
           <div className="text-center">
+            <BlockStyleProvider
+              value={{
+                blockId: "__hero__",
+                textStyles: heroTextStyles,
+                onTextSelect: (textKey, textLabel) =>
+                  onBlockSelect?.(heroBlock, -1, textKey, textLabel),
+              }}
+            >
             <Reveal>
               <div className="mb-6 inline-block relative">
                 <div className="absolute -inset-4 bg-pink-200/30 blur-xl rounded-full" />
@@ -1834,6 +1844,8 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                   upProfile("partner1Name", parts[0]?.trim() || "");
                   upProfile("partner2Name", parts.slice(1).join("&").trim() || "");
                 }}
+                textKey="hero:title"
+                textLabel="Hero Title"
                 style={{
                   fontFamily: INTO_TEXT,
                   fontSize: "5rem",
@@ -1998,6 +2010,8 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                       tag="p"
                       editMode={editMode}
                       value={p.welcomeText}
+                      textKey="hero:welcome"
+                      textLabel="Text întâmpinare"
                       onChange={(v) => upProfile("welcomeText", v)}
                       style={{
                         fontFamily: HeroText,
@@ -2085,6 +2099,8 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                         (profile as any).celebrationText ||
                         CASTLE_DEFAULTS.celebrationText
                       }
+                      textKey="hero:celebration"
+                      textLabel="Text celebrare"
                       onChange={(v) => upProfile("celebrationText", v)}
                       style={{
                         fontFamily: HeroText,
@@ -2100,6 +2116,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                 </div>
               )}
             </Reveal>
+            </BlockStyleProvider>
           </div>
 
           <div className="space-y-0">
