@@ -363,6 +363,8 @@ const MermaidOverlayText: React.FC<{
 // MERMAID DOOR INTRO — GSAP ScrollTrigger (identic cu LordEffects)
 // ─────────────────────────────────────────────────────────────────────────────
 const MermaidDoorIntro: React.FC<{
+  onDone?:()=>void;
+  onEnterBack?:()=>void;
   editMode?:boolean; previewMode?:'doors'|'static';
   contentEl?:HTMLElement|null; scrollContainer?:HTMLElement|null;
   childName?:string; partner2Name?:string; isWedding?:boolean;
@@ -374,6 +376,7 @@ const MermaidDoorIntro: React.FC<{
   doorImg?: string; doorImgMobile?: string;
   i?: any;
 }> = ({
+  onDone,onEnterBack,
   editMode,previewMode='doors',contentEl,scrollContainer,
   childName='Ariel',partner2Name='',isWedding=false,
   subtitle='te invită în lumea subacvatică',welcomeText='WELCOME',
@@ -424,8 +427,18 @@ const MermaidDoorIntro: React.FC<{
         if(self.progress<=DEAD){textTl.progress(self.progress/DEAD);tl.progress(0);}
         else{textTl.progress(1);const p=(self.progress-DEAD)/(1-DEAD);tl.progress(p);if(!_mf&&p>.05){_mf=true;onDoorsOpen?.();}}
       },
-      onLeave:()=>{if(wrapRef.current)wrapRef.current.style.display='none';},
-      onEnterBack:()=>{_mf=false;if(wrapRef.current)wrapRef.current.style.display='block';textTl.progress(0);if(nameRef.current)gsap.set(nameRef.current,{opacity:1,scale:1});if(inviteRef.current)gsap.set(inviteRef.current,{opacity:0,scale:.88});},
+      onLeave:()=>{
+        if(wrapRef.current)wrapRef.current.style.display='none';
+        onDone?.();
+      },
+      onEnterBack:()=>{
+        _mf=false;
+        if(wrapRef.current)wrapRef.current.style.display='block';
+        textTl.progress(0);
+        if(nameRef.current)gsap.set(nameRef.current,{opacity:1,scale:1});
+        if(inviteRef.current)gsap.set(inviteRef.current,{opacity:0,scale:.88});
+        onEnterBack?.();
+      },
     });
     requestAnimationFrame(()=>ScrollTrigger.refresh());
     return()=>{st.kill();tl.kill();gsap.set(contentEl,{clearProps:'all'});};
@@ -943,10 +956,12 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
   const [showAudioModal,setShowAudioModal]=useState(false);
   const audioAllowedRef=useRef(false);
   const [showIntro,setShowIntro]=useState(!editMode);
+  const [introCompleted,setIntroCompleted]=useState(editMode);
   const contentRef=useRef<HTMLDivElement>(null);
   const [contentEl,setContentEl]=useState<HTMLElement|null>(null);
   useEffect(()=>{if(!editMode)setShowAudioModal(hasMusicBlock());},[]);
   useEffect(()=>{setShowIntro(!editMode);},[editMode]);
+  useEffect(()=>{setIntroCompleted(editMode);},[editMode]);
 
   const resetToDefaults=useCallback(()=>{
     if(!window.confirm('Resetezi templateul la valorile implicite?'))return;
@@ -984,14 +999,16 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
 
       {showIntro&&(
         <BlockStyleProvider value={{blockId:'__intro__',textStyles:introTextStyles}}>
-          <MermaidDoorIntro contentEl={contentEl} scrollContainer={scrollContainer}
-            childName={p.partner1Name} partner2Name={p.partner2Name}
-            isWedding={isWedding} subtitle={p.castleIntroSubtitle} welcomeText={p.castleIntroWelcome}
-            inviteTop={p.castleInviteTop} inviteMiddle={p.castleInviteMiddle||dateStr}
-            inviteBottom={p.castleInviteBottom} inviteTag={p.castleInviteTag} dateStr={dateStr}
-            doorImg={heroBgImage} doorImgMobile={heroBgImageMobile}
-            i={i}
-            onDoorsOpen={()=>{if(audioAllowedRef.current)musicPlayRef.current?.play();}}/>
+              <MermaidDoorIntro contentEl={contentEl} scrollContainer={scrollContainer}
+                childName={p.partner1Name} partner2Name={p.partner2Name}
+                isWedding={isWedding} subtitle={p.castleIntroSubtitle} welcomeText={p.castleIntroWelcome}
+                inviteTop={p.castleInviteTop} inviteMiddle={p.castleInviteMiddle||dateStr}
+                inviteBottom={p.castleInviteBottom} inviteTag={p.castleInviteTag} dateStr={dateStr}
+                doorImg={heroBgImage} doorImgMobile={heroBgImageMobile}
+                onDone={()=>setIntroCompleted(true)}
+                onEnterBack={()=>setIntroCompleted(false)}
+                i={i}
+                onDoorsOpen={()=>{if(audioAllowedRef.current)musicPlayRef.current?.play();}}/>
         </BlockStyleProvider>
       )}
 
@@ -1039,10 +1056,14 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
         </div>
         {/* Vignette */}
         <div style={{position:'fixed',inset:0,zIndex:1,pointerEvents:'none',background:`radial-gradient(ellipse 85% 85% at 50% 50%,transparent 40%,${hexToRgba(C.ocean,.7)} 100%)`}}/>
-        {/* Always-on effects */}
-        <FallingStars/>
-        <BubbleLayer/>
-        <div style={{position:'fixed',inset:0,zIndex:1,pointerEvents:'none'}}><StarfishScatter fixed/></div>
+        {/* Heavy effects are enabled only after intro doors are completed to avoid mobile lag */}
+        {(editMode||introCompleted)&&(
+          <>
+            <FallingStars/>
+            <BubbleLayer/>
+            <div style={{position:'fixed',inset:0,zIndex:1,pointerEvents:'none'}}><StarfishScatter fixed/></div>
+          </>
+        )}
 
         <div style={{position:'relative',zIndex:2,maxWidth:440,margin:'0 auto',padding:'28px 16px 0'}}>
 
