@@ -41,11 +41,30 @@ const BillingView: React.FC<BillingViewProps> = ({ session, onUpgrade }) => {
   };
 
   const resolveInvoiceUrl = (payment: PaymentRecord) => {
-    if (payment.invoicePdfUrl) {
-      return payment.invoicePdfUrl.startsWith('/')
-        ? `${API_URL.replace('/api', '')}${payment.invoicePdfUrl}`
-        : payment.invoicePdfUrl;
+    const rawInvoiceUrl = String(payment.invoicePdfUrl || '').trim();
+    if (rawInvoiceUrl) {
+      if (/^https?:\/\//i.test(rawInvoiceUrl)) return rawInvoiceUrl;
+
+      // Fix for malformed values like ".event-smart-assistant.com/api/uploads/..."
+      const withoutLeadingDots = rawInvoiceUrl.replace(/^\.+/, '');
+      const pathOnly = withoutLeadingDots
+        .replace(/^https?:\/\/(?:www\.)?event-smart-assistant\.com/i, '')
+        .replace(/^https?:\/\/api\.event-smart-assistant\.com/i, '')
+        .replace(/^(?:www\.)?event-smart-assistant\.com/i, '')
+        .replace(/^api\.event-smart-assistant\.com/i, '');
+
+      const normalizedPath = (pathOnly.startsWith('/') ? pathOnly : `/${pathOnly}`)
+        .replace(/^\/api\/uploads\//, '/uploads/');
+
+      if (normalizedPath.startsWith('/uploads/')) {
+        return `${window.location.origin}${normalizedPath}`;
+      }
+
+      if (normalizedPath.startsWith('/')) {
+        return `${API_URL.replace('/api', '')}${normalizedPath}`;
+      }
     }
+
     if (payment.hostedInvoiceUrl) return payment.hostedInvoiceUrl;
     return '';
   };

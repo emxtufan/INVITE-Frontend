@@ -1812,12 +1812,24 @@ const DashboardApp = () => {
   // ... (Effects same as before, simplified) ...
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
-    if (query.get("payment") === "success") {
+    const paymentStatus = query.get("payment");
+    if (!paymentStatus) return;
+
+    const clearPaymentQuery = () => {
+      window.history.replaceState(
+        {},
+        document.title,
+        window.location.pathname,
+      );
+    };
+
+    if (paymentStatus === "success") {
       toast({
-        title: "Plată Înregistrată!",
-        description: "Activăm contul Premium...",
+        title: "Plata inregistrata!",
+        description: "Activam contul Premium...",
         duration: 5000,
       });
+
       const verifyPremium = async () => {
         let attempts = 0;
         let updated = false;
@@ -1825,22 +1837,55 @@ const DashboardApp = () => {
           const userData = await refreshSession();
           if (userData && userData.plan === "premium") {
             updated = true;
-            toast({ title: "Cont Premium Activat!", variant: "success" });
+            toast({ title: "Cont Premium activat!", variant: "success" });
             if (session?.userId && session?.token && !viewingSnapshotId)
               loadUserData(session.userId, session.token);
-          } else await new Promise((resolve) => setTimeout(resolve, 2000));
+          } else {
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+          }
           attempts++;
         }
-        window.history.replaceState(
-          {},
-          document.title,
-          window.location.pathname,
-        );
-      };
-      verifyPremium();
-    }
-  }, [session?.userId]);
 
+        if (!updated) {
+          toast({
+            title: "Plata este in procesare",
+            description: "Confirmarea finala poate dura cateva momente.",
+            variant: "warning",
+            duration: 6000,
+          });
+        }
+
+        clearPaymentQuery();
+      };
+
+      verifyPremium();
+      return;
+    }
+
+    if (paymentStatus === "failed") {
+      toast({
+        title: "Plata a esuat",
+        description: "Tranzactia Netopia nu a fost aprobata. Nu s-a efectuat niciun upgrade.",
+        variant: "destructive",
+        duration: 7000,
+      });
+      clearPaymentQuery();
+      return;
+    }
+
+    if (paymentStatus === "pending") {
+      toast({
+        title: "Plata in curs de confirmare",
+        description: "Asteptam confirmarea procesatorului. Verifica din nou in cateva secunde.",
+        variant: "warning",
+        duration: 7000,
+      });
+      clearPaymentQuery();
+      return;
+    }
+
+    clearPaymentQuery();
+  }, [session?.userId, session?.token, viewingSnapshotId]);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -4387,3 +4432,4 @@ const DashboardApp = () => {
 };
 
 export default DashboardApp;
+
