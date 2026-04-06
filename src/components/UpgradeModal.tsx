@@ -790,8 +790,8 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
               <span className="text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">{displayPrice} LEI</span>
             </div>
           </div>
-
-          <Button
+          <div></div>
+          {/* <Button
             type="button"
             className="w-full h-11 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 bg-[#635BFF] hover:bg-[#5851E3] text-white"
             onClick={handlePayment}
@@ -806,7 +806,12 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
                 <ExternalLink className="w-4 h-4 mr-2" /> {canProceedToPayment ? `Plateste upgrade la planul ${selectedPlan === 'basic' ? 'Basic' : 'Premium'} cu Stripe` : 'Plan deja activ'}
               </>
             )}
-          </Button>
+          </Button> */}  
+
+
+
+
+
 
           <div className="flex items-center gap-3 my-3">
             <div className="flex-1 h-px bg-neutral-100 dark:bg-neutral-800" />
@@ -817,7 +822,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
           <Button
             type="button"
             variant="outline"
-            className="w-full h-11 text-sm font-medium border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-all"
+            className="w-full h-11 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 bg-[#635BFF] hover:bg-[#5851E3] text-white transition-all"
             onClick={handleNetopiaPayment}
             disabled={isProcessing || isProcessingNetopia || !canProceedToPayment}
           >
