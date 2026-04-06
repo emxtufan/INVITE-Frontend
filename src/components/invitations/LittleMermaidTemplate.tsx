@@ -1207,39 +1207,65 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
     if (typeof document === 'undefined') return;
     const html = document.documentElement;
     const body = document.body;
+    const root = document.getElementById('root');
 
     const prevHtmlBg = html.style.backgroundColor;
+    const prevHtmlBgRaw = html.style.background;
     const prevBodyBg = body.style.backgroundColor;
+    const prevBodyBgRaw = body.style.background;
+    const prevRootBg = root?.style.backgroundColor ?? '';
+    const prevRootBgRaw = root?.style.background ?? '';
     const prevHtmlMinH = html.style.minHeight;
     const prevBodyMinH = body.style.minHeight;
+    const prevRootMinH = root?.style.minHeight ?? '';
+    const prevHtmlOverscroll = (html.style as any).overscrollBehaviorY ?? '';
+    const prevBodyOverscroll = (body.style as any).overscrollBehaviorY ?? '';
 
-    html.style.backgroundColor = pageBgColor;
-    body.style.backgroundColor = pageBgColor;
+    html.style.setProperty('background', pageBgColor, 'important');
+    html.style.setProperty('background-color', pageBgColor, 'important');
+    body.style.setProperty('background', pageBgColor, 'important');
+    body.style.setProperty('background-color', pageBgColor, 'important');
+    root?.style.setProperty('background', pageBgColor, 'important');
+    root?.style.setProperty('background-color', pageBgColor, 'important');
     html.style.minHeight = '100%';
     body.style.minHeight = '100%';
+    if (root) root.style.minHeight = '100%';
+    (html.style as any).overscrollBehaviorY = 'none';
+    (body.style as any).overscrollBehaviorY = 'none';
 
-    let themeMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
-    const hadThemeMeta = !!themeMeta;
-    const prevThemeColor = themeMeta?.getAttribute('content') ?? null;
-    if (!themeMeta) {
-      themeMeta = document.createElement('meta');
-      themeMeta.setAttribute('name', 'theme-color');
-      document.head.appendChild(themeMeta);
+    let createdThemeMeta: HTMLMetaElement | null = null;
+    let themeMetas = Array.from(document.querySelectorAll('meta[name="theme-color"]')) as HTMLMetaElement[];
+    if (themeMetas.length === 0) {
+      createdThemeMeta = document.createElement('meta');
+      createdThemeMeta.setAttribute('name', 'theme-color');
+      document.head.appendChild(createdThemeMeta);
+      themeMetas = [createdThemeMeta];
     }
-    themeMeta.setAttribute('content', pageBgColor);
+    const prevThemeColors = themeMetas.map(m => m.getAttribute('content'));
+    themeMetas.forEach(m => m.setAttribute('content', pageBgColor));
 
     return () => {
       html.style.backgroundColor = prevHtmlBg;
+      html.style.background = prevHtmlBgRaw;
       body.style.backgroundColor = prevBodyBg;
+      body.style.background = prevBodyBgRaw;
+      if (root) {
+        root.style.backgroundColor = prevRootBg;
+        root.style.background = prevRootBgRaw;
+      }
       html.style.minHeight = prevHtmlMinH;
       body.style.minHeight = prevBodyMinH;
+      if (root) root.style.minHeight = prevRootMinH;
+      (html.style as any).overscrollBehaviorY = prevHtmlOverscroll;
+      (body.style as any).overscrollBehaviorY = prevBodyOverscroll;
 
-      if (!themeMeta) return;
-      if (hadThemeMeta) {
-        if (prevThemeColor == null) themeMeta.removeAttribute('content');
-        else themeMeta.setAttribute('content', prevThemeColor);
-      } else {
-        themeMeta.remove();
+      themeMetas.forEach((m, idx) => {
+        const prev = prevThemeColors[idx];
+        if (prev == null) m.removeAttribute('content');
+        else m.setAttribute('content', prev);
+      });
+      if (createdThemeMeta) {
+        createdThemeMeta.remove();
       }
     };
   }, [pageBgColor]);
@@ -1275,6 +1301,19 @@ const LittleMermaidTemplate: React.FC<InvitationTemplateProps & {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: JR_CSS }}/>
+      <div
+        aria-hidden
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 'env(safe-area-inset-top)',
+          background: pageBgColor,
+          pointerEvents: 'none',
+          zIndex: 2147483000,
+        }}
+      />
 
       {/* Audio modal */}
       {showAudioModal && !editMode && (
