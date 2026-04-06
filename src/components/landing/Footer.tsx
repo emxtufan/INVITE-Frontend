@@ -230,16 +230,12 @@ export default function Footer() {
                 <p className="font-semibold text-white">ELEXA SOCIETY SRL</p>
                 <p>CUI: 52745149</p>
                 <p>Nr. Reg. Com.: J2025080665008</p>
-                <p>EUID: ROONRC.J2025080665008</p>
-                <p>Data înființării: 2025-10-21</p>
-                <p>Județ: București | Localitate: Sectorul 6</p>
-                <p>Adresă: Bdul. Timișoara 101 V Et. P Ap. 4, Cod 061327</p>
                 <p>
                   Telefon: <a href="tel:+40755938367" className="text-white hover:underline">0755 938 367</a>
                 </p>
-                <p>
+                {/* <p>
                   E-mail: <a href="mailto:emitufan30@gmail.com" className="text-white hover:underline">emitufan30@gmail.com</a>
-                </p>
+                </p> */}
               </div>
 
               <div className="flex flex-col gap-4">
