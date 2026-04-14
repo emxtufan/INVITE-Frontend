@@ -44,7 +44,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
   const [publicLinkCopied, setPublicLinkCopied] = useState(false);
   
   // Dynamic Limits
-  const normalizedPlan = String(session.plan || "").toLowerCase();
+  const normalizedPlan = String(session.plan || "").trim().toLowerCase();
   const isPremiumPlan = isPremium || normalizedPlan === "premium";
   const isBasicPlan = !isPremiumPlan && normalizedPlan === "basic";
   const fallbackLimits = isPremiumPlan
