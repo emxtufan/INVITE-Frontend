@@ -44,8 +44,20 @@ const GuestListView: React.FC<GuestListViewProps> = ({
   const [publicLinkCopied, setPublicLinkCopied] = useState(false);
   
   // Dynamic Limits
-  const limits = session.limits || DEFAULT_LIMITS.free;
-  const maxGuests = limits.maxGuests;
+  const normalizedPlan = String(session.plan || "").toLowerCase();
+  const isPremiumPlan = isPremium || normalizedPlan === "premium";
+  const isBasicPlan = !isPremiumPlan && normalizedPlan === "basic";
+  const fallbackLimits = isPremiumPlan
+    ? DEFAULT_LIMITS.premium
+    : isBasicPlan
+      ? DEFAULT_LIMITS.basic
+      : DEFAULT_LIMITS.free;
+  const maxGuestsFromSession = Number(session.limits?.maxGuests);
+  const maxGuests = isPremiumPlan
+    ? Number.MAX_SAFE_INTEGER
+    : Number.isFinite(maxGuestsFromSession) && maxGuestsFromSession > 0
+      ? maxGuestsFromSession
+      : fallbackLimits.maxGuests;
 
   // Link Configuration Logic
   const hasInviteSlug = !!session.profile?.inviteSlug;
@@ -114,7 +126,15 @@ const GuestListView: React.FC<GuestListViewProps> = ({
       } else {
           const err = await res.json();
           if (err.error === 'Limit reached.') {
-              if(onShowUpgrade) onShowUpgrade();
+              if (isPremiumPlan) {
+                toast({
+                  title: "Limita nu a fost sincronizata",
+                  description: "Contul apare Premium, dar serverul a returnat limita de invitati. Reincarca pagina; daca problema persista, revino in Billing.",
+                  variant: "warning",
+                });
+              } else if (onShowUpgrade) {
+                onShowUpgrade();
+              }
           }
       }
     } catch (error) {
@@ -269,7 +289,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
   );
 
   const inviteBaseUrl = `${origin}/invite/`;
-  const isLocked = guests.length >= maxGuests;
+  const isLocked = !isPremiumPlan && guests.length >= maxGuests;
 
   return (
     <TooltipProvider>
