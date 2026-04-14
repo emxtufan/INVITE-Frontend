@@ -122,7 +122,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
         const newGuest = await res.json();
         setGuests((prev) => [...prev, newGuest]);
         setNewGuestName("");
-        toast({ title: "Invitat adăugat", variant: "success" });
+        toast({ title: "Invitat adaugat", variant: "success" });
       } else {
           const err = await res.json();
           if (err.error === 'Limit reached.') {
@@ -141,7 +141,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
       console.error("Failed to add guest", error);
       toast({
         title: "Eroare",
-        description: "Nu am putut adăuga invitatul.",
+        description: "Nu am putut adauga invitatul.",
         variant: "destructive",
       });
     } finally {
@@ -157,12 +157,12 @@ const GuestListView: React.FC<GuestListViewProps> = ({
         headers: { Authorization: `Bearer ${session.token}` },
       });
       setGuests((prev) => prev.filter((g) => g._id !== id));
-      toast({ title: "Invitat șters", variant: "default" });
+      toast({ title: "Invitat sters", variant: "default" });
     } catch (error) {
       console.error("Failed to delete", error);
       toast({
         title: "Eroare",
-        description: "Nu am putut șterge invitatul.",
+        description: "Nu am putut sterge invitatul.",
         variant: "destructive",
       });
     }
@@ -189,7 +189,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
     setCopiedToken(token);
     toast({
       title: "Link copiat",
-      description: isSent ? "Link-ul este în clipboard." : "Marchează ca trimis dacă l-ai expediat.",
+      description: isSent ? "Link-ul este in clipboard." : "Marcheaza ca trimis daca l-ai expediat.",
       duration: 2000,
     });
     setTimeout(() => setCopiedToken(null), 2000);
@@ -198,7 +198,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
   const copyPublicLink = () => {
     if (onCheckActive && !onCheckActive()) return; // Block copy if read-only
     if (!hasInviteSlug) {
-        toast({ title: "Vă rugăm să configurați preferința link-ului", variant: "warning" });
+        toast({ title: "Va rugam sa configurati preferinta link-ului", variant: "warning" });
         return;
     }
     const url = `${origin}/events/${slug}/public`;
@@ -206,7 +206,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
     setPublicLinkCopied(true);
     toast({
       title: "Link Public Copiat!",
-      description: "Oricine are acest link se poate înscrie.",
+      description: "Oricine are acest link se poate inscrie.",
       variant: "success",
     });
     setTimeout(() => setPublicLinkCopied(false), 2000);
@@ -231,6 +231,8 @@ const GuestListView: React.FC<GuestListViewProps> = ({
   const filteredGuests = guests.filter((g) =>
     g.name.toLowerCase().includes(filter.toLowerCase()),
   );
+  const guestsComingCount = guests.filter((g) => g.status === "confirmed").length;
+  const guestsNotComingCount = guests.filter((g) => g.status === "declined").length;
 
   const formatAccessDate = (dateStr?: string) => {
       if (!dateStr) return null;
@@ -258,7 +260,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
       case "opened":
         return (
             <div className="flex flex-col items-start">
-                <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-500/10 px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-400 ring-1 ring-inset ring-blue-700/10 dark:ring-blue-500/20">Văzut</span>
+                <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-500/10 px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-400 ring-1 ring-inset ring-blue-700/10 dark:ring-blue-500/20">Vazut</span>
                 {openedAt && <span className="text-[10px] text-muted-foreground mt-0.5" title="Ultima accesare">{formatAccessDate(openedAt)}</span>}
             </div>
         );
@@ -271,7 +273,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
                 </div>
             );
         }
-        return <span className="inline-flex items-center rounded-full bg-gray-50 dark:bg-zinc-800/50 px-2 py-1 text-xs font-medium text-gray-600 dark:text-zinc-400 ring-1 ring-inset ring-gray-500/10 dark:ring-zinc-700">Nevăzut</span>;
+        return <span className="inline-flex items-center rounded-full bg-gray-50 dark:bg-zinc-800/50 px-2 py-1 text-xs font-medium text-gray-600 dark:text-zinc-400 ring-1 ring-inset ring-gray-500/10 dark:ring-zinc-700">Nevazut</span>;
     }
   };
 
@@ -293,231 +295,356 @@ const GuestListView: React.FC<GuestListViewProps> = ({
 
   return (
     <TooltipProvider>
-      <div className="flex-1 p-4 md:p-8 overflow-y-auto bg-zinc-50 dark:bg-zinc-950/50 flex flex-col gap-8 h-full">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight">Listă Invitați & RSVP</h2>
-            <p className="text-muted-foreground">Gestionează link-urile și confirmările.</p>
-          </div>
-        </div>
-
-        {/* WARNING BANNER IF SLUG IS MISSING */}
-        {!hasInviteSlug && isEventActive && (
-          <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-xl p-4 flex items-center justify-between gap-4 animate-in slide-in-from-top-2">
-            <div className="flex gap-3 items-center">
-              <div className="p-2 bg-indigo-100 dark:bg-indigo-900/40 rounded-full shrink-0">
-                <LinkIcon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+      <div className="flex-1 min-h-0 overflow-y-auto bg-zinc-50 dark:bg-zinc-950/50 p-4 md:p-6 lg:p-8">
+        <div className="mx-auto w-full max-w-[1400px] space-y-6">
+          <Card>
+            <CardHeader className="pb-4">
+              <CardTitle className="text-2xl font-semibold tracking-tight">Lista Invitati & RSVP</CardTitle>
+              <CardDescription className="text-sm">
+                Fiecare sectiune este separata, iar continutul dinamic ramane stabil pe orice ecran.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="rounded-lg border bg-background px-4 py-3">
+                  <p className="text-xs text-muted-foreground">Invitati total</p>
+                  <p className="text-lg font-semibold">{guests.length}</p>
+                </div>
+                <div className="rounded-lg border bg-background px-4 py-3">
+                  <p className="text-xs text-muted-foreground">Vin</p>
+                  <p className="text-lg font-semibold text-emerald-600 dark:text-emerald-400">{guestsComingCount}</p>
+                </div>
+                <div className="rounded-lg border bg-background px-4 py-3">
+                  <p className="text-xs text-muted-foreground">Nu vin</p>
+                  <p className="text-lg font-semibold text-rose-600 dark:text-rose-400">{guestsNotComingCount}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-indigo-900 dark:text-indigo-200 text-sm">Vă rugăm să configurați preferința link-ului</h3>
-                <p className="text-xs text-indigo-700 dark:text-indigo-300">
-                  Pentru a putea genera link-ul public, trebuie să alegeți un nume pentru acesta în setări.
-                </p>
-              </div>
-            </div>
-            <Button size="sm" variant="outline" onClick={onNavigateToSettings} className="border-indigo-200 text-indigo-800 hover:bg-indigo-100 whitespace-nowrap">
-              Configurare Link
-            </Button>
-          </div>
-        )}
+            </CardContent>
+          </Card>
 
-        {/* PUBLIC LINK CARD - DISABLED IF READ ONLY */}
-        {hasInviteSlug && (
-            <div className={cn(
-                "bg-gradient-to-r from-violet-500/10 to-indigo-500/10 border border-indigo-200 dark:border-indigo-900 rounded-xl p-4 flex flex-col md:flex-row items-center gap-4",
-                !isEventActive && "opacity-50 grayscale pointer-events-none"
-            )}>
-                <div className="p-3 bg-white dark:bg-zinc-900 rounded-full shadow-sm">
-                    <Globe className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+          {!hasInviteSlug && isEventActive && (
+            <Card className="border-indigo-200 bg-indigo-50/70 dark:border-indigo-900 dark:bg-indigo-900/10">
+              <CardContent className="p-4 md:p-5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-full bg-indigo-100 dark:bg-indigo-900/40 shrink-0">
+                      <LinkIcon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                    </div>
+                    <div className="space-y-1">
+                      <p className="font-semibold text-sm text-indigo-900 dark:text-indigo-200">Configureaza link-ul public</p>
+                      <p className="text-xs text-indigo-700 dark:text-indigo-300 leading-relaxed">
+                        Pentru generare link public, seteaza un `inviteSlug` in configurari.
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={onNavigateToSettings}
+                    className="w-full sm:w-auto border-indigo-300 text-indigo-800 hover:bg-indigo-100"
+                  >
+                    Configurare Link
+                  </Button>
                 </div>
-                <div className="flex-1 text-center md:text-left">
-                    <h3 className="font-semibold text-sm">Link Public Universal</h3>
-                    <p className="text-xs text-muted-foreground">
-                        {isEventActive 
-                            ? "Oricine îl accesează își poate introduce numele și confirma prezența." 
-                            : "Generarea link-urilor este dezactivată în modul Read-Only."}
-                    </p>
-                </div>
-                <div className="flex items-center gap-2 bg-white dark:bg-zinc-900 p-1 pl-3 rounded-lg border shadow-sm w-full md:w-auto">
-                    <span className="text-xs font-mono text-muted-foreground truncate max-w-[150px]">.../events/{slug}/public</span>
-                    <Button size="sm" variant="ghost" onClick={copyPublicLink} className={cn("h-7", publicLinkCopied && "text-green-600")} disabled={!isEventActive}>
-                    {publicLinkCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                    </Button>
-                </div>
-            </div>
-        )}
-
-        {/* ADD GUEST CARD */}
-        <div className={cn("relative rounded-xl border bg-card shadow-sm transition-all overflow-hidden", isLocked || !isEventActive ? "border-indigo-200 dark:border-indigo-900 bg-indigo-50/20" : "")}>
-          {/* Lock Overlay for Read Only or Max Limit */}
-          {(isLocked || !isEventActive) && (
-            <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/60 dark:bg-zinc-950/60 backdrop-blur-[2px]">
-              <div className="flex items-center gap-4 bg-background border px-4 py-2 rounded-full shadow-lg">
-                <div className="flex items-center gap-2 text-sm">
-                  <Lock className="w-4 h-4 text-indigo-500" />
-                  <span className="font-medium text-muted-foreground">
-                      {!isEventActive ? "Modificări blocate (Read-Only)" : `Limită atinsă (${maxGuests} invitat)`}
-                  </span>
-                </div>
-                {isLocked && isEventActive && (
-                    <Button size="sm" onClick={onShowUpgrade} className="h-7 text-xs bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white border-0">
-                      <Crown className="w-3 h-3 mr-1 text-yellow-200" /> Upgrade
-                    </Button>
-                )}
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           )}
 
-          <form
-            onSubmit={handleAddGuest}
-            className={cn(
-              "flex flex-col md:flex-row items-center p-3 gap-3",
-              (isLocked || !isEventActive) && "opacity-20 pointer-events-none",
-            )}
-          >
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary shrink-0"><UserPlus className="w-4 h-4" /></div>
-            <div className="flex-1 w-full relative">
-              <Input
-                placeholder="Nume Invitat Manual (ex: Familia Popescu)"
-                value={newGuestName}
-                onChange={(e: any) => setNewGuestName(e.target.value)}
-                className="bg-transparent border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 px-0 h-9 font-medium text-foreground placeholder:text-muted-foreground/60"
-                disabled={isLocked || !isEventActive}
-              />
-            </div>
-            <div className="w-full h-px bg-border md:w-px md:h-6 mx-2" />
-            <select
-              className="w-full md:w-44 h-9 rounded-md border border-input bg-background text-foreground text-sm font-medium px-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-              value={newGuestType}
-              onChange={(e) => setNewGuestType(e.target.value)}
-              disabled={isLocked || !isEventActive}
-            >
-              <option value="adult">👤 Adult (Single)</option>
-              <option value="couple">💑 Cuplu</option>
-              <option value="family">👨‍👩‍👧‍👦 Familie</option>
-              <option value="child">👶 Copil</option>
-            </select>
-            <Button type="submit" disabled={isAdding || isLocked || !isEventActive} size="sm" className="w-full md:w-auto md:px-6"><Plus className="w-4 h-4 mr-1.5" /> Adaugă</Button>
-          </form>
-        </div>
+          {hasInviteSlug && (
+            <Card className={cn("border-indigo-200/70 dark:border-indigo-900", !isEventActive && "opacity-60")}>
+              <CardContent className="p-4 md:p-5">
+                <div className="grid grid-cols-1 lg:grid-cols-[auto_minmax(0,1fr)_auto] items-start lg:items-center gap-4">
+                  <div className="p-3 bg-background rounded-full border w-fit">
+                    <Globe className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                  </div>
+                  <div className="space-y-1 min-w-0">
+                    <p className="font-semibold text-sm">Link public universal</p>
+                    <p className="text-xs text-muted-foreground leading-relaxed break-words">
+                      {isEventActive
+                        ? "Oricine acceseaza acest link poate confirma prezenta."
+                        : "Event-ul este in read-only, iar actiunile sunt blocate."}
+                    </p>
+                    <p className="text-xs font-mono text-muted-foreground break-all">/events/{slug}/public</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={copyPublicLink}
+                    disabled={!isEventActive}
+                    className={cn("w-full lg:w-auto", publicLinkCopied && "text-green-600")}
+                  >
+                    {publicLinkCopied ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
+                    Copiaza link
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
-        {/* TABLE */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <div className="space-y-1">
-              <CardTitle className="text-lg">Invitați ({guests.length})</CardTitle>
-              <CardDescription>Lista completă de confirmări</CardDescription>
-            </div>
-            <div className="relative w-64">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Caută invitat..." className="pl-8" value={filter} onChange={(e: any) => setFilter(e.target.value)} />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="relative w-full overflow-auto">
-              <table className="w-full caption-bottom text-sm text-left">
-                <thead className="[&_tr]:border-b">
-                  <tr className="border-b transition-colors hover:bg-muted/50">
-                    <th className="h-10 px-4 align-middle font-medium text-muted-foreground w-[50px]">#</th>
-                    <th className="h-10 px-4 align-middle font-medium text-muted-foreground w-[200px]">Nume</th>
-                    <th className="h-10 px-4 align-middle font-medium text-muted-foreground">Link / Sursă</th>
-                    <th className="h-10 px-4 align-middle font-medium text-muted-foreground w-[100px]">Status</th>
-                    <th className="h-10 px-4 align-middle font-medium text-muted-foreground w-[150px]">Detalii RSVP</th>
-                    <th className="h-10 px-4 align-middle font-medium text-muted-foreground text-right w-[120px]">Acțiuni</th>
-                  </tr>
-                </thead>
-                <tbody className="[&_tr:last-child]:border-0">
-                  {filteredGuests.length > 0 ? (
-                    filteredGuests.map((guest, idx) => {
-                      const fullInviteUrl = `${inviteBaseUrl}${guest.token}`;
-                      const isPublicSource = guest.source === "public";
-                      const rsvp = guest.rsvp;
-                      
-                      return (
-                        <tr key={guest._id} className="border-b transition-colors hover:bg-muted/50">
-                          <td className="p-4 align-middle font-mono text-xs text-muted-foreground">{idx + 1}</td>
-                          <td className="p-4 align-middle">
-                            <div className="flex items-center gap-2 font-medium">
-                              <div className="p-1.5 bg-muted rounded-full">{getTypeIcon(guest.type)}</div>
-                              {guest.name}
-                              {isPublicSource && <span className="inline-flex items-center rounded-full bg-indigo-50 px-1.5 py-0.5 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 dark:bg-indigo-400/10 dark:text-indigo-300 dark:ring-indigo-400/20" title="Venit din Link Public"><Globe className="w-3 h-3 mr-1" /> Public</span>}
-                            </div>
-                          </td>
-                          <td className="p-4 align-middle">
-                            {isPublicSource ? (
-                              <span className="text-xs text-muted-foreground italic">Înregistrat via Public Link</span>
-                            ) : (
-                              <div data-slot="input-group" className={cn("group/input-group relative flex h-8 w-full max-w-md items-center rounded-lg border border-input bg-background shadow-sm transition-colors focus-within:ring-1 focus-within:ring-ring", !isEventActive && "opacity-60")}>
-                                <div className="flex items-center justify-center pl-2 pr-1 text-muted-foreground border-r border-border/50 mr-1 h-full"><LinkIcon className="w-3.5 h-3.5" /></div>
-                                <div className="flex items-center text-xs text-muted-foreground select-none px-1 bg-muted/30 h-full overflow-hidden whitespace-nowrap">.../invite/</div>
-                                <input readOnly className="flex-1 min-w-0 bg-transparent px-1 text-xs font-mono text-foreground focus:outline-none" value={guest.token} disabled={!isEventActive} />
-                                <button type="button" onClick={() => copyToClipboard(fullInviteUrl, guest.token, guest._id, !!guest.isSent)} className="flex items-center justify-center h-full px-2.5 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-r-lg transition-colors border-l border-border/50" title="Copiază Link" disabled={!isEventActive}>
-                                  {copiedToken === guest.token ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
-                                </button>
-                              </div>
-                            )}
-                          </td>
-                          <td className="p-4 align-middle">{getStatusBadge(guest.status, guest.openedAt, guest.isSent)}</td>
-                          <td className="p-4 align-middle">
-                            <div className="flex flex-col gap-1">
-                              {guest.status === "confirmed" && rsvp && (
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  {/* Adults */}
-                                  <div title="Adulți" className="flex items-center gap-1 text-xs font-medium bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-700 dark:text-zinc-300">
-                                      <Users className="w-3 h-3" /> {(rsvp.adultsCount !== undefined) ? rsvp.adultsCount : (rsvp.confirmedCount || 1)}
-                                  </div>
-                                  
-                                  {/* Children */}
-                                  {(rsvp.childrenCount || (rsvp.hasChildren && !rsvp.childrenCount)) && (
-                                      <div title="Copii" className="flex items-center gap-1 text-xs bg-pink-50 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300 px-1.5 py-0.5 rounded border border-pink-100 dark:border-pink-900">
-                                          <Baby className="w-3 h-3" /> {rsvp.childrenCount ? rsvp.childrenCount : "Da"}
-                                      </div>
-                                  )}
-                                </div>
-                              )}
-                              {guest.rsvp?.message && (
-                                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-                                    <MessageSquare className="w-3 h-3" />
-                                    <span className="italic truncate max-w-[150px]">"{guest.rsvp.message}"</span>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="p-4 align-middle text-right">
-                            <div className="flex justify-end gap-2">
-                              {!isPublicSource && (
-                                  <Button 
-                                    variant="ghost" 
-                                    size="icon" 
-                                    className={cn("h-8 w-8", guest.isSent ? "text-amber-500 hover:text-amber-600 hover:bg-amber-50" : "text-zinc-300 hover:text-zinc-500 hover:bg-zinc-100")}
-                                    onClick={() => toggleSentStatus(guest._id, !!guest.isSent)}
-                                    title={guest.isSent ? "Marcat ca Trimis" : "Marchează ca Trimis"}
-                                    disabled={!isEventActive}
-                                  >
-                                      <Send className="w-4 h-4" />
-                                  </Button>
-                              )}
-                              <AlertDialog>
-                                <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-500/20" disabled={!isEventActive}><Trash2 className="w-4 h-4" /></Button></AlertDialogTrigger>
-                                <AlertDialogContent>
-                                  <AlertDialogHeader><AlertDialogTitle>Ștergi acest invitat?</AlertDialogTitle><AlertDialogDescription>Această acțiune nu poate fi anulată. Link-ul lor va deveni invalid.</AlertDialogDescription></AlertDialogHeader>
-                                  <AlertDialogFooter><AlertDialogCancel>Anulează</AlertDialogCancel><AlertDialogAction onClick={() => handleDeleteGuest(guest._id)} className="bg-red-600">Șterge</AlertDialogAction></AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialog>
-                              <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-500 hover:bg-blue-50" onClick={() => simulateOpenInvite(guest.token)} title="Simulează vizualizarea"><ExternalLink className="w-4 h-4" /></Button>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  ) : (
-                    <tr><td colSpan={6} className="p-8 text-center text-muted-foreground">Niciun invitat găsit. Adaugă unul mai sus sau distribuie Link-ul Public!</td></tr>
+          <Card className={cn("relative overflow-hidden", isLocked || !isEventActive ? "border-indigo-200 dark:border-indigo-900" : "")}>
+            {(isLocked || !isEventActive) && (
+              <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/60 dark:bg-zinc-950/65 backdrop-blur-[2px] p-4">
+                <div className="flex flex-col sm:flex-row items-center gap-3 bg-background border px-4 py-3 rounded-xl shadow-lg max-w-full">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground text-center sm:text-left">
+                    <Lock className="w-4 h-4 text-indigo-500 shrink-0" />
+                    <span>{!isEventActive ? "Modificari blocate (Read-Only)" : `Limita atinsa (${maxGuests})`}</span>
+                  </div>
+                  {isLocked && isEventActive && (
+                    <Button
+                      size="sm"
+                      onClick={onShowUpgrade}
+                      className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white border-0"
+                    >
+                      <Crown className="w-3 h-3 mr-1 text-yellow-200" />
+                      Upgrade
+                    </Button>
                   )}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
+                </div>
+              </div>
+            )}
+
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base md:text-lg">Adauga invitat</CardTitle>
+              <CardDescription>
+                Formular separat, compact si stabil. Nu se suprapune peste alte sectiuni.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className={cn((isLocked || !isEventActive) && "opacity-20 pointer-events-none")}>
+              <form
+                onSubmit={handleAddGuest}
+                className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_220px_auto] gap-3 items-end"
+              >
+                <div className="space-y-2 min-w-0">
+                  <label className="text-xs font-medium text-muted-foreground">Nume invitat</label>
+                  <div className="flex items-center gap-2 rounded-md border border-input bg-background px-3">
+                    <UserPlus className="w-4 h-4 text-primary shrink-0" />
+                    <Input
+                      placeholder="Nume Invitat Manual (ex: Familia Popescu)"
+                      value={newGuestName}
+                      onChange={(e: any) => setNewGuestName(e.target.value)}
+                      className="border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 px-0 h-11"
+                      disabled={isLocked || !isEventActive}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2 min-w-0">
+                  <label className="text-xs font-medium text-muted-foreground">Tip invitat</label>
+                  <select
+                    className="w-full h-11 rounded-md border border-input bg-background text-foreground text-sm font-medium px-3 shadow-sm focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                    value={newGuestType}
+                    onChange={(e) => setNewGuestType(e.target.value)}
+                    disabled={isLocked || !isEventActive}
+                  >
+                    <option value="adult">Adult (Single)</option>
+                    <option value="couple">Cuplu</option>
+                    <option value="family">Familie</option>
+                    <option value="child">Copil</option>
+                  </select>
+                </div>
+
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={isAdding || isLocked || !isEventActive}
+                  className="w-full xl:w-auto xl:px-6 h-11"
+                >
+                  <Plus className="w-4 h-4 mr-1.5" />
+                  Adauga
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="gap-3">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div className="space-y-1">
+                  <CardTitle className="text-lg">Invitati ({guests.length})</CardTitle>
+                  <CardDescription>Lista separata, cu scroll automat pe continut mare.</CardDescription>
+                </div>
+                <div className="relative w-full md:w-80">
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Cauta invitat..."
+                    className="pl-8"
+                    value={filter}
+                    onChange={(e: any) => setFilter(e.target.value)}
+                  />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="rounded-lg border bg-background overflow-hidden">
+                <div className="w-full overflow-x-auto">
+                  <div className="max-h-[62vh] overflow-y-auto">
+                    <table className="w-full min-w-[920px] caption-bottom text-sm text-left">
+                      <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
+                        <tr className="border-b">
+                          <th className="h-9 px-3 align-middle font-medium text-muted-foreground w-[42px]">#</th>
+                          <th className="h-9 px-3 align-middle font-medium text-muted-foreground w-[220px]">Nume</th>
+                          <th className="h-9 px-3 align-middle font-medium text-muted-foreground">Link / Sursa</th>
+                          <th className="h-9 px-3 align-middle font-medium text-muted-foreground w-[108px]">Status</th>
+                          <th className="h-9 px-3 align-middle font-medium text-muted-foreground w-[190px]">Detalii RSVP</th>
+                          <th className="h-9 px-3 align-middle font-medium text-muted-foreground text-right w-[112px] whitespace-nowrap">Actiuni</th>
+                        </tr>
+                      </thead>
+                      <tbody className="[&_tr:last-child]:border-0">
+                        {isLoading ? (
+                          <tr>
+                            <td colSpan={6} className="p-8 text-center text-muted-foreground">
+                              Se incarca lista de invitati...
+                            </td>
+                          </tr>
+                        ) : filteredGuests.length > 0 ? (
+                          filteredGuests.map((guest, idx) => {
+                            const fullInviteUrl = `${inviteBaseUrl}${guest.token}`;
+                            const isPublicSource = guest.source === "public";
+                            const rsvp = guest.rsvp;
+
+                            return (
+                              <tr key={guest._id} className="border-b transition-colors hover:bg-muted/40">
+                                <td className="px-3 py-2.5 align-top font-mono text-xs text-muted-foreground">{idx + 1}</td>
+                                <td className="px-3 py-2.5 align-top">
+                                  <div className="flex items-center gap-2 font-medium">
+                                    <div className="p-1.5 bg-muted rounded-full shrink-0">{getTypeIcon(guest.type)}</div>
+                                    <div className="min-w-0 space-y-1">
+                                      <p className="break-words leading-snug">{guest.name}</p>
+                                      {isPublicSource && (
+                                        <span
+                                          className="inline-flex items-center rounded-full bg-indigo-50 px-1.5 py-0.5 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 dark:bg-indigo-400/10 dark:text-indigo-300 dark:ring-indigo-400/20"
+                                          title="Venit din Link Public"
+                                        >
+                                          <Globe className="w-3 h-3 mr-1" /> Public
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-3 py-2.5 align-top">
+                                  {isPublicSource ? (
+                                    <span className="text-xs text-muted-foreground italic break-words">Inregistrat via Public Link</span>
+                                  ) : (
+                                    <div
+                                      data-slot="input-group"
+                                      className={cn(
+                                        "group/input-group relative flex h-9 w-full max-w-md items-center rounded-lg border border-input bg-background shadow-sm transition-colors focus-within:ring-1 focus-within:ring-ring",
+                                        !isEventActive && "opacity-60",
+                                      )}
+                                    >
+                                      <div className="flex items-center justify-center pl-2 pr-1 text-muted-foreground border-r border-border/50 mr-1 h-full">
+                                        <LinkIcon className="w-3.5 h-3.5" />
+                                      </div>
+                                      <div className="flex items-center text-xs text-muted-foreground select-none px-1 bg-muted/30 h-full overflow-hidden whitespace-nowrap">
+                                        .../invite/
+                                      </div>
+                                      <input
+                                        readOnly
+                                        className="flex-1 min-w-0 bg-transparent px-1 text-xs font-mono text-foreground focus:outline-none truncate"
+                                        value={guest.token}
+                                        disabled={!isEventActive}
+                                      />
+                                      <button
+                                        type="button"
+                                        onClick={() => copyToClipboard(fullInviteUrl, guest.token, guest._id, !!guest.isSent)}
+                                        className="flex items-center justify-center h-full px-2.5 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-r-lg transition-colors border-l border-border/50"
+                                        title="Copiaza Link"
+                                        disabled={!isEventActive}
+                                      >
+                                        {copiedToken === guest.token ? (
+                                          <Check className="w-3.5 h-3.5 text-green-500" />
+                                        ) : (
+                                          <Copy className="w-3.5 h-3.5" />
+                                        )}
+                                      </button>
+                                    </div>
+                                  )}
+                                </td>
+                                <td className="px-3 py-2.5 align-top">{getStatusBadge(guest.status, guest.openedAt, guest.isSent)}</td>
+                                <td className="px-3 py-2.5 align-top">
+                                  <div className="flex flex-col gap-1.5 min-w-0">
+                                    {guest.status === "confirmed" && rsvp && (
+                                      <div className="flex items-center gap-2 flex-wrap">
+                                        <div title="Adulti" className="flex items-center gap-1 text-xs font-medium bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-700 dark:text-zinc-300">
+                                          <Users className="w-3 h-3" />
+                                          {(rsvp.adultsCount !== undefined) ? rsvp.adultsCount : (rsvp.confirmedCount || 1)}
+                                        </div>
+                                        {(rsvp.childrenCount || (rsvp.hasChildren && !rsvp.childrenCount)) && (
+                                          <div title="Copii" className="flex items-center gap-1 text-xs bg-pink-50 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300 px-1.5 py-0.5 rounded border border-pink-100 dark:border-pink-900">
+                                            <Baby className="w-3 h-3" />
+                                            {rsvp.childrenCount ? rsvp.childrenCount : "Da"}
+                                          </div>
+                                        )}
+                                      </div>
+                                    )}
+                                    {guest.rsvp?.message && (
+                                      <div className="flex items-start gap-1 text-xs text-muted-foreground mt-1">
+                                        <MessageSquare className="w-3 h-3 mt-0.5 shrink-0" />
+                                        <span className="italic break-words whitespace-normal">"{guest.rsvp.message}"</span>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="px-3 py-2.5 align-top text-right">
+                                  <div className="flex justify-end gap-1 flex-nowrap whitespace-nowrap">
+                                    {!isPublicSource && (
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className={cn("h-7 w-7", guest.isSent ? "text-amber-500 hover:text-amber-600 hover:bg-amber-50" : "text-zinc-300 hover:text-zinc-500 hover:bg-zinc-100")}
+                                        onClick={() => toggleSentStatus(guest._id, !!guest.isSent)}
+                                        title={guest.isSent ? "Marcat ca Trimis" : "Marcheaza ca Trimis"}
+                                        disabled={!isEventActive}
+                                      >
+                                        <Send className="w-3.5 h-3.5" />
+                                      </Button>
+                                    )}
+                                    <AlertDialog>
+                                      <AlertDialogTrigger asChild>
+                                        <Button variant="ghost" size="icon" className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50" disabled={!isEventActive}>
+                                          <Trash2 className="w-3.5 h-3.5" />
+                                        </Button>
+                                      </AlertDialogTrigger>
+                                      <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                          <AlertDialogTitle>Stergi acest invitat?</AlertDialogTitle>
+                                          <AlertDialogDescription>Aceasta actiune nu poate fi anulata. Link-ul va deveni invalid.</AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                          <AlertDialogCancel>Anuleaza</AlertDialogCancel>
+                                          <AlertDialogAction onClick={() => handleDeleteGuest(guest._id)} className="bg-red-600">Sterge</AlertDialogAction>
+                                        </AlertDialogFooter>
+                                      </AlertDialogContent>
+                                    </AlertDialog>
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="h-7 w-7 text-blue-500 hover:bg-blue-50"
+                                      onClick={() => simulateOpenInvite(guest.token)}
+                                      title="Simuleaza vizualizarea"
+                                    >
+                                      <ExternalLink className="w-3.5 h-3.5" />
+                                    </Button>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <tr>
+                            <td colSpan={6} className="p-10 text-center text-muted-foreground">
+                              Niciun invitat gasit. Adauga unul din formularul de mai sus.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </TooltipProvider>
   );
