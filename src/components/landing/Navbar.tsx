@@ -34,9 +34,9 @@ export default function Navbar() {
               
             </a>
             <ul className="wp-nav-links">
-              <li><a href="#features" onClick={e => { e.preventDefault(); scrollTo("features"); }}>Funcționalități</a></li>
-              <li><a href="#pricing"  onClick={e => { e.preventDefault(); scrollTo("pricing");  }}>Prețuri</a></li>
-              <li><a href="#faq"      onClick={e => { e.preventDefault(); scrollTo("faq");      }}>Întrebări</a></li>
+              <li><a href="#features" onClick={e => { e.preventDefault(); scrollTo("features"); }}>Functionalitati</a></li>
+              <li><a href="#pricing"  onClick={e => { e.preventDefault(); scrollTo("pricing");  }}>Preturi</a></li>
+              <li><a href="#faq"      onClick={e => { e.preventDefault(); scrollTo("faq");      }}>Intrebari</a></li>
             </ul>
           </div>
           <div className="wp-nav-actions">
@@ -49,7 +49,7 @@ export default function Navbar() {
             ) : (
               <>
                 <a href="/login" className="wp-btn-ghost">Autentificare</a>
-                <a href="/register" className="wp-btn-primary">Începe Gratuit <IconArrow /></a>
+                <a href="/register" className="wp-btn-primary">Incepe Gratuit <IconArrow /></a>
               </>
             )}
             <button className="wp-hamburger" onClick={() => setOpen(o => !o)} aria-label="Menu">
@@ -60,9 +60,9 @@ export default function Navbar() {
       </div>
       {open && (
         <div className="wp-mobile-menu">
-          <a href="#features" onClick={() => { scrollTo("features"); close(); }}>Funcționalități</a>
-          <a href="#pricing"  onClick={() => { scrollTo("pricing");  close(); }}>Prețuri</a>
-          <a href="#faq"      onClick={() => { scrollTo("faq");      close(); }}>Întrebări</a>
+          <a href="#features" onClick={() => { scrollTo("features"); close(); }}>Functionalitati</a>
+          <a href="#pricing"  onClick={() => { scrollTo("pricing");  close(); }}>Preturi</a>
+          <a href="#faq"      onClick={() => { scrollTo("faq");      close(); }}>Intrebari</a>
           {session ? (
             <a href={session.isAdmin ? "/admin" : "/dashboard"} onClick={close}>
               {session.isAdmin ? "Panou Admin" : "Panou Control"} →
@@ -70,7 +70,7 @@ export default function Navbar() {
           ) : (
             <>
               <a href="/login"    onClick={close}>Autentificare</a>
-              <a href="/register" onClick={close}>Creează Cont Gratuit →</a>
+              <a href="/register" onClick={close}>Creeaza Cont Gratuit →</a>
             </>
           )}
         </div>

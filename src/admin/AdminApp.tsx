@@ -66,7 +66,7 @@ const AdminApp = () => {
                             <ShieldCheck className="w-12 h-12 text-indigo-500" />
                         </div>
                         <h1 className="text-3xl font-bold tracking-tight text-white">Admin Portal</h1>
-                        <p className="text-zinc-400">Autentificare securizată pentru administrare.</p>
+                        <p className="text-zinc-400">Autentificare securizata pentru administrare.</p>
                     </div>
                     <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-1 shadow-2xl">
                         <div className="bg-white dark:bg-zinc-900 rounded-xl overflow-hidden">
@@ -75,7 +75,7 @@ const AdminApp = () => {
                     </div>
                     <div className="text-center mt-8">
                         <a href="/" className="text-sm text-zinc-500 hover:text-indigo-400 transition-colors flex items-center justify-center gap-2">
-                            <ChevronLeft className="w-3 h-3" /> Întoarce-te la site-ul principal
+                            <ChevronLeft className="w-3 h-3" /> Intoarce-te la site-ul principal
                         </a>
                     </div>
                 </div>
@@ -90,7 +90,7 @@ const AdminApp = () => {
         { id: 'service-requests', label: 'Cereri Servicii',    icon: Inbox       },
         { id: 'emails',           label: 'Email Center',       icon: Mail        },
         { id: 'templates',  label: 'Template-uri',      icon: Layout          },
-        { id: 'settings',   label: 'Setări Sistem',     icon: Settings        },
+        { id: 'settings',   label: 'Setari Sistem',     icon: Settings        },
     ];
 
     const viewTitle: Record<string, string> = {
@@ -100,7 +100,7 @@ const AdminApp = () => {
         'service-requests': 'Cereri Servicii',
         emails:    'Email Center',
         // templates: 'Template-uri',
-        settings:  'Setări Sistem',
+        settings:  'Setari Sistem',
     };
 
     return (
@@ -160,7 +160,7 @@ const AdminApp = () => {
                         <span className={cn(
                             'whitespace-nowrap transition-all duration-300 overflow-hidden',
                             isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
-                        )}>Ieșire</span>
+                        )}>Iesire</span>
                     </button>
                 </div>
 
@@ -213,7 +213,7 @@ const AdminApp = () => {
     // Stiluri implicite pentru toate toast-urile
     style: {
       background: 'rgba(255, 255, 255, 0.1)', // semi-transparent
-      backdropFilter: 'blur(8px)',           // efect sticlă
+      backdropFilter: 'blur(8px)',           // efect sticla
       border: '1px solid rgba(255,255,255,0.2)',
       color: '#111',                          // culoarea textului
       padding: '12px 16px',
@@ -221,7 +221,7 @@ const AdminApp = () => {
       fontWeight: 600,
     },
     success: {
-      // poți suprascrie stiluri doar pentru success toast
+      // poti suprascrie stiluri doar pentru success toast
       style: { background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' },
     },
     error: {

@@ -74,7 +74,7 @@ const BudgetDocument = ({ categories, totalBudget }: { categories: BudgetCategor
                 <Text style={[styles.statValue, { color: '#1e3a8a' }]}>{totalPaid.toLocaleString()} LEI</Text>
              </View>
              <View style={[styles.statBox, { backgroundColor: '#fff1f2', borderColor: '#fecdd3' }]}>
-                <Text style={[styles.statLabel, { color: '#be123c' }]}>Rest de Plată</Text>
+                <Text style={[styles.statLabel, { color: '#be123c' }]}>Rest de Plata</Text>
                 <Text style={[styles.statValue, { color: '#881337' }]}>{(totalSpent - totalPaid).toLocaleString()} LEI</Text>
              </View>
           </View>

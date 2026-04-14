@@ -28,7 +28,7 @@ export default function LinkDistributionSection() {
                 <span className="text-gray-500">Sau sute de link-uri.</span>
               </h2>
               <p className="text-gray-400 text-lg leading-relaxed">
-                Alege cum vrei să distribui invitația. Configurează un link public pentru rețelele sociale sau generează link-uri unice pentru o experiență VIP și tracking precis.
+                Alege cum vrei sa distribui invitatia. Configureaza un link public pentru retelele sociale sau genereaza link-uri unice pentru o experienta VIP si tracking precis.
               </p>
             </div>
 
@@ -39,7 +39,7 @@ export default function LinkDistributionSection() {
                 </div>
                 <div>
                   <h3 className="text-white font-bold text-base mb-1 group-hover:text-blue-400 transition-colors">Link Public (Slug)</h3>
-                  <p className="text-gray-500 text-sm">Creează un URL personalizat (ex: <span className="font-mono text-blue-400/80 bg-blue-400/10 px-1 rounded">/nunta-noastra</span>) pe care îl poți trimite oricui, oriunde.</p>
+                  <p className="text-gray-500 text-sm">Creeaza un URL personalizat (ex: <span className="font-mono text-blue-400/80 bg-blue-400/10 px-1 rounded">/nunta-noastra</span>) pe care il poti trimite oricui, oriunde.</p>
                 </div>
               </div>
 
@@ -49,7 +49,7 @@ export default function LinkDistributionSection() {
                 </div>
                 <div>
                   <h3 className="text-white font-bold text-base mb-1 group-hover:text-purple-400 transition-colors">Link-uri Unice (Tracking)</h3>
-                  <p className="text-gray-500 text-sm">Sistemul generează automat un link criptat pentru fiecare invitat adăugat în listă. Știi exact cine a intrat.</p>
+                  <p className="text-gray-500 text-sm">Sistemul genereaza automat un link criptat pentru fiecare invitat adaugat in lista. Stii exact cine a intrat.</p>
                 </div>
               </div>
             </div>
@@ -76,8 +76,8 @@ export default function LinkDistributionSection() {
                 
                 {/* Page Header */}
                 <div className="mb-6">
-                   <h3 className="text-lg font-bold text-white mb-1">Listă Invitați & RSVP</h3>
-                   <p className="text-xs text-gray-500">Gestionează link-urile și confirmările.</p>
+                   <h3 className="text-lg font-bold text-white mb-1">Lista Invitati & RSVP</h3>
+                   <p className="text-xs text-gray-500">Gestioneaza link-urile si confirmarile.</p>
                 </div>
 
                 {/* Configuration Alert Banner */}
@@ -88,8 +88,8 @@ export default function LinkDistributionSection() {
                          <Link size={18} />
                       </div>
                       <div>
-                         <h4 className="text-white text-sm font-bold mb-1">Configurează link-ul public</h4>
-                         <p className="text-gray-400 text-xs max-w-sm leading-relaxed">Alege un nume (slug) pentru evenimentul tău în setări.</p>
+                         <h4 className="text-white text-sm font-bold mb-1">Configureaza link-ul public</h4>
+                         <p className="text-gray-400 text-xs max-w-sm leading-relaxed">Alege un nume (slug) pentru evenimentul tau in setari.</p>
                       </div>
                    </div>
                    <button className="z-10 w-full sm:w-auto px-4 py-2 bg-transparent border border-gray-600 text-white text-xs font-bold rounded hover:bg-white hover:text-black transition-colors whitespace-nowrap">
@@ -103,20 +103,20 @@ export default function LinkDistributionSection() {
                 <div className="flex flex-col sm:flex-row gap-3 mb-6">
                     <div className="flex-1 bg-[#111113] border border-white/10 rounded px-3 py-2.5 flex items-center gap-2 text-gray-500 focus-within:text-white focus-within:border-white/20 transition-colors">
                         <Search size={14} />
-                        <input type="text" placeholder="Caută invitat..." className="bg-transparent border-none outline-none text-xs w-full text-white placeholder-gray-600" />
+                        <input type="text" placeholder="Cauta invitat..." className="bg-transparent border-none outline-none text-xs w-full text-white placeholder-gray-600" />
                     </div>
                     
                     <div className="flex gap-2">
                         <div className="flex-1 sm:flex-none flex items-center justify-center sm:justify-start gap-2 px-3 py-2 bg-[#111113] border border-white/10 rounded whitespace-nowrap">
                             <Lock size={12} className="text-purple-400" />
-                            <span className="text-[10px] text-gray-400 font-medium">Limită (1/50)</span>
+                            <span className="text-[10px] text-gray-400 font-medium">Limita (1/50)</span>
                             <button className="ml-1 px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-white text-[9px] font-bold rounded flex items-center gap-1 transition-colors">
                                 <Crown size={8} /> Upgrade
                             </button>
                         </div>
 
                         <button className="px-3 py-2 bg-white/5 border border-white/10 rounded text-gray-500 text-xs font-bold cursor-not-allowed opacity-50 flex items-center gap-2 shrink-0">
-                            + <span className="hidden sm:inline">Adaugă</span>
+                            + <span className="hidden sm:inline">Adauga</span>
                         </button>
                     </div>
                 </div>
@@ -125,9 +125,9 @@ export default function LinkDistributionSection() {
                 <div className="hidden sm:flex items-center text-[10px] uppercase font-bold text-gray-500 tracking-wider mb-3 px-2">
                     <div className="w-8 text-center">#</div>
                     <div className="w-32">Nume</div>
-                    <div className="flex-1 px-4">Link / Sursă</div>
+                    <div className="flex-1 px-4">Link / Sursa</div>
                     <div className="w-24 text-center">Status</div>
-                    <div className="w-24 text-right">Acțiuni</div>
+                    <div className="w-24 text-right">Actiuni</div>
                 </div>
 
                 {/* Table Row (Responsive Card) */}
@@ -141,7 +141,7 @@ export default function LinkDistributionSection() {
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-sm font-bold text-white">Alexandru P.</span>
-                                <span className="sm:hidden text-[10px] text-gray-500">Adăugat acum 2 ore</span>
+                                <span className="sm:hidden text-[10px] text-gray-500">Adaugat acum 2 ore</span>
                             </div>
                         </div>
                     </div>
@@ -164,7 +164,7 @@ export default function LinkDistributionSection() {
                     <div className="flex items-center justify-between w-full sm:w-auto gap-2 mt-1 sm:mt-0">
                          <div className="flex-1 sm:w-24 flex justify-start sm:justify-center">
                             <div className="px-2 py-1 rounded bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold flex items-center gap-1.5">
-                                Văzut <span className="hidden sm:inline text-[8px] opacity-60 font-normal">19.02</span>
+                                Vazut <span className="hidden sm:inline text-[8px] opacity-60 font-normal">19.02</span>
                             </div>
                          </div>
                          
@@ -172,7 +172,7 @@ export default function LinkDistributionSection() {
                              <button className="p-1.5 text-gray-500 hover:text-white hover:bg-white/10 rounded transition-colors" title="Trimite">
                                  <Send size={14} />
                              </button>
-                             <button className="p-1.5 text-gray-500 hover:text-red-400 hover:bg-red-400/10 rounded transition-colors" title="Șterge">
+                             <button className="p-1.5 text-gray-500 hover:text-red-400 hover:bg-red-400/10 rounded transition-colors" title="Sterge">
                                  <Trash2 size={14} />
                              </button>
                              <button className="p-1.5 text-blue-500 hover:text-blue-400 hover:bg-blue-500/10 rounded transition-colors" title="Deschide">

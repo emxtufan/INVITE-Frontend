@@ -31,15 +31,15 @@ interface MarketplaceTemplateItem {
 
 // ── Template-uri ──────────────────────────────────────────────────────────────
 const VARIANTS = [
-  { id: 'castle-magic',      label: 'Castle Magic',   emoji: '🏰', color: '#be185d', bg: '#fdf2f8', desc: 'Versiunea clasică roz pentru botez' },
-  { id: 'castle-magic-boys', label: 'Boy Castle',     emoji: '🏯', color: '#1d4ed8', bg: '#eff6ff', desc: 'Versiunea pentru băieți' },
+  { id: 'castle-magic',      label: 'Castle Magic',   emoji: '🏰', color: '#be185d', bg: '#fdf2f8', desc: 'Versiunea clasica roz pentru botez' },
+  { id: 'castle-magic-boys', label: 'Boy Castle',     emoji: '🏯', color: '#1d4ed8', bg: '#eff6ff', desc: 'Versiunea pentru baieti' },
   { id: 'castle-magic-girl', label: 'Girl Castle',    emoji: '🌸', color: '#7c3aed', bg: '#faf5ff', desc: 'Versiunea pentru fete' },
-  { id: 'lord-effects',      label: 'Lord Effects',   emoji: '👑', color: '#1d4ed8', bg: '#eff6ff', desc: 'Varianta Lord Effects cu imagini per temă' },
+  { id: 'lord-effects',      label: 'Lord Effects',   emoji: '👑', color: '#1d4ed8', bg: '#eff6ff', desc: 'Varianta Lord Effects cu imagini per tema' },
   { id: 'romantic', label: 'Romantic',    emoji: '🌸', color: '#7f0000', bg: '#faf5ff', desc: 'Versiunea pentru fete' },
   { id: 'regal',         label: 'Regal',        emoji: '👑', color: '#92400e', bg: '#fffbeb', desc: 'Template royal cu video intro' },
-  { id: 'jurassic-park', label: 'Jurassic Park', emoji: '🦕', color: '#c87820', bg: '#fdf8ec', desc: 'Aventură jurasică — teme băieți & fete' },
-  { id: 'zootropolis',   label: 'Zootropolis',   emoji: '🦊', color: '#E85D04', bg: '#fff7ed', desc: 'Metropola animală — teme băieți & fete' },
-  { id: 'little-mermaid', label: 'Little Mermaid', emoji: '🧜‍♀️', color: '#92400e', bg: '#fffbeb', desc: 'Template Mica Sirenă cu video intro' },
+  { id: 'jurassic-park', label: 'Jurassic Park', emoji: '🦕', color: '#c87820', bg: '#fdf8ec', desc: 'Aventura jurasica — teme baieti & fete' },
+  { id: 'zootropolis',   label: 'Zootropolis',   emoji: '🦊', color: '#E85D04', bg: '#fff7ed', desc: 'Metropola animala — teme baieti & fete' },
+  { id: 'little-mermaid', label: 'Little Mermaid', emoji: '🧜‍♀', color: '#92400e', bg: '#fffbeb', desc: 'Template Mica Sirena cu video intro' },
 ];
 
 const emptyConfig = (): VariantConfig => ({ colorTheme: 'default', themeImages: {}, introVariants: {} });
@@ -195,9 +195,9 @@ const TemplateManagement: React.FC = () => {
 
   const resetVariant = async (id: string) => {
     const variant = VARIANTS.find(v => v.id === id);
-    if (!window.confirm(`Resetezi toate imaginile și config-ul pentru "${variant?.label}"?
+    if (!window.confirm(`Resetezi toate imaginile si config-ul pentru "${variant?.label}"?
 
-Fișierele vor fi șterse permanent.`)) return;
+Fisierele vor fi sterse permanent.`)) return;
     setLoading(prev => ({ ...prev, [id]: true }));
     try {
       const r = await fetch(`${API_URL}/admin/config/template-defaults/${id}`, {
@@ -206,7 +206,7 @@ Fișierele vor fi șterse permanent.`)) return;
       });
       const d = await r.json();
       setConfigs(prev => ({ ...prev, [id]: emptyConfig() }));
-      alert(`✅ Reset complet. ${d.deleted || 0} fișiere șterse.`);
+      alert(`✅ Reset complet. ${d.deleted || 0} fisiere sterse.`);
     } catch (e) {
       alert('Eroare la reset.');
     } finally {
@@ -251,7 +251,7 @@ Fișierele vor fi șterse permanent.`)) return;
     const id = `v_${Date.now()}`;
     setConfigs(prev => {
       const cfg = prev[variantId] || emptyConfig();
-      return { ...prev, [variantId]: { ...cfg, introVariants: { ...cfg.introVariants, [id]: { label: 'Variantă nouă' } } } };
+      return { ...prev, [variantId]: { ...cfg, introVariants: { ...cfg.introVariants, [id]: { label: 'Varianta noua' } } } };
     });
   };
 
@@ -285,11 +285,11 @@ Fișierele vor fi șterse permanent.`)) return;
       <div>
         <h2 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: '#111' }}>🏰 Castle Templates</h2>
         <p style={{ margin: '4px 0 0', fontSize: 13, color: '#6b7280' }}>
-          Configurare globală pentru toate variantele — imagini uși per temă, paletă implicită.
+          Configurare globala pentru toate variantele — imagini usi per tema, paleta implicita.
         </p>
       </div>
 
-      {/* ── Un card per variantă ────────────────────────────────────────────── */}
+      {/* ── Un card per varianta ────────────────────────────────────────────── */}
       <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e5e7eb', padding: '16px 18px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
         <div style={{ marginBottom: 12 }}>
           <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: '#111' }}>Disponibilitate template-uri in dashboard</h3>
@@ -387,7 +387,7 @@ Fișierele vor fi șterse permanent.`)) return;
                   <span style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', fontFamily: 'monospace', background: '#f3f4f6', padding: '2px 8px', borderRadius: 6 }}>{variant.id}</span>
                 </div>
                 <p style={{ margin: '2px 0 0', fontSize: 12, color: '#6b7280' }}>
-                  {variant.desc} · Temă implicită: <strong style={{ color: variant.color }}>{variant.id === 'lord-effects' ? getLordTheme(cfg.colorTheme).emoji : variant.id === 'jurassic-park' ? getJurassicTheme(cfg.colorTheme).emoji : variant.id === 'zootropolis' ? getZootropolisTheme(cfg.colorTheme).emoji : variant.id === 'little-mermaid' ? getMermaidTheme(cfg.colorTheme).emoji : getCastleTheme(cfg.colorTheme).emoji} {variant.id === 'lord-effects' ? getLordTheme(cfg.colorTheme).name : variant.id === 'jurassic-park' ? getJurassicTheme(cfg.colorTheme).name : variant.id === 'zootropolis' ? getZootropolisTheme(cfg.colorTheme).name : variant.id === 'little-mermaid' ? getMermaidTheme(cfg.colorTheme).name : getCastleTheme(cfg.colorTheme).name}</strong>
+                  {variant.desc} · Tema implicita: <strong style={{ color: variant.color }}>{variant.id === 'lord-effects' ? getLordTheme(cfg.colorTheme).emoji : variant.id === 'jurassic-park' ? getJurassicTheme(cfg.colorTheme).emoji : variant.id === 'zootropolis' ? getZootropolisTheme(cfg.colorTheme).emoji : variant.id === 'little-mermaid' ? getMermaidTheme(cfg.colorTheme).emoji : getCastleTheme(cfg.colorTheme).emoji} {variant.id === 'lord-effects' ? getLordTheme(cfg.colorTheme).name : variant.id === 'jurassic-park' ? getJurassicTheme(cfg.colorTheme).name : variant.id === 'zootropolis' ? getZootropolisTheme(cfg.colorTheme).name : variant.id === 'little-mermaid' ? getMermaidTheme(cfg.colorTheme).name : getCastleTheme(cfg.colorTheme).name}</strong>
                   {themesWithImgs > 0 && <> · <span style={{ color: '#4f46e5' }}>🚪 {themesWithImgs} teme cu imagini</span></>}
                 </p>
               </div>
@@ -395,17 +395,17 @@ Fișierele vor fi șterse permanent.`)) return;
               <div style={{ display: 'flex', gap: 8, alignItems: 'center' }} onClick={e => e.stopPropagation()}>
                 <button type="button" onClick={() => loadVariant(variant.id)} disabled={isLoading}
                   style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #e5e7eb', background: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                  title="Reîncarcă">
+                  title="Reincarca">
                   <RefreshCw size={13} style={{ color: '#6b7280', animation: isLoading ? 'spin 0.7s linear infinite' : 'none' }} />
                 </button>
                 <button type="button" onClick={() => saveVariant(variant.id)} disabled={isSaving}
                   style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 16px', borderRadius: 9, border: 'none', cursor: 'pointer', background: isSaved ? '#10b981' : variant.color, color: 'white', fontSize: 12, fontWeight: 700, transition: 'background 0.2s', opacity: isSaving ? 0.7 : 1 }}>
                   {isSaving ? <Loader2 size={12} style={{ animation: 'spin 0.7s linear infinite' }} /> : isSaved ? <Check size={12} /> : <Save size={12} />}
-                  {isSaved ? 'Salvat!' : isSaving ? '...' : 'Salvează'}
+                  {isSaved ? 'Salvat!' : isSaving ? '...' : 'Salveaza'}
                 </button>
                 <button type="button" onClick={() => resetVariant(variant.id)} disabled={isLoading || isSaving}
                   style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '7px 12px', borderRadius: 9, border: '1.5px solid #fee2e2', cursor: 'pointer', background: 'white', color: '#ef4444', fontSize: 11, fontWeight: 700 }}
-                  title="Șterge toate imaginile și resetează config-ul">
+                  title="Sterge toate imaginile si reseteaza config-ul">
                   <Trash2 size={11} /> Reset
                 </button>
               </div>
@@ -420,7 +420,7 @@ Fișierele vor fi șterse permanent.`)) return;
     {isLoading ? (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10, padding: 32, color: '#9ca3af' }}>
         <Loader2 size={20} style={{ animation: 'spin 0.7s linear infinite', color: variant.color }} />
-        <span style={{ fontSize: 13 }}>Se încarcă configurarea...</span>
+        <span style={{ fontSize: 13 }}>Se incarca configurarea...</span>
       </div>
     ) : variant.id === 'regal' ? (
       // ── Regal: intro variants grid ────────────────────────────────────────
@@ -429,17 +429,17 @@ Fișierele vor fi șterse permanent.`)) return;
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             <span style={{ fontSize: 14, fontWeight: 700, color: '#111' }}>🖼 Variante Intro</span>
-            <span style={{ fontSize: 11, color: '#9ca3af', marginLeft: 8 }}>— utilizatorul alege varianta preferată din Settings</span>
+            <span style={{ fontSize: 11, color: '#9ca3af', marginLeft: 8 }}>— utilizatorul alege varianta preferata din Settings</span>
           </div>
           <button type="button" onClick={() => addIntroVariant(variant.id)}
             style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 9, border: '1.5px dashed #92400e44', background: '#fffbeb', color: '#92400e', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
-            <Plus size={13} /> Adaugă variantă
+            <Plus size={13} /> Adauga varianta
           </button>
         </div>
 
         {Object.keys(cfg.introVariants).length === 0 && (
           <div style={{ textAlign: 'center', padding: '32px 0', color: '#9ca3af', fontSize: 13, border: '1.5px dashed #e5e7eb', borderRadius: 14 }}>
-            Nicio variantă. Apasă <strong>Adaugă variantă</strong> pentru a începe.
+            Nicio varianta. Apasa <strong>Adauga varianta</strong> pentru a incepe.
           </div>
         )}
 
@@ -448,13 +448,13 @@ Fișierele vor fi șterse permanent.`)) return;
             const isDefault = cfg.defaultIntroVariant === ivId;
             return (
               <div key={ivId} style={{ borderRadius: 14, border: `1.5px solid ${isDefault ? '#92400e66' : '#e5e7eb'}`, overflow: 'hidden', background: isDefault ? '#fffbeb' : 'white' }}>
-                {/* Header variantă */}
+                {/* Header varianta */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
                   <input
                     value={iv.label}
                     onChange={e => updateIntroVariant(variant.id, ivId, { label: e.target.value })}
                     style={{ flex: 1, border: 'none', background: 'transparent', fontSize: 13, fontWeight: 700, color: '#111', outline: 'none', minWidth: 0 }}
-                    placeholder="Nume variantă..."
+                    placeholder="Nume varianta..."
                   />
                   {isDefault ? (
                     <span style={{ fontSize: 9, fontWeight: 700, background: '#92400e', color: 'white', borderRadius: 99, padding: '2px 7px', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>
@@ -468,7 +468,7 @@ Fișierele vor fi șterse permanent.`)) return;
                     </button>
                   )}
                   <button type="button" onClick={() => removeIntroVariant(variant.id, ivId)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', padding: 2 }} title="Șterge varianta">
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', padding: 2 }} title="Sterge varianta">
                     <Trash2 size={12} />
                   </button>
                 </div>
@@ -494,10 +494,10 @@ Fișierele vor fi șterse permanent.`)) return;
                   />
                 </div>
 
-                {/* Warning dacă nu are imagini */}
+                {/* Warning daca nu are imagini */}
                 {!iv.desktop && !iv.mobile && (
                   <div style={{ padding: '0 14px 10px', fontSize: 9, color: '#b45309' }}>
-                    ⚠ Nicio imagine — varianta nu va fi afișată utilizatorilor
+                    ⚠ Nicio imagine — varianta nu va fi afisata utilizatorilor
                   </div>
                 )}
               </div>
@@ -508,16 +508,16 @@ Fișierele vor fi șterse permanent.`)) return;
         {/* Info box */}
         {Object.keys(cfg.introVariants).length > 0 && (
           <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '10px 14px', fontSize: 11, color: '#166534' }}>
-            💡 Varianta marcată <strong>DEFAULT</strong> apare automat dacă utilizatorul nu a ales nimic. Apasă <strong>Salvează</strong> după orice modificare.
+            💡 Varianta marcata <strong>DEFAULT</strong> apare automat daca utilizatorul nu a ales nimic. Apasa <strong>Salveaza</strong> dupa orice modificare.
           </div>
         )}
       </div>
     ) : (
-      // Secțiunea imagini uși per temă
+      // Sectiunea imagini usi per tema
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-          <span style={{ fontSize: 14, fontWeight: 700, color: '#111' }}>🚪 Imagini uși per temă</span>
-          <span style={{ fontSize: 11, color: '#9ca3af' }}>— fiecare temă poate avea imagini diferite</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: '#111' }}>🚪 Imagini usi per tema</span>
+          <span style={{ fontSize: 11, color: '#9ca3af' }}>— fiecare tema poate avea imagini diferite</span>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
@@ -572,7 +572,7 @@ Fișierele vor fi șterse permanent.`)) return;
                   )}
                   {hasImgs && (
                     <button type="button" onClick={() => removeThemeImages(variant.id, theme.id)}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', padding: 2 }} title="Șterge imaginile">
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', padding: 2 }} title="Sterge imaginile">
                       <Trash2 size={12} />
                     </button>
                   )}
@@ -602,12 +602,12 @@ Fișierele vor fi șterse permanent.`)) return;
                 {/* Fallback warnings */}
                 {!hasImgs && theme.id !== 'default' && !cfg.themeImages['default']?.desktop && (
                   <div style={{ padding: '4px 14px 10px', fontSize: 9, color: '#b45309' }}>
-                    ⚠ Fără imagini — se va folosi SVG placeholder
+                    ⚠ Fara imagini — se va folosi SVG placeholder
                   </div>
                 )}
                 {!hasImgs && theme.id !== 'default' && cfg.themeImages['default']?.desktop && (
                   <div style={{ padding: '4px 14px 10px', fontSize: 9, color: '#6b7280' }}>
-                    → Folosește imaginile temei Default
+                    → Foloseste imaginile temei Default
                   </div>
                 )}
               </div>
@@ -626,11 +626,11 @@ Fișierele vor fi șterse permanent.`)) return;
       <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 14, padding: '14px 20px', display: 'flex', gap: 12 }}>
         <span style={{ fontSize: 20, flexShrink: 0 }}>💡</span>
         <div>
-          <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#92400e' }}>Cum funcționează?</p>
+          <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#92400e' }}>Cum functioneaza?</p>
           <p style={{ margin: '4px 0 0', fontSize: 11, color: '#78350f', lineHeight: 1.7 }}>
-            Fiecare variantă Castle (Magic / Boys / Girl) are propriile setări salvate în MongoDB.<br />
-            Imaginile de la uși se servesc per temă activă — dacă tema utilizatorului nu are imagini proprii, se folosesc cele de la <strong>Default</strong>.<br />
-            Modificările devin active <em>imediat</em> la următoarea deschidere a invitației.
+            Fiecare varianta Castle (Magic / Boys / Girl) are propriile setari salvate in MongoDB.<br />
+            Imaginile de la usi se servesc per tema activa — daca tema utilizatorului nu are imagini proprii, se folosesc cele de la <strong>Default</strong>.<br />
+            Modificarile devin active <em>imediat</em> la urmatoarea deschidere a invitatiei.
           </p>
         </div>
       </div>
@@ -737,7 +737,7 @@ const MiniVideoField: React.FC<{
   return (
     <div>
       <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#6b7280' }}>
-        🎬 Video Intro — apare în locul imaginii de fundal
+        🎬 Video Intro — apare in locul imaginii de fundal
       </p>
       <div
         className="img-field-hover"
@@ -753,11 +753,11 @@ const MiniVideoField: React.FC<{
             <div className="img-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0)', opacity: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'all 0.15s' }}>
               <button type="button" onClick={e => { e.stopPropagation(); ref.current?.click(); }}
                 style={{ opacity: 0, background: 'white', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 11, fontWeight: 700, transition: 'opacity 0.15s' }}>
-                ✎ Înlocuiește
+                ✎ Inlocuieste
               </button>
               <button type="button" onClick={e => { e.stopPropagation(); onRemove(); }}
                 style={{ opacity: 0, background: '#ef4444', color: 'white', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 11, fontWeight: 700, transition: 'opacity 0.15s', display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Trash2 size={11} /> Șterge
+                <Trash2 size={11} /> Sterge
               </button>
             </div>
           </>

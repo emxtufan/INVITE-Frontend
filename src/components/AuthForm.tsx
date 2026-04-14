@@ -38,6 +38,7 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
   const [registerData, setRegisterData] = useState(getDefaultRegisterData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [googleHint, setGoogleHint] = useState<string | null>(null);
   const [pendingVerificationEmail, setPendingVerificationEmail] = useState<string | null>(null);
   const [otpCode, setOtpCode] = useState("");
   const [otpInfo, setOtpInfo] = useState<string | null>(null);
@@ -49,6 +50,16 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
   const [forgotInfo, setForgotInfo] = useState<string | null>(null);
   
   const googleBtnRef = useRef<HTMLDivElement>(null);
+
+  const isLikelyInAppBrowser = () => {
+    const ua = navigator.userAgent || "";
+    return /FBAN|FBAV|Instagram|Line|TikTok|wv|WebView/i.test(ua);
+  };
+
+  const isLocalIpHost = () => {
+    const host = window.location.hostname || "";
+    return /^\d{1,3}(\.\d{1,3}){3}$/.test(host);
+  };
 
   const updateRegisterData = <K extends keyof ReturnType<typeof getDefaultRegisterData>>(
     key: K,
@@ -88,21 +99,26 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
 
           if (window.google && window.google.accounts && googleBtnRef.current) {
               try {
+                  setGoogleHint(null);
                   // Initialize
                   window.google.accounts.id.initialize({
                       client_id: GOOGLE_CLIENT_ID,
-                      callback: handleGoogleResponse
+                      callback: handleGoogleResponse,
+                      auto_select: false,
+                      itp_support: true,
+                      context: "signin"
                   });
                   
                   // Render Button
                   // We clear innerHTML to prevent duplicate buttons if re-rendering
                   googleBtnRef.current.innerHTML = ''; 
+                  const resolvedWidth = Math.max(220, Math.min(420, googleBtnRef.current.clientWidth || 320));
                   window.google.accounts.id.renderButton(
                       googleBtnRef.current,
                       { 
                           theme: "outline", 
                           size: "large", 
-                          width: "100%", // Adapts to container width
+                          width: resolvedWidth,
                           text: "continue_with",
                           shape: "rectangular",
                           logo_alignment: "left"
@@ -110,19 +126,36 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
                   );
               } catch (e) {
                   console.error("Google Auth Render Error:", e);
+                  setGoogleHint("Google Sign-In nu s-a initializat corect pe acest browser.");
               }
           }
       };
 
       // Check if script is loaded
       if (!window.google?.accounts) {
+          const hardTimeout = window.setTimeout(() => {
+            if (!window.google?.accounts) {
+              if (isLikelyInAppBrowser()) {
+                setGoogleHint("Browserul integrat din aplicatie poate bloca Google login. Deschide pagina in Chrome sau Safari.");
+              } else if (isLocalIpHost()) {
+                setGoogleHint("Google poate bloca autentificarea de pe IP local. Foloseste domeniul principal sau autorizeaza origin-ul mobil in Google Cloud Console.");
+              } else {
+                setGoogleHint("Nu s-a incarcat modulul Google Sign-In. Verifica reteaua sau content blockers.");
+              }
+            }
+          }, 4000);
+
           const interval = setInterval(() => {
               if (window.google?.accounts) {
                   clearInterval(interval);
+                  clearTimeout(hardTimeout);
                   renderGoogleButton();
               }
           }, 100);
-          return () => clearInterval(interval);
+          return () => {
+            clearInterval(interval);
+            clearTimeout(hardTimeout);
+          };
       } else {
           // Script already loaded, render immediately
           renderGoogleButton();
@@ -133,6 +166,10 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
       setLoading(true);
       setError(null);
       try {
+          if (!response?.credential) {
+            throw new Error("Google nu a returnat credential. Incearca din Chrome sau Safari.");
+          }
+
           const res = await fetch(`${API_URL}/google-auth`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -143,7 +180,12 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
           if (!res.ok) throw new Error(data.error || "Google login failed");
           onLogin(data);
       } catch (err: any) {
-          setError(err.message);
+          const rawMessage = String(err?.message || "");
+          if (/Failed to fetch|NetworkError|Load failed/i.test(rawMessage)) {
+            setError("Conexiunea spre serverul de autentificare a esuat. Pe mobil, problema este de obicei origin/CORS sau browser in-app.");
+          } else {
+            setError(rawMessage || "Autentificarea cu Google a esuat.");
+          }
       } finally {
           setLoading(false);
       }
@@ -156,7 +198,7 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
   const enterOtpFlow = (emailAddress: string, message?: string) => {
     setPendingVerificationEmail(emailAddress);
     setOtpCode("");
-    setOtpInfo(message || "Am trimis codul OTP pe email. Verifică inbox-ul.");
+    setOtpInfo(message || "Am trimis codul OTP pe email. Verifica inbox-ul.");
     setError(null);
   };
 
@@ -184,7 +226,7 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
         return;
       }
 
-      setOtpInfo("Email verificat. Te poți autentifica acum.");
+      setOtpInfo("Email verificat. Te poti autentifica acum.");
       setPendingVerificationEmail(null);
       setIsRegister(false);
     } catch (err: any) {
@@ -324,13 +366,13 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
 
     // Frontend Validations
     if (!normalizedEmail || !isValidEmail(normalizedEmail)) {
-        setError("Te rugăm să introduci o adresă de email validă.");
+        setError("Te rugam sa introduci o adresa de email valida.");
         setLoading(false);
         return;
     }
 
     if (password.length < 6) {
-        setError("Parola trebuie să aibă cel puțin 6 caractere.");
+        setError("Parola trebuie sa aiba cel putin 6 caractere.");
         setLoading(false);
         return;
     }
@@ -655,24 +697,29 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 shadow-inner">
             <Utensils className="h-7 w-7 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold tracking-tight">{isRegister ? "Creează Cont Nou" : "Autentificare"}</CardTitle>
+          <CardTitle className="text-2xl font-bold tracking-tight">{isRegister ? "Creeaza Cont Nou" : "Autentificare"}</CardTitle>
           <p className="text-sm text-muted-foreground mt-2">
-            {isRegister ? "Completează detaliile pentru a începe planificarea." : "Bine ai revenit în ESA!"}
+            {isRegister ? "Completeaza detaliile pentru a incepe planificarea." : "Bine ai revenit in ESA!"}
           </p>
         </CardHeader>
         <CardContent>
           {/* Google Button Container */}
-          <div className="mb-4 w-full flex flex-col items-center justify-center min-h-[40px]">
-              {GOOGLE_CLIENT_ID.includes("PASTE_YOUR") && (
-                  <p className="text-[10px] text-red-500 mb-2 font-mono text-center border border-red-200 bg-red-50 p-1 w-full rounded">
-                      Developer: Configurează GOOGLE_CLIENT_ID în AuthForm.tsx
-                  </p>
-              )}
-              <div
-                ref={googleBtnRef}
-                className="w-full flex justify-center"
-                style={{ display: "flex", justifyContent: "center" }}
-              ></div>
+	          <div className="mb-4 w-full flex flex-col items-center justify-center min-h-[40px]">
+	              {GOOGLE_CLIENT_ID.includes("PASTE_YOUR") && (
+	                  <p className="text-[10px] text-red-500 mb-2 font-mono text-center border border-red-200 bg-red-50 p-1 w-full rounded">
+	                      Developer: Configureaza GOOGLE_CLIENT_ID in AuthForm.tsx
+	                  </p>
+	              )}
+                  {googleHint && (
+                    <p className="text-[11px] text-amber-700 mb-2 text-center border border-amber-200 bg-amber-50 p-2 w-full rounded">
+                      {googleHint}
+                    </p>
+                  )}
+	              <div
+	                ref={googleBtnRef}
+	                className="w-full flex justify-center"
+	                style={{ display: "flex", justifyContent: "center" }}
+	              ></div>
           </div>
 
           <div className="relative mb-4">
@@ -702,7 +749,7 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase text-muted-foreground ml-1">Parolă <span className="text-red-500">*</span></label>
+              <label className="text-xs font-semibold uppercase text-muted-foreground ml-1">Parola <span className="text-red-500">*</span></label>
               <div className="relative">
                   <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input 
@@ -738,7 +785,7 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
 
             {isRegister && (
                 <div className="space-y-2 animate-in slide-in-from-top-2 fade-in">
-                  <label className="text-xs font-semibold uppercase text-muted-foreground ml-1">Confirmă Parola <span className="text-red-500">*</span></label>
+                  <label className="text-xs font-semibold uppercase text-muted-foreground ml-1">Confirma Parola <span className="text-red-500">*</span></label>
                   <div className="relative">
                       <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                       <Input 
@@ -800,12 +847,12 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
 
             <Button type="submit" className="w-full mt-4 h-11 text-base shadow-lg" disabled={loading}>
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isRegister ? "Înregistrează-te Gratuit" : "Intră în Cont"}
+              {isRegister ? "Inregistreaza-te Gratuit" : "Intra in Cont"}
             </Button>
 
             <div className="text-center text-sm pt-2">
               <span className="text-muted-foreground">
-                {isRegister ? "Ai deja un cont? " : "Nu ai cont încă? "}
+                {isRegister ? "Ai deja un cont? " : "Nu ai cont inca? "}
               </span>
               <button
                 type="button"
@@ -823,7 +870,7 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
                     }
                 }}
               >
-                {isRegister ? "Autentifică-te" : "Creează unul acum"}
+                {isRegister ? "Autentifica-te" : "Creeaza unul acum"}
               </button>
             </div>
           </form>

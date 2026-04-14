@@ -27,7 +27,7 @@ const HistoryView: React.FC<HistoryViewProps> = ({ session, onViewEvent, onLoadS
             <div className="max-w-5xl mx-auto space-y-8">
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight">Istoric Evenimente</h2>
-                    <p className="text-muted-foreground">Gestionează evenimentul curent și vezi arhiva evenimentelor trecute.</p>
+                    <p className="text-muted-foreground">Gestioneaza evenimentul curent si vezi arhiva evenimentelor trecute.</p>
                 </div>
 
                 {/* ACTIVE / PENDING EVENT CARD */}
@@ -84,7 +84,7 @@ const HistoryView: React.FC<HistoryViewProps> = ({ session, onViewEvent, onLoadS
                                 </div>
                                 <div className="flex flex-col justify-between items-start md:items-end">
                                     <div>
-                                        <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold mb-1 text-left md:text-right">Acțiuni</p>
+                                        <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold mb-1 text-left md:text-right">Actiuni</p>
                                         <Button 
                                             size="sm" 
                                             onClick={onViewEvent}
@@ -96,7 +96,7 @@ const HistoryView: React.FC<HistoryViewProps> = ({ session, onViewEvent, onLoadS
                                             )}
                                         >
                                             {status === 'live' ? (
-                                                <><LayoutDashboard className="w-4 h-4" /> Administrează</>
+                                                <><LayoutDashboard className="w-4 h-4" /> Administreaza</>
                                             ) : (
                                                 <><Eye className="w-4 h-4" /> Vizualizare (Read-Only)</>
                                             )}
@@ -107,8 +107,8 @@ const HistoryView: React.FC<HistoryViewProps> = ({ session, onViewEvent, onLoadS
                             <div className="mt-4 pt-4 border-t border-dashed">
                                 <p className="text-xs text-muted-foreground">
                                     {status === 'live' 
-                                        ? "Poți edita și gestiona toate detaliile în timp real." 
-                                        : "Evenimentul a trecut în offline. Poți vedea datele, dar nu le mai poți modifica. Arhivează-l pentru a începe unul nou."
+                                        ? "Poti edita si gestiona toate detaliile in timp real." 
+                                        : "Evenimentul a trecut in offline. Poti vedea datele, dar nu le mai poti modifica. Arhiveaza-l pentru a incepe unul nou."
                                     }
                                 </p>
                             </div>
@@ -119,7 +119,7 @@ const HistoryView: React.FC<HistoryViewProps> = ({ session, onViewEvent, onLoadS
                 {/* ARCHIVED LIST */}
                 <div className="space-y-4">
                     <h3 className="text-xl font-bold flex items-center gap-2">
-                        <Archive className="w-5 h-5 text-zinc-500" /> Arhivă
+                        <Archive className="w-5 h-5 text-zinc-500" /> Arhiva
                     </h3>
                     
                     {archivedEvents && archivedEvents.length > 0 ? (
@@ -145,7 +145,7 @@ const HistoryView: React.FC<HistoryViewProps> = ({ session, onViewEvent, onLoadS
                                             <div className="text-right hidden sm:block mr-4">
                                                 <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Statistici</p>
                                                 <p className="font-mono font-medium flex items-center gap-2 justify-end text-foreground text-xs">
-                                                    <span title="Invitați"><Users className="w-3 h-3 text-zinc-400 inline" /> {ev.guestCount}</span>
+                                                    <span title="Invitati"><Users className="w-3 h-3 text-zinc-400 inline" /> {ev.guestCount}</span>
                                                     <span title="Cheltuieli"><Wallet className="w-3 h-3 text-zinc-400 inline" /> {ev.totalSpent}</span>
                                                 </p>
                                             </div>
@@ -156,7 +156,7 @@ const HistoryView: React.FC<HistoryViewProps> = ({ session, onViewEvent, onLoadS
                                                     onClick={() => onLoadSnapshot(ev.snapshotId!)}
                                                     className="gap-2"
                                                 >
-                                                    <Eye className="w-4 h-4" /> Vizualizează
+                                                    <Eye className="w-4 h-4" /> Vizualizeaza
                                                 </Button>
                                             ) : (
                                                 <Button 
@@ -179,7 +179,7 @@ const HistoryView: React.FC<HistoryViewProps> = ({ session, onViewEvent, onLoadS
                                 <Archive className="w-8 h-8 text-zinc-300" />
                             </div>
                             <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">Niciun eveniment arhivat</h3>
-                            <p className="text-sm text-zinc-500 mt-1">Evenimentele finalizate vor apărea aici după arhivare.</p>
+                            <p className="text-sm text-zinc-500 mt-1">Evenimentele finalizate vor aparea aici dupa arhivare.</p>
                         </div>
                     )}
                 </div>

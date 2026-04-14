@@ -30,12 +30,12 @@ const TemplatePreviewPage = () => {
                         if (hardcoded) {
                             setTemplate({ id: templateId, name: templateId });
                         } else {
-                            setError("Template-ul nu a fost găsit.");
+                            setError("Template-ul nu a fost gasit.");
                         }
                     }
                 }
             } catch (e) {
-                setError("Eroare la încărcarea template-ului.");
+                setError("Eroare la incarcarea template-ului.");
             } finally {
                 setLoading(false);
             }
@@ -48,7 +48,7 @@ const TemplatePreviewPage = () => {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-zinc-50 gap-4">
                 <Loader2 className="w-10 h-10 animate-spin text-zinc-300" />
-                <p className="text-zinc-400 text-sm">Se încarcă previzualizarea...</p>
+                <p className="text-zinc-400 text-sm">Se incarca previzualizarea...</p>
             </div>
         );
     }
@@ -58,7 +58,7 @@ const TemplatePreviewPage = () => {
             <div className="min-h-screen flex flex-col items-center justify-center bg-zinc-50 p-4 text-center">
                 <h1 className="text-2xl font-bold mb-2">Eroare</h1>
                 <p className="text-zinc-600 mb-6">{error || "Template invalid"}</p>
-                <Button onClick={() => window.history.back()}>Înapoi</Button>
+                <Button onClick={() => window.history.back()}>Inapoi</Button>
             </div>
         );
     }
@@ -73,15 +73,15 @@ const TemplatePreviewPage = () => {
     partner1: "Partener 1",
     partner2: "Partener 2",
     eventDate: "2024-12-31",
-    locationName: "Locație Exemplu",
+    locationName: "Locatie Exemplu",
     locationAddress: "Strada Exemplu, Nr. 1",
     eventTime: "19:00",
     showCivil: true,
     civilTime: "14:00",
-    civilLocationName: "Primărie",
+    civilLocationName: "Primarie",
     showChurch: true,
     churchTime: "16:00",
-    churchLocationName: "Biserică",
+    churchLocationName: "Biserica",
     godparents: JSON.stringify([]),       // string JSON
     parents: JSON.stringify({}),          // string JSON
     timeline: JSON.stringify([]),         // string JSON
@@ -91,8 +91,8 @@ const TemplatePreviewPage = () => {
     lastName: "Popescu",
     email: "maria@example.com",
     phone: "0722000000",
-    city: "București",
-    country: "România",
+    city: "Bucuresti",
+    country: "Romania",
     budget: 10000
   },
   project: { selectedTemplate: template.id }
@@ -106,7 +106,7 @@ const TemplatePreviewPage = () => {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-zinc-50 p-4 text-center">
                 <p>Acest template nu poate fi previzualizat.</p>
-                <Button onClick={() => window.history.back()} className="mt-4">Înapoi</Button>
+                <Button onClick={() => window.history.back()} className="mt-4">Inapoi</Button>
             </div>
         );
     }
@@ -116,7 +116,7 @@ const TemplatePreviewPage = () => {
             <div className="bg-white border-b px-6 py-3 flex items-center justify-between sticky top-0 z-50 bg-[#262626]">
                 <div className="flex items-center gap-4">
                     <Button variant="ghost" size="sm" onClick={() => window.history.back()}>
-                        <ArrowLeft className="w-4 h-4 mr-2" /> Înapoi
+                        <ArrowLeft className="w-4 h-4 mr-2" /> Inapoi
                     </Button>
                     {/* <h1 className="font-bold text-s">Previzualizare: {template.name}</h1> */}
                 </div>

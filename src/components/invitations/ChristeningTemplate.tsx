@@ -30,7 +30,7 @@ export const meta: TemplateMeta = {
   id: 'castle-magic',
   name: 'Castle Magic',
   category: 'baptism',
-  description: 'Design de poveste cu castel roz și efect de deschidere orizontală pe bază de scroll.',
+  description: 'Design de poveste cu castel roz si efect de deschidere orizontala pe baza de scroll.',
   colors: ['#fdf2f8', '#be185d', '#f472b6'],
   previewClass: "bg-pink-50 border-pink-200",
   elementsClass: "bg-pink-500",
@@ -281,7 +281,7 @@ const MusicBlock: React.FC<{
       {!isActive && !editMode && (
         <div style={{ textAlign: 'center', padding: '16px 0', opacity: 0.4 }}>
           <Music className="w-8 h-8" style={{ color: PINK_DARK, display: 'block', margin: '0 auto 6px' }} />
-          <p style={{ fontFamily: SERIF, fontSize: 12, fontStyle: 'italic', color: MUTED, margin: 0 }}>Melodia va apărea aici</p>
+          <p style={{ fontFamily: SERIF, fontSize: 12, fontStyle: 'italic', color: MUTED, margin: 0 }}>Melodia va aparea aici</p>
         </div>
       )}
 
@@ -347,7 +347,7 @@ const MusicBlock: React.FC<{
               <button type="button"
                 onClick={() => { onUpdate({ musicUrl: '', musicType: 'none' as any }); setShowYt(true); }}
                 style={{ background: PINK_XL, border: `1px solid ${PINK_L}`, borderRadius: 99, padding: '4px 14px', cursor: 'pointer', fontFamily: SANS, fontSize: 9, color: MUTED, fontWeight: 700 }}>
-                Schimbă sursa
+                Schimba sursa
               </button>
             </div>
           )}
@@ -529,7 +529,7 @@ const CountdownSection: React.FC<{ date: string | undefined }> = ({ date }) => {
   if (!date || cd.expired) return null;
   return (
     <div style={{ background: PINK_DARK, borderRadius: 16, padding: 24, textAlign: 'center', color: 'white' }}>
-      <p style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', marginBottom: 16 }}>AU MAI RĂMAS</p>
+      <p style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', marginBottom: 16 }}>AU MAI RAMAS</p>
       <div style={{ display: 'flex', justifyContent: 'center', gap: 16 }}>
         {[{ v: cd.days, l: 'ZILE' }, { v: cd.hours, l: 'ORE' }, { v: cd.minutes, l: 'MIN' }, { v: cd.seconds, l: 'SEC' }].map((x, i) => (
           <div key={i}>
@@ -580,8 +580,8 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
 const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (p: Partial<InvitationBlock>) => void }> = ({ block, editMode, onUpdate }) => (
   <div style={{ background: 'white', border: `1px solid ${PINK_L}`, borderRadius: 16, padding: 24, textAlign: 'center' }}>
     <MapPin className="w-8 h-8 text-pink-100 mx-auto mb-4" />
-    <InlineEdit tag="h3" editMode={editMode} value={block.locationName || ''} onChange={v => onUpdate({ locationName: v })} placeholder="Locație..." style={{ fontFamily: SCRIPT, fontSize: 32, color: PINK_DARK, marginBottom: 8 }} />
-    <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''} onChange={v => onUpdate({ locationAddress: v })} placeholder="Adresă..." multiline style={{ fontFamily: SANS, fontSize: 12, color: MUTED, lineHeight: 1.6 }} />
+    <InlineEdit tag="h3" editMode={editMode} value={block.locationName || ''} onChange={v => onUpdate({ locationName: v })} placeholder="Locatie..." style={{ fontFamily: SCRIPT, fontSize: 32, color: PINK_DARK, marginBottom: 8 }} />
+    <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''} onChange={v => onUpdate({ locationAddress: v })} placeholder="Adresa..." multiline style={{ fontFamily: SANS, fontSize: 12, color: MUTED, lineHeight: 1.6 }} />
     <div className="mt-4"><InlineWaze value={block.wazeLink || ''} onChange={v => onUpdate({ wazeLink: v })} editMode={editMode} /></div>
   </div>
 );
@@ -637,8 +637,8 @@ const DoorHint: React.FC = () => (
   </div>
 );
 
-// ── Seam Particles — montate pe marginea ușii, urmăresc automat prin GSAP ─────
-// Generat static — niciodată nu se recalculează
+// ── Seam Particles — montate pe marginea usii, urmaresc automat prin GSAP ─────
+// Generat static — niciodata nu se recalculeaza
 const _SEAM_PX = Array.from({ length: 240 }, (_, i) => {
   const a = (Math.imul(i * 2654435761 + 1013904223, 1) >>> 0);
   const b = (Math.imul((a ^ (a >> 16)) * 2246822519, 1) >>> 0);
@@ -647,13 +647,13 @@ const _SEAM_PX = Array.from({ length: 240 }, (_, i) => {
   const spreadDeg = ((d % 120) - 60);
   const angleRad  = (spreadDeg * Math.PI) / 180;
   const dist = 80 + (b % 300);
-  const size = 1 + (c % 15);  // 1px → 14px — mix de mici și mari
+  const size = 1 + (c % 15);  // 1px → 14px — mix de mici si mari
   return {
     top:    (i / 160) * 98 + 1,
     ex:     Math.round(Math.cos(angleRad) * dist),
     ey:     Math.round(Math.sin(angleRad) * dist),
     size,
-    glow:   size * 2,          // glow proporțional cu mărimea
+    glow:   size * 2,          // glow proportional cu marimea
     dur:    `${0.4 + (a % 60) / 10}s`,
     delay:  `${-(b % 40) / 10}s`,
     warm:   158 + (b % 97),
@@ -836,7 +836,7 @@ const CastleIntro: React.FC<{
     tl.to(contentEl,            { opacity: 1,     ease: 'none', duration: 1 }, 0);
     if (hintRef.current)    tl.to(hintRef.current,    { opacity: 0, ease: 'none', duration: 0.2 }, 0);
     if (overlayRef.current) tl.to(overlayRef.current, { opacity: 0, ease: 'none', duration: 0.3 }, 0);
-    // Particule: apar rapid la start, dispar spre final când ușile s-au deschis complet
+    // Particule: apar rapid la start, dispar spre final cand usile s-au deschis complet
     if (seamRef.current) {
       tl.to(seamRef.current,  { opacity: 1, ease: 'none', duration: 0.08 }, 0);
       tl.to(seamRef.current,  { opacity: 0, ease: 'power2.in', duration: 0.25 }, 0.75);
@@ -960,22 +960,22 @@ const AudioPermissionModal: React.FC<{
         {childName}
       </p>
       <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: TEXT, margin: '0 0 8px' }}>
-        Te invită la o poveste magică 🌟
+        Te invita la o poveste magica 🌟
       </p>
       <p style={{ fontFamily: SANS, fontSize: 11, color: MUTED, margin: '0 0 28px', lineHeight: 1.6 }}>
-        Această invitație are o melodie specială.<br/>
-        Vrei să activezi muzica?
+        Aceasta invitatie are o melodie speciala.<br/>
+        Vrei sa activezi muzica?
       </p>
       {/* Buttons */}
       <button type="button" onClick={onAllow}
         style={{ width: '100%', padding: '14px 0', background: `linear-gradient(135deg,${PINK_DARK},${PINK_D})`, border: 'none', borderRadius: 50, cursor: 'pointer', fontFamily: SANS, fontSize: 12, fontWeight: 700, color: 'white', letterSpacing: '0.1em', marginBottom: 10,  transition: 'transform 0.15s' }}
         onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.03)'}
         onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'}>
-        🎵 Da, activează muzica
+        🎵 Da, activeaza muzica
       </button>
       <button type="button" onClick={onDeny}
         style={{ width: '100%', padding: '10px 0', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: SANS, fontSize: 11, color: MUTED }}>
-        Nu, continuă fără muzică
+        Nu, continua fara muzica
       </button>
     </div>
   </div>
@@ -1040,22 +1040,22 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
     setBlocks(prev => { const nb = [...prev, { id: Date.now().toString(), type: type as InvitationBlockType, show: true, ...def }]; onBlocksUpdate?.(nb); return nb; });
   }, [onBlocksUpdate]);
 
-  const name1    = profile.partner1Name || 'Prințesa Maria';
+  const name1    = profile.partner1Name || 'Printesa Maria';
   const dateStr  = profile.weddingDate ? new Date(profile.weddingDate).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data Evenimentului';
   const showRsvp = profile.showRsvpButton !== false;
-  const rsvpText = profile.rsvpButtonText?.trim() || 'Confirmă Prezența';
+  const rsvpText = profile.rsvpButtonText?.trim() || 'Confirma Prezenta';
 
   const BLOCK_TYPES = [
     { type: 'photo',     label: '📷 Foto',      def: { imageData: undefined, aspectRatio: '1:1', photoClip: 'rect', photoMasks: [] } },
-    { type: 'text',      label: 'Text',          def: { content: 'O poveste magică începe...' } },
-    { type: 'location',  label: 'Locație',       def: { locationName: 'Castelul Magic', locationAddress: 'Strada Basmului nr. 1' } },
+    { type: 'text',      label: 'Text',          def: { content: 'O poveste magica incepe...' } },
+    { type: 'location',  label: 'Locatie',       def: { locationName: 'Castelul Magic', locationAddress: 'Strada Basmului nr. 1' } },
     { type: 'calendar',  label: '📅 Calendar',  def: {} },
     { type: 'countdown', label: '⏱ Countdown', def: {} },
-    { type: 'music',     label: '🎵 Muzică',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
+    { type: 'music',     label: '🎵 Muzica',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
     { type: 'gift',      label: '🎁 Cadouri',   def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
     { type: 'quote',     label: 'Citat',         def: { content: '' } },
     { type: 'whatsapp',  label: 'WhatsApp',      def: { label: 'Contact WhatsApp', content: '0700000000' } },
-    { type: 'rsvp',      label: 'RSVP',          def: { label: 'Confirmă Prezența' } },
+    { type: 'rsvp',      label: 'RSVP',          def: { label: 'Confirma Prezenta' } },
     { type: 'divider',   label: 'Linie',         def: {} },
   ];
 
@@ -1064,7 +1064,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
 
       {showAudioModal && !editMode && (
         <AudioPermissionModal
-          childName={profile.partner1Name || 'Prințesa'}
+          childName={profile.partner1Name || 'Printesa'}
           onAllow={() => {
             audioAllowedRef.current = true;
             setAudioAllowed(true);
@@ -1102,11 +1102,11 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
           {editMode && (
             <div className="mb-12 p-6 bg-white rounded-2xl border border-pink-100 shadow-sm">
               <h3 className="text-xs font-bold text-pink-600 uppercase tracking-widest mb-4 flex items-center gap-2">
-                <ImageIcon className="w-4 h-4" /> Imagini Intro (Uși)
+                <ImageIcon className="w-4 h-4" /> Imagini Intro (Usi)
               </h3>
               {introPreview && (
                 <div className="mb-6">
-                <p className="text-[10px] text-muted uppercase font-bold mb-2">Previzualizare Uși — click pe text pentru editare:</p>
+                <p className="text-[10px] text-muted uppercase font-bold mb-2">Previzualizare Usi — click pe text pentru editare:</p>
                 <div className="border border-pink-100 rounded-xl shadow-inner bg-pink-50/20" style={{ position: 'relative' }}>
                   <BlockStyleProvider
                     value={{
@@ -1151,10 +1151,10 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
               <InlineEdit tag="h1" editMode={editMode} value={name1} onChange={v => upProfile('partner1Name', v)} style={{ fontFamily: SCRIPT, fontSize: '4rem', color: PINK_DARK, lineHeight: 1.2 }} />
               <div className="h-px w-24 bg-pink-200 mx-auto my-6" />
               {profile.showWelcomeText !== false && (
-                <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText || 'Vă invităm la povestea noastră'} onChange={v => upProfile('welcomeText', v)} style={{ fontFamily: SERIF, fontStyle: 'italic', color: PINK_DARK, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: 8 }} />
+                <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText || 'Va invitam la povestea noastra'} onChange={v => upProfile('welcomeText', v)} style={{ fontFamily: SERIF, fontStyle: 'italic', color: PINK_DARK, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: 8 }} />
               )}
               {profile.showCelebrationText !== false && (
-                <InlineEdit tag="p" editMode={editMode} value={(profile as any).celebrationText || 'nunții noastre'} onChange={v => upProfile('celebrationText', v)} style={{ fontFamily: SERIF, fontStyle: 'italic', color: PINK_DARK, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: 8 }} />
+                <InlineEdit tag="p" editMode={editMode} value={(profile as any).celebrationText || 'nuntii noastre'} onChange={v => upProfile('celebrationText', v)} style={{ fontFamily: SERIF, fontStyle: 'italic', color: PINK_DARK, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: 8 }} />
               )}
               <p className="font-sans font-bold text-pink-400 tracking-[0.3em] text-[10px]">{dateStr}</p>
             </Reveal>
@@ -1241,7 +1241,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                     <Reveal>
                       <div className="flex justify-center">
                         <button onClick={() => onOpenRSVP?.()} className="px-8 py-3 bg-pink-600 text-white rounded-full shadow-lg hover:bg-pink-700 transition-colors font-bold text-xs uppercase tracking-widest">
-                          <InlineEdit tag="span" editMode={editMode} value={block.label || 'Confirmă Prezența'} onChange={v => updBlock(idx, { label: v })} />
+                          <InlineEdit tag="span" editMode={editMode} value={block.label || 'Confirma Prezenta'} onChange={v => updBlock(idx, { label: v })} />
                         </button>
                       </div>
                     </Reveal>
@@ -1297,7 +1297,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
 
           {editMode && (
             <div className="mt-16 p-8 border-2 border-dashed border-pink-200 rounded-2xl bg-pink-50/30 text-center">
-              <p className="text-[10px] font-bold text-pink-400 uppercase tracking-[0.3em] mb-6">Adaugă un capitol nou</p>
+              <p className="text-[10px] font-bold text-pink-400 uppercase tracking-[0.3em] mb-6">Adauga un capitol nou</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {BLOCK_TYPES.map(bt => (
                   <button key={bt.type} onClick={() => addBlock(bt.type, bt.def)}

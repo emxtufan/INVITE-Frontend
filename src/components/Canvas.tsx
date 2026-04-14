@@ -31,7 +31,7 @@ const Canvas: React.FC<CanvasProps> = memo(({
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   
   const [dragInfo, setDragInfo] = useState<{ id: string, startX: number, startY: number, currentX: number, currentY: number } | null>(null);
-  const dragInfoRef = useRef<typeof dragInfo>(null); // ref în sync cu state — evită stale closure în touch handlers
+  const dragInfoRef = useRef<typeof dragInfo>(null); // ref in sync cu state — evita stale closure in touch handlers
   const [rotateInfo, setRotateInfo] = useState<{ id: string, startAngle: number, initialRotation: number, currentRotation: number } | null>(null);
   const rotateInfoRef = useRef<typeof rotateInfo>(null);
   const [resizeInfo, setResizeInfo] = useState<{
@@ -175,9 +175,9 @@ const Canvas: React.FC<CanvasProps> = memo(({
 
   // ── Touch handlers cu suport drag elemente ────────────────────────────────
   // ── Touch handlers ─────────────────────────────────────────────────────────
-  // touchmove/touchend ascultate pe window (ca mousemove/mouseup) pentru că
-  // touch events rămân pe elementul unde a pornit touchstart — chiar și după stopPropagation.
-  // dragInfoRef evită problema stale closure: state-ul async nu e vizibil imediat în listeners.
+  // touchmove/touchend ascultate pe window (ca mousemove/mouseup) pentru ca
+  // touch events raman pe elementul unde a pornit touchstart — chiar si dupa stopPropagation.
+  // dragInfoRef evita problema stale closure: state-ul async nu e vizibil imediat in listeners.
 
   const isPanningRef = useRef(false);
 
@@ -192,7 +192,7 @@ const Canvas: React.FC<CanvasProps> = memo(({
       return;
     }
     touchRef.current = { x: touch.clientX, y: touch.clientY };
-    // Panning doar dacă touch-ul pornește pe fundalul gol (nu pe un element)
+    // Panning doar daca touch-ul porneste pe fundalul gol (nu pe un element)
     if (e.target === containerRef.current || (e.target as HTMLElement).closest('.canvas-bg')) {
       setSelectedId(null);
       isPanningRef.current = true;
@@ -200,7 +200,7 @@ const Canvas: React.FC<CanvasProps> = memo(({
     }
   }, [placementMode, placeAtClientPoint, setSelectedId, onCheckActive]);
 
-  // Listeners globali pentru touchmove + touchend — adăugați pe window
+  // Listeners globali pentru touchmove + touchend — adaugati pe window
   useEffect(() => {
     const handleTouchMoveGlobal = (e: TouchEvent) => {
       if (e.touches.length !== 1) return;
@@ -213,10 +213,10 @@ const Canvas: React.FC<CanvasProps> = memo(({
       const isInteracting = !!(current || currentRotate || currentResize || isPanningRef.current);
 
       if (!isInteracting) return;
-      e.preventDefault(); // previne scroll-ul paginii în timpul interacțiunii pe canvas
+      e.preventDefault(); // previne scroll-ul paginii in timpul interactiunii pe canvas
 
       if (current) {
-        // Mișcăm un element
+        // Miscam un element
         const coords = getCanvasCoords(clientX, clientY);
         const updated = { ...current, currentX: coords.x, currentY: coords.y };
         dragInfoRef.current = updated;

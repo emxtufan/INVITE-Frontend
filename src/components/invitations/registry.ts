@@ -28,8 +28,8 @@ import * as ZootropolisTemplate from "./ZootropolisTemplate";
 import * as LittleMermaidTemplate from "./LittleMermaidTemplate";
 // Manual registry of modules
 const modules = [
-  // ── Nuntă ────────────────────────────────────────────────────────────────
-  { ...ClassicTemplate,         meta: { ...ClassicTemplate.meta,         id: 'classic',          name: 'Classic Nuntă',    category: 'wedding',  tags: ['baptism', 'kids'] } },
+  // ── Nunta ────────────────────────────────────────────────────────────────
+  { ...ClassicTemplate,         meta: { ...ClassicTemplate.meta,         id: 'classic',          name: 'Classic Nunta',    category: 'wedding',  tags: ['baptism', 'kids'] } },
   { ...RoyalRoseTemplate,       meta: { ...RoyalRoseTemplate.meta,       id: 'royal-rose',       name: 'Royal Rose',       category: 'wedding',  tags: ['wedding'] } },
   // { ...DarkRoyalTemplate,       meta: { ...DarkRoyalTemplate.meta,       id: 'dark-royal',       name: 'Dark Royal',       category: 'wedding',  tags: ['wedding'] } },
   { ...BlushBloomTemplate,      meta: { ...BlushBloomTemplate.meta,      id: 'blush-bloom',      name: 'Blush Bloom',      category: 'wedding',  tags: ['wedding'] } },
@@ -41,7 +41,7 @@ const modules = [
   { ...JungleMagicEffectTemplate, meta: { ...JungleMagicEffectTemplate.meta, id: 'regal',        name: 'Regal',            category: 'wedding',  tags: ['wedding'] } },
   { ...LordEffectsTemplate,      meta: { ...LordEffectsTemplate.meta,      id: 'lord-effects',    name: 'Lord Effects',     category: 'wedding',  tags: ['wedding'] } },
 
-  // ── Botez — apare și la evenimente de tip "kids" (zi de naștere) ─────────
+  // ── Botez — apare si la evenimente de tip "kids" (zi de nastere) ─────────
   // { ...ClassicTemplate, meta: { ...ClassicTemplate.meta, id: 'classic-baptism', name: 'Classic Botez', category: 'baptism', tags: ['baptism', 'kids'], description: 'Design clasic elegant pentru botez.' } },
   { ...CastleMagicTemplateBoy,  meta: { ...CastleMagicTemplateBoy.meta,  id: 'castle-magic-boys', name: 'Boy Castel',    category: 'baptism',  tags: ['baptism', 'kids'] } },
   { ...CastleMagicTemplateGirl, meta: { ...CastleMagicTemplateGirl.meta, id: 'castle-magic-girl', name: 'Girl Castel',   category: 'baptism',  tags: ['baptism', 'kids'] } },
@@ -53,9 +53,9 @@ const modules = [
   { ...ZootropolisTemplate,         meta: { ...ZootropolisTemplate.meta,         id: 'zootropolis',     name: 'Zootropolis',     category: 'baptism', tags: ['baptism', 'kids', 'birthday'] } },
   { ...LittleMermaidTemplate,         meta: { ...LittleMermaidTemplate.meta,         id: 'little-mermaid',     name: 'Little Mermaid',     category: 'baptism', tags: ['baptism', 'kids', 'birthday'] } },
   // ── Aniversare ────────────────────────────────────────────────────────────
-  // { ...ClassicTemplate, meta: { ...ClassicTemplate.meta, id: 'classic-anniversary', name: 'Classic Aniversare', category: 'anniversary', tags: ['anniversary'], description: 'Design clasic pentru aniversări.' } },
+  // { ...ClassicTemplate, meta: { ...ClassicTemplate.meta, id: 'classic-anniversary', name: 'Classic Aniversare', category: 'anniversary', tags: ['anniversary'], description: 'Design clasic pentru aniversari.' } },
 
-  // ── Copii / zi de naștere ─────────────────────────────────────────────────
+  // ── Copii / zi de nastere ─────────────────────────────────────────────────
   // { ...ClassicTemplate, meta: { ...ClassicTemplate.meta, id: 'classic-kids', name: 'Classic Copii', category: 'kids', tags: ['kids', 'birthday'], description: 'Design vesel pentru petreceri copii.' } },
 ];
 

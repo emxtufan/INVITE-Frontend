@@ -15,7 +15,7 @@ export const meta: TemplateMeta = {
   id: 'blush-bloom',
   name: 'Blush Bloom',
   category: 'wedding',
-  description: 'Romantic airy — botanical branches, flip countdown, animație botanică de deschidere.',
+  description: 'Romantic airy — botanical branches, flip countdown, animatie botanica de deschidere.',
   colors: ['#fdf8f5', '#e8b4b8', '#8b5e6b'],
   previewClass: "bg-rose-50 border-rose-200",
   elementsClass: "bg-rose-300",
@@ -154,7 +154,7 @@ const PhotoPlaceholder: React.FC<PhotoPlaceholderProps> = ({aspectRatio,photoCli
           <text x="200" y="268" fontFamily="Cormorant Garamond,Georgia,serif" fontSize="36" fill="rgba(255,255,255,0.6)" textAnchor="middle" fontStyle="italic">&amp;</text>
           <text x="200" y="330" fontFamily="Bodoni Moda,Didot,Playfair Display,Georgia,serif" fontSize="100" fill="rgba(255,255,255,0.9)" textAnchor="middle" fontStyle="italic">{(initial2||'A')[0].toUpperCase()}</text>
           <line x1="150" y1="345" x2="250" y2="345" stroke="rgba(255,255,255,0.35)" strokeWidth="0.8"/>
-          {editMode && <><rect x="130" y="390" width="140" height="36" rx="18" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.4)" strokeWidth="1"/><text x="200" y="413" fontFamily="DM Sans,sans-serif" fontSize="12" fill="white" textAnchor="middle" fontWeight="600" opacity="0.9">+ Adaugă fotografie</text></>}
+          {editMode && <><rect x="130" y="390" width="140" height="36" rx="18" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.4)" strokeWidth="1"/><text x="200" y="413" fontFamily="DM Sans,sans-serif" fontSize="12" fill="white" textAnchor="middle" fontWeight="600" opacity="0.9">+ Adauga fotografie</text></>}
         </svg>
       </div>
     </div>
@@ -169,7 +169,7 @@ interface PhotoBlockProps {
   aspectRatio?:'1:1'|'4:3'|'3:4'|'16:9'|'free'; photoClip?:ClipShape; photoMasks?:MaskEffect[];
   placeholder?:string; placeholderInitial1?:string; placeholderInitial2?:string; placeholderVariant?:number;
 }
-const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpload,onRemove,onClipChange,onMasksChange,onRatioChange,aspectRatio='free',photoClip='rect',photoMasks=[],placeholder='Adaugă fotografie',placeholderInitial1,placeholderInitial2,placeholderVariant=0}) => {
+const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpload,onRemove,onClipChange,onMasksChange,onRatioChange,aspectRatio='free',photoClip='rect',photoMasks=[],placeholder='Adauga fotografie',placeholderInitial1,placeholderInitial2,placeholderVariant=0}) => {
   const fileRef = useRef<HTMLInputElement>(null);
   const [dragging,setDragging] = useState(false);
   const [uploading,setUploading] = useState(false);
@@ -180,14 +180,14 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
 
   const handleFile = async (file: File) => {
     if (!file.type.startsWith('image/')) { setUploadErr('Doar imagini sunt acceptate.'); return; }
-    if (file.size > 12*1024*1024) { setUploadErr('Fișierul depășește 12 MB.'); return; }
+    if (file.size > 12*1024*1024) { setUploadErr('Fisierul depaseste 12 MB.'); return; }
     setUploadErr(''); setUploading(true);
     deleteUploadedFile(imageData);
     try {
       const form = new FormData(); form.append('file', file);
       const _s = JSON.parse(localStorage.getItem('weddingPro_session')||'{}');
       const res = await fetch(`${API_URL}/upload`,{method:'POST',headers:{Authorization:`Bearer ${_s?.token||''}`},body:form});
-      if (!res.ok) { const e=await res.json(); throw new Error(e.error||'Upload eșuat.'); }
+      if (!res.ok) { const e=await res.json(); throw new Error(e.error||'Upload esuat.'); }
       const {url} = await res.json(); onUpload(url);
     } catch(e:any) { setUploadErr(e.message||'Eroare upload.'); }
     finally { setUploading(false); }
@@ -201,7 +201,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
     return (
       <div>
         <PhotoClipDefs/>
-        {uploading && <div style={{position:'relative',paddingTop:pt,background:BLUSH_XL,...combined}}><div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:10}}><div style={{width:32,height:32,border:`3px solid ${BLUSH_L}`,borderTop:`3px solid ${BLUSH_D}`,borderRadius:'50%',animation:'bb-spin 0.8s linear infinite'}}/><span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:BLUSH_D}}>Se încarcă...</span></div></div>}
+        {uploading && <div style={{position:'relative',paddingTop:pt,background:BLUSH_XL,...combined}}><div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:10}}><div style={{width:32,height:32,border:`3px solid ${BLUSH_L}`,borderTop:`3px solid ${BLUSH_D}`,borderRadius:'50%',animation:'bb-spin 0.8s linear infinite'}}/><span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:BLUSH_D}}>Se incarca...</span></div></div>}
         {!uploading && (
           <div style={{position:'relative'}}>
             <div style={{position:'relative',paddingTop:pt,overflow:'hidden',...combined}}>
@@ -210,8 +210,8 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
             {editMode && (
               <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',gap:8,opacity:0,transition:'opacity 0.2s',...combined}} onMouseEnter={e=>(e.currentTarget as HTMLDivElement).style.opacity='1'} onMouseLeave={e=>(e.currentTarget as HTMLDivElement).style.opacity='0'}>
                 <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0.42)'}}/>
-                <button type="button" onClick={()=>fileRef.current?.click()} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'white',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:PLUM}}><Camera className="w-3.5 h-3.5"/> Schimbă</button>
-                <button type="button" onClick={handleRemove} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'rgba(220,40,40,0.88)',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:'white'}}><Trash2 className="w-3.5 h-3.5"/> Șterge</button>
+                <button type="button" onClick={()=>fileRef.current?.click()} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'white',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:PLUM}}><Camera className="w-3.5 h-3.5"/> Schimba</button>
+                <button type="button" onClick={handleRemove} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'rgba(220,40,40,0.88)',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:'white'}}><Trash2 className="w-3.5 h-3.5"/> Sterge</button>
                 {isDemoPhoto && <div style={{position:'absolute',bottom:10,left:'50%',transform:'translateX(-50%)',background:'rgba(0,0,0,0.7)',color:'white',borderRadius:99,padding:'4px 14px',fontFamily:SANS,fontSize:9,fontWeight:700,whiteSpace:'nowrap',zIndex:2}}>📷 Fotografie demo</div>}
               </div>
             )}
@@ -231,11 +231,11 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
           <div style={{position:'absolute',inset:0,background:dragging?'rgba(201,112,144,0.5)':'rgba(0,0,0,0.35)',transition:'background 0.2s',...getClipStyle(photoClip)}}/>
           <div style={{position:'relative',zIndex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:8}}>
             <div style={{width:48,height:48,borderRadius:'50%',background:'rgba(255,255,255,0.2)',border:'2px solid rgba(255,255,255,0.6)',display:'flex',alignItems:'center',justifyContent:'center'}}><Upload className="w-5 h-5" style={{color:'white'}}/></div>
-            <span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:'white',textShadow:'0 1px 4px rgba(0,0,0,0.5)'}}>{dragging?'Eliberează':'Înlocuiește fotografia'}</span>
+            <span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:'white',textShadow:'0 1px 4px rgba(0,0,0,0.5)'}}>{dragging?'Elibereaza':'Inlocuieste fotografia'}</span>
           </div>
         </div>
       )}
-      {uploading && <div style={{position:'absolute',inset:0,background:'rgba(253,240,242,0.88)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:10,...getClipStyle(photoClip)}}><div style={{width:32,height:32,border:`3px solid ${BLUSH_L}`,borderTop:`3px solid ${BLUSH_D}`,borderRadius:'50%',animation:'bb-spin 0.8s linear infinite'}}/><span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:BLUSH_D}}>Se încarcă...</span></div>}
+      {uploading && <div style={{position:'absolute',inset:0,background:'rgba(253,240,242,0.88)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:10,...getClipStyle(photoClip)}}><div style={{width:32,height:32,border:`3px solid ${BLUSH_L}`,borderTop:`3px solid ${BLUSH_D}`,borderRadius:'50%',animation:'bb-spin 0.8s linear infinite'}}/><span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:BLUSH_D}}>Se incarca...</span></div>}
       {uploadErr && <div style={{position:'absolute',bottom:8,left:'50%',transform:'translateX(-50%)',background:'rgba(200,40,40,0.9)',color:'white',borderRadius:99,padding:'4px 14px',fontFamily:SANS,fontSize:10,fontWeight:700,whiteSpace:'nowrap'}}>{uploadErr}</div>}
       <input ref={fileRef} type="file" accept="image/*" onChange={e=>{const f=e.target.files?.[0];if(f)handleFile(f);}} style={{display:'none'}}/>
     </div>
@@ -456,7 +456,7 @@ const BlushIntro: React.FC<{ l1: string; l2: string; onDone: () => void }> = ({ 
         opacity: phase >= 3 ? 1 : 0,
         transform: phase >= 3 ? "translateY(0)" : "translateY(10px)",
         transition: "opacity 0.5s 0.7s, transform 0.5s 0.7s",
-      }}>se căsătoresc</p>
+      }}>se casatoresc</p>
 
       {/* Bottom rose divider */}
       <div style={{
@@ -778,9 +778,9 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
         </div>
         <div style={{ background: `${BLUSH_D}2e`, margin: "4px 18px 0", alignSelf: "stretch" }}/>
         <div>
-          <InlineEdit tag="p" editMode={editMode} value={block.locationName || ''} onChange={v => onUpdate({ locationName: v })} placeholder="Locație..."
+          <InlineEdit tag="p" editMode={editMode} value={block.locationName || ''} onChange={v => onUpdate({ locationName: v })} placeholder="Locatie..."
             style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, color: PLUM, margin: "0 0 3px", lineHeight: 1.3 }}/>
-          <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''} onChange={v => onUpdate({ locationAddress: v })} placeholder="Adresă..."
+          <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''} onChange={v => onUpdate({ locationAddress: v })} placeholder="Adresa..."
             style={{ fontFamily: SANS, fontSize: 11, color: MUTED, opacity: 0.8, margin: 0, lineHeight: 1.5, fontStyle: "italic" }} multiline/>
         </div>
       </div>
@@ -1196,7 +1196,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
         <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full px-4 py-1.5 shadow-xl text-[10px] font-bold pointer-events-none select-none"
           style={{ background: "rgba(255,255,255,0.9)", border: `1px solid ${BLUSH_L}`, color: PLUM, backdropFilter: "blur(8px)" }}>
           <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: BLUSH }}/>
-          <span className="uppercase tracking-widest">Editare Directă</span>
+          <span className="uppercase tracking-widest">Editare Directa</span>
           <span style={{ color: MUTED }} className="font-normal">— click pe orice text</span>
         </div>
       )}
@@ -1315,7 +1315,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
                       textTransform: "uppercase", color: MUTED,
                       padding: "4px 14px", borderRadius: 99,
                       background: BLUSH_XL, border: `1px solid ${BLUSH_L}` }}>
-                      Timp rămas
+                      Timp ramas
                     </span>
                   </div>
                   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "center", gap: 6 }}>
@@ -1343,7 +1343,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
 
               {/* Guest badge */}
               <div style={{ background: BLUSH_XL, border: `1px solid ${BLUSH_L}`, borderRadius: 2, padding: "14px 20px" }}>
-                <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: MUTED, margin: "0 0 5px" }}>Dragă</p>
+                <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: MUTED, margin: "0 0 5px" }}>Draga</p>
                 <p style={{ fontFamily: DISPLAY, fontSize: 22, fontWeight: 400, color: PLUM, margin: 0, letterSpacing: 1 }}>
                   {guest?.name || 'Nume Invitat'}
                 </p>
@@ -1394,49 +1394,49 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
                     textAlign: block.blockAlign,
                   } as BlockStyle}>
 
-                  {/* LOCAȚIE */}
+                  {/* LOCATIE */}
                   {block.type === 'location' && (
                     <LocCard block={block} editMode={editMode} onUpdate={p => updBlock(realIdx, p)}/>
                   )}
 
-                  {/* NAȘI */}
+                  {/* NASI */}
                   {block.type === 'godparents' && (
                     <div style={{ background: "rgba(255,255,255,0.82)", backdropFilter: "blur(8px)",
                       borderRadius: 4, border: `1px solid ${BLUSH_L}`, padding: "20px 28px", textAlign: "center",
                       boxShadow: "0 4px 24px rgba(184,120,140,0.07)" }}>
-                      <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Nașii Noștri'} onChange={v => updBlock(realIdx, { sectionTitle: v })} placeholder="Titlu..."
+                      <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Nasii Nostri'} onChange={v => updBlock(realIdx, { sectionTitle: v })} placeholder="Titlu..."
                         style={{ fontFamily: SANS, fontSize: 8, fontWeight: 800, letterSpacing: "0.4em", textTransform: "uppercase", color: MUTED, margin: "0 0 10px", display: "block" }}/>
                       <InlineEdit tag="p" editMode={editMode} value={block.content || ''} onChange={v => updBlock(realIdx, { content: v })} placeholder="Text introductiv..." multiline
                         style={{ fontFamily: SERIF, fontSize: 13, fontStyle: "italic", color: MUTED, margin: "0 0 12px", display: "block" }}/>
                       <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                         {godparents.map((g: any, i: number) => (
                           <div key={i} className={cn("flex items-center justify-center gap-2", editMode && "group/gp")}>
-                            <InlineEdit tag="span" editMode={editMode} value={g.godfather || ''} onChange={v => updGodparent(i, 'godfather', v)} placeholder="Naș"
+                            <InlineEdit tag="span" editMode={editMode} value={g.godfather || ''} onChange={v => updGodparent(i, 'godfather', v)} placeholder="Nas"
                               style={{ fontFamily: DISPLAY, fontSize: 18, fontWeight: 400, color: PLUM, letterSpacing: 1 }}/>
                             <span style={{ fontFamily: SERIF, fontStyle: "italic", color: BLUSH_D, margin: "0 6px" }}>&</span>
-                            <InlineEdit tag="span" editMode={editMode} value={g.godmother || ''} onChange={v => updGodparent(i, 'godmother', v)} placeholder="Nașă"
+                            <InlineEdit tag="span" editMode={editMode} value={g.godmother || ''} onChange={v => updGodparent(i, 'godmother', v)} placeholder="Nasa"
                               style={{ fontFamily: DISPLAY, fontSize: 18, fontWeight: 400, color: PLUM, letterSpacing: 1 }}/>
                             {editMode && <button type="button" onClick={() => delGodparent(i)} className="opacity-0 group-hover/gp:opacity-100 transition-opacity p-0.5 rounded hover:bg-red-50"><Trash2 className="w-3 h-3 text-red-400"/></button>}
                           </div>
                         ))}
-                        {editMode && <button type="button" onClick={addGodparent} className="text-[10px] border border-dashed rounded-full px-2 py-0.5 flex items-center gap-1 mx-auto transition-colors" style={{ color: BLUSH_D, borderColor: BLUSH_L }}><Plus className="w-2.5 h-2.5"/> adaugă</button>}
+                        {editMode && <button type="button" onClick={addGodparent} className="text-[10px] border border-dashed rounded-full px-2 py-0.5 flex items-center gap-1 mx-auto transition-colors" style={{ color: BLUSH_D, borderColor: BLUSH_L }}><Plus className="w-2.5 h-2.5"/> adauga</button>}
                       </div>
                     </div>
                   )}
 
-                  {/* PĂRINȚI */}
+                  {/* PARINTI */}
                   {block.type === 'parents' && (
                     <div style={{ background: "rgba(255,255,255,0.82)", backdropFilter: "blur(8px)",
                       borderRadius: 4, border: `1px solid ${BLUSH_L}`, padding: "20px 28px", textAlign: "center",
                       boxShadow: "0 4px 24px rgba(184,120,140,0.07)" }}>
-                      <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Părinții Noștri'} onChange={v => updBlock(realIdx, { sectionTitle: v })} placeholder="Titlu..."
+                      <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Parintii Nostri'} onChange={v => updBlock(realIdx, { sectionTitle: v })} placeholder="Titlu..."
                         style={{ fontFamily: SANS, fontSize: 8, fontWeight: 800, letterSpacing: "0.4em", textTransform: "uppercase", color: MUTED, margin: "0 0 10px", display: "block" }}/>
                       <InlineEdit tag="p" editMode={editMode} value={block.content || ''} onChange={v => updBlock(realIdx, { content: v })} placeholder="Text introductiv..." multiline
                         style={{ fontFamily: SERIF, fontSize: 13, fontStyle: "italic", color: MUTED, margin: "0 0 12px", display: "block" }}/>
                       <div style={{ display: "flex", flexDirection: "column", gap: 4, alignItems: "center" }}>
                         {([
-                          { key: 'p1_father', ph: 'Tatăl Miresei' }, { key: 'p1_mother', ph: 'Mama Miresei' },
-                          { key: 'p2_father', ph: 'Tatăl Mirelui' }, { key: 'p2_mother', ph: 'Mama Mirelui' },
+                          { key: 'p1_father', ph: 'Tatal Miresei' }, { key: 'p1_mother', ph: 'Mama Miresei' },
+                          { key: 'p2_father', ph: 'Tatal Mirelui' }, { key: 'p2_mother', ph: 'Mama Mirelui' },
                         ] as const).map(({ key, ph }) => {
                           const val = parentsData?.[key];
                           if (!val && !editMode) return null;
@@ -1450,7 +1450,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
                   {/* TEXT */}
                   {block.type === 'text' && (
                     <div style={{ textAlign: "center", padding: "8px 4px" }}>
-                      <InlineEdit tag="p" editMode={editMode} value={block.content || ''} onChange={v => updBlock(realIdx, { content: v })} placeholder="Scrieți un mesaj..." multiline
+                      <InlineEdit tag="p" editMode={editMode} value={block.content || ''} onChange={v => updBlock(realIdx, { content: v })} placeholder="Scrieti un mesaj..." multiline
                         textKey={`${block.id}:text-content`}
                         textLabel="Text · Continut"
                         style={{ fontFamily: SERIF, fontSize: 14, fontStyle: "italic", color: MUTED, lineHeight: 1.8 }}/>
@@ -1460,7 +1460,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
                   {/* TITLU */}
                   {block.type === 'title' && (
                     <div style={{ textAlign: "center", padding: "4px 0" }}>
-                      <InlineEdit tag="p" editMode={editMode} value={block.content || ''} onChange={v => updBlock(realIdx, { content: v })} placeholder="Titlu secțiune..."
+                      <InlineEdit tag="p" editMode={editMode} value={block.content || ''} onChange={v => updBlock(realIdx, { content: v })} placeholder="Titlu sectiune..."
                         textKey={`${block.id}:title-content`}
                         textLabel="Titlu bloc"
                         style={{ fontFamily: SANS, fontSize: 8, fontWeight: 800, letterSpacing: "0.4em", textTransform: "uppercase", color: MUTED }}/>
@@ -1716,12 +1716,12 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
           {/* Add block strip */}
           {editMode && (
             <div className="text-center mt-4 py-4 border-2 border-dashed rounded transition-colors" style={{ borderColor: BLUSH_L }}>
-              <p className="text-[9px] uppercase tracking-widest mb-2.5 font-bold" style={{ color: MUTED, opacity: 0.65, fontFamily: SANS }}>Adaugă bloc</p>
+              <p className="text-[9px] uppercase tracking-widest mb-2.5 font-bold" style={{ color: MUTED, opacity: 0.65, fontFamily: SANS }}>Adauga bloc</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {[
-                  { type: 'location',   label: 'Locație',  def: { label: '', time: '', locationName: '', locationAddress: '', wazeLink: '' } },
-                  { type: 'godparents', label: 'Nași',     def: { sectionTitle: 'Nașii Noștri', content: '' } },
-                  { type: 'parents',    label: 'Părinți',  def: { sectionTitle: 'Părinții Noștri', content: '' } },
+                  { type: 'location',   label: 'Locatie',  def: { label: '', time: '', locationName: '', locationAddress: '', wazeLink: '' } },
+                  { type: 'godparents', label: 'Nasi',     def: { sectionTitle: 'Nasii Nostri', content: '' } },
+                  { type: 'parents',    label: 'Parinti',  def: { sectionTitle: 'Parintii Nostri', content: '' } },
                   { type: 'text',       label: 'Text',     def: { content: '' } },
                   { type: 'title',      label: 'Titlu',    def: { content: '' } },
                   { type: 'divider',    label: 'Linie',    def: {} },

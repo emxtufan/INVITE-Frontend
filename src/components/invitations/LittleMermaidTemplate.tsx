@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -344,7 +344,7 @@ const JurassicDoorIntro: React.FC<{
 }> = ({
   onDone, editMode, previewMode = 'doors', contentEl, scrollContainer,
   childName = 'Rex', partner2Name = '', isWedding = false,
-  subtitle = 'vă invită în junglă',
+  subtitle = 'va invita in jungla',
   inviteTop, inviteMiddle, inviteBottom, inviteTag, dateStr,
   onChildNameChange, onSubtitleChange,
   onInviteTopChange, onInviteMiddleChange, onInviteBottomChange, onInviteTagChange,
@@ -1000,7 +1000,7 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
 // ─────────────────────────────────────────────────────────────────────────────
 // INSERT BLOCK BUTTON
 // ─────────────────────────────────────────────────────────────────────────────
-const BLOCK_TYPE_ICONS: Record<string,string> = { photo:'🖼',text:'✏️',location:'📍',calendar:'📅',countdown:'⏱',music:'🎵',gift:'🎁',whatsapp:'💬',rsvp:'✉️',divider:'—',family:'👨‍👩‍👧',date:'📆',description:'📝',timeline:'🗓' };
+const BLOCK_TYPE_ICONS: Record<string,string> = { photo:'🖼',text:'✏',location:'📍',calendar:'📅',countdown:'⏱',music:'🎵',gift:'🎁',whatsapp:'💬',rsvp:'✉',divider:'—',family:'👨‍👩‍👧',date:'📆',description:'📝',timeline:'🗓' };
 const InsertBlockButton: React.FC<{ insertIdx:number; openInsertAt:number|null; setOpenInsertAt:(v:number|null)=>void; BLOCK_TYPES:{type:string;label:string;def:any}[]; onInsert:(type:string,def:any)=>void }> = ({ insertIdx, openInsertAt, setOpenInsertAt, BLOCK_TYPES, onInsert }) => {
   const isOpen = openInsertAt===insertIdx;
   const [hov, setHov] = React.useState(false);

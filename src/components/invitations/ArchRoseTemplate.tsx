@@ -34,7 +34,7 @@ export const meta: TemplateMeta = {
   id: 'arch-rose',
   name: 'Arch & Rose',
   category: 'wedding',
-  description: 'Arcadă floreală cu trandafiri · fundal alb clasic, decorații roz & crem, design romantic de lux.',
+  description: 'Arcada floreala cu trandafiri · fundal alb clasic, decoratii roz & crem, design romantic de lux.',
   colors: ['#f9f0ee', '#c4917a', '#8b4a6b'],
   previewClass: "bg-rose-50 border-rose-300",
   elementsClass: "bg-rose-400",
@@ -188,7 +188,7 @@ const PhotoPlaceholder: React.FC<PhotoPlaceholderProps> = ({aspectRatio,photoCli
           <text x="200" y="268" fontFamily="Great Vibes,cursive" fontSize="36" fill="rgba(255,255,255,0.6)" textAnchor="middle">&amp;</text>
           <text x="200" y="330" fontFamily="Playfair Display,Georgia,serif" fontSize="100" fill="rgba(255,255,255,0.9)" textAnchor="middle" fontStyle="italic">{(initial2||'B')[0].toUpperCase()}</text>
           <line x1="150" y1="345" x2="250" y2="345" stroke="rgba(255,255,255,0.35)" strokeWidth="0.8"/>
-          {editMode && <><rect x="130" y="390" width="140" height="36" rx="18" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.4)" strokeWidth="1"/><text x="200" y="413" fontFamily="Raleway,sans-serif" fontSize="12" fill="white" textAnchor="middle" fontWeight="600" opacity="0.9">+ Adaugă fotografie</text></>}
+          {editMode && <><rect x="130" y="390" width="140" height="36" rx="18" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.4)" strokeWidth="1"/><text x="200" y="413" fontFamily="Raleway,sans-serif" fontSize="12" fill="white" textAnchor="middle" fontWeight="600" opacity="0.9">+ Adauga fotografie</text></>}
         </svg>
       </div>
     </div>
@@ -203,7 +203,7 @@ interface PhotoBlockProps {
   aspectRatio?:'1:1'|'4:3'|'3:4'|'16:9'|'free'; photoClip?:ClipShape; photoMasks?:MaskEffect[];
   placeholder?:string; placeholderInitial1?:string; placeholderInitial2?:string; placeholderVariant?:number;
 }
-const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpload,onRemove,onClipChange,onMasksChange,onRatioChange,aspectRatio='free',photoClip='rect',photoMasks=[],placeholder='Adaugă fotografie',placeholderInitial1,placeholderInitial2,placeholderVariant=0}) => {
+const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpload,onRemove,onClipChange,onMasksChange,onRatioChange,aspectRatio='free',photoClip='rect',photoMasks=[],placeholder='Adauga fotografie',placeholderInitial1,placeholderInitial2,placeholderVariant=0}) => {
   const fileRef = useRef<HTMLInputElement>(null);
   const [dragging,setDragging] = useState(false);
   const [uploading,setUploading] = useState(false);
@@ -216,14 +216,14 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
 
   const handleFile = async (file: File) => {
     if (!file.type.startsWith('image/')) { setUploadErr('Doar imagini sunt acceptate.'); return; }
-    if (file.size > 12*1024*1024) { setUploadErr('Fișierul depășește 12 MB.'); return; }
+    if (file.size > 12*1024*1024) { setUploadErr('Fisierul depaseste 12 MB.'); return; }
     setUploadErr(''); setUploading(true);
     deleteUploadedFile(imageData);
     try {
       const form = new FormData(); form.append('file', file);
       const _s = JSON.parse(localStorage.getItem('weddingPro_session')||'{}');
       const res = await fetch(`${API_URL}/upload`,{method:'POST',headers:{Authorization:`Bearer ${_s?.token||''}`},body:form});
-      if (!res.ok) { const e=await res.json(); throw new Error(e.error||'Upload eșuat.'); }
+      if (!res.ok) { const e=await res.json(); throw new Error(e.error||'Upload esuat.'); }
       const {url} = await res.json(); onUpload(url);
     } catch(e:any) { setUploadErr(e.message||'Eroare upload.'); }
     finally { setUploading(false); }
@@ -237,7 +237,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
     return (
       <div>
         <PhotoClipDefs/>
-        {uploading && <div style={{position:'relative',paddingTop:pt,background:ROSE_XL,...combined}}><div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:10}}><div style={{width:32,height:32,border:`3px solid ${ROSE_L}`,borderTop:`3px solid ${ROSE}`,borderRadius:'50%',animation:'ar-spin 0.8s linear infinite'}}/><span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:ROSE}}>Se încarcă...</span></div></div>}
+        {uploading && <div style={{position:'relative',paddingTop:pt,background:ROSE_XL,...combined}}><div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:10}}><div style={{width:32,height:32,border:`3px solid ${ROSE_L}`,borderTop:`3px solid ${ROSE}`,borderRadius:'50%',animation:'ar-spin 0.8s linear infinite'}}/><span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:ROSE}}>Se incarca...</span></div></div>}
         {!uploading && (
           <div style={{position:'relative'}}>
             <div style={{position:'relative',paddingTop:pt,overflow:'hidden',...combined}}>
@@ -246,8 +246,8 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
             {editMode && (
               <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',gap:8,opacity:0,transition:'opacity 0.2s',...combined}} onMouseEnter={e=>(e.currentTarget as HTMLDivElement).style.opacity='1'} onMouseLeave={e=>(e.currentTarget as HTMLDivElement).style.opacity='0'}>
                 <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0.42)'}}/>
-                <button type="button" onClick={()=>fileRef.current?.click()} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'white',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:TEXT}}><Camera className="w-3.5 h-3.5"/> Schimbă</button>
-                <button type="button" onClick={handleRemove} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'rgba(220,40,40,0.88)',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:'white'}}><Trash2 className="w-3.5 h-3.5"/> Șterge</button>
+                <button type="button" onClick={()=>fileRef.current?.click()} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'white',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:TEXT}}><Camera className="w-3.5 h-3.5"/> Schimba</button>
+                <button type="button" onClick={handleRemove} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'rgba(220,40,40,0.88)',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:'white'}}><Trash2 className="w-3.5 h-3.5"/> Sterge</button>
                 {isDemoPhoto && <div style={{position:'absolute',bottom:10,left:'50%',transform:'translateX(-50%)',background:'rgba(0,0,0,0.7)',color:'white',borderRadius:99,padding:'4px 14px',fontFamily:SANS,fontSize:9,fontWeight:700,whiteSpace:'nowrap',zIndex:2}}>📷 Fotografie demo</div>}
               </div>
             )}
@@ -267,11 +267,11 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
           <div style={{position:'absolute',inset:0,background:dragging?'rgba(196,145,122,0.55)':'rgba(0,0,0,0.35)',transition:'background 0.2s',...getClipStyle(photoClip)}}/>
           <div style={{position:'relative',zIndex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:8}}>
             <div style={{width:48,height:48,borderRadius:'50%',background:'rgba(255,255,255,0.2)',border:'2px solid rgba(255,255,255,0.6)',display:'flex',alignItems:'center',justifyContent:'center'}}><Upload className="w-5 h-5" style={{color:'white'}}/></div>
-            <span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:'white',textShadow:'0 1px 4px rgba(0,0,0,0.5)'}}>{dragging?'Eliberează':'Înlocuiește fotografia'}</span>
+            <span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:'white',textShadow:'0 1px 4px rgba(0,0,0,0.5)'}}>{dragging?'Elibereaza':'Inlocuieste fotografia'}</span>
           </div>
         </div>
       )}
-      {uploading && <div style={{position:'absolute',inset:0,background:'rgba(253,247,245,0.85)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:10,...getClipStyle(photoClip)}}><div style={{width:32,height:32,border:`3px solid ${ROSE_L}`,borderTop:`3px solid ${ROSE}`,borderRadius:'50%',animation:'ar-spin 0.8s linear infinite'}}/><span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:ROSE}}>Se încarcă...</span></div>}
+      {uploading && <div style={{position:'absolute',inset:0,background:'rgba(253,247,245,0.85)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:10,...getClipStyle(photoClip)}}><div style={{width:32,height:32,border:`3px solid ${ROSE_L}`,borderTop:`3px solid ${ROSE}`,borderRadius:'50%',animation:'ar-spin 0.8s linear infinite'}}/><span style={{fontFamily:SANS,fontSize:11,fontWeight:700,color:ROSE}}>Se incarca...</span></div>}
       {uploadErr && <div style={{position:'absolute',bottom:8,left:'50%',transform:'translateX(-50%)',background:'rgba(200,40,40,0.9)',color:'white',borderRadius:99,padding:'4px 14px',fontFamily:SANS,fontSize:10,fontWeight:700,whiteSpace:'nowrap'}}>{uploadErr}</div>}
       <input ref={fileRef} type="file" accept="image/*" onChange={e=>{const f=e.target.files?.[0];if(f)handleFile(f);}} style={{display:'none'}}/>
     </div>
@@ -286,7 +286,7 @@ const CalendarMonth: React.FC<{date: string|undefined}> = ({date}) => {
   const firstDay = new Date(year,month,1).getDay();
   const daysInMonth = new Date(year,month+1,0).getDate();
   const monthNames = ['IANUARIE','FEBRUARIE','MARTIE','APRILIE','MAI','IUNIE','IULIE','AUGUST','SEPTEMBRIE','OCTOMBRIE','NOIEMBRIE','DECEMBRIE'];
-  const dayLabels = ['LUN','MAR','MIE','JOI','VIN','SÂM','DUM'];
+  const dayLabels = ['LUN','MAR','MIE','JOI','VIN','SAM','DUM'];
   const startOffset = (firstDay+6)%7;
   const cells: (number|null)[] = [...Array(startOffset).fill(null),...Array.from({length:daysInMonth},(_,i)=>i+1)];
   return (
@@ -358,8 +358,8 @@ const LocCard: React.FC<{block: InvitationBlock; editMode: boolean; onUpdate:(p:
       <MapPin className="w-6 h-6" style={{color:ROSE,opacity:0.7,display:'block',margin:'0 auto 10px'}}/>
       <InlineEdit tag="p" editMode={editMode} value={block.label||''} onChange={v=>onUpdate({label:v})} placeholder="Eveniment..." style={{fontFamily:SANS,fontSize:8,fontWeight:700,letterSpacing:'0.4em',textTransform:'uppercase',color:MUTED,margin:'0 0 8px',display:'block'}}/>
       <InlineTime value={block.time||''} onChange={v=>onUpdate({time:v})} editMode={editMode} style={{fontFamily:SERIF,fontSize:22,fontWeight:300,color:textColorOverride||ROSE_D,display:'block',marginBottom:4}}/>
-      <InlineEdit tag="p" editMode={editMode} value={block.locationName||''} onChange={v=>onUpdate({locationName:v})} placeholder="Locație..." style={{fontFamily:SCRIPT,fontSize:22,color:textColorOverride||ROSE_D,margin:'0 0 4px',display:'block'}}/>
-      <InlineEdit tag="p" editMode={editMode} value={block.locationAddress||''} onChange={v=>onUpdate({locationAddress:v})} placeholder="Adresă..." multiline style={{fontFamily:SANS,fontSize:11,color:textColorOverride||MUTED,margin:0,lineHeight:1.5}}/>
+      <InlineEdit tag="p" editMode={editMode} value={block.locationName||''} onChange={v=>onUpdate({locationName:v})} placeholder="Locatie..." style={{fontFamily:SCRIPT,fontSize:22,color:textColorOverride||ROSE_D,margin:'0 0 4px',display:'block'}}/>
+      <InlineEdit tag="p" editMode={editMode} value={block.locationAddress||''} onChange={v=>onUpdate({locationAddress:v})} placeholder="Adresa..." multiline style={{fontFamily:SANS,fontSize:11,color:textColorOverride||MUTED,margin:0,lineHeight:1.5}}/>
       {(block.wazeLink||editMode) && <div style={{marginTop:12}}><InlineWaze value={block.wazeLink||''} onChange={v=>onUpdate({wazeLink:v})} editMode={editMode}/></div>}
     </div>
   );
@@ -393,7 +393,7 @@ const YoutubeAudioPlayer:React.FC<{ytId:string;title:string;artist:string;editMo
           {loading&&<div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0.4)',display:'flex',alignItems:'center',justifyContent:'center'}}><div style={{width:18,height:18,border:'2px solid rgba(255,255,255,0.3)',borderTop:'2px solid white',borderRadius:'50%',animation:'ar-spin 0.8s linear infinite'}}/></div>}
         </div>
         <div style={{flex:1,minWidth:0}}>
-          <InlineEdit tag="p" editMode={editMode} value={title} onChange={onTitleChange} placeholder="Titlul cântecului..." style={{fontFamily:SERIF,fontSize:14,fontStyle:'italic',color:'white',margin:0,lineHeight:1.3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}/>
+          <InlineEdit tag="p" editMode={editMode} value={title} onChange={onTitleChange} placeholder="Titlul cantecului..." style={{fontFamily:SERIF,fontSize:14,fontStyle:'italic',color:'white',margin:0,lineHeight:1.3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}/>
           <InlineEdit tag="p" editMode={editMode} value={artist} onChange={onArtistChange} placeholder="Artist..." style={{fontFamily:SANS,fontSize:10,color:'rgba(255,255,255,0.55)',margin:'3px 0 0'}}/>
           {playing&&<div style={{display:'flex',gap:2,alignItems:'flex-end',height:12,marginTop:5}}>{[1,1.5,0.8,1.3,1].map((h,i)=><div key={i} style={{width:3,background:'rgba(255,255,255,0.5)',borderRadius:2,height:`${h*8}px`,animation:`mp3-bar ${0.55+i*0.1}s ease-in-out infinite alternate`,animationDelay:`${i*0.08}s`}}/>)}</div>}
         </div>
@@ -438,16 +438,16 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({title,artist,musicUrl,musicTyp
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}}>
         <div style={{display:'flex',alignItems:'center',gap:5}}>
           <Music className="w-3 h-3" style={{color:'rgba(255,255,255,0.5)'}}/>
-          <span style={{fontFamily:SANS,fontSize:8,fontWeight:700,letterSpacing:'0.35em',textTransform:'uppercase',color:'rgba(255,255,255,0.5)'}}>Cântecul nostru</span>
+          <span style={{fontFamily:SANS,fontSize:8,fontWeight:700,letterSpacing:'0.35em',textTransform:'uppercase',color:'rgba(255,255,255,0.5)'}}>Cantecul nostru</span>
         </div>
-        {editMode&&(musicType==='youtube'||musicType==='mp3')&&<button type="button" onClick={removeSource} style={{background:'rgba(255,255,255,0.1)',border:'none',borderRadius:99,padding:'3px 10px',cursor:'pointer',display:'flex',alignItems:'center',gap:4}}><Trash2 className="w-3 h-3" style={{color:'rgba(255,255,255,0.5)'}}/><span style={{fontFamily:SANS,fontSize:9,color:'rgba(255,255,255,0.5)'}}>Șterge</span></button>}
+        {editMode&&(musicType==='youtube'||musicType==='mp3')&&<button type="button" onClick={removeSource} style={{background:'rgba(255,255,255,0.1)',border:'none',borderRadius:99,padding:'3px 10px',cursor:'pointer',display:'flex',alignItems:'center',gap:4}}><Trash2 className="w-3 h-3" style={{color:'rgba(255,255,255,0.5)'}}/><span style={{fontFamily:SANS,fontSize:9,color:'rgba(255,255,255,0.5)'}}>Sterge</span></button>}
       </div>
       {(musicType==='none'||!musicUrl)&&editMode&&(
         showYtInput?(
           <div style={{marginBottom:10}}>
             <div style={{display:'flex',gap:6}}>
               <input value={ytUrl} onChange={e=>{setYtUrl(e.target.value);setYtError('');}} onKeyDown={e=>{if(e.key==='Enter')submitYt();if(e.key==='Escape'){setShowYtInput(false);setYtError('');setYtUrl('');}}} placeholder="https://youtu.be/..." autoFocus style={{flex:1,background:'rgba(255,255,255,0.12)',border:`1px solid ${ytError?'#ff6b6b':'rgba(255,255,255,0.2)'}`,borderRadius:6,padding:'9px 12px',fontFamily:SANS,fontSize:11,color:'white',outline:'none'}}/>
-              <button type="button" onClick={submitYt} disabled={ytFetching} style={{background:ytFetching?ROSE_L:'white',border:'none',borderRadius:6,padding:'0 14px',cursor:ytFetching?'wait':'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:ROSE_D,whiteSpace:'nowrap'}}>{ytFetching?'Se încarcă...':'✓ Adaugă'}</button>
+              <button type="button" onClick={submitYt} disabled={ytFetching} style={{background:ytFetching?ROSE_L:'white',border:'none',borderRadius:6,padding:'0 14px',cursor:ytFetching?'wait':'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:ROSE_D,whiteSpace:'nowrap'}}>{ytFetching?'Se incarca...':'✓ Adauga'}</button>
               <button type="button" onClick={()=>{setShowYtInput(false);setYtError('');setYtUrl('');}} style={{background:'rgba(255,255,255,0.1)',border:'none',borderRadius:6,padding:'0 10px',cursor:'pointer',color:'rgba(255,255,255,0.5)',fontSize:14}}>✕</button>
             </div>
             {ytError&&<p style={{fontFamily:SANS,fontSize:10,color:'#ff9999',margin:'6px 0 0',lineHeight:1.4}}>{ytError}</p>}
@@ -460,7 +460,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({title,artist,musicUrl,musicTyp
             </button>
             <button type="button" onClick={()=>mp3Ref.current?.click()} onDragOver={e=>{e.preventDefault();setDragging(true);}} onDragLeave={()=>setDragging(false)} onDrop={e=>{e.preventDefault();setDragging(false);const f=e.dataTransfer.files?.[0];if(f)handleMp3File(f);}} style={{flex:1,background:dragging?'rgba(255,255,255,0.18)':'rgba(255,255,255,0.1)',border:`1px dashed ${dragging?'rgba(255,255,255,0.6)':'rgba(255,255,255,0.25)'}`,borderRadius:6,padding:'10px 0',cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',gap:4}}>
               <Upload className="w-5 h-5" style={{color:'rgba(255,255,255,0.65)'}}/>
-              <span style={{fontFamily:SANS,fontSize:9,fontWeight:700,color:'rgba(255,255,255,0.65)',letterSpacing:'0.05em'}}>Încarcă MP3</span>
+              <span style={{fontFamily:SANS,fontSize:9,fontWeight:700,color:'rgba(255,255,255,0.65)',letterSpacing:'0.05em'}}>Incarca MP3</span>
             </button>
             <input ref={mp3Ref} type="file" accept="audio/*,.mp3,.m4a,.ogg,.wav" onChange={e=>{const f=e.target.files?.[0];if(f)handleMp3File(f);}} style={{display:'none'}}/>
           </div>
@@ -474,7 +474,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({title,artist,musicUrl,musicTyp
               {playing?<div style={{display:'flex',gap:2,alignItems:'flex-end',height:20}}>{[1,1.6,0.8,1.4,1].map((h,i)=><div key={i} style={{width:3,background:'rgba(255,255,255,0.6)',borderRadius:2,height:`${h*12}px`,animation:`mp3-bar ${0.6+i*0.1}s ease-in-out infinite alternate`,animationDelay:`${i*0.1}s`}}/>)}</div>:<Music className="w-5 h-5" style={{color:'rgba(255,255,255,0.5)'}}/>}
             </div>
             <div style={{flex:1,minWidth:0}}>
-              <InlineEdit tag="p" editMode={editMode} value={title} onChange={onTitleChange} placeholder="Titlul cântecului..." style={{fontFamily:SERIF,fontSize:14,fontStyle:'italic',color:'white',margin:0,lineHeight:1.3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}/>
+              <InlineEdit tag="p" editMode={editMode} value={title} onChange={onTitleChange} placeholder="Titlul cantecului..." style={{fontFamily:SERIF,fontSize:14,fontStyle:'italic',color:'white',margin:0,lineHeight:1.3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}/>
               <InlineEdit tag="p" editMode={editMode} value={artist} onChange={onArtistChange} placeholder="Artist..." style={{fontFamily:SANS,fontSize:10,color:'rgba(255,255,255,0.55)',margin:'2px 0 0'}}/>
             </div>
           </div>
@@ -499,7 +499,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({title,artist,musicUrl,musicTyp
         <div style={{marginTop:12,display:'flex',gap:6,justifyContent:'center'}}>
           <button type="button" onClick={()=>{setShowYtInput(true);removeSource();}} style={{background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.18)',borderRadius:99,padding:'5px 14px',cursor:'pointer',fontFamily:SANS,fontSize:9,fontWeight:700,color:'rgba(255,255,255,0.55)',display:'flex',alignItems:'center',gap:5}}>
             <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><rect width="12" height="9" rx="2" fill="#FF0000" opacity="0.7"/><path d="M4.5 2.5 L8.5 4.5 L4.5 6.5Z" fill="white"/></svg>
-            Schimbă YouTube
+            Schimba YouTube
           </button>
           <button type="button" onClick={()=>{removeSource();mp3Ref.current?.click();}} style={{background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.18)',borderRadius:99,padding:'5px 14px',cursor:'pointer',fontFamily:SANS,fontSize:9,fontWeight:700,color:'rgba(255,255,255,0.55)',display:'flex',alignItems:'center',gap:5}}><Upload className="w-3 h-3"/> MP3</button>
           <input ref={mp3Ref} type="file" accept="audio/*,.mp3,.m4a,.ogg,.wav" onChange={e=>{const f=e.target.files?.[0];if(f)handleMp3File(f);}} style={{display:'none'}}/>
@@ -531,7 +531,7 @@ const GiftBlock:React.FC<{block:InvitationBlock;editMode:boolean;onUpdate:(p:Par
   <div style={{background:`linear-gradient(135deg, ${ROSE_D}, #5a2a3a)`,borderRadius:12,padding:'20px 24px',textAlign:(block.blockAlign as any)||'center'}}>
     <Gift className="w-7 h-7" style={{color:'rgba(255,255,255,0.6)',display:'block',margin:'0 auto 10px'}}/>
     <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Sugestie de cadou'} onChange={v=>onUpdate({sectionTitle:v})} placeholder="Titlu..." style={{fontFamily:SCRIPT,fontSize:22,color:textColorOverride||'white',margin:'0 0 8px',display:'block'}}/>
-    <InlineEdit tag="p" editMode={editMode} value={block.content||'Cel mai frumos cadou este prezența voastră.'} onChange={v=>onUpdate({content:v})} placeholder="Mesaj introductiv..." multiline style={{fontFamily:SANS,fontSize:11,color:'rgba(255,255,255,0.65)',lineHeight:1.7,margin:'0 0 16px',display:'block'}}/>
+    <InlineEdit tag="p" editMode={editMode} value={block.content||'Cel mai frumos cadou este prezenta voastra.'} onChange={v=>onUpdate({content:v})} placeholder="Mesaj introductiv..." multiline style={{fontFamily:SANS,fontSize:11,color:'rgba(255,255,255,0.65)',lineHeight:1.7,margin:'0 0 16px',display:'block'}}/>
     <div style={{background:'rgba(0,0,0,0.12)',borderRadius:6,padding:'12px 16px',textAlign:'left'}}>
       <p style={{fontFamily:SANS,fontSize:8,fontWeight:700,letterSpacing:'0.3em',textTransform:'uppercase',color:'rgba(255,255,255,0.45)',margin:'0 0 6px'}}>Transfer bancar</p>
       <InlineEdit tag="p" editMode={editMode} value={block.iban||''} onChange={v=>onUpdate({iban:v})} placeholder="IBAN: RO49 AAAA 0000..." style={{fontFamily:SANS,fontSize:12,fontWeight:600,color:'white',margin:0,letterSpacing:'0.05em'}}/>
@@ -543,23 +543,23 @@ const GiftBlock:React.FC<{block:InvitationBlock;editMode:boolean;onUpdate:(p:Par
 const NoKidsBlock:React.FC<{block:InvitationBlock;editMode:boolean;onUpdate:(p:Partial<InvitationBlock>)=>void;textColorOverride?:string}> = ({block,editMode,onUpdate,textColorOverride}) => (
   <Card align={(block.blockAlign as any)||'center'}>
     <div style={{display:'flex',justifyContent:'center',gap:8,marginBottom:10}}><Baby className="w-6 h-6" style={{color:ROSE,opacity:0.5}}/><div style={{width:2,height:24,background:ROSE,opacity:0.3,transform:'rotate(15deg)',alignSelf:'center'}}/></div>
-    <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Eveniment fără copii'} onChange={v=>onUpdate({sectionTitle:v})} placeholder="Titlu..." style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.35em',textTransform:'uppercase',color:textColorOverride||ROSE,margin:'0 0 8px',display:'block'}}/>
-    <InlineEdit tag="p" editMode={editMode} value={block.content||'Nunta noastră va fi un eveniment pentru adulți.'} onChange={v=>onUpdate({content:v})} placeholder="Mesaj..." multiline style={{fontFamily:SANS,fontSize:11,color:textColorOverride||MUTED,lineHeight:1.7}}/>
+    <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Eveniment fara copii'} onChange={v=>onUpdate({sectionTitle:v})} placeholder="Titlu..." style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.35em',textTransform:'uppercase',color:textColorOverride||ROSE,margin:'0 0 8px',display:'block'}}/>
+    <InlineEdit tag="p" editMode={editMode} value={block.content||'Nunta noastra va fi un eveniment pentru adulti.'} onChange={v=>onUpdate({content:v})} placeholder="Mesaj..." multiline style={{fontFamily:SANS,fontSize:11,color:textColorOverride||MUTED,lineHeight:1.7}}/>
   </Card>
 );
 
 const QuoteBlock:React.FC<{block:InvitationBlock;editMode:boolean;onUpdate:(p:Partial<InvitationBlock>)=>void;textColorOverride?:string}> = ({block,editMode,onUpdate,textColorOverride}) => (
   <div style={{textAlign:(block.blockAlign as any)||'center',padding:'8px 16px'}}>
     <span style={{fontFamily:SERIF,fontSize:28,color:ROSE_L,lineHeight:0.5,display:'block',marginBottom:-8}}>"</span>
-    <InlineEdit tag="p" editMode={editMode} value={block.content||'Iubirea este răbdătoare, este plină de bunătate...'} onChange={v=>onUpdate({content:v})} placeholder="Citat sau text personalizat..." multiline style={{fontFamily:SERIF,fontSize:14,fontStyle:'italic',color:textColorOverride||TEXT,lineHeight:1.8,opacity:0.75,margin:'0 0 6px'}}/>
-    {block.label&&<InlineEdit tag="p" editMode={editMode} value={block.label||''} onChange={v=>onUpdate({label:v})} placeholder="Sursă..." style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.3em',textTransform:'uppercase',color:MUTED}}/>}
+    <InlineEdit tag="p" editMode={editMode} value={block.content||'Iubirea este rabdatoare, este plina de bunatate...'} onChange={v=>onUpdate({content:v})} placeholder="Citat sau text personalizat..." multiline style={{fontFamily:SERIF,fontSize:14,fontStyle:'italic',color:textColorOverride||TEXT,lineHeight:1.8,opacity:0.75,margin:'0 0 6px'}}/>
+    {block.label&&<InlineEdit tag="p" editMode={editMode} value={block.label||''} onChange={v=>onUpdate({label:v})} placeholder="Sursa..." style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.3em',textTransform:'uppercase',color:MUTED}}/>}
   </div>
 );
 
 const ThankyouBlock:React.FC<{block:InvitationBlock;editMode:boolean;onUpdate:(p:Partial<InvitationBlock>)=>void;initials:string;textColorOverride?:string}> = ({block,editMode,onUpdate,initials,textColorOverride}) => (
   <div style={{textAlign:(block.blockAlign as any)||'center',padding:'12px 0'}}>
-    <InlineEdit tag="p" editMode={editMode} value={block.label||'VĂ AȘTEPTĂM CU DRAG'} onChange={v=>onUpdate({label:v})} placeholder="Text subtitlu..." style={{fontFamily:SANS,fontSize:8,fontWeight:700,letterSpacing:'0.4em',textTransform:'uppercase',color:MUTED,margin:'0 0 10px'}}/>
-    <InlineEdit tag="p" editMode={editMode} value={block.content||'Mulțumim din suflet!'} onChange={v=>onUpdate({content:v})} placeholder="Text mulțumire..." style={{fontFamily:SCRIPT,fontSize:32,color:textColorOverride||ROSE_D,lineHeight:1.2}}/>
+    <InlineEdit tag="p" editMode={editMode} value={block.label||'VA ASTEPTAM CU DRAG'} onChange={v=>onUpdate({label:v})} placeholder="Text subtitlu..." style={{fontFamily:SANS,fontSize:8,fontWeight:700,letterSpacing:'0.4em',textTransform:'uppercase',color:MUTED,margin:'0 0 10px'}}/>
+    <InlineEdit tag="p" editMode={editMode} value={block.content||'Multumim din suflet!'} onChange={v=>onUpdate({content:v})} placeholder="Text multumire..." style={{fontFamily:SCRIPT,fontSize:32,color:textColorOverride||ROSE_D,lineHeight:1.2}}/>
     {initials&&<div style={{display:'inline-flex',alignItems:'center',gap:8,marginTop:16,border:`1px solid ${ROSE_L}`,padding:'8px 20px',borderRadius:2}}><span style={{fontFamily:SERIF,fontSize:18,fontWeight:300,color:ROSE}}>{initials}</span></div>}
   </div>
 );
@@ -592,7 +592,7 @@ const ArchRoseIntro: React.FC<{name1:string; name2:string; date:string; onDone:(
         <p style={{fontFamily:SCRIPT,fontSize:64,color:'white',margin:0,textShadow:'0 4px 30px rgba(90,20,40,0.4)',opacity:phase>=2?1:0,transform:phase>=2?'translateY(0)':'translateY(20px)',transition:'all 1.0s cubic-bezier(0.4,0,0.2,1) 0.2s'}}>{name2}</p>
         <div style={{width:60,height:0.5,background:'rgba(255,255,255,0.4)',margin:'18px 0 14px',opacity:phase>=3?1:0,transition:'opacity 0.6s ease-out'}}/>
         <p style={{fontFamily:SANS,fontSize:12,fontWeight:600,letterSpacing:'0.35em',textTransform:'uppercase',color:'rgba(255,255,255,0.65)',margin:0,opacity:phase>=3?1:0,transition:'opacity 0.6s ease-out 0.2s'}}>{date}</p>
-        <p style={{fontFamily:SANS,fontSize:10,fontWeight:500,color:'rgba(255,255,255,0.4)',margin:'24px 0 0',letterSpacing:'0.15em',opacity:phase>=3?1:0,transition:'opacity 0.5s ease-out 0.5s'}}>atingeți pentru a continua →</p>
+        <p style={{fontFamily:SANS,fontSize:10,fontWeight:500,color:'rgba(255,255,255,0.4)',margin:'24px 0 0',letterSpacing:'0.15em',opacity:phase>=3?1:0,transition:'opacity 0.5s ease-out 0.5s'}}>atingeti pentru a continua →</p>
       </div>
     </div>
   );
@@ -600,8 +600,8 @@ const ArchRoseIntro: React.FC<{name1:string; name2:string; date:string; onDone:(
 
 // ─── EventType badge ──────────────────────────────────────────────────────────
 const EventTypeBadge: React.FC<{et: string}> = ({et}) => {
-  const labels: Record<string,string> = {wedding:'Nuntă',baptism:'Botez',kids:'Botez',birthday:'Aniversare',engagement:'Logodnă'};
-  return <span style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.25em',textTransform:'uppercase',color:MUTED,background:ROSE_XL,padding:'3px 8px',borderRadius:99}}>{labels[et]||'Nuntă'}</span>;
+  const labels: Record<string,string> = {wedding:'Nunta',baptism:'Botez',kids:'Botez',birthday:'Aniversare',engagement:'Logodna'};
+  return <span style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.25em',textTransform:'uppercase',color:MUTED,background:ROSE_XL,padding:'3px 8px',borderRadius:99}}>{labels[et]||'Nunta'}</span>;
 };
 
 // ─── Main template ─────────────────────────────────────────────────────────────
@@ -659,7 +659,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
   const name2       = profile.partner2Name||'Alexandru';
   const isBaptism   = profile.eventType==='baptism'||profile.eventType==='kids';
   const showRsvp    = profile.showRsvpButton!==false;
-  const rsvpText    = profile.rsvpButtonText?.trim()||'Confirmă Prezența';
+  const rsvpText    = profile.rsvpButtonText?.trim()||'Confirma Prezenta';
   const displayBlocks = editMode ? blocks : blocks.filter(b=>b.show!==false);
   const et = profile.eventType||'wedding';
 
@@ -670,17 +670,17 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
 
   const BLOCK_TYPES = [
     {type:'photo',      label:'📷 Fotografie',  def:{imageData:undefined,altText:'Fotografie',photoClip:'rect',photoMasks:[]}},
-    {type:'location',   label:'Locație',         def:{label:'',time:'',locationName:'',locationAddress:''}},
-    {type:'godparents', label:'Nași',            def:{sectionTitle:'Nașii Noștri',content:''}},
-    {type:'parents',    label:'Părinți',         def:{sectionTitle:'Părinții Noștri',content:''}},
+    {type:'location',   label:'Locatie',         def:{label:'',time:'',locationName:'',locationAddress:''}},
+    {type:'godparents', label:'Nasi',            def:{sectionTitle:'Nasii Nostri',content:''}},
+    {type:'parents',    label:'Parinti',         def:{sectionTitle:'Parintii Nostri',content:''}},
     {type:'calendar',   label:'📅 Calendar',    def:{}},
     {type:'countdown',  label:'⏱ Countdown',   def:{}},
-    {type:'music',      label:'🎵 Muzică',      def:{musicTitle:'',musicArtist:''}},
+    {type:'music',      label:'🎵 Muzica',      def:{musicTitle:'',musicArtist:''}},
     {type:'dresscode',  label:'Dress Code',      def:{sectionTitle:'Cod vestimentar',label:'Elegant',content:''}},
     {type:'gift',       label:'🎁 Cadouri',     def:{sectionTitle:'Sugestie cadou',content:'',iban:'',ibanName:''}},
-    {type:'nokids',     label:'Fără copii',      def:{sectionTitle:'Eveniment fără copii',content:''}},
+    {type:'nokids',     label:'Fara copii',      def:{sectionTitle:'Eveniment fara copii',content:''}},
     {type:'quote',      label:'Citat',           def:{content:''}},
-    {type:'thankyou',   label:'Mulțumire',       def:{content:'Mulțumim din suflet!',label:''}},
+    {type:'thankyou',   label:'Multumire',       def:{content:'Multumim din suflet!',label:''}},
     {type:'text',       label:'Text',            def:{content:''}},
     {type:'title',      label:'Titlu',           def:{content:''}},
     {type:'divider',    label:'Linie',           def:{}},
@@ -728,7 +728,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
           <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full px-4 py-1.5 shadow-lg text-[10px] font-bold pointer-events-none select-none"
             style={{background:IVORY,border:`1px solid ${ROSE_L}`,color:ROSE_D,backdropFilter:'blur(8px)'}}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{background:ROSE}}/>
-            <span className="uppercase tracking-widest">Editare Directă</span>
+            <span className="uppercase tracking-widest">Editare Directa</span>
             <span className="font-normal" style={{color:MUTED}}>— click pe orice text</span>
           </div>
         )}
@@ -794,7 +794,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
               </div>
               <p style={{fontFamily:SERIF,fontSize:22,fontWeight:300,color:ROSE_D,margin:0}}>{initials}</p>
               {profile.showWelcomeText && (
-                <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText?.trim()||'Vă invităm cu drag să fiți alături de noi în această zi specială.'} onChange={v=>upProfile('welcomeText',v)} placeholder="Text introductiv..." multiline
+                <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText?.trim()||'Va invitam cu drag sa fiti alaturi de noi in aceasta zi speciala.'} onChange={v=>upProfile('welcomeText',v)} placeholder="Text introductiv..." multiline
                   style={{fontFamily:SERIF,fontSize:13,fontStyle:'italic',color:MUTED,lineHeight:1.8,textAlign:'center',maxWidth:320,padding:'0 20px'}}/>
               )}
             </div>
@@ -805,7 +805,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
             <Reveal delay={300}>
               <div style={{display:'flex',justifyContent:'center',margin:'0 20px 16px'}}>
                 <div style={{border:`1px solid ${ROSE_L}`,borderRadius:4,padding:'12px 24px',textAlign:'center',background:IVORY}}>
-                  <p style={{fontFamily:SANS,fontSize:8,fontWeight:700,letterSpacing:'0.42em',textTransform:'uppercase',color:MUTED,margin:'0 0 5px'}}>Dragă</p>
+                  <p style={{fontFamily:SANS,fontSize:8,fontWeight:700,letterSpacing:'0.42em',textTransform:'uppercase',color:MUTED,margin:'0 0 5px'}}>Draga</p>
                   <p style={{fontFamily:SERIF,fontSize:20,fontWeight:300,fontStyle:'italic',color:TEXT,margin:0}}>{guest.name}</p>
                 </div>
               </div>
@@ -863,18 +863,18 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
                       <Reveal>
                         <Card align={(block.blockAlign as any)||'center'} roseCorner>
                           <Heart className="w-5 h-5" style={{color:ROSE,opacity:0.6,display:'block',margin:'0 auto 8px'}}/>
-                          <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Nașii Noștri'} onChange={v=>updBlock(realIdx,{sectionTitle:v})} placeholder="Titlu..." style={{fontFamily:SCRIPT,fontSize:22,color:ROSE_D,margin:'0 0 6px',display:'block'}}/>
+                          <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Nasii Nostri'} onChange={v=>updBlock(realIdx,{sectionTitle:v})} placeholder="Titlu..." style={{fontFamily:SCRIPT,fontSize:22,color:ROSE_D,margin:'0 0 6px',display:'block'}}/>
                           <InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Text introductiv..." multiline style={{fontFamily:SERIF,fontSize:12,fontStyle:'italic',color:MUTED,margin:'0 0 12px',lineHeight:1.7,display:'block'}}/>
                           <div style={{display:'flex',flexDirection:'column',gap:6}}>
                             {godparents.map((g:any,i:number)=>(
                               <div key={i} className={cn("flex items-center justify-center gap-2",editMode&&"group/gp")}>
-                                <InlineEdit tag="span" editMode={editMode} value={g.godfather||''} onChange={v=>updGodparent(i,'godfather',v)} placeholder="Naș" style={{fontFamily:SERIF,fontSize:17,fontWeight:300,color:block.textColor||TEXT}}/>
+                                <InlineEdit tag="span" editMode={editMode} value={g.godfather||''} onChange={v=>updGodparent(i,'godfather',v)} placeholder="Nas" style={{fontFamily:SERIF,fontSize:17,fontWeight:300,color:block.textColor||TEXT}}/>
                                 <span style={{color:ROSE,fontFamily:SERIF,fontStyle:'italic',margin:'0 6px'}}>&</span>
-                                <InlineEdit tag="span" editMode={editMode} value={g.godmother||''} onChange={v=>updGodparent(i,'godmother',v)} placeholder="Nașă" style={{fontFamily:SERIF,fontSize:17,fontWeight:300,color:block.textColor||TEXT}}/>
+                                <InlineEdit tag="span" editMode={editMode} value={g.godmother||''} onChange={v=>updGodparent(i,'godmother',v)} placeholder="Nasa" style={{fontFamily:SERIF,fontSize:17,fontWeight:300,color:block.textColor||TEXT}}/>
                                 {editMode&&<button type="button" onClick={()=>delGodparent(i)} className="opacity-0 group-hover/gp:opacity-100 transition-opacity p-0.5 rounded hover:bg-red-50"><Trash2 className="w-3 h-3 text-red-400"/></button>}
                               </div>
                             ))}
-                            {editMode&&<button type="button" onClick={addGodparent} className="text-[10px] font-bold border border-dashed rounded-full px-2 py-0.5 flex items-center gap-1 mx-auto" style={{color:ROSE,borderColor:ROSE_L}}><Plus className="w-2.5 h-2.5"/> adaugă</button>}
+                            {editMode&&<button type="button" onClick={addGodparent} className="text-[10px] font-bold border border-dashed rounded-full px-2 py-0.5 flex items-center gap-1 mx-auto" style={{color:ROSE,borderColor:ROSE_L}}><Plus className="w-2.5 h-2.5"/> adauga</button>}
                           </div>
                         </Card>
                       </Reveal>
@@ -883,10 +883,10 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
                     {block.type==='parents' && (
                       <Reveal>
                         <Card align={(block.blockAlign as any)||'center'}>
-                          <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Părinții Noștri'} onChange={v=>updBlock(realIdx,{sectionTitle:v})} placeholder="Titlu..." style={{fontFamily:SCRIPT,fontSize:22,color:ROSE_D,margin:'0 0 6px',display:'block'}}/>
+                          <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Parintii Nostri'} onChange={v=>updBlock(realIdx,{sectionTitle:v})} placeholder="Titlu..." style={{fontFamily:SCRIPT,fontSize:22,color:ROSE_D,margin:'0 0 6px',display:'block'}}/>
                           <InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Text introductiv..." multiline style={{fontFamily:SERIF,fontSize:12,fontStyle:'italic',color:MUTED,margin:'0 0 12px',lineHeight:1.7,display:'block'}}/>
                           <div style={{display:'flex',flexDirection:'column',gap:4,alignItems:'center'}}>
-                            {([{key:'p1_father',ph:'Tatăl Miresei'},{key:'p1_mother',ph:'Mama Miresei'},{key:'p2_father',ph:'Tatăl Mirelui'},{key:'p2_mother',ph:'Mama Mirelui'}] as const).map(({key,ph})=>(
+                            {([{key:'p1_father',ph:'Tatal Miresei'},{key:'p1_mother',ph:'Mama Miresei'},{key:'p2_father',ph:'Tatal Mirelui'},{key:'p2_mother',ph:'Mama Mirelui'}] as const).map(({key,ph})=>(
                               <InlineEdit key={key} tag="p" editMode={editMode} value={parentsData[key]||''} onChange={v=>updParent(key,v)} placeholder={ph} style={{fontFamily:SERIF,fontSize:16,fontWeight:300,color:block.textColor||TEXT,margin:0}}/>
                             ))}
                           </div>
@@ -895,7 +895,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
                     )}
 
                     {block.type==='text' && <Reveal><div style={{textAlign:'center',padding:'6px 0'}}><InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Text liber..." multiline style={{fontFamily:SERIF,fontSize:14,fontStyle:'italic',color:MUTED,lineHeight:1.85}}/></div></Reveal>}
-                    {block.type==='title' && <Reveal><div style={{textAlign:'center',padding:'4px 0'}}><InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Titlu secțiune..." style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.42em',textTransform:'uppercase',color:ROSE}}/></div></Reveal>}
+                    {block.type==='title' && <Reveal><div style={{textAlign:'center',padding:'4px 0'}}><InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Titlu sectiune..." style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.42em',textTransform:'uppercase',color:ROSE}}/></div></Reveal>}
                     {block.type==='divider' && <Reveal><RoseDivider/></Reveal>}
                     {block.type==='spacer'  && <div style={{height:16}}/>}
                   </BlockStyleProvider>
@@ -907,7 +907,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
           {/* ── ADD BLOCK STRIP ── */}
           {editMode && (
             <div style={{margin:'16px 20px 0',padding:'16px',border:`2px dashed ${ROSE_L}`,borderRadius:12,background:`${CREAM}88`,textAlign:'center'}}>
-              <p style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.4em',textTransform:'uppercase',color:MUTED,marginBottom:12}}>Adaugă bloc</p>
+              <p style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.4em',textTransform:'uppercase',color:MUTED,marginBottom:12}}>Adauga bloc</p>
               <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:6}}>
                 {BLOCK_TYPES.map(({type,label,def})=>(
                   <button key={type} type="button" onClick={()=>addBlock(type,def)}

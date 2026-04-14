@@ -56,7 +56,7 @@ export const meta: TemplateMeta = {
   name: "Terra Boho",
   category: "wedding",
   description:
-    "Bej terracotta & script — fotografii reale, calendar, player muzică, dress code, registry cadouri.",
+    "Bej terracotta & script — fotografii reale, calendar, player muzica, dress code, registry cadouri.",
   colors: ["#f5f0e8", "#8b6355", "#c9a84c"],
   previewClass: "bg-amber-100 border-amber-700",
   elementsClass: "bg-amber-700",
@@ -340,7 +340,7 @@ const CLIP_LABELS: Record<ClipShape, string> = {
   diamond: "Romb",
   triangle: "Triunghi",
   star: "Stea",
-  heart: "Inimă",
+  heart: "Inima",
   diagonal: "Diag ↗",
   "diagonal-r": "Diag ↘",
   "wave-b": "Val jos",
@@ -362,7 +362,7 @@ const MASK_EFFECTS: MaskEffect[] = [
 const MASK_LABELS: Record<MaskEffect, string> = {
   "fade-b": "Fade jos",
   "fade-t": "Fade sus",
-  "fade-l": "Fade stânga",
+  "fade-l": "Fade stanga",
   "fade-r": "Fade dreapta",
   vignette: "Vigneta",
 };
@@ -875,7 +875,7 @@ const PhotoPlaceholder: React.FC<PhotoPlaceholderProps> = ({
                 fontWeight="600"
                 opacity="0.9"
               >
-                + Adaugă fotografie
+                + Adauga fotografie
               </text>
             </g>
           )}
@@ -915,7 +915,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
   aspectRatio = "free",
   photoClip = "rect",
   photoMasks = [],
-  placeholder = "Adaugă fotografie",
+  placeholder = "Adauga fotografie",
   placeholderInitial1,
   placeholderInitial2,
   placeholderVariant = 0,
@@ -947,14 +947,14 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
       return;
     }
     if (file.size > 12 * 1024 * 1024) {
-      setUploadErr("Fișierul depășește 12 MB.");
+      setUploadErr("Fisierul depaseste 12 MB.");
       return;
     }
     setUploadErr("");
     setUploading(true);
 
-    // ── Șterge poza veche ÎNAINTE de a uploada cea nouă ──
-    // (nu așteptăm răspunsul — UI nu trebuie blocat)
+    // ── Sterge poza veche INAINTE de a uploada cea noua ──
+    // (nu asteptam raspunsul — UI nu trebuie blocat)
     deleteUploadedFile(imageData);
 
     try {
@@ -971,7 +971,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
       });
       if (!res.ok) {
         const e = await res.json();
-        throw new Error(e.error || "Upload eșuat.");
+        throw new Error(e.error || "Upload esuat.");
       }
       const { url } = await res.json();
       onUpload(url);
@@ -1007,8 +1007,8 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
 
   // Delete file from server when removing
   const handleRemove = () => {
-    deleteUploadedFile(imageData); // șterge de pe server
-    onRemove(); // curăță state-ul local
+    deleteUploadedFile(imageData); // sterge de pe server
+    onRemove(); // curata state-ul local
   };
 
   if (imgSrc) {
@@ -1059,7 +1059,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
                   color: BROWN,
                 }}
               >
-                Se încarcă...
+                Se incarca...
               </span>
             </div>
           </div>
@@ -1139,7 +1139,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
                     color: TEXT,
                   }}
                 >
-                  <Camera className="w-3.5 h-3.5" /> Schimbă
+                  <Camera className="w-3.5 h-3.5" /> Schimba
                 </button>
                 <button
                   type="button"
@@ -1161,7 +1161,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
                     color: "white",
                   }}
                 >
-                  <Trash2 className="w-3.5 h-3.5" /> Șterge
+                  <Trash2 className="w-3.5 h-3.5" /> Sterge
                 </button>
                 {isDemoPhoto && (
                   <div
@@ -1182,7 +1182,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
                       zIndex: 2,
                     }}
                   >
-                    📷 Fotografie demo — apasă Schimbă
+                    📷 Fotografie demo — apasa Schimba
                   </div>
                 )}
               </div>
@@ -1296,7 +1296,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
                 textShadow: "0 1px 4px rgba(0,0,0,0.5)",
               }}
             >
-              {dragging ? "Eliberează pentru upload" : "Înlocuiește fotografia"}
+              {dragging ? "Elibereaza pentru upload" : "Inlocuieste fotografia"}
             </span>
           </div>
         </div>
@@ -1334,7 +1334,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
               color: BROWN,
             }}
           >
-            Se încarcă...
+            Se incarca...
           </span>
         </div>
       )}
@@ -1393,7 +1393,7 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
     "NOIEMBRIE",
     "DECEMBRIE",
   ];
-  const dayLabels = ["LUN", "MAR", "MIE", "JOI", "VIN", "SÂM", "DUM"];
+  const dayLabels = ["LUN", "MAR", "MIE", "JOI", "VIN", "SAM", "DUM"];
   // Shift so Monday = 0
   const startOffset = (firstDay + 6) % 7;
   const cells: (number | null)[] = [
@@ -1422,7 +1422,7 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
           opacity: 0.85,
         }}
       >
-        EL GRAN DÍA — {monthNames[month]} {year}
+        EL GRAN DIA — {monthNames[month]} {year}
       </p>
       {/* Day headers */}
       <div
@@ -1751,7 +1751,7 @@ const YoutubeAudioPlayer: React.FC<YtAudioProps> = ({
             editMode={editMode}
             value={title}
             onChange={onTitleChange}
-            placeholder="Titlul cântecului..."
+            placeholder="Titlul cantecului..."
             style={{
               fontFamily: SERIF,
               fontSize: 14,
@@ -2085,7 +2085,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
     const id = extractYoutubeId(rawUrl);
     if (!id) {
       setYtError(
-        "Link YouTube invalid. Încearcă un link de tip: youtu.be/... sau youtube.com/watch?v=...",
+        "Link YouTube invalid. Incearca un link de tip: youtu.be/... sau youtube.com/watch?v=...",
       );
       return;
     }
@@ -2161,7 +2161,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
               color: "rgba(255,255,255,0.5)",
             }}
           >
-            Cântecul nostru
+            Cantecul nostru
           </span>
         </div>
         {/* Remove button */}
@@ -2191,7 +2191,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
                 color: "rgba(255,255,255,0.5)",
               }}
             >
-              Șterge
+              Sterge
             </span>
           </button>
         )}
@@ -2259,10 +2259,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
                           flexShrink: 0,
                         }}
                       />
-                      Se încarcă...
+                      Se incarca...
                     </>
                   ) : (
-                    "✓ Adaugă"
+                    "✓ Adauga"
                   )}
                 </button>
                 <button
@@ -2378,7 +2378,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
                     letterSpacing: "0.05em",
                   }}
                 >
-                  Încarcă MP3
+                  Incarca MP3
                 </span>
               </button>
               <input
@@ -2428,7 +2428,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
                   margin: 0,
                 }}
               >
-                Titlul cântecului
+                Titlul cantecului
               </p>
               <p
                 style={{
@@ -2461,7 +2461,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
               margin: 0,
             }}
           >
-            Melodia va apărea aici
+            Melodia va aparea aici
           </p>
         </div>
       )}
@@ -2541,7 +2541,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
                 editMode={editMode}
                 value={title}
                 onChange={onTitleChange}
-                placeholder="Titlul cântecului..."
+                placeholder="Titlul cantecului..."
                 style={{
                   fontFamily: SERIF,
                   fontSize: 14,
@@ -2763,7 +2763,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
               <rect width="12" height="9" rx="2" fill="#FF0000" opacity="0.7" />
               <path d="M4.5 2.5 L8.5 4.5 L4.5 6.5Z" fill="white" />
             </svg>
-            Schimbă YouTube
+            Schimba YouTube
           </button>
           <button
             type="button"
@@ -2915,7 +2915,7 @@ const GiftBlock: React.FC<{
       editMode={editMode}
       value={
         block.content ||
-        "Cel mai frumos cadou este prezența voastră. Dar dacă doriți un detaliu, vă lăsăm aceste opțiuni."
+        "Cel mai frumos cadou este prezenta voastra. Dar daca doriti un detaliu, va lasam aceste optiuni."
       }
       onChange={(v) => onUpdate({ content: v })}
       placeholder="Mesaj introductiv..."
@@ -3022,7 +3022,7 @@ const NoKidsBlock: React.FC<{
     <InlineEdit
       tag="p"
       editMode={editMode}
-      value={block.sectionTitle || "Eveniment fără copii"}
+      value={block.sectionTitle || "Eveniment fara copii"}
       onChange={(v) => onUpdate({ sectionTitle: v })}
       placeholder="Titlu..."
       style={{
@@ -3041,7 +3041,7 @@ const NoKidsBlock: React.FC<{
       editMode={editMode}
       value={
         block.content ||
-        "Nunta noastră va fi un eveniment pentru adulți. Vă rugăm să luați în considerare îngrijirea copiilor în această zi specială."
+        "Nunta noastra va fi un eveniment pentru adulti. Va rugam sa luati in considerare ingrijirea copiilor in aceasta zi speciala."
       }
       onChange={(v) => onUpdate({ content: v })}
       placeholder="Mesaj..."
@@ -3086,7 +3086,7 @@ const QuoteBlock: React.FC<{
       editMode={editMode}
       value={
         block.content ||
-        "Nuestro amor nació en Dios, crece en Cristo y permanecerá por su gracia."
+        "Nuestro amor nacio en Dios, crece en Cristo y permanecera por su gracia."
       }
       onChange={(v) => onUpdate({ content: v })}
       placeholder="Citat sau text personalizat..."
@@ -3107,7 +3107,7 @@ const QuoteBlock: React.FC<{
         editMode={editMode}
         value={block.label || ""}
         onChange={(v) => onUpdate({ label: v })}
-        placeholder="Sursă citată..."
+        placeholder="Sursa citata..."
         style={{
           fontFamily: SANS,
           fontSize: 9,
@@ -3154,9 +3154,9 @@ const ThankyouBlock: React.FC<{
     <InlineEdit
       tag="p"
       editMode={editMode}
-      value={block.content || "¡Muchas Gracias! · Mulțumim din suflet!"}
+      value={block.content || "¡Muchas Gracias! · Multumim din suflet!"}
       onChange={(v) => onUpdate({ content: v })}
-      placeholder="Text mulțumire..."
+      placeholder="Text multumire..."
       style={{
         fontFamily: SCRIPT,
         fontSize: 32,
@@ -3636,7 +3636,7 @@ const LocCard: React.FC<{
         editMode={editMode}
         value={block.locationName || ""}
         onChange={(v) => onUpdate({ locationName: v })}
-        placeholder="Locație..."
+        placeholder="Locatie..."
         style={{
           fontFamily: SCRIPT,
           fontSize: 22,
@@ -3650,7 +3650,7 @@ const LocCard: React.FC<{
         editMode={editMode}
         value={block.locationAddress || ""}
         onChange={(v) => onUpdate({ locationAddress: v })}
-        placeholder="Adresă..."
+        placeholder="Adresa..."
         multiline
         style={{
           fontFamily: SANS,
@@ -4028,7 +4028,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
     (idx: number) => {
       setBlocks((prev) => {
         const block = prev[idx];
-        // Dacă blocul are o poză uploadată, o ștergem de pe server
+        // Daca blocul are o poza uploadata, o stergem de pe server
         if (block?.type === "photo" && block.imageData) {
           deleteUploadedFile(block.imageData);
         }
@@ -4085,11 +4085,11 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
     });
 
   const name1 = profile.partner1Name || "Camila";
-  const name2 = profile.partner2Name || "Sebastián";
+  const name2 = profile.partner2Name || "Sebastian";
   const isBaptism =
     profile.eventType === "baptism" || profile.eventType === "kids";
   const showRsvp = profile.showRsvpButton !== false;
-  const rsvpText = profile.rsvpButtonText?.trim() || "Confirmă Prezența";
+  const rsvpText = profile.rsvpButtonText?.trim() || "Confirma Prezenta";
   const displayBlocks = editMode
     ? blocks
     : blocks.filter((b) => b.show !== false);
@@ -4125,24 +4125,24 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
     },
     {
       type: "location",
-      label: "Locație",
+      label: "Locatie",
       def: { label: "", time: "", locationName: "", locationAddress: "" },
     },
     {
       type: "godparents",
-      label: "Nași",
-      def: { sectionTitle: "Nașii Noștri", content: "" },
+      label: "Nasi",
+      def: { sectionTitle: "Nasii Nostri", content: "" },
     },
     {
       type: "parents",
-      label: "Părinți",
-      def: { sectionTitle: "Părinții Noștri", content: "" },
+      label: "Parinti",
+      def: { sectionTitle: "Parintii Nostri", content: "" },
     },
     { type: "calendar", label: "📅 Calendar", def: {} },
     { type: "countdown", label: "⏱ Countdown", def: {} },
     {
       type: "music",
-      label: "🎵 Muzică",
+      label: "🎵 Muzica",
       def: { musicTitle: "", musicArtist: "" },
     },
     {
@@ -4162,14 +4162,14 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
     },
     {
       type: "nokids",
-      label: "Fără copii",
-      def: { sectionTitle: "Eveniment fără copii", content: "" },
+      label: "Fara copii",
+      def: { sectionTitle: "Eveniment fara copii", content: "" },
     },
     { type: "quote", label: "Citat", def: { content: "" } },
     {
       type: "thankyou",
-      label: "Mulțumire",
-      def: { content: "¡Muchas Gracias! · Mulțumim!", label: "" },
+      label: "Multumire",
+      def: { content: "¡Muchas Gracias! · Multumim!", label: "" },
     },
     { type: "text", label: "Text", def: { content: "" } },
     { type: "title", label: "Titlu", def: { content: "" } },
@@ -4261,7 +4261,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
               className="w-1.5 h-1.5 rounded-full animate-pulse"
               style={{ background: BROWN }}
             />
-            <span className="uppercase tracking-widest">Editare Directă</span>
+            <span className="uppercase tracking-widest">Editare Directa</span>
             <span className="font-normal" style={{ color: MUTED }}>
               — click pe orice text
             </span>
@@ -4418,7 +4418,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                         editMode={editMode}
                         value={profile.partner2Name || ""}
                         onChange={(v) => upProfile("partner2Name", v)}
-                        placeholder="Sebastián"
+                        placeholder="Sebastian"
                         style={{
                           fontFamily: profile.heroFontFamily || SCRIPT,
                           fontSize: profile.heroNameSize
@@ -4592,7 +4592,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                       margin: "0 0 5px",
                     }}
                   >
-                    Dragă
+                    Draga
                   </p>
                   <p
                     style={{
@@ -4811,7 +4811,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                           aspectRatio={block.aspectRatio || "free"}
                           photoClip={(block.photoClip as any) || "rect"}
                           photoMasks={(block.photoMasks as any) || []}
-                          placeholder="Adaugă fotografie"
+                          placeholder="Adauga fotografie"
                           placeholderInitial1={name1[0]}
                           placeholderInitial2={name2[0]}
                           placeholderVariant={realIdx % 4}
@@ -4953,7 +4953,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                           <InlineEdit
                             tag="p"
                             editMode={editMode}
-                            value={block.sectionTitle || "Nașii Noștri"}
+                            value={block.sectionTitle || "Nasii Nostri"}
                             onChange={(v) =>
                               updBlock(realIdx, { sectionTitle: v })
                             }
@@ -5005,7 +5005,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                                   onChange={(v) =>
                                     updGodparent(i, "godfather", v)
                                   }
-                                  placeholder="Naș"
+                                  placeholder="Nas"
                                   style={{
                                     fontFamily: SERIF,
                                     fontSize: 17,
@@ -5030,7 +5030,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                                   onChange={(v) =>
                                     updGodparent(i, "godmother", v)
                                   }
-                                  placeholder="Nașă"
+                                  placeholder="Nasa"
                                   style={{
                                     fontFamily: SERIF,
                                     fontSize: 17,
@@ -5056,7 +5056,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                                 className="text-[10px] font-bold border border-dashed rounded-full px-2 py-0.5 flex items-center gap-1 mx-auto"
                                 style={{ color: BROWN, borderColor: BROWN_XL }}
                               >
-                                <Plus className="w-2.5 h-2.5" /> adaugă
+                                <Plus className="w-2.5 h-2.5" /> adauga
                               </button>
                             )}
                           </div>
@@ -5079,7 +5079,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                           <InlineEdit
                             tag="p"
                             editMode={editMode}
-                            value={block.sectionTitle || "Părinții Noștri"}
+                            value={block.sectionTitle || "Parintii Nostri"}
                             onChange={(v) =>
                               updBlock(realIdx, { sectionTitle: v })
                             }
@@ -5119,9 +5119,9 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                           >
                             {(
                               [
-                                { key: "p1_father", ph: "Tatăl Miresei" },
+                                { key: "p1_father", ph: "Tatal Miresei" },
                                 { key: "p1_mother", ph: "Mama Miresei" },
-                                { key: "p2_father", ph: "Tatăl Mirelui" },
+                                { key: "p2_father", ph: "Tatal Mirelui" },
                                 { key: "p2_mother", ph: "Mama Mirelui" },
                               ] as const
                             ).map(({ key, ph }) => {
@@ -5182,7 +5182,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                             editMode={editMode}
                             value={block.content || ""}
                             onChange={(v) => updBlock(realIdx, { content: v })}
-                            placeholder="Titlu secțiune..."
+                            placeholder="Titlu sectiune..."
                             style={{
                               fontFamily: SANS,
                               fontSize: 9,
@@ -5231,7 +5231,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                   marginBottom: 12,
                 }}
               >
-                Adaugă bloc
+                Adauga bloc
               </p>
               <div
                 style={{

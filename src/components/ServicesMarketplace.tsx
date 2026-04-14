@@ -43,26 +43,26 @@ type SortDir = 'asc' | 'desc';
 
 const CATEGORIES: Record<ServiceCategory, { label: string; icon: React.FC<any>; color: string; bg: string }> = {
   candybar:    { label: 'Candy Bar',    icon: Cake,        color: '#d97706', bg: 'rgba(217,119,6,0.12)'   },
-  formatie:    { label: 'Formație',     icon: Music2,      color: '#7c3aed', bg: 'rgba(124,58,237,0.12)'  },
+  formatie:    { label: 'Formatie',     icon: Music2,      color: '#7c3aed', bg: 'rgba(124,58,237,0.12)'  },
   dj:          { label: 'DJ',           icon: Sparkles,    color: '#0891b2', bg: 'rgba(8,145,178,0.12)'   },
   'foto-video':{ label: 'Foto / Video', icon: Camera,      color: '#059669', bg: 'rgba(5,150,105,0.12)'   },
-  florarie:    { label: 'Florărie',     icon: Flower2,     color: '#db2777', bg: 'rgba(219,39,119,0.12)'  },
+  florarie:    { label: 'Florarie',     icon: Flower2,     color: '#db2777', bg: 'rgba(219,39,119,0.12)'  },
   catering:    { label: 'Catering',     icon: Utensils,    color: '#ea580c', bg: 'rgba(234,88,12,0.12)'   },
   decor:       { label: 'Decor',        icon: Heart,       color: '#be185d', bg: 'rgba(190,24,93,0.12)'   },
   transport:   { label: 'Transport',    icon: Car,         color: '#1d4ed8', bg: 'rgba(29,78,216,0.12)'   },
-  cofetarie:   { label: 'Cofetărie',    icon: Package,     color: '#b45309', bg: 'rgba(180,83,9,0.12)'    },
-  animatie:    { label: 'Animație',     icon: PartyPopper, color: '#7c3aed', bg: 'rgba(124,58,237,0.12)'  },
+  cofetarie:   { label: 'Cofetarie',    icon: Package,     color: '#b45309', bg: 'rgba(180,83,9,0.12)'    },
+  animatie:    { label: 'Animatie',     icon: PartyPopper, color: '#7c3aed', bg: 'rgba(124,58,237,0.12)'  },
   altele:      { label: 'Altele',       icon: Tag,         color: '#6b7280', bg: 'rgba(107,114,128,0.12)' },
 };
 
 const PRICE_UNITS: Record<Service['priceUnit'], string> = {
-  total: '/ eveniment', perPerson: '/ persoană', perHour: '/ oră', negociabil: '',
+  total: '/ eveniment', perPerson: '/ persoana', perHour: '/ ora', negociabil: '',
 };
 
 const serviceId = (s: Service) => s._id || s.id || '';
 
 const formatPrice = (s: Service) => {
-  if (s.priceUnit === 'negociabil') return 'Preț negociabil';
+  if (s.priceUnit === 'negociabil') return 'Pret negociabil';
   const unit = PRICE_UNITS[s.priceUnit];
   if (s.priceTo) return `${s.priceFrom.toLocaleString()} – ${s.priceTo.toLocaleString()} RON${unit ? ' ' + unit : ''}`;
   return `de la ${s.priceFrom.toLocaleString()} RON${unit ? ' ' + unit : ''}`;
@@ -206,7 +206,7 @@ const ServiceCard: React.FC<{
               fontSize: 12, fontWeight: 700, cursor: 'pointer',
               letterSpacing: '0.03em',
             }}>
-            Contactează furnizor
+            Contacteaza furnizor
           </button>
           <div style={{ fontSize: 14, fontWeight: 700, color: '#d97706' }}>{formatPrice(service)}</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -291,7 +291,7 @@ const AdminModal: React.FC<{
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--text-primary)' }}>
-            {service ? 'Editează serviciu' : 'Adaugă serviciu nou'}
+            {service ? 'Editeaza serviciu' : 'Adauga serviciu nou'}
           </h2>
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
             <X size={20} />
@@ -314,30 +314,30 @@ const AdminModal: React.FC<{
 
           <Field label="Descriere">
             <textarea value={form.description} onChange={e => set('description', e.target.value)}
-              rows={3} placeholder="Descriere scurtă..." style={{ ...inputStyle, resize: 'vertical' }} />
+              rows={3} placeholder="Descriere scurta..." style={{ ...inputStyle, resize: 'vertical' }} />
           </Field>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
-            <Field label="Preț de la (RON)">
+            <Field label="Pret de la (RON)">
               <input type="number" value={form.priceFrom} onChange={e => set('priceFrom', Number(e.target.value))} style={inputStyle} />
             </Field>
-            <Field label="Până la (RON)">
+            <Field label="Pana la (RON)">
               <input type="number" value={form.priceTo || ''} onChange={e => set('priceTo', e.target.value ? Number(e.target.value) : undefined)}
-                placeholder="opțional" style={inputStyle} />
+                placeholder="optional" style={inputStyle} />
             </Field>
             <Field label="Unitate">
               <select value={form.priceUnit} onChange={e => set('priceUnit', e.target.value)} style={inputStyle}>
                 <option value="total">/ eveniment</option>
-                <option value="perPerson">/ persoană</option>
-                <option value="perHour">/ oră</option>
+                <option value="perPerson">/ persoana</option>
+                <option value="perHour">/ ora</option>
                 <option value="negociabil">Negociabil</option>
               </select>
             </Field>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-            <Field label="Locație">
-              <input value={form.location} onChange={e => set('location', e.target.value)} placeholder="Ex: București" style={inputStyle} />
+            <Field label="Locatie">
+              <input value={form.location} onChange={e => set('location', e.target.value)} placeholder="Ex: Bucuresti" style={inputStyle} />
             </Field>
             <Field label="Telefon">
               <input value={form.phone || ''} onChange={e => set('phone', e.target.value)} placeholder="07xx xxx xxx" style={inputStyle} />
@@ -375,7 +375,7 @@ const AdminModal: React.FC<{
             <div style={{ display: 'flex', gap: 6 }}>
               <input value={tagInput} onChange={e => setTagInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                placeholder="Adaugă tag și apasă Enter" style={{ ...inputStyle, flex: 1 }} />
+                placeholder="Adauga tag si apasa Enter" style={{ ...inputStyle, flex: 1 }} />
               <button onClick={addTag} style={{ ...btnSecondary, padding: '0 12px' }}>+</button>
             </div>
             {form.tags.length > 0 && (
@@ -404,7 +404,7 @@ const AdminModal: React.FC<{
         </div>
 
         <div style={{ display: 'flex', gap: 10, marginTop: 22, justifyContent: 'flex-end' }}>
-          <button onClick={onClose} style={btnSecondary}>Anulează</button>
+          <button onClick={onClose} style={btnSecondary}>Anuleaza</button>
           <button
             onClick={() => { if (form.name.trim()) onSave(form); }}
             disabled={!form.name.trim()}
@@ -414,7 +414,7 @@ const AdminModal: React.FC<{
               padding: '10px 22px', fontSize: 14, fontWeight: 600, cursor: 'pointer',
               opacity: form.name.trim() ? 1 : 0.5,
             }}>
-            {service ? 'Salvează' : 'Adaugă serviciu'}
+            {service ? 'Salveaza' : 'Adauga serviciu'}
           </button>
         </div>
       </div>
@@ -495,7 +495,7 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
 
   const saveService = async (data: any) => {
     const token = (session as any)?.token;
-    if (!token) { alert('Token lipsă. Reconectează-te.'); return; }
+    if (!token) { alert('Token lipsa. Reconecteaza-te.'); return; }
     const id = data._id || data.id;
     const isNew = !id;
     const url = isNew ? `${API_URL}/admin/services` : `${API_URL}/admin/services/${id}`;
@@ -511,7 +511,7 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
   };
 
   const deleteService = async (id: string) => {
-    if (!confirm('Ștergi acest serviciu?')) return;
+    if (!confirm('Stergi acest serviciu?')) return;
     const token = (session as any)?.token;
     if (!token) return;
     try {
@@ -550,7 +550,7 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
                 Servicii Evenimente
               </h1>
               <p style={{ margin: '4px 0 0', fontSize: 14, color: 'var(--text-muted)' }}>
-                {filtered.length} servicii disponibile pentru nunta sau evenimentul tău
+                {filtered.length} servicii disponibile pentru nunta sau evenimentul tau
               </p>
             </div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -564,7 +564,7 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
                   display: 'flex', alignItems: 'center', gap: 7,
                 }}>
                   <Edit2 size={14} />
-                  {adminMode ? 'Ieși din admin' : 'Admin'}
+                  {adminMode ? 'Iesi din admin' : 'Admin'}
                 </button>
               )}
               {isAdmin && adminMode && (
@@ -574,7 +574,7 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
                   padding: '10px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer',
                   display: 'flex', alignItems: 'center', gap: 7,
                 }}>
-                  <Plus size={16} /> Adaugă serviciu
+                  <Plus size={16} /> Adauga serviciu
                 </button>
               )}
             </div>
@@ -585,7 +585,7 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
             <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 200 }}>
               <Search size={15} style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
               <input value={search} onChange={e => setSearch(e.target.value)}
-                placeholder="Caută servicii, locații, tag-uri..."
+                placeholder="Cauta servicii, locatii, tag-uri..."
                 style={{ ...inputStyle, paddingLeft: 32, height: 40 }} />
               {search && (
                 <button onClick={() => setSearch('')} style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af' }}>
@@ -594,7 +594,7 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
               )}
             </div>
             {(['name', 'priceFrom', 'rating', 'createdAt'] as SortKey[]).map(key => {
-              const labels: Record<SortKey, string> = { name: 'Nume', priceFrom: 'Preț', rating: 'Rating', createdAt: 'Dată' };
+              const labels: Record<SortKey, string> = { name: 'Nume', priceFrom: 'Pret', rating: 'Rating', createdAt: 'Data' };
               return (
                 <button key={key} onClick={() => toggleSort(key)} style={{
                   background: sortKey === key ? 'var(--text-primary)' : 'var(--card-bg)',
@@ -624,7 +624,7 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
           {showFilters && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center', marginTop: 14, padding: 16, background: 'var(--card-bg)', borderRadius: 12, border: '1px solid var(--card-border)' }}>
               <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Preț max:</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Pret max:</span>
                 <input type="number" value={priceMax} onChange={e => setPriceMax(e.target.value === '' ? '' : Number(e.target.value))}
                   placeholder="orice" style={{ ...inputStyle, width: 110 }} />
                 <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>RON</span>
@@ -639,7 +639,7 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
               </label>
               <button onClick={() => { setPriceMax(''); setOnlyFeatured(false); setOnlyAvailable(true); setSearch(''); setActiveCategory('all'); }}
                 style={{ marginLeft: 'auto', background: 'none', border: 'none', fontSize: 12, color: '#ef4444', cursor: 'pointer', fontWeight: 500 }}>
-                Resetează filtrele
+                Reseteaza filtrele
               </button>
             </div>
           )}
@@ -682,7 +682,7 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
         {loadingApi ? (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
             <div style={{ width: 36, height: 36, border: '3px solid var(--card-border)', borderTopColor: '#d97706', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 12px' }} />
-            <p style={{ margin: 0, fontSize: 14 }}>Se încarcă serviciile...</p>
+            <p style={{ margin: 0, fontSize: 14 }}>Se incarca serviciile...</p>
           </div>
         ) : comingSoon ? (
           <div style={{ textAlign: 'center', padding: '72px 20px' }}>
@@ -695,11 +695,11 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
                   Coming Soon
                 </h3>
                 <p style={{ margin: 0, fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-                  Lucrăm la o colecție completă de furnizori verificați pentru evenimentul tău. Revino în curând!
+                  Lucram la o colectie completa de furnizori verificati pentru evenimentul tau. Revino in curand!
                 </p>
               </div>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
-                {['Candy Bar', 'Formații', 'Foto & Video', 'Florărie', 'Catering'].map(t => (
+                {['Candy Bar', 'Formatii', 'Foto & Video', 'Florarie', 'Catering'].map(t => (
                   <span key={t} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 20, padding: '5px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
                     {t}
                   </span>
@@ -710,14 +710,14 @@ export default function ServicesMarketplace({ session }: ServicesMarketplaceProp
         ) : services.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
             <Package size={40} strokeWidth={1} style={{ marginBottom: 12, opacity: 0.4 }} />
-            <p style={{ margin: 0, fontSize: 15 }}>Nu există servicii momentan.</p>
-            <p style={{ margin: '6px 0 0', fontSize: 13 }}>Revino în curând!</p>
+            <p style={{ margin: 0, fontSize: 15 }}>Nu exista servicii momentan.</p>
+            <p style={{ margin: '6px 0 0', fontSize: 13 }}>Revino in curand!</p>
           </div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
             <Package size={40} strokeWidth={1} style={{ marginBottom: 12, opacity: 0.4 }} />
-            <p style={{ margin: 0, fontSize: 15 }}>Niciun serviciu găsit.</p>
-            <p style={{ margin: '6px 0 0', fontSize: 13 }}>Încearcă să modifici filtrele sau căutarea.</p>
+            <p style={{ margin: 0, fontSize: 15 }}>Niciun serviciu gasit.</p>
+            <p style={{ margin: '6px 0 0', fontSize: 13 }}>Incearca sa modifici filtrele sau cautarea.</p>
           </div>
         ) : (
           <div className="svc-grid">

@@ -81,7 +81,7 @@ export const createComponentFromCode = (code: string) => {
                 return React.createElement(DefaultExport, props);
             } catch (e) {
                 return React.createElement('div', { className: 'p-8 text-red-500 border border-red-200 rounded-lg bg-red-50' }, 
-                    React.createElement('h3', { className: 'font-bold' }, 'Eroare la execuția template-ului:'),
+                    React.createElement('h3', { className: 'font-bold' }, 'Eroare la executia template-ului:'),
                     React.createElement('p', { className: 'text-sm' }, e.message)
                 );
             }

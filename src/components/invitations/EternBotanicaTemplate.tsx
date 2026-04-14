@@ -14,7 +14,7 @@ export const meta: TemplateMeta = {
   id: 'etern-botanica',
   name: 'Etern Botanica',
   category: 'wedding',
-  description: 'Botanică acuarelă — trandafiri pastel, ramuri aurii, siluetă mireasă, cadru geometric gold.',
+  description: 'Botanica acuarela — trandafiri pastel, ramuri aurii, silueta mireasa, cadru geometric gold.',
   colors: ['#fdfaf7', '#f2c4ce', '#c9a84c'],
   previewClass: "bg-rose-50 border-rose-200",
   elementsClass: "bg-rose-300",
@@ -110,7 +110,7 @@ const ETERN_BLOCK_TYPES: Array<{ type: string; label: string; def: Partial<Invit
 
 const BLOCK_TYPE_ICONS: Record<string, string> = {
   photo: "🖼",
-  text: "✏️",
+  text: "✏",
   location: "📍",
   calendar: "📅",
   countdown: "⏱",
@@ -118,7 +118,7 @@ const BLOCK_TYPE_ICONS: Record<string, string> = {
   music: "🎵",
   gift: "🎁",
   whatsapp: "💬",
-  rsvp: "✉️",
+  rsvp: "✉",
   divider: "—",
   family: "👨‍👩‍👧",
   date: "📆",
@@ -132,12 +132,12 @@ const TIMELINE_PRESETS = [
   { icon: "diamond", emoji: "💍", title: "Pregatirea mirilor" },
   { icon: "dress", emoji: "👗", title: "Imbracarea miresei" },
   { icon: "ceremony", emoji: "⛪", title: "Ceremonia civila" },
-  { icon: "candles", emoji: "🕯️", title: "Ceremonia religioasa" },
+  { icon: "candles", emoji: "🕯", title: "Ceremonia religioasa" },
   { icon: "photo", emoji: "📷", title: "Sedinta foto" },
   { icon: "arch", emoji: "🌸", title: "Intrarea in sala" },
   { icon: "dance", emoji: "💃", title: "Dansul mirilor" },
   { icon: "cocktails", emoji: "🍸", title: "Cocktail & aperitiv" },
-  { icon: "dinner", emoji: "🍽️", title: "Masa festiva" },
+  { icon: "dinner", emoji: "🍽", title: "Masa festiva" },
   { icon: "music", emoji: "🎵", title: "Muzica live" },
   { icon: "mic", emoji: "🎤", title: "Toast & discursuri" },
   { icon: "cake", emoji: "🎂", title: "Taierea tortului" },
@@ -515,7 +515,7 @@ const BotanicaIntro: React.FC<{
           opacity: phase >= 5 ? 1 : 0,
           transition: 'opacity 0.5s ease-out 0.3s',
         }}>
-          {isBaptism ? 'cu bucurie vă anunțăm' : 'cu inimile pline'}
+          {isBaptism ? 'cu bucurie va anuntam' : 'cu inimile pline'}
         </p>
 
         {/* Name(s) */}
@@ -762,10 +762,10 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
         <div style={{ background: `${ROSE}35`, alignSelf: 'stretch', marginTop: 2 }}/>
         <div>
           <InlineEdit tag="p" editMode={editMode} value={block.locationName || ''} onChange={v => onUpdate({ locationName: v })}
-            placeholder="Locație..."
+            placeholder="Locatie..."
             style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, color: TEXT, margin: '0 0 3px', lineHeight: 1.35 }}/>
           <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''} onChange={v => onUpdate({ locationAddress: v })}
-            placeholder="Adresă..." multiline
+            placeholder="Adresa..." multiline
             style={{ fontFamily: SANS, fontSize: 11, color: MUTED, margin: 0, lineHeight: 1.5 }}/>
         </div>
       </div>
@@ -1240,9 +1240,9 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
   const delGodparent = (i: number) => setGodparents(prev => { const ng = prev.filter((_, j) => j !== i); upProfile('godparents', JSON.stringify(ng)); return ng; });
   const updParent = (field: string, val: string) => setParentsData((prev: any) => { const np = { ...prev, [field]: val }; upProfile('parents', JSON.stringify(np)); return np; });
 
-  const welcomeText     = profile.welcomeText?.trim()     || 'Cu inimile pline de emoție și bucurie';
-  const celebrationText = profile.celebrationText?.trim() || 'vă invităm să fiți alături de noi';
-  const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirmă Prezența';
+  const welcomeText     = profile.welcomeText?.trim()     || 'Cu inimile pline de emotie si bucurie';
+  const celebrationText = profile.celebrationText?.trim() || 'va invitam sa fiti alaturi de noi';
+  const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = profile.showRsvpButton !== false;
   const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';
   const displayBlocks   = editMode ? blocks : blocks.filter(b => b.show !== false);
@@ -1342,7 +1342,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
           <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full px-4 py-1.5 shadow-lg text-[10px] font-bold pointer-events-none select-none"
             style={{ background: IVORY, border: `1px solid ${ROSE}44`, color: ROSE_D, backdropFilter: 'blur(8px)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: ROSE }}/>
-            <span className="uppercase tracking-widest">Editare Directă</span>
+            <span className="uppercase tracking-widest">Editare Directa</span>
             <span className="font-normal" style={{ color: MUTED }}>— click pe orice text</span>
           </div>
         )}
@@ -1462,7 +1462,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                     <span style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.4em',
                       textTransform: 'uppercase', color: MUTED, padding: '4px 16px', borderRadius: 99,
                       background: `${ROSE}12`, border: `1px solid ${ROSE}35` }}>
-                      ✿ Timp rămas
+                      ✿ Timp ramas
                     </span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: 6 }}>
@@ -1509,7 +1509,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                   borderRadius: 2, padding: '14px 28px', margin: '0 0 8px',
                   background: 'rgba(255,255,255,0.6)' }}>
                   <p style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.44em',
-                    textTransform: 'uppercase', color: MUTED, margin: '0 0 6px' }}>Dragă</p>
+                    textTransform: 'uppercase', color: MUTED, margin: '0 0 6px' }}>Draga</p>
                   <p style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 300, fontStyle: 'italic',
                     color: TEXT, margin: 0 }}>{guest.name}</p>
                 </div>
@@ -1572,7 +1572,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                   {block.type === 'godparents' && (
                     <Reveal>
                       <Card style={{ textAlign: 'center' }}>
-                        <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Nașii Noștri'}
+                        <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Nasii Nostri'}
                           onChange={v => updBlock(realIdx, { sectionTitle: v })} placeholder="Titlu..."
                           style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.44em',
                             textTransform: 'uppercase', color: ROSE_D, margin: '0 0 10px', display: 'block', opacity: 0.8 }}/>
@@ -1583,10 +1583,10 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                           {godparents.map((g: any, i: number) => (
                             <div key={i} className={cn("flex items-center justify-center gap-2", editMode && "group/gp")}>
-                              <InlineEdit tag="span" editMode={editMode} value={g.godfather || ''} onChange={v => updGodparent(i, 'godfather', v)} placeholder="Naș"
+                              <InlineEdit tag="span" editMode={editMode} value={g.godfather || ''} onChange={v => updGodparent(i, 'godfather', v)} placeholder="Nas"
                                 style={{ fontFamily: SERIF, fontSize: 18, fontWeight: 300, color: TEXT }}/>
                               <span style={{ fontFamily: SERIF, fontStyle: 'italic', color: ROSE_D, margin: '0 8px' }}>&</span>
-                              <InlineEdit tag="span" editMode={editMode} value={g.godmother || ''} onChange={v => updGodparent(i, 'godmother', v)} placeholder="Nașă"
+                              <InlineEdit tag="span" editMode={editMode} value={g.godmother || ''} onChange={v => updGodparent(i, 'godmother', v)} placeholder="Nasa"
                                 style={{ fontFamily: SERIF, fontSize: 18, fontWeight: 300, color: TEXT }}/>
                               {editMode && <button type="button" onClick={() => delGodparent(i)} className="opacity-0 group-hover/gp:opacity-100 transition-opacity p-0.5 rounded hover:bg-red-50"><Trash2 className="w-3 h-3 text-red-400"/></button>}
                             </div>
@@ -1594,7 +1594,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                           {editMode && <button type="button" onClick={addGodparent}
                             className="text-[10px] font-bold border border-dashed rounded-full px-2 py-0.5 flex items-center gap-1 mx-auto"
                             style={{ color: ROSE_D, borderColor: `${ROSE}55` }}>
-                            <Plus className="w-2.5 h-2.5"/> adaugă
+                            <Plus className="w-2.5 h-2.5"/> adauga
                           </button>}
                         </div>
                       </Card>
@@ -1604,7 +1604,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                   {block.type === 'parents' && (
                     <Reveal>
                       <Card style={{ textAlign: 'center' }}>
-                        <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Părinții Noștri'}
+                        <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Parintii Nostri'}
                           onChange={v => updBlock(realIdx, { sectionTitle: v })} placeholder="Titlu..."
                           style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.44em',
                             textTransform: 'uppercase', color: ROSE_D, margin: '0 0 10px', display: 'block', opacity: 0.8 }}/>
@@ -1614,8 +1614,8 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                             margin: '0 0 12px', lineHeight: 1.7, display: 'block' }}/>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
                           {([
-                            { key: 'p1_father', ph: 'Tatăl Miresei' }, { key: 'p1_mother', ph: 'Mama Miresei' },
-                            { key: 'p2_father', ph: 'Tatăl Mirelui' }, { key: 'p2_mother', ph: 'Mama Mirelui' },
+                            { key: 'p1_father', ph: 'Tatal Miresei' }, { key: 'p1_mother', ph: 'Mama Miresei' },
+                            { key: 'p2_father', ph: 'Tatal Mirelui' }, { key: 'p2_mother', ph: 'Mama Mirelui' },
                           ] as const).map(({ key, ph }) => {
                             const val = parentsData?.[key];
                             if (!val && !editMode) return null;
@@ -1641,7 +1641,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                     <Reveal>
                       <div style={{ textAlign: 'center', padding: '4px 0' }}>
                         <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
-                          onChange={v => updBlock(realIdx, { content: v })} placeholder="Titlu secțiune..."
+                          onChange={v => updBlock(realIdx, { content: v })} placeholder="Titlu sectiune..."
                           style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.44em',
                             textTransform: 'uppercase', color: ROSE_D, opacity: 0.8 }}/>
                       </div>
@@ -2086,12 +2086,12 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
             <div className="text-center mt-4 py-4 border-2 border-dashed rounded transition-colors"
               style={{ borderColor: `${ROSE}33` }}>
               <p className="text-[9px] uppercase tracking-widest mb-2.5 font-bold"
-                style={{ color: MUTED, fontFamily: SANS }}>Adaugă bloc</p>
+                style={{ color: MUTED, fontFamily: SANS }}>Adauga bloc</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {[
-                  { type: 'location',   label: 'Locație', def: { label: '', time: '', locationName: '', locationAddress: '', wazeLink: '' } },
-                  { type: 'godparents', label: 'Nași',    def: { sectionTitle: 'Nașii Noștri', content: '' } },
-                  { type: 'parents',    label: 'Părinți', def: { sectionTitle: 'Părinții Noștri', content: '' } },
+                  { type: 'location',   label: 'Locatie', def: { label: '', time: '', locationName: '', locationAddress: '', wazeLink: '' } },
+                  { type: 'godparents', label: 'Nasi',    def: { sectionTitle: 'Nasii Nostri', content: '' } },
+                  { type: 'parents',    label: 'Parinti', def: { sectionTitle: 'Parintii Nostri', content: '' } },
                   { type: 'text',       label: 'Text',    def: { content: '' } },
                   { type: 'title',      label: 'Titlu',   def: { content: '' } },
                   { type: 'divider',    label: 'Linie',   def: {} },

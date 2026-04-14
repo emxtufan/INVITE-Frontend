@@ -115,11 +115,11 @@ const BillingView: React.FC<BillingViewProps> = ({ session, onUpgrade }) => {
         <div className="flex justify-between items-start">
             <div>
               <h2 className="text-3xl font-bold tracking-tight">Facturare & Plan</h2>
-              <p className="text-muted-foreground">Gestionează planul tău și vezi istoricul plăților.</p>
+              <p className="text-muted-foreground">Gestioneaza planul tau si vezi istoricul platilor.</p>
             </div>
             <Button variant="outline" size="sm" onClick={handleRefresh} disabled={isRefreshing}>
                 <RefreshCw className={cn("w-4 h-4 mr-2", isRefreshing && "animate-spin")} />
-                Actualizează Datele
+                Actualizeaza Datele
             </Button>
         </div>
 
@@ -134,19 +134,19 @@ const BillingView: React.FC<BillingViewProps> = ({ session, onUpgrade }) => {
                     </div>
                 )}
                 <CardHeader>
-                    <CardTitle>Planul Tău</CardTitle>
+                    <CardTitle>Planul Tau</CardTitle>
                     <CardDescription>
                         {isPremium
-                          ? "Ai acces la toate funcționalitățile."
+                          ? "Ai acces la toate functionalitatile."
                           : isBasic
-                            ? "Ai acces la invitații și RSVP. Restul modulelor sunt Premium."
-                            : "Ești pe planul gratuit limitat."}
+                            ? "Ai acces la invitatii si RSVP. Restul modulelor sunt Premium."
+                            : "Esti pe planul gratuit limitat."}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="flex items-baseline gap-2">
                         <span className="text-3xl font-bold">{planLabel}</span>
-                        {isPaidPlan && <span className="text-sm text-muted-foreground">/ Plată Unică</span>}
+                        {isPaidPlan && <span className="text-sm text-muted-foreground">/ Plata Unica</span>}
                     </div>
                     
                     {!isPremium ? (
@@ -155,7 +155,7 @@ const BillingView: React.FC<BillingViewProps> = ({ session, onUpgrade }) => {
                         </Button>
                     ) : (
                         <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
-                            <ShieldCheck className="w-4 h-4" /> Licență activă pe viață pentru acest eveniment.
+                            <ShieldCheck className="w-4 h-4" /> Licenta activa pe viata pentru acest eveniment.
                         </div>
                     )}
                 </CardContent>
@@ -163,8 +163,8 @@ const BillingView: React.FC<BillingViewProps> = ({ session, onUpgrade }) => {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Metodă de Plată</CardTitle>
-                    <CardDescription>Ultima metodă folosită.</CardDescription>
+                    <CardTitle>Metoda de Plata</CardTitle>
+                    <CardDescription>Ultima metoda folosita.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center gap-4 p-4 border rounded-lg bg-zinc-50 dark:bg-zinc-900/50">
@@ -183,9 +183,9 @@ const BillingView: React.FC<BillingViewProps> = ({ session, onUpgrade }) => {
         {/* Invoices Table */}
         <Card>
             <CardHeader>
-                <CardTitle>Istoric Plăți</CardTitle>
+                <CardTitle>Istoric Plati</CardTitle>
                 <CardDescription>
-                    Descarcă facturile și chitanțele fiscale.
+                    Descarca facturile si chitantele fiscale.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -195,10 +195,10 @@ const BillingView: React.FC<BillingViewProps> = ({ session, onUpgrade }) => {
                             <thead className="[&_tr]:border-b">
                                 <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Eveniment</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Data Plății</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Sumă</th>
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Data Platii</th>
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Suma</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Status</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Acțiuni</th>
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Actiuni</th>
                                 </tr>
                             </thead>
                             <tbody className="[&_tr:last-child]:border-0">
@@ -224,7 +224,7 @@ const BillingView: React.FC<BillingViewProps> = ({ session, onUpgrade }) => {
                                                     ? "bg-green-50 text-green-700 ring-green-600/20 dark:bg-green-900/20 dark:text-green-400"
                                                     : "bg-yellow-50 text-yellow-800 ring-yellow-600/20"
                                             )}>
-                                                {payment.status === 'Paid' ? 'Plătit' : payment.status}
+                                                {payment.status === 'Paid' ? 'Platit' : payment.status}
                                             </span>
                                         </td>
                                         <td className="p-4 align-middle text-right">
@@ -246,7 +246,7 @@ const BillingView: React.FC<BillingViewProps> = ({ session, onUpgrade }) => {
                 ) : (
                     <div className="py-10 text-center text-muted-foreground text-sm flex flex-col items-center gap-2">
                         <CreditCard className="w-8 h-8 opacity-20" />
-                        Nu există plăți înregistrate încă.
+                        Nu exista plati inregistrate inca.
                     </div>
                 )}
             </CardContent>

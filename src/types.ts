@@ -74,16 +74,16 @@ export interface TimelineItem {
   notice?: string; // extra note: e.g. "Florin Salam", "Pauza foto 30 min"
 }
 
-// Sistem de blocuri flexibile pentru invitație (page builder)
+// Sistem de blocuri flexibile pentru invitatie (page builder)
 export type InvitationBlockType =
-  | 'location'    // Locație: oră, nume, adresă, waze
+  | 'location'    // Locatie: ora, nume, adresa, waze
   | 'text'        // Paragraf de text liber
   | 'title'       // Titlu / heading
   | 'divider'     // Linie separatoare
-  | 'spacer'      // Spațiu gol
-  | 'godparents'  // Blocul cu nași
-  | 'parents'     // Blocul cu părinți
-  | 'family'      // Părinți & Nași combinat (Castle Magic)
+  | 'spacer'      // Spatiu gol
+  | 'godparents'  // Blocul cu nasi
+  | 'parents'     // Blocul cu parinti
+  | 'family'      // Parinti & Nasi combinat (Castle Magic)
   | 'date'        // Data evenimentului (hero)
   | 'description' // Paragraf scurt cu padding mic
   // ── Terra Boho extras ──
@@ -91,14 +91,14 @@ export type InvitationBlockType =
   | 'calendar'    // Calendar luna evenimentului
   | 'countdown'   // Countdown numeric
   | 'timeline'    // Cronologia zilei
-  | 'music'       // Player muzică cosmetic
+  | 'music'       // Player muzica cosmetic
   | 'dresscode'   // Cod vestimentar
   | 'gift'        // Registry cadouri / IBAN
-  | 'nokids'      // Eveniment fără copii
+  | 'nokids'      // Eveniment fara copii
   | 'quote'       // Citat / mesaj italic
-  | 'thankyou'    // Secțiune mulțumire
+  | 'thankyou'    // Sectiune multumire
   | 'whatsapp'    // Buton WhatsApp contact
-  | 'rsvp';       // Formular confirmare prezență
+  | 'rsvp';       // Formular confirmare prezenta
 
 export interface TextStyle {
   fontFamily?:    string;
@@ -239,7 +239,7 @@ export interface UserProfile {
   venueLabel?: string;
   civilLabel?: string;
   inviteSlug?: string;
-  // Vizibilitate secțiuni
+  // Vizibilitate sectiuni
   showWelcomeText?: boolean;
   showCelebrationText?: boolean;
   showCivil?: boolean;
@@ -251,9 +251,9 @@ export interface UserProfile {
   // NOU: Countdown
   showCountdown?: boolean;
   // NOU: Buton RSVP
-  rsvpButtonText?: string;        // Text custom pe buton (default: "Confirmă Prezența")
-  showRsvpButton?: boolean;       // Afișează / ascunde butonul RSVP
-  // NOU: Secțiuni extra custom (JSON string de InvitationSection[])
+  rsvpButtonText?: string;        // Text custom pe buton (default: "Confirma Prezenta")
+  showRsvpButton?: boolean;       // Afiseaza / ascunde butonul RSVP
+  // NOU: Sectiuni extra custom (JSON string de InvitationSection[])
   customSections?: string;
   // ── Hero section styling ──────────────────────────────────────────────────
   heroFontFamily?:    string;

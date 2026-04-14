@@ -8,7 +8,7 @@ import { BlockStyleProvider, BlockStyle } from "../BlockStyleContext";
 
 export const meta: TemplateMeta = {
   id: 'classic', name: 'Classic Elegant', category: 'wedding',
-  description: 'Design atemporal cu fonturi serif și accente aurii.',
+  description: 'Design atemporal cu fonturi serif si accente aurii.',
   colors: ['#fff', '#f4f4f5', '#d4af37'],
   previewClass: "bg-white border-zinc-200", elementsClass: "bg-stone-300"
 };
@@ -74,7 +74,7 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
 
 // ─── Add block strip (edit mode) ──────────────────────────────────────────────
 const ADD_BLOCK_TYPES = [
-  { type: 'location',   label: 'Locație',  def: { label: '', time: '', locationName: '', locationAddress: '', wazeLink: '' } },
+  { type: 'location',   label: 'Locatie',  def: { label: '', time: '', locationName: '', locationAddress: '', wazeLink: '' } },
   { type: 'text',       label: 'Text',     def: { content: '' } },
   { type: 'title',      label: 'Titlu',    def: { content: '' } },
   { type: 'divider',    label: 'Linie',    def: {} },
@@ -194,9 +194,9 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
     });
   };
 
-  const welcomeText     = profile.welcomeText?.trim()     || 'Împreună cu familiile noastre';
-  const celebrationText = profile.celebrationText?.trim() || 'nunții noastre';
-  const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirmă Prezența';
+  const welcomeText     = profile.welcomeText?.trim()     || 'Impreuna cu familiile noastre';
+  const celebrationText = profile.celebrationText?.trim() || 'nuntii noastre';
+  const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = profile.showRsvpButton !== false;
   const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';
   const displayBlocks   = editMode ? blocks : blocks.filter(b => b.show !== false);
@@ -208,7 +208,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
       {editMode && (
         <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-stone-900/90 backdrop-blur text-white rounded-full px-4 py-1.5 shadow-2xl text-[10px] font-bold pointer-events-none select-none">
           <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-          <span className="uppercase tracking-widest">Editare Directă</span>
+          <span className="uppercase tracking-widest">Editare Directa</span>
           <span className="text-stone-400 font-normal">— click pe orice text pentru a edita</span>
         </div>
       )}
@@ -224,7 +224,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
           {profile.showWelcomeText && (
             <InlineEdit tag="p" editMode={editMode} value={welcomeText}
               onChange={v => upProfile('welcomeText', v)}
-              placeholder="Cine invită..."
+              placeholder="Cine invita..."
               className="text-stone-500 uppercase tracking-[0.2em] text-[10px] mb-4 font-sans font-bold" />
           )}
 
@@ -244,7 +244,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
 
           {profile.showCelebrationText && (
             <p className="text-xl italic text-stone-600 mt-6 font-serif">
-              vă invită la{' '}
+              va invita la{' '}
               <InlineEdit tag="span" editMode={editMode} value={celebrationText}
                 onChange={v => upProfile('celebrationText', v)}
                 placeholder="descriere eveniment..." />
@@ -255,7 +255,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
         {/* ── GUEST BADGE ── */}
         <div className="py-4 bg-stone-50 rounded-lg border border-stone-100 mx-auto max-w-xs font-sans">
           <p className="font-bold text-lg text-stone-800">{guest?.name || 'Nume Invitat'}</p>
-          <p className="text-[10px] text-stone-400 uppercase tracking-widest mt-1">Sunteți invitații noștri de onoare</p>
+          <p className="text-[10px] text-stone-400 uppercase tracking-widest mt-1">Sunteti invitatii nostri de onoare</p>
         </div>
 
         {/* ── DATE ── */}
@@ -280,7 +280,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
         {/* ── COUNTDOWN ── */}
         {profile.showCountdown && profile.weddingDate && !countdown.expired && (
           <div className="border-y border-stone-100 py-6 font-sans">
-            <p className="text-[9px] uppercase tracking-widest text-stone-400 font-bold mb-4">Până la eveniment</p>
+            <p className="text-[9px] uppercase tracking-widest text-stone-400 font-bold mb-4">Pana la eveniment</p>
             <div className="flex justify-center gap-6">
               <CountdownUnit value={countdown.days}    label="Zile" />
               <CountdownUnit value={countdown.hours}   label="Ore" />
@@ -337,12 +337,12 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
                 textAlign: block.blockAlign,
               } as BlockStyle}>
 
-                {/* ── LOCAȚIE ── */}
+                {/* ── LOCATIE ── */}
                 {block.type === 'location' && (
                   <div className={cn("space-y-3 py-6 border-b border-stone-100 last:border-0 text-sm font-sans", editMode && "px-3")}>
                     <InlineEdit tag="p" editMode={editMode} value={block.label || ''}
                       onChange={v => updBlock(realIdx, { label: v })}
-                      placeholder="Titlu locație (ex: Cununie Civilă)"
+                      placeholder="Titlu locatie (ex: Cununie Civila)"
                       className="font-bold uppercase text-[10px] text-stone-400 tracking-widest" />
                     <div className="flex items-center justify-center gap-2 font-bold text-base text-stone-800">
                       <Clock className="w-4 h-4 text-stone-300 shrink-0" />
@@ -351,35 +351,35 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
                     </div>
                     <InlineEdit tag="p" editMode={editMode} value={block.locationName || ''}
                       onChange={v => updBlock(realIdx, { locationName: v })}
-                      placeholder="Numele locației / sălii..."
+                      placeholder="Numele locatiei / salii..."
                       className="font-semibold text-stone-700" />
                     <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''}
                       onChange={v => updBlock(realIdx, { locationAddress: v })}
-                      placeholder="Adresă completă..."
+                      placeholder="Adresa completa..."
                       className="text-xs text-stone-500 italic leading-snug" />
                     <InlineWaze value={block.wazeLink || ''} onChange={v => updBlock(realIdx, { wazeLink: v })} editMode={editMode} />
                   </div>
                 )}
 
-              {/* ── NAȘI ── */}
+              {/* ── NASI ── */}
               {block.type === 'godparents' && (
                 <div className={cn("space-y-3 font-sans text-sm", editMode && "px-3 py-2")}>
-                  <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Nașii Noștri'}
+                  <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Nasii Nostri'}
                     onChange={v => updBlock(realIdx, { sectionTitle: v })}
-                    placeholder="Titlu secțiune..."
+                    placeholder="Titlu sectiune..."
                     className="text-[10px] font-bold uppercase text-stone-400 tracking-widest" />
                   <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
                     onChange={v => updBlock(realIdx, { content: v })}
-                    placeholder="Text introductiv (ex: Alături de nașii noștri dragi...)"
+                    placeholder="Text introductiv (ex: Alaturi de nasii nostri dragi...)"
                     className="text-sm italic text-stone-500 font-serif" multiline />
                   <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
                     {godparents.map((g: any, i: number) => (
                       <div key={i} className={cn("text-sm italic text-stone-700 flex items-center gap-1.5", editMode && "group/gp relative")}>
                         <InlineEdit tag="span" editMode={editMode} value={g.godfather || ''}
-                          onChange={v => updGodparent(i, 'godfather', v)} placeholder="Naș" />
+                          onChange={v => updGodparent(i, 'godfather', v)} placeholder="Nas" />
                         <span className="text-stone-300">&</span>
                         <InlineEdit tag="span" editMode={editMode} value={g.godmother || ''}
-                          onChange={v => updGodparent(i, 'godmother', v)} placeholder="Nașă" />
+                          onChange={v => updGodparent(i, 'godmother', v)} placeholder="Nasa" />
                         {editMode && (
                           <button type="button" onClick={() => delGodparent(i)}
                             className="opacity-0 group-hover/gp:opacity-100 transition-opacity ml-0.5 p-0.5 rounded hover:bg-red-50">
@@ -391,29 +391,29 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
                     {editMode && (
                       <button type="button" onClick={addGodparent}
                         className="text-[10px] text-stone-300 hover:text-stone-500 border border-dashed border-stone-200 hover:border-stone-300 rounded-full px-2 py-0.5 flex items-center gap-1 transition-colors">
-                        <Plus className="w-2.5 h-2.5" /> adaugă pereche
+                        <Plus className="w-2.5 h-2.5" /> adauga pereche
                       </button>
                     )}
                   </div>
                 </div>
               )}
 
-              {/* ── PĂRINȚI ── */}
+              {/* ── PARINTI ── */}
               {block.type === 'parents' && (
                 <div className={cn("space-y-3 font-sans text-sm", editMode && "px-3 py-2")}>
-                  <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Părinții Noștri'}
+                  <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Parintii Nostri'}
                     onChange={v => updBlock(realIdx, { sectionTitle: v })}
-                    placeholder="Titlu secțiune..."
+                    placeholder="Titlu sectiune..."
                     className="text-[10px] font-bold uppercase text-stone-400 tracking-widest" />
                   <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
                     onChange={v => updBlock(realIdx, { content: v })}
-                    placeholder="Text introductiv (ex: Cu binecuvântarea părinților noștri...)"
+                    placeholder="Text introductiv (ex: Cu binecuvantarea parintilor nostri...)"
                     className="text-sm italic text-stone-500 font-serif" multiline />
                   <div className={cn("flex flex-col gap-1", editMode && "items-center")}>
                     {([
-                      { key: 'p1_father', ph: 'Tatăl Miresei' },
+                      { key: 'p1_father', ph: 'Tatal Miresei' },
                       { key: 'p1_mother', ph: 'Mama Miresei' },
-                      { key: 'p2_father', ph: 'Tatăl Mirelui' },
+                      { key: 'p2_father', ph: 'Tatal Mirelui' },
                       { key: 'p2_mother', ph: 'Mama Mirelui' },
                     ] as const).map(({ key, ph }) => {
                       const val = parentsData?.[key];
@@ -434,7 +434,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
                 <div className={cn(editMode && "px-3 py-2")}>
                   <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
                     onChange={v => updBlock(realIdx, { content: v })}
-                    placeholder="Scrieți un mesaj, o urare, o poezie..."
+                    placeholder="Scrieti un mesaj, o urare, o poezie..."
                     className="text-sm text-stone-600 italic leading-relaxed font-serif px-4" multiline />
                 </div>
               )}
@@ -443,7 +443,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
               {block.type === 'title' && (
                 <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
                   onChange={v => updBlock(realIdx, { content: v })}
-                  placeholder="Titlu secțiune..."
+                  placeholder="Titlu sectiune..."
                   className="text-[10px] font-bold uppercase text-stone-400 tracking-widest font-sans" />
               )}
 
@@ -457,7 +457,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
         {/* ── ADD BLOCK strip (edit mode only) ── */}
         {editMode && (
           <div className="border-2 border-dashed border-stone-100 hover:border-stone-200 rounded-xl py-4 transition-colors">
-            <p className="text-[9px] text-stone-400 uppercase tracking-widest mb-2.5">Adaugă bloc</p>
+            <p className="text-[9px] text-stone-400 uppercase tracking-widest mb-2.5">Adauga bloc</p>
             <div className="flex flex-wrap justify-center gap-2">
               {ADD_BLOCK_TYPES.map(({ type, label, def }) => (
                 <button key={type} type="button" onClick={() => addBlock(type, def)}

@@ -58,7 +58,7 @@ const MyDocument = ({ elements, eventName, stats }: { elements: CanvasElement[],
             <Text style={styles.subtitle}>{new Date().toLocaleDateString('ro-RO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
         </View>
         <View style={{ backgroundColor: '#18181b', paddingHorizontal: 15, paddingVertical: 8, borderRadius: 4 }}>
-            <Text style={{ color: 'white', fontSize: 8, textTransform: 'uppercase', textAlign: 'center' }}>Total Invitați</Text>
+            <Text style={{ color: 'white', fontSize: 8, textTransform: 'uppercase', textAlign: 'center' }}>Total Invitati</Text>
             <Text style={{ color: 'white', fontSize: 18, fontFamily: 'Roboto-Bold', textAlign: 'center' }}>{stats.totalGuests}</Text>
         </View>
       </View>
@@ -70,7 +70,7 @@ const MyDocument = ({ elements, eventName, stats }: { elements: CanvasElement[],
             <Text style={styles.statValue}>{stats.tableCount}</Text>
          </View>
          <View style={styles.statBox}>
-            <Text style={styles.statLabel}>Adulți</Text>
+            <Text style={styles.statLabel}>Adulti</Text>
             <Text style={styles.statValue}>{stats.totalGuests - stats.totalKids}</Text>
          </View>
          <View style={[styles.statBox, { backgroundColor: '#fff1f2', borderColor: '#fce7f3' }]}>
@@ -193,7 +193,7 @@ const GuestListPDF: React.FC<GuestListPDFProps> = ({ elements, eventName = "Plan
                 </div>
                 <div className="text-right">
                     <div className="bg-zinc-900 text-white px-6 py-3 rounded-lg shadow-sm print:bg-transparent print:text-black print:border print:border-black print:shadow-none print:px-4 print:py-2">
-                        <span className="text-[10px] font-bold uppercase tracking-widest opacity-80 block text-center">Total Invitați</span>
+                        <span className="text-[10px] font-bold uppercase tracking-widest opacity-80 block text-center">Total Invitati</span>
                         <span className="text-3xl font-black block text-center print:text-2xl">{totalGuests}</span>
                     </div>
                 </div>
@@ -206,7 +206,7 @@ const GuestListPDF: React.FC<GuestListPDFProps> = ({ elements, eventName = "Plan
                     <span className="text-2xl font-bold text-zinc-800 print:text-lg">{tables.length}</span>
                 </div>
                 <div className="bg-zinc-50 p-4 rounded-xl border border-zinc-200 flex flex-col items-center justify-center print:border-black print:p-2">
-                    <span className="text-zinc-400 text-[10px] font-bold uppercase tracking-widest mb-1 print:text-black">Adulți</span>
+                    <span className="text-zinc-400 text-[10px] font-bold uppercase tracking-widest mb-1 print:text-black">Adulti</span>
                     <span className="text-2xl font-bold text-zinc-800 print:text-lg">{totalGuests - totalKids}</span>
                 </div>
                 <div className="bg-pink-50/50 p-4 rounded-xl border border-pink-100 flex flex-col items-center justify-center print:border-black print:bg-transparent print:p-2">
@@ -298,7 +298,7 @@ const GuestListPDF: React.FC<GuestListPDFProps> = ({ elements, eventName = "Plan
                                         {occupiedSeats === 0 && (
                                             <tr>
                                                 <td colSpan={3} className="py-6 text-center text-zinc-300 text-xs italic print:text-black">
-                                                    Niciun invitat alocat la această masă.
+                                                    Niciun invitat alocat la aceasta masa.
                                                 </td>
                                             </tr>
                                         )}
@@ -329,7 +329,7 @@ const GuestListPDF: React.FC<GuestListPDFProps> = ({ elements, eventName = "Plan
                 disabled={tables.length === 0 || isGenerating}
             >
                 {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileDown className="w-4 h-4" />}
-                <span className="hidden sm:inline">Descarcă PDF</span>
+                <span className="hidden sm:inline">Descarca PDF</span>
             </Button>
 
             {/* PREVIEW BUTTON */}
@@ -361,14 +361,14 @@ const GuestListPDF: React.FC<GuestListPDFProps> = ({ elements, eventName = "Plan
 
                     <DialogFooter className="p-4 border-t bg-white dark:bg-zinc-900 shrink-0 gap-2">
                         <Button variant="outline" onClick={() => setShowPreview(false)}>
-                            Închide
+                            Inchide
                         </Button>
                         <Button 
                             className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white"
                             onClick={handlePrint}
                         >
                             <Download className="w-4 h-4" />
-                            Printează
+                            Printeaza
                         </Button>
                     </DialogFooter>
                 </DialogContent>

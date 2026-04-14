@@ -1,7 +1,7 @@
 // ── castleDefaults.ts ─────────────────────────────────────────────────────────
-// Sursă unică de adevăr pentru toate templateurile tip Castle.
-// Importă din acest fișier în: CastleMagicTemplate, BoyCastelMagicTemplates,
-// GirlCastelMagicTemplates, SettingsView și orice alt fișier care are nevoie.
+// Sursa unica de adevar pentru toate templateurile tip Castle.
+// Importa din acest fisier in: CastleMagicTemplate, BoyCastelMagicTemplates,
+// GirlCastelMagicTemplates, SettingsView si orice alt fisier care are nevoie.
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -35,7 +35,7 @@ export const CASTLE_THEMES: CastleColorTheme[] = [
   { id: 'champagne',    emoji: '🥂', name: 'Champagne',      PINK_DARK: '#92400e', PINK_D: '#b45309', PINK_L: '#fde68a', PINK_XL: '#fffbeb', CREAM: '#fefce8', TEXT: '#1c1007', MUTED: '#92856a', GOLD: '#d4af37' },
 ];
 
-// ── Teme FETE — roz, lavandă, lila, piersică ────────────────────────────────
+// ── Teme FETE — roz, lavanda, lila, piersica ────────────────────────────────
 export const GIRL_THEMES: CastleColorTheme[] = [
   { id: 'default',       emoji: '🌸', name: 'Pink Powder',    PINK_DARK: '#fbcfe8', PINK_D: '#9d174d', PINK_L: '#fbcfe8', PINK_XL: '#fdf2f8', CREAM: '#fff5f7', TEXT: '#4a1d1f', MUTED: '#9d7074', GOLD: '#d4af37' },
   { id: 'rose',          emoji: '🌷', name: 'Rose Blush',     PINK_DARK: '#881337', PINK_D: '#be123c', PINK_L: '#fecdd3', PINK_XL: '#fff1f2', CREAM: '#fff5f5', TEXT: '#3b0d13', MUTED: '#a1626a', GOLD: '#c9a227' },
@@ -51,10 +51,10 @@ export const GIRL_THEMES: CastleColorTheme[] = [
   { id: 'champagne',     emoji: '🥂', name: 'Champagne Gold', PINK_DARK: '#92400e', PINK_D: '#b45309', PINK_L: '#fde68a', PINK_XL: '#fffbeb', CREAM: '#fefce8', TEXT: '#1c1007', MUTED: '#92856a', GOLD: '#d4af37' },
 ];
 
-// ── Teme BĂIEȚI — albastru, verde, navy, teal ────────────────────────────────
+// ── Teme BAIETI — albastru, verde, navy, teal ────────────────────────────────
 export const BOY_THEMES: CastleColorTheme[] = [
   { id: 'powder_blue',   emoji: '💙', name: 'Powder Blue',    PINK_DARK: '#2563eb', PINK_D: '#1d4ed8', PINK_L: '#bfdbfe', PINK_XL: '#eff6ff', CREAM: '#f0f7ff', TEXT: '#1e3a5f', MUTED: '#607a99', GOLD: '#f59e0b' },
-  { id: 'sky_blue',      emoji: '☁️',  name: 'Sky Blue',       PINK_DARK: '#0284c7', PINK_D: '#0369a1', PINK_L: '#bae6fd', PINK_XL: '#f0f9ff', CREAM: '#f4fbff', TEXT: '#0c2d48', MUTED: '#5a8aa8', GOLD: '#f59e0b' },
+  { id: 'sky_blue',      emoji: '☁',  name: 'Sky Blue',       PINK_DARK: '#0284c7', PINK_D: '#0369a1', PINK_L: '#bae6fd', PINK_XL: '#f0f9ff', CREAM: '#f4fbff', TEXT: '#0c2d48', MUTED: '#5a8aa8', GOLD: '#f59e0b' },
   { id: 'navy',          emoji: '⚓',  name: 'Navy',           PINK_DARK: '#1e3a5f', PINK_D: '#1e40af', PINK_L: '#93c5fd', PINK_XL: '#eff6ff', CREAM: '#f0f4fb', TEXT: '#0f172a', MUTED: '#5a7a9a', GOLD: '#f59e0b' },
   { id: 'teal',          emoji: '🌊', name: 'Teal',           PINK_DARK: '#0f766e', PINK_D: '#0d9488', PINK_L: '#99f6e4', PINK_XL: '#f0fdfa', CREAM: '#f5fffd', TEXT: '#0d2b28', MUTED: '#5a8a84', GOLD: '#f59e0b' },
   { id: 'sage_green',    emoji: '🌿', name: 'Sage Green',     PINK_DARK: '#15803d', PINK_D: '#16a34a', PINK_L: '#bbf7d0', PINK_XL: '#f0fdf4', CREAM: '#f3fef6', TEXT: '#0f2a1a', MUTED: '#5a8a6a', GOLD: '#a3e635' },
@@ -97,7 +97,7 @@ export const UNICORN_THEMES: CastleColorTheme[] = [
 
   { id: 'peach', emoji: '🍑', name: 'Peach Glow', PINK_DARK: '#9a3412', PINK_D: '#fb923c', PINK_L: '#fed7aa', PINK_XL: '#fff7ed', CREAM: '#fffaf6', TEXT: '#431407', MUTED: '#b08968', GOLD: '#fde047' },
 
-  { id: 'ice', emoji: '❄️', name: 'Frozen Crystal', PINK_DARK: '#0c4a6e', PINK_D: '#38bdf8', PINK_L: '#bae6fd', PINK_XL: '#f0f9ff', CREAM: '#f8fcff', TEXT: '#082f49', MUTED: '#7aa6c2', GOLD: '#facc15' },
+  { id: 'ice', emoji: '❄', name: 'Frozen Crystal', PINK_DARK: '#0c4a6e', PINK_D: '#38bdf8', PINK_L: '#bae6fd', PINK_XL: '#f0f9ff', CREAM: '#f8fcff', TEXT: '#082f49', MUTED: '#7aa6c2', GOLD: '#facc15' },
 
   { id: 'lavender', emoji: '💜', name: 'Lavender Dream', PINK_DARK: '#5b21b6', PINK_D: '#a78bfa', PINK_L: '#ddd6fe', PINK_XL: '#f5f3ff', CREAM: '#faf7ff', TEXT: '#2e1065', MUTED: '#9a8cc5', GOLD: '#fde68a' },
 
@@ -211,7 +211,7 @@ export const getUnicornTheme = (id?: string): CastleColorTheme =>
   UNICORN_THEMES.find(t => t.id === id) ?? UNICORN_THEMES[0];
 
 export const ROYAL_ROSE_THEMES: CastleColorTheme[] = [
-  { id: 'ruby', emoji: '❤️', name: 'Ruby Elegance', PINK_DARK: '#7f1d1d', PINK_D: '#dc2626', PINK_L: '#fca5a5', PINK_XL: '#fef2f2', CREAM: '#fff5f5', TEXT: '#7f1d1d', MUTED: '#b45353', GOLD: '#fee2e2' },
+  { id: 'ruby', emoji: '❤', name: 'Ruby Elegance', PINK_DARK: '#7f1d1d', PINK_D: '#dc2626', PINK_L: '#fca5a5', PINK_XL: '#fef2f2', CREAM: '#fff5f5', TEXT: '#7f1d1d', MUTED: '#b45353', GOLD: '#fee2e2' },
 
   { id: 'blush', emoji: '🌸', name: 'Blush Romance', PINK_DARK: '#9d174d', PINK_D: '#ec4899', PINK_L: '#f9a8d4', PINK_XL: '#fdf2f8', CREAM: '#fff1f6', TEXT: '#831843', MUTED: '#c08497', GOLD: '#fce7f3' },
 
@@ -269,7 +269,7 @@ export const getBlushBloomTheme = (id?: string): CastleColorTheme =>
 
 // Velum themes - editorial ivory + premium accents
 export const VELUM_THEMES: CastleColorTheme[] = [
-  { id: 'default',    emoji: '✉️', name: 'Ivory Gold',      PINK_DARK: '#7a5d2d', PINK_D: '#c9a84c', PINK_L: '#e6dcc6', PINK_XL: '#f7f3ec', CREAM: '#ede8dc', TEXT: '#2a2118', MUTED: '#9a8a7a', GOLD: '#c9a84c' },
+  { id: 'default',    emoji: '✉', name: 'Ivory Gold',      PINK_DARK: '#7a5d2d', PINK_D: '#c9a84c', PINK_L: '#e6dcc6', PINK_XL: '#f7f3ec', CREAM: '#ede8dc', TEXT: '#2a2118', MUTED: '#9a8a7a', GOLD: '#c9a84c' },
   { id: 'charcoal',   emoji: '🖤', name: 'Charcoal Ivory',  PINK_DARK: '#111827', PINK_D: '#374151', PINK_L: '#d1d5db', PINK_XL: '#f8fafc', CREAM: '#f1f5f9', TEXT: '#111827', MUTED: '#6b7280', GOLD: '#9ca3af' },
   { id: 'emerald',    emoji: '💚', name: 'Emerald Seal',    PINK_DARK: '#065f46', PINK_D: '#0f766e', PINK_L: '#b7d8ce', PINK_XL: '#f2faf7', CREAM: '#ecfdf5', TEXT: '#1b4332', MUTED: '#5e7c70', GOLD: '#34d399' },
   { id: 'midnight',   emoji: '🌙', name: 'Midnight Silver', PINK_DARK: '#1e1b4b', PINK_D: '#312e81', PINK_L: '#c7d2fe', PINK_XL: '#eef2ff', CREAM: '#f5f7ff', TEXT: '#1e1b4b', MUTED: '#7c83a1', GOLD: '#a5b4fc' },
@@ -317,9 +317,9 @@ function ar(t: Omit<AdventureColorTheme, 'PINK_DARK'|'PINK_L'|'PINK_XL'>): Adven
   return { ...t, PINK_DARK: t.navyDark, PINK_L: t.sky, PINK_XL: t.skyLight };
 }
 
-// ── Băieți ────────────────────────────────────────────────────────────────────
+// ── Baieti ────────────────────────────────────────────────────────────────────
 export const ADVENTURE_BOY_THEMES: AdventureColorTheme[] = [
-  ar({ id: 'sky',      emoji: '✈️', name: 'Sky Blue',   navyDark:'#0c2340', navyMid:'#1e3a5f', sky:'#0ea5e9', skyLight:'#7dd3fc', skyPale:'#e0f2fe', text:'#e2e8f0', muted:'rgba(148,163,184,0.8)', gold:'#f59e0b' }),
+  ar({ id: 'sky',      emoji: '✈', name: 'Sky Blue',   navyDark:'#0c2340', navyMid:'#1e3a5f', sky:'#0ea5e9', skyLight:'#7dd3fc', skyPale:'#e0f2fe', text:'#e2e8f0', muted:'rgba(148,163,184,0.8)', gold:'#f59e0b' }),
   ar({ id: 'navy',     emoji: '⚓',  name: 'Navy',       navyDark:'#0f172a', navyMid:'#1e3a5f', sky:'#3b82f6', skyLight:'#93c5fd', skyPale:'#dbeafe', text:'#e2e8f0', muted:'rgba(148,163,184,0.8)', gold:'#fbbf24' }),
   ar({ id: 'ocean',    emoji: '🌊', name: 'Ocean',       navyDark:'#083344', navyMid:'#0e7490', sky:'#06b6d4', skyLight:'#a5f3fc', skyPale:'#ecfeff', text:'#e0f2fe', muted:'rgba(148,163,184,0.8)', gold:'#f59e0b' }),
   ar({ id: 'midnight', emoji: '🌙', name: 'Midnight',    navyDark:'#1e1b4b', navyMid:'#312e81', sky:'#6366f1', skyLight:'#c7d2fe', skyPale:'#eef2ff', text:'#e2e8f0', muted:'rgba(148,163,184,0.8)', gold:'#fbbf24' }),
@@ -368,7 +368,7 @@ function jr(t: Omit<JurassicColorTheme, 'PINK_DARK'|'PINK_L'|'PINK_XL'>): Jurass
   return { ...t, PINK_DARK: t.amber, PINK_L: t.moss, PINK_XL: t.cream };
 }
 
-// ── Băieți ────────────────────────────────────────────────────────────────────
+// ── Baieti ────────────────────────────────────────────────────────────────────
 export const JURASSIC_BOY_THEMES: JurassicColorTheme[] = [
   jr({ id: 'default',  emoji: '🦕', name: 'Jurassic Classic', darkJungle:'#0b1508', midJungle:'#152510', stone:'#2a2818', amber:'#c87820', amberLight:'#e09830', cream:'#f0e8c8', text:'#e8dfc0', muted:'rgba(212,184,140,0.65)', moss:'#4a7a30' }),
   jr({ id: 'volcano',  emoji: '🌋', name: 'Volcano',          darkJungle:'#180400', midJungle:'#2a0800', stone:'#3c1208', amber:'#e63000', amberLight:'#ff5500', cream:'#ffd0a8', text:'#ffc898', muted:'rgba(255,150,90,0.65)',  moss:'#802000' }),
@@ -418,11 +418,11 @@ function zt(t: Omit<ZootropolisColorTheme, 'PINK_DARK'|'PINK_L'|'PINK_XL'>): Zoo
   return { ...t, PINK_DARK: t.city, PINK_L: t.orange, PINK_XL: t.steelLight };
 }
 
-// ── Băieți ────────────────────────────────────────────────────────────────────
+// ── Baieti ────────────────────────────────────────────────────────────────────
 export const ZOOTROPOLIS_BOY_THEMES: ZootropolisColorTheme[] = [
   zt({ id:'default',    emoji:'🦊', name:'Classic Zootopia', city:'#0D1B2A', cityMid:'#1B2838', steel:'#2B4162', steelLight:'#4361EE', orange:'#E85D04', orangeLight:'#F4A261', orangePale:'#FFBA49', sky:'#90E0EF', skyDeep:'#48CAE4' }),
   zt({ id:'nightcity',  emoji:'🌃', name:'Night City',       city:'#0a0014', cityMid:'#14002a', steel:'#280050', steelLight:'#a855f7', orange:'#f43f5e', orangeLight:'#fb7185', orangePale:'#fda4af', sky:'#c084fc', skyDeep:'#a855f7' }),
-  zt({ id:'tundra',     emoji:'🐻‍❄️', name:'Tundratown',   city:'#071a2e', cityMid:'#0c2a4a', steel:'#1a4a6a', steelLight:'#38bdf8', orange:'#06b6d4', orangeLight:'#67e8f9', orangePale:'#e0f9ff', sky:'#bae6fd', skyDeep:'#7dd3fc' }),
+  zt({ id:'tundra',     emoji:'🐻‍❄', name:'Tundratown',   city:'#071a2e', cityMid:'#0c2a4a', steel:'#1a4a6a', steelLight:'#38bdf8', orange:'#06b6d4', orangeLight:'#67e8f9', orangePale:'#e0f9ff', sky:'#bae6fd', skyDeep:'#7dd3fc' }),
   zt({ id:'sahara',     emoji:'🦁', name:'Sahara Square',    city:'#1c0a00', cityMid:'#3b1500', steel:'#6b2e00', steelLight:'#f97316', orange:'#f59e0b', orangeLight:'#fbbf24', orangePale:'#fde68a', sky:'#fed7aa', skyDeep:'#fb923c' }),
   zt({ id:'rainforest', emoji:'🐸', name:'Rainforest',       city:'#051a0a', cityMid:'#0a2e14', steel:'#155020', steelLight:'#16a34a', orange:'#65a30d', orangeLight:'#84cc16', orangePale:'#d9f99d', sky:'#bbf7d0', skyDeep:'#4ade80' }),
   zt({ id:'nocturnal',  emoji:'🦇', name:'Nocturnal Club',   city:'#050914', cityMid:'#0c1428', steel:'#151f3c', steelLight:'#0ea5e9', orange:'#06b6d4', orangeLight:'#22d3ee', orangePale:'#a5f3fc', sky:'#7dd3fc', skyDeep:'#38bdf8' }),
@@ -481,9 +481,9 @@ function mr(t: Omit<MermaidColorTheme, 'PINK_DARK'|'PINK_L'|'PINK_XL'>): Mermaid
   return { ...t, PINK_DARK: t.teal, PINK_L: t.tealPale, PINK_XL: t.pearl };
 }
 
-// ── Băieți ────────────────────────────────────────────────────────────────────
+// ── Baieti ────────────────────────────────────────────────────────────────────
 export const MERMAID_BOY_THEMES: MermaidColorTheme[] = [
-  mr({ id:'default',   emoji:'🧜‍♀️', name:'Ocean Blue',    ocean:'#041E42', deep:'#0A2D5A', mid:'#0D4A8A', bright:'#1877C9', teal:'#00C8AA', tealPale:'#7FFFDA', coral:'#FF6B6B', pink:'#CC3366', gold:'#F5C842', pearl:'#E8F7F9' }),
+  mr({ id:'default',   emoji:'🧜‍♀', name:'Ocean Blue',    ocean:'#041E42', deep:'#0A2D5A', mid:'#0D4A8A', bright:'#1877C9', teal:'#00C8AA', tealPale:'#7FFFDA', coral:'#FF6B6B', pink:'#CC3366', gold:'#F5C842', pearl:'#E8F7F9' }),
   mr({ id:'midnight',  emoji:'🌊',   name:'Midnight Sea',  ocean:'#040820', deep:'#080d38', mid:'#101855', bright:'#3050e0', teal:'#00a8e8', tealPale:'#90e0ff', coral:'#e070b0', pink:'#a040c0', gold:'#ffd060', pearl:'#e0f0ff' }),
   mr({ id:'deep_sea',  emoji:'🐟',   name:'Deep Sea',      ocean:'#020818', deep:'#041430', mid:'#072240', bright:'#0055aa', teal:'#00b8d4', tealPale:'#80e8ff', coral:'#ff8050', pink:'#e05080', gold:'#f0d060', pearl:'#e0f4f8' }),
   mr({ id:'tropic',    emoji:'🌴',   name:'Tropical',      ocean:'#013020', deep:'#024530', mid:'#036040', bright:'#20c060', teal:'#00e8b0', tealPale:'#90ffe8', coral:'#ff9030', pink:'#ff5070', gold:'#ffe050', pearl:'#e0fff4' }),
@@ -504,22 +504,22 @@ export const getMermaidTheme = (id?: string): MermaidColorTheme => {
 
 // ── Valori implicite profil ───────────────────────────────────────────────────
 export const CASTLE_DEFAULTS = {
-  partner1Name:           'Prințesa Maria',
+  partner1Name:           'Printesa Maria',
   heroBgImage:            undefined as string | undefined,
   heroBgImageMobile:      undefined as string | undefined,
   heroContentImage:       undefined as string | undefined,
   heroContentImageMobile: undefined as string | undefined,
   castleIntroSubtitle:    'into my little kingdom',
   castleIntroWelcome:     'WELCOME',
-  castleInviteTop:        'Cu multă bucurie vă anunțăm',
+  castleInviteTop:        'Cu multa bucurie va anuntam',
   castleInviteMiddle:     '',
-  castleInviteBottom:     'va fii botezată',
-  castleInviteTag:        '✦ deschide porțile ✦',
-  welcomeText:            'Vă invităm cu drag',
-  celebrationText:        'la botezul prințesei noastre',
+  castleInviteBottom:     'va fii botezata',
+  castleInviteTag:        '✦ deschide portile ✦',
+  welcomeText:            'Va invitam cu drag',
+  celebrationText:        'la botezul printesei noastre',
   weddingDate:            '',
   showRsvpButton:         false,
-  rsvpButtonText:         'Confirmă Prezența',
+  rsvpButtonText:         'Confirma Prezenta',
   showWelcomeText:        true,
   showCelebrationText:    true,
   showTimeline:           false,
@@ -529,7 +529,7 @@ export const CASTLE_DEFAULTS = {
 
 // ── Blocuri implicite ─────────────────────────────────────────────────────────
 export const CASTLE_DEFAULT_BLOCKS = [
-  // ── Muzică ──────────────────────────────────────────────────────────────────
+  // ── Muzica ──────────────────────────────────────────────────────────────────
   {
     id: 'def-music',
     type: 'music' as const,
@@ -540,13 +540,13 @@ export const CASTLE_DEFAULT_BLOCKS = [
     musicType: 'none' as const,
   },
 
-  // ── Foto principală — portret arc, fade jos ──────────────────────────────────
+  // ── Foto principala — portret arc, fade jos ──────────────────────────────────
   {
     id: 'def-photo-1',
     type: 'photo' as const,
     show: true,
     imageData: 'https://clubulbebelusilor.ro/wp-content/uploads/2021/02/bebelusi-sfaturi-pentru-mamici.jpg',
-    altText: 'Fotografia principală',
+    altText: 'Fotografia principala',
     aspectRatio: '3:4' as const,
     photoClip: 'arch' as const,
     photoMasks: ['fade-b'] as any,
@@ -557,7 +557,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     id: 'def-text-1',
     type: 'text' as const,
     show: true,
-    content: 'O poveste magică începe odată cu venirea pe lume a celui mai iubit copil. Vă așteptăm cu drag să fiți parte din această zi de poveste.',
+    content: 'O poveste magica incepe odata cu venirea pe lume a celui mai iubit copil. Va asteptam cu drag sa fiti parte din aceasta zi de poveste.',
   },
 
   // ── Countdown ────────────────────────────────────────────────────────────────
@@ -565,7 +565,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     id: 'def-countdown',
     type: 'countdown' as const,
     show: true,
-    countdownTitle: 'Timp rămas până la Marele Eveniment',
+    countdownTitle: 'Timp ramas pana la Marele Eveniment',
   },
 
   // ── Calendar ─────────────────────────────────────────────────────────────────
@@ -581,25 +581,25 @@ export const CASTLE_DEFAULT_BLOCKS = [
     type: 'photo' as const,
     show: true,
     imageData: 'https://clubulbebelusilor.ro/wp-content/uploads/2021/02/bebelusi-sfaturi-pentru-mamici.jpg',
-    altText: 'Decorațiuni',
+    altText: 'Decoratiuni',
     aspectRatio: '16:9' as const,
     photoClip: 'rounded' as const,
     photoMasks: [] as any,
   },
 
-  // ── Locație Biserică ─────────────────────────────────────────────────────────
+  // ── Locatie Biserica ─────────────────────────────────────────────────────────
   {
     id: 'def-loc-church',
     type: 'location' as const,
     show: true,
     label: 'Slujba de Botez',
     time: '11:00',
-    locationName: 'Biserica Sfânta Maria',
-    locationAddress: 'Str. Bisericii nr. 5, București',
+    locationName: 'Biserica Sfanta Maria',
+    locationAddress: 'Str. Bisericii nr. 5, Bucuresti',
     wazeLink: '',
   },
 
-  // ── Locație Petrecere ────────────────────────────────────────────────────────
+  // ── Locatie Petrecere ────────────────────────────────────────────────────────
   {
     id: 'def-loc-party',
     type: 'location' as const,
@@ -607,11 +607,11 @@ export const CASTLE_DEFAULT_BLOCKS = [
     label: 'Petrecere',
     time: '14:00',
     locationName: 'Salon Castelul Magic',
-    locationAddress: 'Str. Basmului nr. 1, București',
+    locationAddress: 'Str. Basmului nr. 1, Bucuresti',
     wazeLink: '',
   },
 
-  // ── Foto 3 — cerc cu vignetă ─────────────────────────────────────────────────
+  // ── Foto 3 — cerc cu vigneta ─────────────────────────────────────────────────
   {
     id: 'def-photo-3',
     type: 'photo' as const,
@@ -629,18 +629,18 @@ export const CASTLE_DEFAULT_BLOCKS = [
     type: 'gift' as const,
     show: true,
     sectionTitle: 'Sugestie de cadou',
-    content: 'Cel mai frumos cadou este prezența voastră alături de noi. Dacă doriți să contribuiți la viitorul prințesei noastre, vă lăsăm datele de mai jos.',
+    content: 'Cel mai frumos cadou este prezenta voastra alaturi de noi. Daca doriti sa contribuiti la viitorul printesei noastre, va lasam datele de mai jos.',
     iban: 'RO00 BANK 0000 0000 0000 0000',
     ibanName: 'Familia Ionescu',
   },
 
-  // ── Foto finală — blob ───────────────────────────────────────────────────────
+  // ── Foto finala — blob ───────────────────────────────────────────────────────
   {
     id: 'def-photo-4',
     type: 'photo' as const,
     show: true,
     imageData: 'https://clubulbebelusilor.ro/wp-content/uploads/2021/02/bebelusi-sfaturi-pentru-mamici.jpg',
-    altText: 'Fotografie finală',
+    altText: 'Fotografie finala',
     aspectRatio: '3:4' as const,
     photoClip: 'blob' as const,
     photoMasks: ['fade-b'] as any,
@@ -651,7 +651,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     id: 'def-whatsapp',
     type: 'whatsapp' as const,
     show: true,
-    label: 'Contactează-ne pe WhatsApp',
+    label: 'Contacteaza-ne pe WhatsApp',
     content: '0700000000',
   },
 
@@ -660,7 +660,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
   //   id: 'def-rsvp',
   //   type: 'rsvp' as const,
   //   show: true,
-  //   label: 'Confirmă Prezența',
+  //   label: 'Confirma Prezenta',
   // },
 ];
 

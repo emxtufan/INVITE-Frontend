@@ -21,7 +21,7 @@ export const meta: TemplateMeta = {
   id: 'jurassic-park',
   name: 'Jurassic Park',
   category: 'kids',
-  description: 'Aventura Jurassică — uși de junglă care se deschid pe scroll, dinozauri din carton, torțe și magie preistorică!',
+  description: 'Aventura Jurassica — usi de jungla care se deschid pe scroll, dinozauri din carton, torte si magie preistorica!',
   colors: ['#0d1a08', '#c87820', '#2a3a18', '#f0e8c8'],
   previewClass: "bg-green-950 border-amber-600",
   elementsClass: "bg-amber-600",
@@ -202,7 +202,7 @@ const DoorHint: React.FC = () => (
 );
 
 // ─────────────────────────────────────────────────────────────────────────────
-// JURASSIC OVERLAY TEXT — pe uși (faza 1 + faza 2)
+// JURASSIC OVERLAY TEXT — pe usi (faza 1 + faza 2)
 // ─────────────────────────────────────────────────────────────────────────────
 const JurassicOverlayText: React.FC<{
   childName: string; subtitle: string; isWedding?: boolean;
@@ -253,7 +253,7 @@ const JurassicOverlayText: React.FC<{
         }}/>
       </div> */}
 
-      {/* FAZA 1 — Nume pe uși */}
+      {/* FAZA 1 — Nume pe usi */}
       <div style={{ position: 'absolute', top: nameTop, left: 0, right: 0, transform: nameTransform, textAlign: 'center', zIndex: 1, padding: '0 28px', opacity: nameOpacity }}>
         <div ref={nameRef} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, width: '100%' }}>
           {isWedding ? (
@@ -281,16 +281,16 @@ const JurassicOverlayText: React.FC<{
         </div>
       </div>
 
-      {/* FAZA 2 — Textul invitației */}
+      {/* FAZA 2 — Textul invitatiei */}
       <div style={{ position: 'absolute', top: inviteTopPos, left: 0, right: 0, transform: inviteTransform, textAlign: 'center', zIndex: 1, padding: '0 36px', pointerEvents: editMode ? 'auto' : 'none' }}>
         <div ref={inviteRef} style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', opacity: inviteOpacity }}>
-          <InlineEdit tag="p" editMode={!!editMode} value={inviteTop || 'Cu bucurie vă anunțăm'} onChange={v => onInviteTopChange?.(v)}
+          <InlineEdit tag="p" editMode={!!editMode} value={inviteTop || 'Cu bucurie va anuntam'} onChange={v => onInviteTopChange?.(v)}
             style={{ fontFamily: display, fontSize: '.65rem', fontWeight: 700, letterSpacing: '.5em', textTransform: 'uppercase', color: '#ffffff', textShadow: S, margin: 0 }}/>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteMiddle || dateStr || 'Data Evenimentului'} onChange={v => onInviteMiddleChange?.(v)}
             style={{ fontFamily: display, fontSize: '1.8rem', fontWeight: 700, lineHeight: 1.2, color: hexToRgba(C.amber,.95), textShadow: S, margin: 0 }}/>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteBottom || 'va fi botezat'} onChange={v => onInviteBottomChange?.(v)}
             style={{ fontFamily: display, fontSize: '.68rem', fontWeight: 400, letterSpacing: '.35em', textTransform: 'uppercase', color: '#ffffff', textShadow: S, margin: 0, lineHeight: 2 }}/>
-          <InlineEdit tag="p" editMode={!!editMode} value={inviteTag || '✦ deschide porțile ✦'} onChange={v => onInviteTagChange?.(v)}
+          <InlineEdit tag="p" editMode={!!editMode} value={inviteTag || '✦ deschide portile ✦'} onChange={v => onInviteTagChange?.(v)}
             style={{ fontFamily: display, fontSize: '.55rem', fontWeight: 700, letterSpacing: '.6em', textTransform: 'uppercase', color: hexToRgba(C.amber,.75), textShadow: S, margin: '2px 0 0' }}/>
         </div>
       </div>
@@ -324,7 +324,7 @@ const JurassicDoorIntro: React.FC<{
 }> = ({
   onDone, editMode, previewMode = 'doors', contentEl, scrollContainer,
   childName = 'Rex', partner2Name = '', isWedding = false,
-  subtitle = 'vă invită în junglă',
+  subtitle = 'va invita in jungla',
   inviteTop, inviteMiddle, inviteBottom, inviteTag, dateStr,
   onChildNameChange, onSubtitleChange,
   onInviteTopChange, onInviteMiddleChange, onInviteBottomChange, onInviteTagChange,
@@ -521,17 +521,17 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
         <img src={i.logo} alt="" style={{ width: 120, objectFit: 'contain', filter: `drop-shadow(0 0 12px ${hexToRgba(C.amber,.5)})`, animation: 'apm-pulse 2s ease-in-out infinite' }}/>
       </div>
       <p style={{ fontFamily: display, fontSize: 22, color: C.cream, margin: '0 0 6px', lineHeight: 1.2, fontWeight: 700, textShadow: `0 0 14px ${hexToRgba(C.amber,.4)}` }}>{childName}</p>
-      <p style={{ fontFamily: sans, fontSize: 12, fontWeight: 700, color: C.text, margin: '0 0 8px' }}>Te invită în Jurassic Park 🦕</p>
-      <p style={{ fontFamily: serif, fontSize: 11, fontStyle: 'italic', color: C.muted, margin: '0 0 28px', lineHeight: 1.65 }}>Această invitație are o melodie specială.<br/>Vrei să activezi muzica?</p>
+      <p style={{ fontFamily: sans, fontSize: 12, fontWeight: 700, color: C.text, margin: '0 0 8px' }}>Te invita in Jurassic Park 🦕</p>
+      <p style={{ fontFamily: serif, fontSize: 11, fontStyle: 'italic', color: C.muted, margin: '0 0 28px', lineHeight: 1.65 }}>Aceasta invitatie are o melodie speciala.<br/>Vrei sa activezi muzica?</p>
       <button type="button" onClick={onAllow}
         style={{ width: '100%', padding: '14px 0', background: `linear-gradient(135deg,${C.amber},${C.amberLight})`, border: 'none', borderRadius: 50, cursor: 'pointer', fontFamily: display, fontSize: 11, fontWeight: 700, color: C.darkJungle, letterSpacing: '.15em', marginBottom: 10, boxShadow: `0 6px 20px ${hexToRgba(C.amber,.5)}`, transition: 'transform .15s' }}
         onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.03)'}
         onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'}>
-        🎵 Da, activează muzica
+        🎵 Da, activeaza muzica
       </button>
       <button type="button" onClick={onDeny}
         style={{ width: '100%', padding: '10px 0', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 11, color: C.muted }}>
-        Nu, continuă fără muzică
+        Nu, continua fara muzica
       </button>
     </div>
   </div>
@@ -634,7 +634,7 @@ const JurassicCountdown: React.FC<{ targetDate: string|undefined }> = ({ targetD
     return () => clearInterval(id);
   }, [targetDate]);
   if (!ready || !targetDate) return null;
-  if (tl?.total === 0) return <p style={{ fontFamily:display,fontSize:13,fontWeight:700,color:C.amber,textAlign:'center',margin:0 }}>🦕 Aventura a început!</p>;
+  if (tl?.total === 0) return <p style={{ fontFamily:display,fontSize:13,fontWeight:700,color:C.amber,textAlign:'center',margin:0 }}>🦕 Aventura a inceput!</p>;
   const vals = [tl?.days??0,tl?.hours??0,tl?.minutes??0,tl?.seconds??0];
   const labs = ['Zile','Ore','Min','Sec'];
   const sep = <div style={{ display:'flex',flexDirection:'column',gap:5,alignItems:'center',paddingBottom:20,flexShrink:0 }}><div style={{ width:4,height:4,borderRadius:'50%',background:hexToRgba(C.amber,.55) }}/><div style={{ width:4,height:4,borderRadius:'50%',background:hexToRgba(C.amber,.55) }}/></div>;
@@ -687,7 +687,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
           <MapPin style={{ width:16,height:16,color:C.amber }}/>
         </div>
         <div>
-          <InlineEdit editMode={editMode} value={block.label||'Locație'} onChange={v=>onUpdate({label:v})}
+          <InlineEdit editMode={editMode} value={block.label||'Locatie'} onChange={v=>onUpdate({label:v})}
             style={{ fontFamily:sans,fontSize:8,fontWeight:700,letterSpacing:'.42em',textTransform:'uppercase',color:hexToRgba(C.amber,.8),margin:0,display:'block' }}/>
           {block.time && (
             <InlineTime editMode={editMode} value={block.time} onChange={v=>onUpdate({time:v})}
@@ -809,7 +809,7 @@ const PhotoBlock: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate
             ?<div style={{width:32,height:32,border:'4px solid white',borderTopColor:'transparent',borderRadius:'50%',animation:'spin 1s linear infinite'}}/>
             :<div style={{textAlign:'center'}}>
                <span style={{fontFamily:display,fontSize:52,color:hexToRgba(C.amber,.45)}}>{(placeholderInitial||'J')[0].toUpperCase()}</span>
-               {editMode&&<p style={{fontFamily:sans,fontSize:11,color:hexToRgba(C.cream,.35),margin:'4px 0 0'}}>Adaugă fotografie</p>}
+               {editMode&&<p style={{fontFamily:sans,fontSize:11,color:hexToRgba(C.cream,.35),margin:'4px 0 0'}}>Adauga fotografie</p>}
              </div>
           }
         </div>
@@ -872,7 +872,7 @@ const MusicBlock: React.FC<{
     const _s=JSON.parse(localStorage.getItem('weddingPro_session')||'{}');
     setYtDownloading(true);setYtError('');
     try{const res=await fetch(`${API_URL}/download-yt-audio`,{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${_s?.token||''}`},body:JSON.stringify({url:t})});const data=await res.json();if(!res.ok)throw new Error(data.error||'Eroare');onUpdate({musicUrl:data.url,musicType:'mp3',musicTitle:data.title||'',musicArtist:data.author||''});setShowYt(false);setYtUrl('');}
-    catch(e:any){setYtError(e.message||'Nu s-a putut descărca.');}finally{setYtDownloading(false);}
+    catch(e:any){setYtError(e.message||'Nu s-a putut descarca.');}finally{setYtDownloading(false);}
   };
   const isActive=!!block.musicUrl;
 
@@ -884,7 +884,7 @@ const MusicBlock: React.FC<{
           <Music style={{width:14,height:14,color:playing?C.darkJungle:C.amber}}/>
         </div>
         <span style={{fontFamily:sans,fontSize:10,fontWeight:700,letterSpacing:'.3em',textTransform:'uppercase',color:playing?C.amber:hexToRgba(C.cream,.45),transition:'color .3s'}}>
-          {playing?'Se redă acum':'Melodia Zilei'}
+          {playing?'Se reda acum':'Melodia Zilei'}
         </span>
         {playing&&(
           <div style={{display:'flex',alignItems:'flex-end',gap:2,height:14,marginLeft:'auto'}}>
@@ -914,7 +914,7 @@ const MusicBlock: React.FC<{
               </button>
               <button type="button" onClick={()=>{setShowYt(false);setYtUrl('');setYtError('');}} style={{background:hexToRgba(C.stone,.4),border:'none',borderRadius:8,padding:'0 10px',cursor:'pointer',color:C.cream}}>✕</button>
             </div>
-            {ytDownloading&&<p style={{fontFamily:sans,fontSize:9,color:C.amber,margin:0,textAlign:'center'}}>⏳ Se descarcă...</p>}
+            {ytDownloading&&<p style={{fontFamily:sans,fontSize:9,color:C.amber,margin:0,textAlign:'center'}}>⏳ Se descarca...</p>}
             {ytError&&<p style={{fontFamily:sans,fontSize:9,color:'#ef4444',margin:0}}>⚠ {ytError}</p>}
           </div>
         )
@@ -922,7 +922,7 @@ const MusicBlock: React.FC<{
       {!isActive&&!editMode&&(
         <div style={{textAlign:'center',padding:'16px 0',opacity:.4}}>
           <Music style={{width:32,height:32,color:C.amber,display:'block',margin:'0 auto 6px'}}/>
-          <p style={{fontFamily:serif,fontSize:12,fontStyle:'italic',color:hexToRgba(C.cream,.6),margin:0}}>Melodia va apărea aici</p>
+          <p style={{fontFamily:serif,fontSize:12,fontStyle:'italic',color:hexToRgba(C.cream,.6),margin:0}}>Melodia va aparea aici</p>
         </div>
       )}
       {isActive&&(
@@ -951,7 +951,7 @@ const MusicBlock: React.FC<{
             </button>
             <button type="button" onClick={()=>{const a=audioRef.current;if(a)a.currentTime=Math.min(duration,a.currentTime+10);}} style={{background:'none',border:'none',cursor:'pointer',padding:4,opacity:.5}}><SkipForward style={{width:16,height:16,color:C.amber}}/></button>
           </div>
-          {editMode&&<div style={{marginTop:12,textAlign:'center'}}><button type="button" onClick={()=>onUpdate({musicUrl:'',musicType:'none' as any})} style={{background:hexToRgba(C.stone,.4),border:`1px solid ${hexToRgba(C.amber,.2)}`,borderRadius:99,padding:'4px 14px',cursor:'pointer',fontFamily:sans,fontSize:9,color:hexToRgba(C.cream,.5),fontWeight:700}}>Schimbă sursa</button></div>}
+          {editMode&&<div style={{marginTop:12,textAlign:'center'}}><button type="button" onClick={()=>onUpdate({musicUrl:'',musicType:'none' as any})} style={{background:hexToRgba(C.stone,.4),border:`1px solid ${hexToRgba(C.amber,.2)}`,borderRadius:99,padding:'4px 14px',cursor:'pointer',fontFamily:sans,fontSize:9,color:hexToRgba(C.cream,.5),fontWeight:700}}>Schimba sursa</button></div>}
         </div>
       )}
     </div>
@@ -980,7 +980,7 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
 // ─────────────────────────────────────────────────────────────────────────────
 // INSERT BLOCK BUTTON
 // ─────────────────────────────────────────────────────────────────────────────
-const BLOCK_TYPE_ICONS: Record<string,string> = { photo:'🖼',text:'✏️',location:'📍',calendar:'📅',countdown:'⏱',music:'🎵',gift:'🎁',whatsapp:'💬',rsvp:'✉️',divider:'—',family:'👨‍👩‍👧',date:'📆',description:'📝',timeline:'🗓' };
+const BLOCK_TYPE_ICONS: Record<string,string> = { photo:'🖼',text:'✏',location:'📍',calendar:'📅',countdown:'⏱',music:'🎵',gift:'🎁',whatsapp:'💬',rsvp:'✉',divider:'—',family:'👨‍👩‍👧',date:'📆',description:'📝',timeline:'🗓' };
 const InsertBlockButton: React.FC<{ insertIdx:number; openInsertAt:number|null; setOpenInsertAt:(v:number|null)=>void; BLOCK_TYPES:{type:string;label:string;def:any}[]; onInsert:(type:string,def:any)=>void }> = ({ insertIdx, openInsertAt, setOpenInsertAt, BLOCK_TYPES, onInsert }) => {
   const isOpen = openInsertAt===insertIdx;
   const [hov, setHov] = React.useState(false);
@@ -990,7 +990,7 @@ const InsertBlockButton: React.FC<{ insertIdx:number; openInsertAt:number|null; 
       <button type="button" onClick={()=>setOpenInsertAt(isOpen?null:insertIdx)} style={{width:26,height:26,borderRadius:'50%',background:isOpen?C.amber:'rgba(15,25,10,.92)',border:`1.5px solid ${hexToRgba(C.amber,.5)}`,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:isOpen?C.darkJungle:C.amber,boxShadow:`0 2px 10px ${hexToRgba(C.amber,.3)}`,opacity:1,transition:'opacity .15s,transform .15s,background .15s',transform:(hov||isOpen)?'scale(1)':'scale(.7)',zIndex:2,position:'relative',lineHeight:1,fontWeight:700}}>{isOpen?'×':'+'}</button>
       {isOpen&&(
         <div style={{position:'absolute',bottom:34,left:'50%',transform:'translateX(-50%)',background:hexToRgba(C.darkJungle,.97),borderRadius:16,border:`1px solid ${hexToRgba(C.amber,.35)}`,boxShadow:`0 16px 48px rgba(0,0,0,.5)`,padding:16,zIndex:100,width:260}} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}>
-          <p style={{fontFamily:sans,fontSize:'.5rem',fontWeight:700,letterSpacing:'.3em',textTransform:'uppercase',color:hexToRgba(C.amber,.6),margin:'0 0 10px',textAlign:'center'}}>Adaugă bloc</p>
+          <p style={{fontFamily:sans,fontSize:'.5rem',fontWeight:700,letterSpacing:'.3em',textTransform:'uppercase',color:hexToRgba(C.amber,.6),margin:'0 0 10px',textAlign:'center'}}>Adauga bloc</p>
           <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:6}}>
             {BLOCK_TYPES.map(bt=>(
               <button key={bt.type} type="button" onClick={()=>onInsert(bt.type,bt.def)}
@@ -1015,36 +1015,36 @@ export const CASTLE_DEFAULTS = {
   partner1Name:         'Rex',
   partner2Name:         '',
   eventType:            'baptism',
-  welcomeText:          'Vă invităm cu drag',
+  welcomeText:          'Va invitam cu drag',
   celebrationText:      'la botezul lui',
   showWelcomeText:      true,
   showCelebrationText:  true,
   weddingDate:          '',
-  rsvpButtonText:       'Confirmă Prezența',
-  castleIntroSubtitle:  'vă invită în junglă',
-  castleInviteTop:      'Cu multă bucurie vă anunțăm',
+  rsvpButtonText:       'Confirma Prezenta',
+  castleIntroSubtitle:  'va invita in jungla',
+  castleInviteTop:      'Cu multa bucurie va anuntam',
   castleInviteMiddle:   '',
   castleInviteBottom:   'va fi botezat',
-  castleInviteTag:      '✦ deschide porțile ✦',
+  castleInviteTag:      '✦ deschide portile ✦',
   colorTheme:           'default',
 };
 
 export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
   {id:'def-music',    type:'music'    as const,show:true,musicTitle:'',musicArtist:'',musicUrl:'',musicType:'none' as const},
   {id:'def-photo-1',  type:'photo'    as const,show:true,imageData:'',altText:'Foto',aspectRatio:'3:4' as const,photoClip:'arch' as const,photoMasks:['fade-b'] as any},
-  {id:'def-text-1',   type:'text'     as const,show:true,content:'O aventură preistorică de neuitat vă așteaptă! Vă invităm să fiți alături de noi în această zi magică din junglă.'},
+  {id:'def-text-1',   type:'text'     as const,show:true,content:'O aventura preistorica de neuitat va asteapta! Va invitam sa fiti alaturi de noi in aceasta zi magica din jungla.'},
   {id:'def-divider-1',type:'divider'  as const,show:true},
-  {id:'def-family-1', type:'family'   as const,show:true,label:'Părinții',content:'Cu drag și bucurie',members:JSON.stringify([{name1:'Mama',name2:'Tata'}])},
-  {id:'def-family-2', type:'family'   as const,show:true,label:'Nașii',content:'Cu drag și recunoștință',members:JSON.stringify([{name1:'Nașa',name2:'Nașul'}])},
+  {id:'def-family-1', type:'family'   as const,show:true,label:'Parintii',content:'Cu drag si bucurie',members:JSON.stringify([{name1:'Mama',name2:'Tata'}])},
+  {id:'def-family-2', type:'family'   as const,show:true,label:'Nasii',content:'Cu drag si recunostinta',members:JSON.stringify([{name1:'Nasa',name2:'Nasul'}])},
   {id:'def-calendar', type:'calendar' as const,show:true},
-  {id:'def-countdown',type:'countdown'as const,show:true,countdownTitle:'Timp rămas până la aventură'},
+  {id:'def-countdown',type:'countdown'as const,show:true,countdownTitle:'Timp ramas pana la aventura'},
   {id:'def-divider-2',type:'divider'  as const,show:true},
-  {id:'def-loc-1',    type:'location' as const,show:true,label:'Botezul',time:'11:00',locationName:'Paraclisul Dinozaurilor',locationAddress:'Strada Jurasicului 1, București',wazeLink:''},
-  {id:'def-loc-2',    type:'location' as const,show:true,label:'Petrecerea',time:'15:00',locationName:'Parcul Preistoric',locationAddress:'Aleea Raptorilor 5, București',wazeLink:''},
+  {id:'def-loc-1',    type:'location' as const,show:true,label:'Botezul',time:'11:00',locationName:'Paraclisul Dinozaurilor',locationAddress:'Strada Jurasicului 1, Bucuresti',wazeLink:''},
+  {id:'def-loc-2',    type:'location' as const,show:true,label:'Petrecerea',time:'15:00',locationName:'Parcul Preistoric',locationAddress:'Aleea Raptorilor 5, Bucuresti',wazeLink:''},
   {id:'def-divider-3',type:'divider'  as const,show:true},
   {id:'def-photo-2',  type:'photo'    as const,show:true,imageData:'',altText:'Foto',aspectRatio:'1:1' as const,photoClip:'circle' as const,photoMasks:['vignette'] as any},
-  {id:'def-gift',     type:'gift'     as const,show:true,sectionTitle:'Sugestie de cadou',content:'Cel mai frumos cadou este prezența voastră alături de noi.',iban:'',ibanName:''},
-  {id:'def-rsvp',     type:'rsvp'     as const,show:true,label:'Confirmă Prezența'},
+  {id:'def-gift',     type:'gift'     as const,show:true,sectionTitle:'Sugestie de cadou',content:'Cel mai frumos cadou este prezenta voastra alaturi de noi.',iban:'',ibanName:''},
+  {id:'def-rsvp',     type:'rsvp'     as const,show:true,label:'Confirma Prezenta'},
 ];
 
 export const CASTLE_PREVIEW_DATA = {
@@ -1069,7 +1069,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
   const _t = getJurassicTheme((profile as any).colorTheme);
   C = { darkJungle:_t.darkJungle, midJungle:_t.midJungle, stone:_t.stone, amber:_t.amber, amberLight:_t.amberLight, cream:_t.cream, muted:_t.muted, moss:_t.moss, text:_t.text };
 
-  // ── Config global template (imagini uși) — vin din admin ──────────────────
+  // ── Config global template (imagini usi) — vin din admin ──────────────────
   const [globalConfig, setGlobalConfig] = useState<Record<string, any>>({});
   useEffect(() => {
     fetch(`${API_URL}/config/template-defaults/${meta.id}`)
@@ -1173,7 +1173,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
 
   // ── Reset ─────────────────────────────────────────────────────────────────
   const resetToDefaults = useCallback(()=>{
-    if(!window.confirm('Resetezi templateul la valorile implicite? Toate modificările vor fi pierdute.'))return;
+    if(!window.confirm('Resetezi templateul la valorile implicite? Toate modificarile vor fi pierdute.'))return;
     onProfileUpdate?.({...CASTLE_DEFAULTS,weddingDate:pr.weddingDate??''});
     const fb=CASTLE_DEFAULT_BLOCKS.map((b,i)=>({...b,id:`def-${Date.now()}-${i}`}));
     setBlocks(fb as unknown as InvitationBlock[]);
@@ -1182,19 +1182,19 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
 
   const BLOCK_TYPES = [
     {type:'photo',      label:'📷 Foto',     def:{imageData:'',aspectRatio:'1:1',photoClip:'rect',photoMasks:[]}},
-    {type:'text',       label:'Text',         def:{content:'O aventură de neuitat...'}},
-    {type:'location',   label:'Locatie',      def:{label:'Locație',time:'11:00',locationName:'Locație',locationAddress:'Adresa'}},
+    {type:'text',       label:'Text',         def:{content:'O aventura de neuitat...'}},
+    {type:'location',   label:'Locatie',      def:{label:'Locatie',time:'11:00',locationName:'Locatie',locationAddress:'Adresa'}},
     {type:'calendar',   label:'📅 Calendar', def:{}},
     {type:'countdown',  label:'⏱ Countdown', def:{}},
     {type:'timeline',   label:'🗓 Cronologie',def:{}},
-    {type:'music',      label:'🎵 Muzică',   def:{musicTitle:'',musicArtist:'',musicType:'none'}},
+    {type:'music',      label:'🎵 Muzica',   def:{musicTitle:'',musicArtist:'',musicType:'none'}},
     {type:'gift',       label:'🎁 Cadouri',  def:{sectionTitle:'Sugestie cadou',content:'',iban:'',ibanName:''}},
     {type:'whatsapp',   label:'WhatsApp',     def:{label:'Contact WhatsApp',content:'0700000000'}},
-    {type:'rsvp',       label:'RSVP',         def:{label:'Confirmă Prezența'}},
+    {type:'rsvp',       label:'RSVP',         def:{label:'Confirma Prezenta'}},
     {type:'divider',    label:'Linie',        def:{}},
-    {type:'family',     label:'👨‍👩‍👧 Familie',def:{label:'Părinții',content:'Cu drag',members:JSON.stringify([{name1:'Mama',name2:'Tata'}])}},
+    {type:'family',     label:'👨‍👩‍👧 Familie',def:{label:'Parintii',content:'Cu drag',members:JSON.stringify([{name1:'Mama',name2:'Tata'}])}},
     {type:'date',       label:'📆 Data',      def:{}},
-    {type:'description',label:'Descriere',    def:{content:'O scurtă descriere...'}},
+    {type:'description',label:'Descriere',    def:{content:'O scurta descriere...'}},
   ];
 
   const decoImages = [i.leaf1, i.fern, i.leaf2, i.dino1, i.dino2, i.egg];
@@ -1300,7 +1300,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                 {/* Badge */}
                 <Reveal delay={0.15}>
                   <div style={{display:'inline-block',background:`linear-gradient(135deg,${C.amber},${C.amberLight})`,color:C.darkJungle,fontFamily:display,fontSize:8,padding:'4px 18px',borderRadius:20,letterSpacing:2,marginBottom:14,fontWeight:700}}>
-                    ✦ EȘTI INVITAT ✦
+                    ✦ ESTI INVITAT ✦
                   </div>
                 </Reveal>
 
@@ -1342,7 +1342,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                           <p style={{fontFamily:serif,fontSize:12,fontStyle:'italic',color:hexToRgba(C.amber,.85),margin:'2px 0 0'}}>{wd.toLocaleDateString('ro-RO',{month:'long',year:'numeric'})}</p>
                           <p style={{fontFamily:sans,fontSize:9,color:hexToRgba(C.cream,.4),textTransform:'capitalize',margin:'1px 0 0',letterSpacing:'.05em'}}>{wd.toLocaleDateString('ro-RO',{weekday:'long'})}</p>
                         </>
-                      ) : <p style={{color:hexToRgba(C.cream,.3),fontFamily:sans,fontSize:11,margin:0}}>Dată neconfigurată</p>}
+                      ) : <p style={{color:hexToRgba(C.cream,.3),fontFamily:sans,fontSize:11,margin:0}}>Data neconfigurata</p>}
                     </div>
                     <div style={{flex:1,height:1,background:`linear-gradient(to left,transparent,${hexToRgba(C.amber,.3)})`}}/>
                   </div>
@@ -1415,7 +1415,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                         <button type="button" onClick={()=>!editMode&&onOpenRSVP?.()} style={{width:'100%',padding:'18px 24px',background:`linear-gradient(135deg,${C.amber} 0%,${C.amberLight} 50%,${C.amber} 100%)`,border:'none',borderRadius:18,cursor:'pointer',fontFamily:display,fontWeight:700,fontSize:12,letterSpacing:'.25em',textTransform:'uppercase',color:C.darkJungle,boxShadow:`0 8px 28px ${hexToRgba(C.amber,.55)},inset 0 1px 0 rgba(255,255,255,.2)`,animation:'jr-pulse 2.5s ease-in-out infinite',position:'relative',overflow:'hidden'}}>
                           <div style={{position:'absolute',inset:0,background:'linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent)',backgroundSize:'200% 100%',animation:'jr-shimmer 2s linear infinite',borderRadius:18}}/>
                           <span style={{position:'relative'}}>
-                            <InlineEdit editMode={editMode} value={`🦖 ${block.label||'Confirmă Prezența'} 🦖`} onChange={v=>updBlock(idx,{label:v.replace(/🦖/g,'').trim()})}/>
+                            <InlineEdit editMode={editMode} value={`🦖 ${block.label||'Confirma Prezenta'} 🦖`} onChange={v=>updBlock(idx,{label:v.replace(/🦖/g,'').trim()})}/>
                           </span>
                         </button>
                       </div>
@@ -1462,7 +1462,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                         <BlockCard accentIcon="⏳" imgDeco={{src:i.raptor2,side:'right',top:-18,size:68}}>
                           <div style={{display:'flex',justifyContent:'center',marginBottom:14}}>
                             <span style={{fontFamily:sans,fontSize:9,fontWeight:700,letterSpacing:'.4em',textTransform:'uppercase',color:hexToRgba(C.amber,.75),padding:'4px 16px',borderRadius:50,background:hexToRgba(C.amber,.1),border:`1.5px solid ${hexToRgba(C.amber,.3)}`}}>
-                              ⏳ Timp rămas
+                              ⏳ Timp ramas
                             </span>
                           </div>
                           <JurassicCountdown targetDate={p.weddingDate}/>
@@ -1482,7 +1482,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                               <p style={{fontFamily:sans,fontSize:8,fontWeight:700,letterSpacing:'.42em',textTransform:'uppercase',color:hexToRgba(C.amber,.65),margin:0}}>Programul Zilei</p>
                               <div style={{flex:1,height:1,background:`linear-gradient(to left,transparent,${hexToRgba(C.amber,.25)})`}}/>
                             </div>
-                            {!items.length&&editMode&&<p style={{fontFamily:serif,fontSize:12,fontStyle:'italic',color:hexToRgba(C.cream,.4),textAlign:'center',margin:'0 0 14px'}}>Adaugă primul moment al zilei</p>}
+                            {!items.length&&editMode&&<p style={{fontFamily:serif,fontSize:12,fontStyle:'italic',color:hexToRgba(C.cream,.4),textAlign:'center',margin:'0 0 14px'}}>Adauga primul moment al zilei</p>}
                             <div style={{display:'flex',flexDirection:'column'}}>
                               {items.map((item:any,i:number)=>(
                                 <div key={item.id} style={{display:'grid',gridTemplateColumns:'56px 20px 1fr auto',alignItems:'stretch',minHeight:44}}>
@@ -1500,7 +1500,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                                 </div>
                               ))}
                             </div>
-                            {editMode&&<button type="button" onClick={e=>{e.stopPropagation();addTimelineItem(null);}} style={{marginTop:14,width:'100%',background:hexToRgba(C.amber,.08),border:`1px dashed ${hexToRgba(C.amber,.3)}`,borderRadius:10,padding:'8px 0',cursor:'pointer',fontFamily:sans,fontSize:9,fontWeight:700,letterSpacing:'.25em',textTransform:'uppercase',color:hexToRgba(C.amber,.65)}}>+ Adaugă moment</button>}
+                            {editMode&&<button type="button" onClick={e=>{e.stopPropagation();addTimelineItem(null);}} style={{marginTop:14,width:'100%',background:hexToRgba(C.amber,.08),border:`1px dashed ${hexToRgba(C.amber,.3)}`,borderRadius:10,padding:'8px 0',cursor:'pointer',fontFamily:sans,fontSize:9,fontWeight:700,letterSpacing:'.25em',textTransform:'uppercase',color:hexToRgba(C.amber,.65)}}>+ Adauga moment</button>}
                           </BlockCard>
                         </Reveal>
                       );
@@ -1541,12 +1541,12 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                             </div>
                             <div style={{textAlign:'left'}}>
                               <InlineEdit tag="p" editMode={editMode} value={block.label||'Contact WhatsApp'} onChange={v=>updBlock(idx,{label:v})} style={{fontFamily:display,fontWeight:700,fontSize:13,color:C.cream,margin:0}}/>
-                              <p style={{fontFamily:sans,fontSize:10,color:hexToRgba(C.cream,.4),margin:0}}>Răspundem rapid</p>
+                              <p style={{fontFamily:sans,fontSize:10,color:hexToRgba(C.cream,.4),margin:0}}>Raspundem rapid</p>
                             </div>
                           </a>
                           {editMode&&(
                             <div style={{display:'flex',alignItems:'center',gap:8,background:hexToRgba(C.stone,.4),border:`1px solid ${hexToRgba(C.amber,.18)}`,borderRadius:12,padding:'8px 16px',marginTop:10,justifyContent:'center'}}>
-                              <span style={{fontFamily:sans,fontSize:'.6rem',fontWeight:800,letterSpacing:'.1em',textTransform:'uppercase',color:hexToRgba(C.cream,.45)}}>Număr:</span>
+                              <span style={{fontFamily:sans,fontSize:'.6rem',fontWeight:800,letterSpacing:'.1em',textTransform:'uppercase',color:hexToRgba(C.cream,.45)}}>Numar:</span>
                               <InlineEdit tag="span" editMode={editMode} value={block.content||'0700000000'} onChange={v=>updBlock(idx,{content:v})} style={{fontFamily:sans,fontSize:'.9rem',color:C.cream,fontWeight:700}}/>
                             </div>
                           )}
@@ -1564,10 +1564,10 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                           <BlockCard accentIcon={dIcon}>
                             <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,marginBottom:10}}>
                               <div style={{flex:1,height:1,background:`linear-gradient(to right,transparent,${hexToRgba(C.amber,.28)})`}}/>
-                              <InlineEdit editMode={editMode} value={block.label||'Părinții'} onChange={v=>updBlock(idx,{label:v})} style={{fontFamily:sans,fontSize:8,fontWeight:700,letterSpacing:'.42em',textTransform:'uppercase',color:hexToRgba(C.amber,.75),margin:0}}/>
+                              <InlineEdit editMode={editMode} value={block.label||'Parintii'} onChange={v=>updBlock(idx,{label:v})} style={{fontFamily:sans,fontSize:8,fontWeight:700,letterSpacing:'.42em',textTransform:'uppercase',color:hexToRgba(C.amber,.75),margin:0}}/>
                               <div style={{flex:1,height:1,background:`linear-gradient(to left,transparent,${hexToRgba(C.amber,.28)})`}}/>
                             </div>
-                            <InlineEdit editMode={editMode} value={block.content||'Cu drag și recunoștință'} onChange={v=>updBlock(idx,{content:v})} style={{fontFamily:serif,fontSize:12,fontStyle:'italic',color:hexToRgba(C.cream,.45),margin:'0 0 16px',display:'block',textAlign:'center'}}/>
+                            <InlineEdit editMode={editMode} value={block.content||'Cu drag si recunostinta'} onChange={v=>updBlock(idx,{content:v})} style={{fontFamily:serif,fontSize:12,fontStyle:'italic',color:hexToRgba(C.cream,.45),margin:'0 0 16px',display:'block',textAlign:'center'}}/>
                             <div style={{display:'flex',flexDirection:'column',gap:8}}>
                               {members.map((m,mi)=>(
                                 <div key={mi}>
@@ -1583,7 +1583,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                             </div>
                             {editMode&&(
                               <button type="button" onClick={()=>updateMembers([...members,{name1:'Nume 1',name2:'Nume 2'}])} style={{marginTop:14,background:hexToRgba(C.amber,.1),border:`1px dashed ${hexToRgba(C.amber,.32)}`,borderRadius:99,padding:'5px 18px',cursor:'pointer',fontFamily:sans,fontSize:9,fontWeight:700,letterSpacing:'.25em',textTransform:'uppercase',color:hexToRgba(C.amber,.7),display:'block',margin:'14px auto 0'}}>
-                                + Adaugă
+                                + Adauga
                               </button>
                             )}
                           </BlockCard>
@@ -1626,7 +1626,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
             <div style={{marginTop:24,textAlign:'center'}}>
               <button onClick={resetToDefaults} style={{padding:'10px 24px',background:'transparent',border:`2px solid ${hexToRgba(C.amber,.3)}`,borderRadius:99,fontFamily:sans,fontSize:10,fontWeight:700,letterSpacing:'.2em',textTransform:'uppercase',color:hexToRgba(C.amber,.5),cursor:'pointer',display:'inline-flex',alignItems:'center',gap:8}}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                Resetează la valorile implicite
+                Reseteaza la valorile implicite
               </button>
             </div>
           )}

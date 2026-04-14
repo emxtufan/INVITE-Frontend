@@ -116,7 +116,7 @@ export default function Hero() {
         </div>
 
         <h1 className="wp-fade-up visible">
-          Planifică
+          Planifica
           <TextType
             text={[" Nunta", " Botezul", " Party"]}
             typingSpeed={75}
@@ -133,11 +133,11 @@ export default function Hero() {
           />
           
           <br />
-          <em>În doar câteva minute.</em>
+          <em>In doar cateva minute.</em>
         </h1>
         <p className="wp-fade-up visible wp-d1">
           <ShinyText
-            text="Platforma completă pentru miri și organizatori. Gestionează invitați, așezarea la mese, bugetul și confirmările RSVP — într-un singur loc."
+            text="Platforma completa pentru miri si organizatori. Gestioneaza invitati, asezarea la mese, bugetul si confirmarile RSVP — intr-un singur loc."
             speed={2}
             delay={0}
             color="#b5b5b5"
@@ -157,7 +157,7 @@ export default function Hero() {
             </a>
           ) : (
             <a href="/register" className="wp-btn-primary wp-btn-lg">
-              Începe Gratuit <IconArrow />
+              Incepe Gratuit <IconArrow />
             </a>
           )}
           <a
@@ -214,7 +214,7 @@ export default function Hero() {
                 className="wp-db-notif-title"
                 style={{ fontSize: 11, fontWeight: 700 }}
               >
-                Cheltuială Nouă
+                Cheltuiala Noua
               </div>
               <div
                 className="wp-db-notif-sub"
@@ -252,7 +252,7 @@ export default function Hero() {
                 className="wp-db-notif-title"
                 style={{ fontSize: 11, fontWeight: 700 }}
               >
-                Sarcină Finalizată
+                Sarcina Finalizata
               </div>
               <div
                 className="wp-db-notif-sub"
@@ -293,13 +293,13 @@ export default function Hero() {
                 className="wp-db-notif-title"
                 style={{ fontSize: 11, fontWeight: 700 }}
               >
-                Masă Organizată
+                Masa Organizata
               </div>
               <div
                 className="wp-db-notif-sub"
                 style={{ fontSize: 10, color: "var(--muted)" }}
               >
-                Masa 5 este completă (10/10).
+                Masa 5 este completa (10/10).
               </div>
             </div>
           </div>
@@ -370,13 +370,13 @@ export default function Hero() {
                 className="wp-db-notif-title"
                 style={{ fontSize: 11, fontWeight: 700 }}
               >
-                Deadline Mâine
+                Deadline Maine
               </div>
               <div
                 className="wp-db-notif-sub"
                 style={{ fontSize: 10, color: "var(--muted)" }}
               >
-                Plată tranșa 2 locație.
+                Plata transa 2 locatie.
               </div>
             </div>
           </div>
@@ -493,7 +493,7 @@ export default function Hero() {
                           icon: "M20 12V8H6a2 2 0 0 1-2-2 2 2 0 0 1 2-2h12v4",
                         },
                         {
-                          label: "Invitați",
+                          label: "Invitati",
                           icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2",
                         },
                       ].map((item, i) => (
@@ -570,7 +570,7 @@ export default function Hero() {
                           Bun venit, Alex & Maria
                         </div>
                         <div className="wp-db-topbar-sub">
-                          Nunta în 24 de zile.
+                          Nunta in 24 de zile.
                         </div>
                       </div>
                       <div
@@ -713,7 +713,7 @@ export default function Hero() {
                                 "translate3d(0, 0, calc(10px + (var(--wp-progress) * 15px)))",
                             }}
                           >
-                            <IconStar /> Top Priorități
+                            <IconStar /> Top Prioritati
                           </div>
                           <div
                             className="wp-db-card-body"
@@ -730,7 +730,7 @@ export default function Hero() {
                                   "translate3d(0, 0, calc(10px + (var(--wp-progress) * 15px)))",
                               }}
                             >
-                              <span>Rezervare locație</span>
+                              <span>Rezervare locatie</span>
                               <span className="wp-db-date">Azi</span>
                             </div>
                             <div
@@ -741,7 +741,7 @@ export default function Hero() {
                               }}
                             >
                               <span>Contract Foto</span>
-                              <span className="wp-db-date">Mâine</span>
+                              <span className="wp-db-date">Maine</span>
                             </div>
                           </div>
                         </div>
@@ -786,7 +786,7 @@ export default function Hero() {
                               }}
                             >
                               <span>
-                                <IconEye /> Văzute
+                                <IconEye /> Vazute
                               </span>
                               <b>142</b>
                             </div>
@@ -819,7 +819,7 @@ export default function Hero() {
                                   "translate3d(0, 0, calc(10px + (var(--wp-progress) * 25px)))",
                               }}
                             >
-                              <span>Fără Răspuns</span>
+                              <span>Fara Raspuns</span>
                               <b>52</b>
                             </div>
                           </div>

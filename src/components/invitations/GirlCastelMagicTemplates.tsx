@@ -35,7 +35,7 @@ export const meta: TemplateMeta = {
   id: 'castle-magic-girl',
   name: 'Boy Castle Magic',
   category: 'wedding',
-  description: 'Design de poveste cu castel roz și efect de deschidere orizontală pe bază de scroll.',
+  description: 'Design de poveste cu castel roz si efect de deschidere orizontala pe baza de scroll.',
   colors: ['#fdf2f8', '#be185d', '#f472b6'],
   previewClass: "bg-pink-50 border-pink-200",
   elementsClass: "bg-pink-500",
@@ -147,7 +147,7 @@ const MusicBlock: React.FC<{
     try {
       const form = new FormData(); form.append('file', file);
       const res = await fetch(`${API_URL}/upload`, { method: 'POST', headers: { Authorization: `Bearer ${_s?.token || ''}` }, body: form });
-      if (!res.ok) throw new Error('Upload eșuat');
+      if (!res.ok) throw new Error('Upload esuat');
       const { url } = await res.json();
       onUpdate({ musicUrl: url, musicType: 'mp3' });
       deleteUploadedFile; // keeps the import used
@@ -171,7 +171,7 @@ const MusicBlock: React.FC<{
       onUpdate({ musicUrl: data.url, musicType: 'mp3', musicTitle: data.title || '', musicArtist: data.author || '' });
       setShowYt(false); setYtUrl('');
     } catch (e: any) {
-      setYtError(e.message || 'Nu s-a putut descărca melodia.');
+      setYtError(e.message || 'Nu s-a putut descarca melodia.');
     } finally {
       setYtDownloading(false);
     }
@@ -212,7 +212,7 @@ const MusicBlock: React.FC<{
           <Music className="w-4 h-4" style={{ color: isPlaying ? 'white' : PINK_DARK }} />
         </div>
         <span style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: isPlaying ? PINK_DARK : MUTED, transition: 'color 0.3s' }}>
-          {isPlaying ? 'Se redă acum' : 'Melodia Zilei'}
+          {isPlaying ? 'Se reda acum' : 'Melodia Zilei'}
         </span>
         {isPlaying && (
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: 2, height: 14, marginLeft: 'auto' }}>
@@ -240,7 +240,7 @@ const MusicBlock: React.FC<{
                 <button type="button" onClick={() => { setShowYt(false); setYtUrl(''); setYtError(''); }} disabled={ytDownloading}
                   style={{ background: PINK_XL, border: 'none', borderRadius: 8, padding: '0 10px', cursor: 'pointer', color: MUTED, fontSize: 14 }}>✕</button>
               </div>
-              {ytDownloading && <p style={{ fontFamily: SANS, fontSize: 9, color: PINK_DARK, margin: 0, textAlign: 'center', letterSpacing: '0.1em' }}>⏳ Se descarcă melodia de pe YouTube...</p>}
+              {ytDownloading && <p style={{ fontFamily: SANS, fontSize: 9, color: PINK_DARK, margin: 0, textAlign: 'center', letterSpacing: '0.1em' }}>⏳ Se descarca melodia de pe YouTube...</p>}
               {ytError && <p style={{ fontFamily: SANS, fontSize: 9, color: '#ef4444', margin: 0 }}>⚠ {ytError}</p>}
             </div>
           ) : (
@@ -260,7 +260,7 @@ const MusicBlock: React.FC<{
       {!isActive && !editMode && (
         <div style={{ textAlign: 'center', padding: '16px 0', opacity: 0.4 }}>
           <Music className="w-8 h-8" style={{ color: PINK_DARK, display: 'block', margin: '0 auto 6px' }} />
-          <p style={{ fontFamily: SERIF, fontSize: 12, fontStyle: 'italic', color: MUTED, margin: 0 }}>Melodia va apărea aici</p>
+          <p style={{ fontFamily: SERIF, fontSize: 12, fontStyle: 'italic', color: MUTED, margin: 0 }}>Melodia va aparea aici</p>
         </div>
       )}
       {isActive && (
@@ -311,7 +311,7 @@ const MusicBlock: React.FC<{
               <button type="button"
                 onClick={() => { onUpdate({ musicUrl: '', musicType: 'none' as any }); setShowYt(true); }}
                 style={{ background: PINK_XL, border: `1px solid ${PINK_L}`, borderRadius: 99, padding: '4px 14px', cursor: 'pointer', fontFamily: SANS, fontSize: 9, color: MUTED, fontWeight: 700 }}>
-                Schimbă sursa
+                Schimba sursa
               </button>
             </div>
           )}
@@ -382,7 +382,7 @@ const WazeButton: React.FC<{
             <circle cx="14.5" cy="11.5" r="1.5" fill={PINK_DARK}/>
             <path d="M10 15s.75 1 2 1 2-1 2-1" stroke={PINK_DARK} strokeWidth="1.5" strokeLinecap="round"/>
           </svg>
-          Deschide în Waze
+          Deschide in Waze
         </a>
       ) : editMode ? (
         <button type="button" onClick={() => setOpen(true)}
@@ -394,7 +394,7 @@ const WazeButton: React.FC<{
             fontFamily: SANS, fontSize: '0.6rem', fontWeight: 700,
             color: MUTED, letterSpacing: '0.15em', textTransform: 'uppercase' as const,
           }}>
-          + Adaugă link Waze
+          + Adauga link Waze
         </button>
       ) : null}
     </div>
@@ -560,7 +560,7 @@ const CountdownSection: React.FC<{ date: string | undefined }> = ({ date }) => {
   if (!date || cd.expired) return null;
   return (
     <div style={{ background: PINK_DARK, borderRadius: 16, padding: 24, textAlign: 'center', color: 'white' }}>
-      <p style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', marginBottom: 16 }}>AU MAI RĂMAS</p>
+      <p style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', marginBottom: 16 }}>AU MAI RAMAS</p>
       <div style={{ display: 'flex', justifyContent: 'center', gap: 16 }}>
         {[{ v: cd.days, l: 'ZILE' }, { v: cd.hours, l: 'ORE' }, { v: cd.minutes, l: 'MIN' }, { v: cd.seconds, l: 'SEC' }].map((x, i) => (
           <div key={i}>
@@ -612,8 +612,8 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
 const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (p: Partial<InvitationBlock>) => void }> = ({ block, editMode, onUpdate }) => (
   <div style={{ background: 'white', border: `1px solid ${PINK_L}`, borderRadius: 16, padding: 24, textAlign: 'center' }}>
     <MapPin className="w-8 h-8 text-pink-500 mx-auto mb-4" />
-    <InlineEdit tag="h3" editMode={editMode} value={block.locationName || ''} onChange={v => onUpdate({ locationName: v })} placeholder="Locație..." style={{ fontFamily: SCRIPT, fontSize: 32, color: PINK_DARK, marginBottom: 8 }} />
-    <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''} onChange={v => onUpdate({ locationAddress: v })} placeholder="Adresă..." multiline style={{ fontFamily: SANS, fontSize: 12, color: MUTED, lineHeight: 1.6 }} />
+    <InlineEdit tag="h3" editMode={editMode} value={block.locationName || ''} onChange={v => onUpdate({ locationName: v })} placeholder="Locatie..." style={{ fontFamily: SCRIPT, fontSize: 32, color: PINK_DARK, marginBottom: 8 }} />
+    <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''} onChange={v => onUpdate({ locationAddress: v })} placeholder="Adresa..." multiline style={{ fontFamily: SANS, fontSize: 12, color: MUTED, lineHeight: 1.6 }} />
     <div className="mt-4"><InlineWaze value={block.wazeLink || ''} onChange={v => onUpdate({ wazeLink: v })} editMode={editMode} /></div>
   </div>
 );
@@ -824,7 +824,7 @@ const CastleOverlayText: React.FC<{
     </div>
 
     {/* Phase 1 label (edit only) */}
-    {editMode && <div style={{ position: 'absolute', top: '1%', left: 0, right: 0, textAlign: 'center', zIndex: 20, pointerEvents: 'none' }}><span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: `${tc.gold}cc`, background: 'rgba(0,0,0,0.35)', borderRadius: 99, padding: '2px 10px' }}>TEXT UȘI — FAZA 1</span></div>}
+    {editMode && <div style={{ position: 'absolute', top: '1%', left: 0, right: 0, textAlign: 'center', zIndex: 20, pointerEvents: 'none' }}><span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: `${tc.gold}cc`, background: 'rgba(0,0,0,0.35)', borderRadius: 99, padding: '2px 10px' }}>TEXT USI — FAZA 1</span></div>}
 
     {/* Phase 1: name + subtitle */}
     <div style={{ position: 'absolute', top: nameTop, left: 0, right: 0, transform: nameTransform, textAlign: 'center', zIndex: 1, padding: '0 28px', opacity: nameOpacity }}>
@@ -856,7 +856,7 @@ const CastleOverlayText: React.FC<{
     {/* Phase 2: invitation text */}
     <div style={{ position: 'absolute', top: inviteTopPos, left: 0, right: 0, transform: inviteTransform, textAlign: 'center', zIndex: 1, padding: '0 36px', pointerEvents: editMode ? 'auto' : 'none' }}>
       <div ref={inviteRef} style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', opacity: inviteOpacity }}>
-        <InlineEdit tag="p" editMode={!!editMode} value={inviteTop || 'Cu bucurie vă anunțăm'} onChange={v => onInviteTopChange?.(v)}
+        <InlineEdit tag="p" editMode={!!editMode} value={inviteTop || 'Cu bucurie va anuntam'} onChange={v => onInviteTopChange?.(v)}
           textKey="intro:inviteTop" textLabel="Intro Top"
           style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.5em', textTransform: 'uppercase', color: `${tc.pinkL}dd`, textShadow: '0 2px 12px rgba(0,0,0,0.8)', margin: 0 }} />
         <InlineEdit tag="p" editMode={!!editMode} value={inviteMiddle || dateStr || 'Data Evenimentului'} onChange={v => onInviteMiddleChange?.(v)}
@@ -865,7 +865,7 @@ const CastleOverlayText: React.FC<{
         <InlineEdit tag="p" editMode={!!editMode} value={inviteBottom || 'a fost botezat'} onChange={v => onInviteBottomChange?.(v)}
           textKey="intro:inviteBottom" textLabel="Intro Bottom"
           style={{ fontFamily: 'Cinzel, serif', fontSize: '0.68rem', fontWeight: 400, letterSpacing: '0.35em', textTransform: 'uppercase', color: tc.pinkL, textShadow: '0 2px 10px rgba(0,0,0,0.75)', margin: 0, lineHeight: 2 }} />
-        <InlineEdit tag="p" editMode={!!editMode} value={inviteTag || '✦ deschide porțile ✦'} onChange={v => onInviteTagChange?.(v)}
+        <InlineEdit tag="p" editMode={!!editMode} value={inviteTag || '✦ deschide portile ✦'} onChange={v => onInviteTagChange?.(v)}
           textKey="intro:inviteTag" textLabel="Intro Tag"
           style={{ fontFamily: 'Cinzel, serif', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.6em', textTransform: 'uppercase', color: `${tc.pinkL}88`, margin: '2px 0 0', textShadow: `0 0 8px ${tc.pinkL}66` }} />
       </div>
@@ -1051,24 +1051,24 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
         <Music className="w-8 h-8" style={{ color: 'white' }} />
       </div>
       <p style={{ fontFamily: SCRIPT, fontSize: 26, color: PINK_DARK, margin: '0 0 6px', lineHeight: 1.2 }}>{childName}</p>
-      <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: TEXT, margin: '0 0 8px' }}>Te invită la o poveste magică 🌟</p>
-      <p style={{ fontFamily: SANS, fontSize: 11, color: MUTED, margin: '0 0 28px', lineHeight: 1.6 }}>Această invitație are o melodie specială.<br/>Vrei să activezi muzica?</p>
+      <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: TEXT, margin: '0 0 8px' }}>Te invita la o poveste magica 🌟</p>
+      <p style={{ fontFamily: SANS, fontSize: 11, color: MUTED, margin: '0 0 28px', lineHeight: 1.6 }}>Aceasta invitatie are o melodie speciala.<br/>Vrei sa activezi muzica?</p>
       <button type="button" onClick={onAllow}
         style={{ width: '100%', padding: '14px 0', background: `linear-gradient(135deg,${PINK_DARK},${PINK_D})`, border: 'none', borderRadius: 50, cursor: 'pointer', fontFamily: SANS, fontSize: 12, fontWeight: 700, color: 'white', letterSpacing: '0.1em', marginBottom: 10, boxShadow: `0 6px 20px rgba(190,24,93,0.4)`, transition: 'transform 0.15s' }}
         onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.03)'}
         onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'}>
-        🎵 Da, activează muzica
+        🎵 Da, activeaza muzica
       </button>
       <button type="button" onClick={onDeny}
         style={{ width: '100%', padding: '10px 0', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: SANS, fontSize: 11, color: MUTED }}>
-        Nu, continuă fără muzică
+        Nu, continua fara muzica
       </button>
     </div>
   </div>
 );
 
 
-// ── Template Defaults — sursa unică de adevăr ────────────────────────────────
+// ── Template Defaults — sursa unica de adevar ────────────────────────────────
 export const CASTLE_DEFAULTS = {
   partner1Name:         'Printesa Sofia',
   heroBgImage:          undefined as string | undefined,
@@ -1077,15 +1077,15 @@ export const CASTLE_DEFAULTS = {
   heroContentImageMobile: undefined as string | undefined,
   castleIntroSubtitle:  'into my little kingdom',
   castleIntroWelcome:   'WELCOME',
-  castleInviteTop:      'Cu multă bucurie vă anunțăm',
+  castleInviteTop:      'Cu multa bucurie va anuntam',
   castleInviteMiddle:   '',
-  castleInviteBottom:   'va fii botezată',
-  castleInviteTag:      '✦ deschide porțile ✦',
-  welcomeText:          'Vă invităm cu drag',
-  celebrationText:      'la botezul prințesei noastre',
+  castleInviteBottom:   'va fii botezata',
+  castleInviteTag:      '✦ deschide portile ✦',
+  welcomeText:          'Va invitam cu drag',
+  celebrationText:      'la botezul printesei noastre',
   weddingDate:          '',
   showRsvpButton:       false,
-  rsvpButtonText:       'Confirmă Prezența',
+  rsvpButtonText:       'Confirma Prezenta',
   showWelcomeText:      true,
   showCelebrationText:  true,
   showTimeline:         false,
@@ -1099,19 +1099,19 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
     type: 'photo' as const,
     show: true,
     imageData: 'https://github.com/emxtufan/images/blob/main/083bc564e4351696f53a7fc0aeb196f3.jpg?raw=true',
-    altText: 'Fotografia prințesei',
+    altText: 'Fotografia printesei',
     aspectRatio: '3:4' as const,
     photoClip: 'arch' as const,
     photoMasks: ['fade-b'] as any,
   },
-  { id: 'def-text-1', type: 'text', show: true, content: 'O poveste magică începe odată cu venirea pe lume a celui mai iubit copil. Vă așteptăm cu drag să fiți parte din această zi de poveste.' },
-  { id: 'def-countdown', type: 'countdown', show: true, countdownTitle: 'Timp rămas până la Marele Eveniment' },
+  { id: 'def-text-1', type: 'text', show: true, content: 'O poveste magica incepe odata cu venirea pe lume a celui mai iubit copil. Va asteptam cu drag sa fiti parte din aceasta zi de poveste.' },
+  { id: 'def-countdown', type: 'countdown', show: true, countdownTitle: 'Timp ramas pana la Marele Eveniment' },
   { id: 'def-calendar', type: 'calendar', show: true },
   { id: 'def-divider-1', type: 'divider', show: true },
-  { id: 'def-text-2', type: 'text', show: true, content: 'Sub ocrotirea și dragostea celor care ne îndrumă pașii și ne sunt alături la fiecare început' },
-  { id: 'def-family-1', type: 'family', show: true, label: 'Părinții', content: 'Cu drag și recunoștință', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) },
-  { id: 'def-family-1', type: 'family', show: true, label: 'Nasii', content: 'Cu drag și recunoștință', members: JSON.stringify([{ name1: 'Nasa', name2: 'Nasul' }]) },
-{ id: 'def-text-1', type: 'text', show: true, content: 'Momentele speciale ale acestei zile vor avea loc în următoarele locații:' },
+  { id: 'def-text-2', type: 'text', show: true, content: 'Sub ocrotirea si dragostea celor care ne indruma pasii si ne sunt alaturi la fiecare inceput' },
+  { id: 'def-family-1', type: 'family', show: true, label: 'Parintii', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) },
+  { id: 'def-family-1', type: 'family', show: true, label: 'Nasii', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Nasa', name2: 'Nasul' }]) },
+{ id: 'def-text-1', type: 'text', show: true, content: 'Momentele speciale ale acestei zile vor avea loc in urmatoarele locatii:' },
   { id: 'def-location-1', type: 'location', show: true, label: 'Slujba Sfintei Taine a Botezului', time: '15:00', locationName: 'Manastirea Pasarea', locationAddress: 'Strada Basmului nr. 1', wazeLink: 'https://www.waze.com/ro/live-map/' },
   { id: 'def-divider-1', type: 'divider', show: true },
  { id: 'def-location-1', type: 'location', show: true, label: 'Petrecerea', time: '20:00', locationName: 'Restaurant Monato', locationAddress: ' Strada Plaiului 1, 085100', wazeLink: 'https://www.waze.com/ro/live-map/' },
@@ -1121,16 +1121,16 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
     type: 'photo' as const,
     show: true,
     imageData: 'https://github.com/emxtufan/images/blob/main/8bfd2a13b954b21f975389585707d30e.jpg?raw=true',
-    altText: 'Fotografia prințesei',
+    altText: 'Fotografia printesei',
     aspectRatio: '1:1' as const,
     photoClip: 'blob' as const,
     photoMasks: [] as any,
   },
-{ id: 'def-text-1', type: 'text', show: true, content: 'O piesă de suflet, aleasă cu drag pentru această zi de neuitat, care ne va însoți emoțiile și bucuria fiecărui moment.' },
+{ id: 'def-text-1', type: 'text', show: true, content: 'O piesa de suflet, aleasa cu drag pentru aceasta zi de neuitat, care ne va insoti emotiile si bucuria fiecarui moment.' },
   { id: 'def-music-1', type: 'music', show: true, musicTitle: '', musicArtist: '', musicUrl: '', musicType: 'none' },
 { id: 'def-divider-1', type: 'divider', show: true },
-{ id: 'def-text-1', type: 'text', show: true, content: 'Ne-ar bucura să ne confirmați prezența dumneavoastră, pentru o bună organizare a evenimentului.' },
-  { id: 'def-rsvp-1', type: 'rsvp', show: true, label: 'Confirmă Prezența' },
+{ id: 'def-text-1', type: 'text', show: true, content: 'Ne-ar bucura sa ne confirmati prezenta dumneavoastra, pentru o buna organizare a evenimentului.' },
+  { id: 'def-rsvp-1', type: 'rsvp', show: true, label: 'Confirma Prezenta' },
 { id: 'def-divider-1', type: 'divider', show: true },
 
 
@@ -1154,8 +1154,8 @@ export const CASTLE_PREVIEW_DATA = {
 
 // ── Insert Block Button ───────────────────────────────────────────────────────
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: '🖼', text: '✏️', location: '📍', calendar: '📅',
-  countdown: '⏱', timeline: '🕒', music: '🎵', gift: '🎁',   whatsapp: '💬', rsvp: '✉️', divider: '—', family: '👨‍👩‍👧',
+  photo: '🖼', text: '✏', location: '📍', calendar: '📅',
+  countdown: '⏱', timeline: '🕒', music: '🎵', gift: '🎁',   whatsapp: '💬', rsvp: '✉', divider: '—', family: '👨‍👩‍👧',
   date: '📆', description: '📝',
 };
 const InsertBlockButton: React.FC<{
@@ -1174,7 +1174,7 @@ const InsertBlockButton: React.FC<{
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* linie punctată */}
+      {/* linie punctata */}
       <div style={{
         position: 'absolute', left: 0, right: 0, height: 1,
         background: `repeating-linear-gradient(to right, ${PINK_L} 0, ${PINK_L} 6px, transparent 6px, transparent 12px)`,
@@ -1215,7 +1215,7 @@ const InsertBlockButton: React.FC<{
           onMouseLeave={() => setHovered(false)}
         >
           <p style={{ fontFamily: SANS, fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: MUTED, margin: '0 0 10px', textAlign: 'center' }}>
-            Adaugă bloc
+            Adauga bloc
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
             {BLOCK_TYPES.map(bt => (
@@ -1255,13 +1255,13 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
   const { profile, guest } = data;
   
   // ─────────────────────────────────────────────────────────────────────────────
-  // SURSA DE ADEVĂR: templateul însuși.
-  // DB-ul este doar un OVERRIDE opțional — dacă nu există nimic salvat,
-  // templateul arată perfect cu propriile sale default-uri.
+  // SURSA DE ADEVAR: templateul insusi.
+  // DB-ul este doar un OVERRIDE optional — daca nu exista nimic salvat,
+  // templateul arata perfect cu propriile sale default-uri.
   // ─────────────────────────────────────────────────────────────────────────────
   const safeJSON = (s: string | undefined, fb: any) => { try { return s ? JSON.parse(s) : fb; } catch { return fb; } };
 
-  // Profile: fiecare câmp citit cu fallback la CASTLE_DEFAULTS (niciun câmp nu referențiează `p`)
+  // Profile: fiecare camp citit cu fallback la CASTLE_DEFAULTS (niciun camp nu referentieaza `p`)
   const pr = profile as any;
   const p = {
     partner1Name:        pr.partner1Name        ?? CASTLE_DEFAULTS.partner1Name,
@@ -1286,7 +1286,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
     heroContentImageMobile: pr.heroContentImageMobile ?? CASTLE_DEFAULTS.heroContentImageMobile,
   };
 
-    // ── Config global template (imagini uși + paletă) — vin din admin ───────────
+    // ── Config global template (imagini usi + paleta) — vin din admin ───────────
   const [globalConfig, setGlobalConfig] = useState<Record<string, any>>({});
   useEffect(() => {
     fetch(`${API_URL}/config/template-defaults/${meta.id}`)
@@ -1338,7 +1338,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
     .filter(b => b.type === 'photo' && b.imageData)
     .map(b => b.imageData as string);
 
-  // Merge: photo fără imageData preia URL-ul default după poziția sa (1st photo -> url[0] etc.)
+  // Merge: photo fara imageData preia URL-ul default dupa pozitia sa (1st photo -> url[0] etc.)
   const mergeWithDefaults = (dbBlocks: InvitationBlock[]): InvitationBlock[] => {
     let photoIdx = 0;
     return dbBlocks.map(b => {
@@ -1349,7 +1349,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
     });
   };
 
-  // Blocks: DB override sau CASTLE_DEFAULT_BLOCKS — niciodată gol
+  // Blocks: DB override sau CASTLE_DEFAULT_BLOCKS — niciodata gol
   const blocksFromDB: InvitationBlock[] | null = safeJSON(profile.customSections, null);
   const hasDBBlocks = Array.isArray(blocksFromDB) && blocksFromDB.length > 0;
 
@@ -1357,19 +1357,19 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
     hasDBBlocks ? mergeWithDefaults(blocksFromDB!) : CASTLE_DEFAULT_BLOCKS as unknown as InvitationBlock[]
   );
 
-  // Sync blocks când DB-ul se actualizează din exterior (upload foto etc.)
+  // Sync blocks cand DB-ul se actualizeaza din exterior (upload foto etc.)
   useEffect(() => {
     const fresh: InvitationBlock[] | null = safeJSON(profile.customSections, null);
     if (Array.isArray(fresh) && fresh.length > 0) {
       setBlocks(mergeWithDefaults(fresh));
     }
-    // Dacă DB devine gol (reset), revenim la defaults
+    // Daca DB devine gol (reset), revenim la defaults
     else if (fresh !== null && Array.isArray(fresh) && fresh.length === 0) {
       setBlocks(CASTLE_DEFAULT_BLOCKS as unknown as InvitationBlock[]);
     }
   }, [profile.customSections]);
 
-  // Imagini uși — din admin per temă activă
+  // Imagini usi — din admin per tema activa
   const themeImgs   = globalConfig.themeImages?.[activeColorTheme] || {};
   const defaultImgs = globalConfig.themeImages?.['default'] || {};
   const heroBgImage       = themeImgs.desktop || defaultImgs.desktop || globalConfig.heroBgImage;
@@ -1379,7 +1379,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
   useEffect(() => { setHeroContentImage((profile as any).heroContentImage ?? CASTLE_DEFAULTS.heroContentImage); }, [(profile as any).heroContentImage]);
   useEffect(() => { setHeroContentImageMobile((profile as any).heroContentImageMobile ?? CASTLE_DEFAULTS.heroContentImageMobile); }, [(profile as any).heroContentImageMobile]);
 
-  // Alias-uri clare pentru câmpurile de profil (din `p`, nu din `profile`)
+  // Alias-uri clare pentru campurile de profil (din `p`, nu din `profile`)
   const castleSubtitle   = p.castleIntroSubtitle;
   const castleWelcome    = p.castleIntroWelcome;
   const castleInviteTop  = p.castleInviteTop;
@@ -1414,7 +1414,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
   }, [onProfileUpdate]);
 
   const resetToDefaults = useCallback(() => {
-    if (!window.confirm('Resetezi templateul la valorile implicite? Toate modificările vor fi pierdute.')) return;
+    if (!window.confirm('Resetezi templateul la valorile implicite? Toate modificarile vor fi pierdute.')) return;
     onProfileUpdate?.({
       ...CASTLE_DEFAULTS,
       weddingDate: pr.weddingDate ?? CASTLE_DEFAULTS.weddingDate,
@@ -1509,19 +1509,19 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
 
   const BLOCK_TYPES = [
     { type: 'photo',     label: '📷 Foto',      def: { imageData: undefined, aspectRatio: '1:1', photoClip: 'rect', photoMasks: [] } },
-    { type: 'text',      label: 'Text',          def: { content: 'O poveste magică începe...' } },
-    { type: 'location',  label: 'Locație',       def: { locationName: 'Castelul Magic', locationAddress: 'Strada Basmului nr. 1' } },
+    { type: 'text',      label: 'Text',          def: { content: 'O poveste magica incepe...' } },
+    { type: 'location',  label: 'Locatie',       def: { locationName: 'Castelul Magic', locationAddress: 'Strada Basmului nr. 1' } },
     { type: 'calendar',  label: '📅 Calendar',  def: {} },
     { type: 'countdown', label: '⏱ Countdown', def: {} },
     { type: 'timeline',  label: '🕒 Cronologie', def: {} },
-    { type: 'music',     label: '🎵 Muzică',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
+    { type: 'music',     label: '🎵 Muzica',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
     { type: 'gift',      label: '🎁 Cadouri',   def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
     { type: 'whatsapp',  label: 'WhatsApp',      def: { label: 'Contact WhatsApp', content: '0700000000' } },
-    { type: 'rsvp',      label: 'RSVP',          def: { label: 'Confirmă Prezența' } },
+    { type: 'rsvp',      label: 'RSVP',          def: { label: 'Confirma Prezenta' } },
     { type: 'divider',     label: 'Linie',         def: {} },
-    { type: 'family',      label: '👨‍👩‍👧 Familie',  def: { label: 'Părinții copilului', content: 'Cu drag și recunoștință', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) } },
-    { type: 'date',        label: '📆 Dată',       def: {} },
-    { type: 'description', label: 'Descriere',      def: { content: 'O scurtă descriere...' } },
+    { type: 'family',      label: '👨‍👩‍👧 Familie',  def: { label: 'Parintii copilului', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) } },
+    { type: 'date',        label: '📆 Data',       def: {} },
+    { type: 'description', label: 'Descriere',      def: { content: 'O scurta descriere...' } },
   ];
 
   return (
@@ -1530,7 +1530,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
 
       {showAudioModal && !editMode && (
         <AudioPermissionModal
-          childName={p.partner1Name || "Prințesa"}
+          childName={p.partner1Name || "Printesa"}
           onAllow={() => {
             audioAllowedRef.current = true;
             setAudioAllowed(true);
@@ -1717,7 +1717,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                         textAlign: "center",
                       }}
                     >
-                      📸 Imagine Hero Conținut
+                      📸 Imagine Hero Continut
                     </p>
                     <div
                       style={{
@@ -1767,10 +1767,10 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
           {/* {editMode && (
             <div className="mb-12 p-6 bg-white rounded-2xl border border-pink-100 shadow-sm">
               <h3 className="text-xs font-bold text-pink-600 uppercase tracking-widest mb-4 flex items-center gap-2">
-                <ImageIcon className="w-4 h-4" /> Imagini Intro (Uși)
+                <ImageIcon className="w-4 h-4" /> Imagini Intro (Usi)
               </h3>
               <div className="mb-6">
-                <p className="text-[10px] text-muted uppercase font-bold mb-2">Previzualizare Uși — click pe text pentru editare:</p>
+                <p className="text-[10px] text-muted uppercase font-bold mb-2">Previzualizare Usi — click pe text pentru editare:</p>
                 <div className="border border-pink-100 rounded-xl shadow-inner bg-pink-50/20" style={{ position: 'relative' }}>
                   <CastleIntro
                     editMode castleUrl={heroBgImage} castleUrlMobile={heroBgImageMobile} onDone={() => {}}
@@ -1889,7 +1889,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                 }}
               />
 
-              {/* Data — display custom cu zi / lună / an separate */}
+              {/* Data — display custom cu zi / luna / an separate */}
               {p.weddingDate &&
                 (() => {
                   const d = new Date(p.weddingDate);
@@ -2046,7 +2046,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                       editMode={editMode}
                       value={p.welcomeText}
                       textKey="hero:welcome"
-                      textLabel="Text întâmpinare"
+                      textLabel="Text intampinare"
                       onChange={(v) => upProfile("welcomeText", v)}
                       style={{
                         fontFamily: HeroText,
@@ -2155,7 +2155,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
           </div>
 
           <div className="space-y-0">
-            {/* Buton insert ÎNAINTE de primul bloc */}
+            {/* Buton insert INAINTE de primul bloc */}
             {editMode && (
               <InsertBlockButton
                 insertIdx={-1}
@@ -2240,7 +2240,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                         <div
                           className="absolute inset-0 z-10 flex items-center justify-center p-4"
                           aria-hidden="false"
-                          style={{ pointerEvents: "auto" }} // overlay interactiv doar în editMode
+                          style={{ pointerEvents: "auto" }} // overlay interactiv doar in editMode
                         >
                           {/* backdrop semi-transparent */}
                           <div
@@ -2426,7 +2426,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                                       onChange={(v) =>
                                         updBlock(idx, { label: v })
                                       }
-                                      placeholder="Tip locație..."
+                                      placeholder="Tip locatie..."
                                       style={{
                                         fontFamily: SANS,
                                         fontSize: "0.58rem",
@@ -2478,7 +2478,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                                     onChange={(v) =>
                                       updBlock(idx, { locationName: v })
                                     }
-                                    placeholder="Numele locației..."
+                                    placeholder="Numele locatiei..."
                                     style={{
                                       fontFamily: FamilyText,
                                       fontSize: "1.45rem",
@@ -2496,7 +2496,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                                     onChange={(v) =>
                                       updBlock(idx, { locationAddress: v })
                                     }
-                                    placeholder="Adresa completă..."
+                                    placeholder="Adresa completa..."
                                     multiline
                                     style={{
                                       fontFamily: SANS,
@@ -2539,7 +2539,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                           editMode={editMode}
                           titleText={
                             block.countdownTitle ||
-                            "Timp rămas până la Marele Eveniment"
+                            "Timp ramas pana la Marele Eveniment"
                           }
                           onTitleChange={(text) =>
                             updBlock(idx, { countdownTitle: text })
@@ -2859,7 +2859,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                                     margin: 0,
                                   }}
                                 >
-                                  Răspundem rapid
+                                  Raspundem rapid
                                 </p>
                               </div>
                             </a>
@@ -2886,7 +2886,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                                     color: MUTED,
                                   }}
                                 >
-                                  Număr:
+                                  Numar:
                                 </span>
                                 <InlineEdit
                                   tag="span"
@@ -2947,7 +2947,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                                 <InlineEdit
                                   tag="span"
                                   editMode={editMode}
-                                  value={block.label || "Confirmă Prezența"}
+                                  value={block.label || "Confirma Prezenta"}
                                   onChange={(v) => updBlock(idx, { label: v })}
                                 />
                               </span>
@@ -3069,7 +3069,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                                       <InlineEdit
                                         tag="span"
                                         editMode={editMode}
-                                        value={block.label || "Părinții copilului"}
+                                        value={block.label || "Parintii copilului"}
                                         onChange={(v) => updBlock(idx, { label: v })}
                                         style={{
                                           fontFamily: SANS,
@@ -3083,7 +3083,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                                     <InlineEdit
                                       tag="span"
                                       editMode={editMode}
-                                      value={block.content || "Cu drag și recunoștință"}
+                                      value={block.content || "Cu drag si recunostinta"}
                                       onChange={(v) => updBlock(idx, { content: v })}
                                       style={{
                                         fontFamily: SANS,
@@ -3254,7 +3254,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                                         color: PINK_DARK,
                                       }}
                                     >
-                                      + Adaugă
+                                      + Adauga
                                     </button>
                                   )}
                                 </div>
@@ -3265,7 +3265,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                       )}
                     </BlockStyleProvider>
                   </div>
-                  {/* Buton insert DUPĂ fiecare bloc */}
+                  {/* Buton insert DUPA fiecare bloc */}
                   {editMode && (
                     <InsertBlockButton
                       insertIdx={idx}
@@ -3315,7 +3315,7 @@ const CastleMagicTemplateGirl: React.FC<InvitationTemplateProps & {
                   <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
                   <path d="M3 3v5h5" />
                 </svg>
-                Resetează la valorile implicite
+                Reseteaza la valorile implicite
               </button>
             </div>
           )}

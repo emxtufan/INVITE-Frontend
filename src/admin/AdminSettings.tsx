@@ -64,12 +64,12 @@ const AdminSettings = ({ token }: { token: string }) => {
                 body: JSON.stringify(config)
             });
             if (res.ok) {
-                toast({ title: "Setări Salvate", description: "Modificările au fost aplicate global.", variant: "success" });
+                toast({ title: "Setari Salvate", description: "Modificarile au fost aplicate global.", variant: "success" });
             } else {
                 throw new Error("Save failed");
             }
         } catch (e) {
-            toast({ title: "Eroare", description: "Nu am putut salva setările.", variant: "destructive" });
+            toast({ title: "Eroare", description: "Nu am putut salva setarile.", variant: "destructive" });
         } finally {
             setIsLoading(false);
         }
@@ -180,7 +180,7 @@ const AdminSettings = ({ token }: { token: string }) => {
                                 onChange={(e) => updateLimit('free', 'maxCalculatorBudget', e.target.value)}
                             />
                             <p className="text-xs text-muted-foreground">
-                                Dacă bugetul introdus e sub această limită, calculatorul e deblocat (Demo Mode). Pune 0 pentru a bloca complet.
+                                Daca bugetul introdus e sub aceasta limita, calculatorul e deblocat (Demo Mode). Pune 0 pentru a bloca complet.
                             </p>
                         </div>
                     </CardContent>
@@ -320,7 +320,7 @@ const AdminSettings = ({ token }: { token: string }) => {
                                     RON
                                 </div>
                             </div>
-                            <p className="text-xs text-muted-foreground">Prețul actual de vânzare.</p>
+                            <p className="text-xs text-muted-foreground">Pretul actual de vanzare.</p>
                         </div>
 
                         <div className="space-y-2">
@@ -336,7 +336,7 @@ const AdminSettings = ({ token }: { token: string }) => {
                                     RON
                                 </div>
                             </div>
-                            <p className="text-xs text-muted-foreground">Prețul vechi tăiat (ex: 249 RON). Folosit pentru marketing.</p>
+                            <p className="text-xs text-muted-foreground">Pretul vechi taiat (ex: 249 RON). Folosit pentru marketing.</p>
                         </div>
                     </div>
                     

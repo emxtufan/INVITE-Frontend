@@ -111,12 +111,12 @@ export default function LivePreviewSection() {
                           direction="bottom"
                           className="wp-section-titleX"
                         /><br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">este ce primești.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">este ce primesti.</span>
             </h2>
             
             <p className="text-gray-400 text-lg leading-relaxed mb-8">
-              Fără refresh. Fără "Salvare și Previzualizare". <br/>
-              Platforma noastră îți randează invitația instantaneu pe măsură ce scrii, exact așa cum o vor vedea invitații tăi pe mobil.
+              Fara refresh. Fara "Salvare si Previzualizare". <br/>
+              Platforma noastra iti randeaza invitatia instantaneu pe masura ce scrii, exact asa cum o vor vedea invitatii tai pe mobil.
             </p>
 
             <div className="space-y-4">
@@ -126,7 +126,7 @@ export default function LivePreviewSection() {
                   </div>
                   <div>
                      <h4 className="text-white font-bold text-sm">Design Instant</h4>
-                     <p className="text-gray-500 text-xs">Modifică tema, culorile și fonturile cu un click.</p>
+                     <p className="text-gray-500 text-xs">Modifica tema, culorile si fonturile cu un click.</p>
                   </div>
                </div>
                
@@ -145,7 +145,7 @@ export default function LivePreviewSection() {
                   </div>
                   <div>
                      <h4 className="text-white font-bold text-sm">Gestionare RSVP</h4>
-                     <p className="text-gray-500 text-xs">Primești confirmările invitaților instant.</p>
+                     <p className="text-gray-500 text-xs">Primesti confirmarile invitatilor instant.</p>
                   </div>
                </div>
                <div className="flex items-center gap-4 group">
@@ -153,8 +153,8 @@ export default function LivePreviewSection() {
                      <History size={20}/>
                   </div>
                   <div>
-                     <h4 className="text-white font-bold text-sm">Editare în timp real</h4>
-                     <p className="text-gray-500 text-xs">Vezi modificările instant, fără refresh.</p>
+                     <h4 className="text-white font-bold text-sm">Editare in timp real</h4>
+                     <p className="text-gray-500 text-xs">Vezi modificarile instant, fara refresh.</p>
                   </div>
                </div>
             </div>
@@ -196,7 +196,7 @@ export default function LivePreviewSection() {
                                 </div>
                                 <div className="mt-auto w-full pt-6">
                                     <div className="w-full py-3 bg-[#1a1a1a] text-white text-[9px] font-bold uppercase tracking-widest rounded-lg shadow-lg cursor-pointer flex items-center justify-center gap-2 group hover:bg-black transition-colors">
-                                        Confirmă Prezența
+                                        Confirma Prezenta
                                     </div>
                                 </div>
                             </div>

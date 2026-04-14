@@ -145,7 +145,7 @@
     background-clip: text; /* pentru browsere moderne */
     margin-bottom: 14px;
     line-height: 1.1;
-    display: inline-block; /* important pentru background-clip să funcționeze corect */
+    display: inline-block; /* important pentru background-clip sa functioneze corect */
 }
 
 
@@ -158,7 +158,7 @@
     background-clip: text; /* pentru browsere moderne */
     margin-bottom: 14px;
     line-height: 1.1;
-    display: inline-block; /* important pentru background-clip să funcționeze corect */
+    display: inline-block; /* important pentru background-clip sa functioneze corect */
 
 }
 

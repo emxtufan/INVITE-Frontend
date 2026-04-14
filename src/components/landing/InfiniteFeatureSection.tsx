@@ -14,10 +14,10 @@ const ALL_FEATURES = [
   { icon: ShieldCheck, label: "Admin Panel", color: "text-gray-300", bg: "bg-gray-400/10" },
   { icon: Camera, label: "Galerie Foto", color: "text-purple-400", bg: "bg-purple-400/10" },
   { icon: Clock, label: "Countdown", color: "text-yellow-400", bg: "bg-yellow-400/10" },
-  { icon: Bell, label: "Notificări", color: "text-red-400", bg: "bg-red-400/10" },
+  { icon: Bell, label: "Notificari", color: "text-red-400", bg: "bg-red-400/10" },
   { icon: Users, label: "Guest List", color: "text-indigo-400", bg: "bg-indigo-400/10" },
   { icon: Zap, label: "Automations", color: "text-amber-300", bg: "bg-amber-400/10" },
-  { icon: Grid, label: "Așezare Mese", color: "text-cyan-400", bg: "bg-cyan-400/10" },
+  { icon: Grid, label: "Asezare Mese", color: "text-cyan-400", bg: "bg-cyan-400/10" },
   { icon: Sun, label: "Meteo", color: "text-sky-400", bg: "bg-sky-400/10" },
   { icon: Bus, label: "Transport", color: "text-lime-400", bg: "bg-lime-400/10" },
   { icon: Bed, label: "Cazare", color: "text-rose-400", bg: "bg-rose-400/10" },
@@ -25,7 +25,7 @@ const ALL_FEATURES = [
   { icon: QrCode, label: "Access QR", color: "text-white", bg: "bg-white/10" },
   { icon: Phone, label: "Contact", color: "text-green-400", bg: "bg-green-400/10" },
   { icon: Music, label: "Playlist", color: "text-fuchsia-400", bg: "bg-fuchsia-400/10" },
-  { icon: Search, label: "Căutare", color: "text-violet-400", bg: "bg-violet-400/10" },
+  { icon: Search, label: "Cautare", color: "text-violet-400", bg: "bg-violet-400/10" },
   { icon: Star, label: "Highlights", color: "text-yellow-500", bg: "bg-yellow-500/10" },
 ];
 
@@ -94,10 +94,10 @@ export default function InfiniteFeatureSection() {
         <div className="text-center max-w-2xl mx-auto mb-2 px-4 relative z-20">
           <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight wp-section-title">
             Tot ce ai nevoie.<br/>
-            <span className="text-gray-500">Într-un singur loc.</span>
+            <span className="text-gray-500">Intr-un singur loc.</span>
           </h2>
           <p className="text-gray-400 text-lg">
-            Platforma integrează toate instrumentele necesare pentru o organizare fără cusur.
+            Platforma integreaza toate instrumentele necesare pentru o organizare fara cusur.
           </p>
         </div>
 
@@ -156,7 +156,7 @@ export default function InfiniteFeatureSection() {
                             
                             {/* Countdown */}
                             <div className="text-center py-2">
-                                <div className="text-[9px] text-gray-500 font-bold uppercase tracking-widest mb-3">Timp Rămas Până La Eveniment</div>
+                                <div className="text-[9px] text-gray-500 font-bold uppercase tracking-widest mb-3">Timp Ramas Pana La Eveniment</div>
                                 <div className="flex justify-center gap-2">
                                     {[{val: '166', label: 'Zile'}, {val: '00', label: 'Ore'}, {val: '10', label: 'Min'}, {val: '46', label: 'Sec'}].map((t, i) => (
                                         <div key={i} className="bg-[#18181b] border border-white/10 rounded-lg p-2 w-14 flex flex-col items-center shadow-lg">
@@ -198,13 +198,13 @@ export default function InfiniteFeatureSection() {
                                     <div className="p-1 rounded bg-yellow-500/10 text-yellow-500">
                                         <Star size={10} fill="currentColor" />
                                     </div>
-                                    <span className="text-[10px] text-gray-300 font-bold uppercase tracking-wider">Top Priorități</span>
+                                    <span className="text-[10px] text-gray-300 font-bold uppercase tracking-wider">Top Prioritati</span>
                                 </div>
                                 <div className="space-y-2">
                                     {[
                                         {task: "Stabilirea datei", date: "Feb 10"},
-                                        {task: "Alegerea locației", date: "Feb 18"},
-                                        {task: "Bugetul inițial", date: "Feb 20"},
+                                        {task: "Alegerea locatiei", date: "Feb 18"},
+                                        {task: "Bugetul initial", date: "Feb 20"},
                                     ].map((item, i) => (
                                         <div key={i} className="flex items-center justify-between bg-[#09090b] p-2.5 rounded-lg border border-white/5 hover:bg-white/5 transition-colors">
                                             <div className="flex items-center gap-2.5">
@@ -222,7 +222,7 @@ export default function InfiniteFeatureSection() {
                                 <div className="bg-[#111113] border border-white/10 rounded-xl p-3 relative overflow-hidden shadow-lg">
                                     <div className="absolute bottom-0 left-0 w-full h-1 bg-indigo-500"></div>
                                     <div className="flex justify-between items-start mb-2">
-                                         <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Invitați</div>
+                                         <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Invitati</div>
                                          <Users size={12} className="text-indigo-500" />
                                     </div>
                                     <div className="text-xl font-bold text-white">124</div>

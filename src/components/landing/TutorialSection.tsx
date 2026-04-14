@@ -7,26 +7,26 @@ const TUTORIAL_STEPS = [
     id: 'design',
     label: 'Design & Configurare',
     icon: Layers,
-    title: 'Creează invitația perfectă.',
-    description: 'Nu ai nevoie de experiență în design. Alege o temă, modifică fonturile și culorile, și vezi rezultatul în timp real. Totul este drag-and-drop.',
+    title: 'Creeaza invitatia perfecta.',
+    description: 'Nu ai nevoie de experienta in design. Alege o tema, modifica fonturile si culorile, si vezi rezultatul in timp real. Totul este drag-and-drop.',
     videoId: 'dQw4w9WgXcQ', // Placeholder ID
-    thumbnailText: 'Cum creezi o invitație în 2 minute'
+    thumbnailText: 'Cum creezi o invitatie in 2 minute'
   },
   {
     id: 'guests',
     label: 'Guest Management',
     icon: Users,
-    title: 'Uită de Excel-uri.',
-    description: 'Centralizează lista de invitați. Trimite link-uri unice, vezi cine a deschis invitația și primește notificări instant la fiecare RSVP.',
+    title: 'Uita de Excel-uri.',
+    description: 'Centralizeaza lista de invitati. Trimite link-uri unice, vezi cine a deschis invitatia si primeste notificari instant la fiecare RSVP.',
     videoId: 'M7lc1UVf-VE', // Placeholder ID
-    thumbnailText: 'Gestionarea listei de invitați'
+    thumbnailText: 'Gestionarea listei de invitati'
   },
   {
     id: 'advanced',
-    label: 'Funcții Avansate',
+    label: 'Functii Avansate',
     icon: Zap,
-    title: 'Automatizare completă.',
-    description: 'De la remindere automate pe WhatsApp până la hărți interactive și sugestii de cazare pentru invitații din alt oraș.',
+    title: 'Automatizare completa.',
+    description: 'De la remindere automate pe WhatsApp pana la harti interactive si sugestii de cazare pentru invitatii din alt oras.',
     videoId: 'LXb3EKWsInQ', // Placeholder ID
     thumbnailText: 'Tips & Tricks pentru nunta ta'
   }
@@ -54,7 +54,7 @@ export default function TutorialSection() {
         <div className="text-center mb-16">
              <span className="text-[var(--primary)] text-xs font-bold uppercase tracking-widest mb-2 block">Tutorial</span>
              <h2 className="wp-section-title2 text-[64px] md:text-[80px] font-black text-white leading-tight">
-              <BlurText text="Învață în"
+              <BlurText text="Invata in"
                           delay={20}
                           animateBy="letters"
                           direction="bottom"
@@ -67,7 +67,7 @@ export default function TutorialSection() {
                     "linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%)",
                 }}
               >
-                câteva minute.
+                cateva minute.
               </span>
             </h2>
         </div>

@@ -110,7 +110,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onAddTask, onEditTas
     return eachDayOfInterval({ start: startDate, end: endDate });
   }, [currentDate]);
 
-  const weekDays = ['Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sâm', 'Dum'];
+  const weekDays = ['Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sam', 'Dum'];
 
   const getCategoryColor = (tag: string) => {
       switch (tag) {
@@ -230,7 +230,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onAddTask, onEditTas
                                     ))}
                                     {dayTasks.length > 3 && (
                                         <span className="text-[10px] text-muted-foreground pl-1">
-                                            + încă {dayTasks.length - 3}
+                                            + inca {dayTasks.length - 3}
                                         </span>
                                     )}
                                 </div>
@@ -295,9 +295,9 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onAddTask, onEditTas
                             <div className="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center">
                                 <Clock className="w-8 h-8" />
                             </div>
-                            <p className="text-sm text-center px-6">Niciun eveniment planificat pentru această zi.</p>
+                            <p className="text-sm text-center px-6">Niciun eveniment planificat pentru aceasta zi.</p>
                             <Button variant="link" onClick={() => onAddTask(formatISODate(selectedDate))}>
-                                Adaugă unul acum
+                                Adauga unul acum
                             </Button>
                         </div>
                     )}

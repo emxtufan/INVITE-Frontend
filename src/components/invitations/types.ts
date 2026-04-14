@@ -36,7 +36,7 @@ export interface TemplateMeta {
   name: string;
   description: string;
   category: 'all' | 'wedding' | 'baptism' | 'anniversary' | 'kids';
-  tags?: TemplateTag[];   // â† NOU: poate fi pe mai multe categorii
+  tags?: TemplateTag[];   // a† NOU: poate fi pe mai multe categorii
   visibilityStatus?: TemplateVisibilityStatus;
   colors: string[];
   previewClass: string;

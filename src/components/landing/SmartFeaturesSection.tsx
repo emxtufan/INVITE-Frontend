@@ -15,11 +15,11 @@ export default function SmartFeaturesSection() {
                 <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-40 h-40 bg-[var(--primary)]/20 blur-[100px] rounded-full pointer-events-none"></div>
                 
                 <h2 className="wp-section-title2 text-4xl md:text-5xl font-black text-white mb-6 leading-tight relative z-10 ">
-                    Invitații tăi au <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%)' }}>întrebări</span>?
-                    <br />Platforma ESA are răspunsurile.
+                    Invitatii tai au <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%)' }}>intrebari</span>?
+                    <br />Platforma ESA are raspunsurile.
                 </h2>
                 <p className="text-gray-400 text-lg md:text-xl font-light relative z-10">
-                    Nu mai pierde timp răspunzând la mesaje. Invitația ta digitală funcționează ca un asistent personal.
+                    Nu mai pierde timp raspunzand la mesaje. Invitatia ta digitala functioneaza ca un asistent personal.
                 </p>
             </div>
 
@@ -63,7 +63,7 @@ export default function SmartFeaturesSection() {
                         <div className="w-6 h-6 rounded-full bg-gray-700 flex items-center justify-center text-gray-300">
                              <HelpCircle size={14} />
                         </div>
-                        <span className="text-gray-300 text-sm md:text-base font-medium italic">"Unde este, la ce oră și cum confirm?"</span>
+                        <span className="text-gray-300 text-sm md:text-base font-medium italic">"Unde este, la ce ora si cum confirm?"</span>
                      </div>
                 </div>
 
@@ -73,7 +73,7 @@ export default function SmartFeaturesSection() {
                 <div className="absolute top-[12%] left-[5%] md:left-[15%] z-30 group">
                     <div className="flex flex-col items-start gap-2 transform transition-transform duration-500 hover:scale-105">
                         <div className="px-3 py-1 bg-white/10 border border-white/10 rounded-full text-[10px] text-gray-300 font-mono mb-1 backdrop-blur-md shadow-lg">
-                            1. Locație
+                            1. Locatie
                         </div>
                         <div className="flex items-center gap-3 px-5 py-3 bg-[#111113] border border-[var(--primary)]/40 group-hover:border-[var(--primary)] rounded-full shadow-[0_10px_40px_-10px_rgba(232,121,249,0.2)] transition-colors">
                             <div className="w-10 h-10 rounded-full bg-[var(--primary)]/10 flex items-center justify-center text-[var(--primary)]">
@@ -123,7 +123,7 @@ export default function SmartFeaturesSection() {
                                 <CheckCircle size={24} />
                             </div>
                             <div className="flex flex-col">
-                                <span className="text-white font-bold text-lg leading-none">Confirmă Prezența</span>
+                                <span className="text-white font-bold text-lg leading-none">Confirma Prezenta</span>
                                 <span className="text-emerald-500/70 text-xs uppercase font-bold tracking-widest mt-1.5">RSVP Instant</span>
                             </div>
                             

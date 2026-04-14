@@ -34,7 +34,7 @@ const CLIPS: { id: ClipShape; label: string; path: string }[] = [
   { id:'diamond',    label:'Romb',      path:'M16 5 L27 16 L16 27 L5 16 Z' },
   { id:'triangle',   label:'Triunghi',  path:'M16 5 L28 27 L4 27 Z' },
   { id:'star',       label:'Stea',      path:'M16 5 L18 12 L25 12 L20 17 L22 24 L16 20 L10 24 L12 17 L7 12 L14 12 Z' },
-  { id:'heart',      label:'Inimă',     path:'M16 26 C16 26 4 18 4 11 C4 7 7 5 10 6 C13 7 16 10 16 10 C16 10 19 7 22 6 C25 5 28 7 28 11 C28 18 16 26 16 26 Z' },
+  { id:'heart',      label:'Inima',     path:'M16 26 C16 26 4 18 4 11 C4 7 7 5 10 6 C13 7 16 10 16 10 C16 10 19 7 22 6 C25 5 28 7 28 11 C28 18 16 26 16 26 Z' },
   { id:'diagonal',   label:'Diag ↗',   path:'M4 6 h24 v18 L4 26 Z' },
   { id:'diagonal-r', label:'Diag ↘',   path:'M4 6 h24 v20 L4 24 Z' },
   { id:'wave-b',     label:'Val jos',   path:'M4 6 h24 v14 Q22 18 16 22 Q10 26 4 22 Z' },
@@ -50,7 +50,7 @@ const MASKS: { id: MaskEffect; label: string; icon: string }[] = [
   { id:'fade-t', label:'Fade sus',     icon:'↑' },
   { id:'fade-l', label:'Fade stg.',    icon:'←' },
   { id:'fade-r', label:'Fade dr.',     icon:'→' },
-  { id:'vignette',label:'Vignetă',    icon:'◎' },
+  { id:'vignette',label:'Vigneta',    icon:'◎' },
 ];
 
 // ─── Theme context ─────────────────────────────────────────────────────────────
@@ -202,10 +202,10 @@ function ColorPick({ value, onChange, label, dark }: { value:string; onChange:(v
 }
 
 const BLOCK_LABELS: Record<string,string> = {
-  photo:'📷 Fotografie', quote:'💬 Citat', location:'📍 Locație',
-  music:'🎵 Muzică', countdown:'⏱ Countdown', calendar:'📅 Calendar',
-  parents:'👨‍👩‍👧 Părinți', godparents:'💍 Nași', dresscode:'👔 Vestimentar',
-  gift:'🎁 Cadou', nokids:'🚫 Fără copii', thankyou:'🙏 Mulțumire',
+  photo:'📷 Fotografie', quote:'💬 Citat', location:'📍 Locatie',
+  music:'🎵 Muzica', countdown:'⏱ Countdown', calendar:'📅 Calendar',
+  parents:'👨‍👩‍👧 Parinti', godparents:'💍 Nasi', dresscode:'👔 Vestimentar',
+  gift:'🎁 Cadou', nokids:'🚫 Fara copii', thankyou:'🙏 Multumire',
   divider:'─ Separator', text:'¶ Text', title:'T Titlu', __hero__:'🪧 Hero', intro:'🎬 Intro',
 };
 
@@ -236,12 +236,12 @@ const BlockPropertiesPanel: React.FC<BlockPropertiesPanelProps> = ({ block, onUp
         style={{ borderColor: dark ? 'rgba(255,255,255,0.08)' : '#f1f1f1' }}
       >
       <div className={`shrink-0 px-4 py-3 border-b ${headerBg}`}>
-          <p className={`text-[9px] uppercase tracking-widest font-bold ${mutedTxt}`}>Proprietăți</p>
+          <p className={`text-[9px] uppercase tracking-widest font-bold ${mutedTxt}`}>Proprietati</p>
           <p className={`text-xs font-bold mt-0.5 ${dark ? 'text-white' : 'text-zinc-800'}`}>Text</p>
         </div>
         <div className="px-4 py-3">
           <div className={`text-[10px] rounded-lg border px-3 py-2 ${dark ? 'border-white/10 text-white/50 bg-white/5' : 'border-zinc-200 text-zinc-500 bg-zinc-50'}`}>
-            Selectează un text din invitație pentru a-i edita stilul.
+            Selecteaza un text din invitatie pentru a-i edita stilul.
           </div>
         </div>
       </div>
@@ -322,7 +322,7 @@ const BlockPropertiesPanel: React.FC<BlockPropertiesPanelProps> = ({ block, onUp
       <div className={`shrink-0 px-4 py-3 border-b ${headerBg}`}>
         <div className="flex items-center justify-between gap-2">
           <div className="min-w-0">
-            <p className={`text-[9px] uppercase tracking-widest font-bold ${mutedTxt}`}>Proprietăți</p>
+            <p className={`text-[9px] uppercase tracking-widest font-bold ${mutedTxt}`}>Proprietati</p>
             <p className={`text-xs font-bold mt-0.5 truncate ${dark ? 'text-white' : 'text-zinc-800'}`}>
               {BLOCK_LABELS[block.type as string] || block.type}
             </p>
@@ -364,7 +364,7 @@ const BlockPropertiesPanel: React.FC<BlockPropertiesPanelProps> = ({ block, onUp
         {!isPhoto && !hasTextSelection && (
           <div className="px-4 py-3">
             <div className={`text-[10px] rounded-lg border px-3 py-2 ${dark ? 'border-white/10 text-white/50 bg-white/5' : 'border-zinc-200 text-zinc-500 bg-zinc-50'}`}>
-              Selectează un text din invitație pentru a-i edita stilul.
+              Selecteaza un text din invitatie pentru a-i edita stilul.
             </div>
           </div>
         )}
@@ -372,7 +372,7 @@ const BlockPropertiesPanel: React.FC<BlockPropertiesPanelProps> = ({ block, onUp
         {/* ── PHOTO ONLY ── */}
         {isPhoto && (
           <>
-            <Sec title="Formă" icon={Square} dark={dark}>
+            <Sec title="Forma" icon={Square} dark={dark}>
               <div className="grid grid-cols-4 gap-1">
                 {CLIPS.map(s => (
                   <button key={s.id} type="button" onClick={() => onUpdate({ photoClip: s.id })}
@@ -417,7 +417,7 @@ const BlockPropertiesPanel: React.FC<BlockPropertiesPanelProps> = ({ block, onUp
                 })}
               </div>
             </Sec>
-            <Sec title="Proporție" icon={Image} dark={dark} open={false}>
+            <Sec title="Proportie" icon={Image} dark={dark} open={false}>
               <div className="flex gap-1.5 flex-wrap">
                 {(['3:4','4:3','1:1','16:9','free'] as const).map(r => (
                   <button key={r} type="button" onClick={() => onUpdate({ aspectRatio: r })}
@@ -455,7 +455,7 @@ const BlockPropertiesPanel: React.FC<BlockPropertiesPanelProps> = ({ block, onUp
                   </select>
                 </Row>
 
-                <Row label="Mărime" dark={dark}>
+                <Row label="Marime" dark={dark}>
                   <Stepper
                     value={fs}
                     onChange={(v) => updateTextStyle({ fontSize: v <= 0 ? undefined : v })}
@@ -493,7 +493,7 @@ const BlockPropertiesPanel: React.FC<BlockPropertiesPanelProps> = ({ block, onUp
                   </button>
                 </Row>
 
-                <Row label="Spațiu" dark={dark}>
+                <Row label="Spatiu" dark={dark}>
                   <Stepper
                     value={ls}
                     onChange={(v) => updateTextStyle({ letterSpacing: v <= 0 ? undefined : v })}
@@ -530,7 +530,7 @@ const BlockPropertiesPanel: React.FC<BlockPropertiesPanelProps> = ({ block, onUp
                             : (dark ? 'border-white/10 text-white/50 hover:border-white/20' : 'border-zinc-200 text-zinc-500 hover:border-zinc-300')
                         }`}
                       >
-                        {al === 'left' ? 'Stânga' : al === 'center' ? 'Centru' : 'Dreapta'}
+                        {al === 'left' ? 'Stanga' : al === 'center' ? 'Centru' : 'Dreapta'}
                       </button>
                     ))}
                   </div>
@@ -550,13 +550,13 @@ const BlockPropertiesPanel: React.FC<BlockPropertiesPanelProps> = ({ block, onUp
         )}
 
         {/* ── SPACING — all types ── */}
-        <Sec title="Spațiere" icon={Layout} dark={dark} open={false}>
+        <Sec title="Spatiere" icon={Layout} dark={dark} open={false}>
           <div className="space-y-1.5">
             <p className={`text-[9px] uppercase tracking-widest font-bold mb-1 ${mutedTxt}`}>Padding intern</p>
             <Row label="Sus"     dark={dark}><Stepper value={pt} onChange={v=>onUpdate({blockPaddingTop:v})}    dark={dark}/></Row>
             <Row label="Jos"     dark={dark}><Stepper value={pb} onChange={v=>onUpdate({blockPaddingBottom:v})} dark={dark}/></Row>
             <Row label="Lateral" dark={dark}><Stepper value={ph} onChange={v=>onUpdate({blockPaddingH:v})}      dark={dark}/></Row>
-            <p className={`text-[9px] uppercase tracking-widest font-bold mb-1 mt-2 ${mutedTxt}`}>Margine externă</p>
+            <p className={`text-[9px] uppercase tracking-widest font-bold mb-1 mt-2 ${mutedTxt}`}>Margine externa</p>
             <Row label="Sus" dark={dark}><Stepper value={mt} onChange={v=>onUpdate({blockMarginTop:v})}    dark={dark}/></Row>
             <Row label="Jos" dark={dark}><Stepper value={mb} onChange={v=>onUpdate({blockMarginBottom:v})} dark={dark}/></Row>
           </div>
@@ -597,7 +597,7 @@ const BlockPropertiesPanel: React.FC<BlockPropertiesPanelProps> = ({ block, onUp
             className={`w-full py-2 rounded-xl border text-[10px] font-bold ${
               dark ? 'border-white/10 text-white/30 hover:border-white/20 hover:text-white/50' : 'border-zinc-200 text-zinc-400 hover:border-zinc-300 hover:text-zinc-600'
             }`}>
-            {hasTextSelection ? 'Resetează stilul textului' : 'Resetează stilizarea'}
+            {hasTextSelection ? 'Reseteaza stilul textului' : 'Reseteaza stilizarea'}
           </button>
         </div>
       </div>

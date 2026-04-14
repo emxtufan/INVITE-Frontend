@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, memo } from 'react';
-import { InlineEdit } from './InlineEdit'; // Ajustează path-ul dacă e diferit
+import { InlineEdit } from './InlineEdit'; // Ajusteaza path-ul daca e diferit
 
 // --- STYLES FOR FLIP ANIMATION (Injected locally to avoid global css pollution) ---
 const flipStyles = `
@@ -179,8 +179,8 @@ interface FlipClockProps {
   targetDate: string;
   bgColor?: string;           // Background din template (PINK_DARK)
   textColor?: string;          // Text alb/light
-  accentColor?: string;        // PINK_L - culoarea deschisă
-  labelColor?: string;         // Opțional - culoarea labelurilor
+  accentColor?: string;        // PINK_L - culoarea deschisa
+  labelColor?: string;         // Optional - culoarea labelurilor
   titleText?: string;          // Text titlu editabil
   titleTextKey?: string;
   titleTextLabel?: string;
@@ -194,7 +194,7 @@ const FlipClock: React.FC<FlipClockProps> = ({
   textColor = '#ffffff',
   accentColor = '#fbcfe8',
   labelColor = 'rgba(255, 255, 255, 0.7)',
-  titleText = 'Timp rămas până la Marele Eveniment',
+  titleText = 'Timp ramas pana la Marele Eveniment',
   titleTextKey,
   titleTextLabel,
   onTitleChange,
@@ -225,7 +225,7 @@ const FlipClock: React.FC<FlipClockProps> = ({
     return () => clearInterval(interval);
   }, [targetDate]);
 
-  // Culori mai deschise pentru top, mai închise pentru bottom
+  // Culori mai deschise pentru top, mai inchise pentru bottom
   const topBg = accentColor;      // Light pink
   const bottomBg = bgColor;        // Dark pink
 

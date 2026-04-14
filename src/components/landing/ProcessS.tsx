@@ -10,7 +10,7 @@ const STEPS = [
     id: 1,
     label: 'STEP 01',
     title: 'Create Account',
-    description: 'Începe gratuit. Creează un cont în câteva secunde. Nu cerem card bancar la înregistrare, doar dorința de a crea ceva frumos.',
+    description: 'Incepe gratuit. Creeaza un cont in cateva secunde. Nu cerem card bancar la inregistrare, doar dorinta de a crea ceva frumos.',
     icon: UserPlus,
     color: 'from-blue-500/20 to-blue-900/5',
     borderColor: 'border-blue-500/30',
@@ -49,7 +49,7 @@ const STEPS = [
     id: 2,
     label: 'STEP 02',
     title: 'Design & Preview',
-    description: 'Alege tema preferată, modifică textul și previzualizează rezultatul în timp real pe mobil. Totul este drag-and-drop.',
+    description: 'Alege tema preferata, modifica textul si previzualizeaza rezultatul in timp real pe mobil. Totul este drag-and-drop.',
     icon: Palette,
     color: 'from-purple-500/20 to-purple-900/5',
     borderColor: 'border-purple-500/30',
@@ -92,7 +92,7 @@ const STEPS = [
     id: 3,
     label: 'STEP 03',
     title: 'Go Live',
-    description: 'Activează evenimentul cu pachetul Premium. Primești link-ul unic, tracking RSVP și suport prioritar.',
+    description: 'Activeaza evenimentul cu pachetul Premium. Primesti link-ul unic, tracking RSVP si suport prioritar.',
     icon: Rocket,
     color: 'from-emerald-500/20 to-emerald-900/5',
     borderColor: 'border-emerald-500/30',
@@ -175,7 +175,7 @@ export default function ProcessSection() {
             </h2>
             
             <p className="text-gray-400 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto px-4">
-               De la prima idee până la confirmarea ultimului invitat, procesul este fluid și intuitiv.
+               De la prima idee pana la confirmarea ultimului invitat, procesul este fluid si intuitiv.
             </p>
         </div>
 

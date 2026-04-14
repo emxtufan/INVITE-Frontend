@@ -24,16 +24,16 @@ export interface ServiceRequest {
 
 const STATUS_CONFIG = {
   pending:           { label: 'Pending - trimis la furnizor', color: '#f59e0b', bg: 'rgba(245,158,11,0.12)', icon: Clock },
-  sent_to_provider:  { label: 'Trimis către furnizor',        color: '#3b82f6', bg: 'rgba(59,130,246,0.12)',  icon: Send },
+  sent_to_provider:  { label: 'Trimis catre furnizor',        color: '#3b82f6', bg: 'rgba(59,130,246,0.12)',  icon: Send },
   finalized:         { label: 'Finalizat',                     color: '#10b981', bg: 'rgba(16,185,129,0.12)', icon: CheckCircle2 },
 };
 
 const CONTACT_TIMES = [
-  'Dimineața (8:00 - 12:00)',
-  'Prânz (12:00 - 15:00)',
-  'După-amiaza (15:00 - 18:00)',
+  'Dimineata (8:00 - 12:00)',
+  'Pranz (12:00 - 15:00)',
+  'Dupa-amiaza (15:00 - 18:00)',
   'Seara (18:00 - 21:00)',
-  'Oricând',
+  'Oricand',
 ];
 
 // ─── Contact Modal (shown on service card) ───────────────────────────────────
@@ -48,7 +48,7 @@ export const ContactModal: React.FC<{
     email: session?.profile?.email || '',
     phone: session?.profile?.phone || '',
     address: '',
-    contactTime: 'Oricând',
+    contactTime: 'Oricand',
     budget: '',
     gdprAccepted: false,
     callApproved: false,
@@ -76,7 +76,7 @@ export const ContactModal: React.FC<{
       if (!res.ok) throw new Error('Eroare server');
       setSent(true);
     } catch {
-      setError('A apărut o eroare. Încearcă din nou.');
+      setError('A aparut o eroare. Incearca din nou.');
     } finally {
       setSending(false);
     }
@@ -105,26 +105,26 @@ export const ContactModal: React.FC<{
             <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(16,185,129,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
               <CheckCircle2 size={36} color="#10b981" />
             </div>
-            <h3 style={{ margin: '0 0 8px', fontSize: 20, fontWeight: 800, color: '#111827' }}>Cerere trimisă!</h3>
+            <h3 style={{ margin: '0 0 8px', fontSize: 20, fontWeight: 800, color: '#111827' }}>Cerere trimisa!</h3>
             <p style={{ margin: 0, fontSize: 13, color: '#6b7280', lineHeight: 1.7 }}>
-              Cererea ta pentru <strong>{service.name}</strong> a fost înregistrată.<br />
-              Vei fi contactat în curând.
+              Cererea ta pentru <strong>{service.name}</strong> a fost inregistrata.<br />
+              Vei fi contactat in curand.
             </p>
             <button onClick={onClose} style={{ marginTop: 24, padding: '12px 32px', background: 'linear-gradient(135deg,#d97706,#b45309)', color: '#fff', border: 'none', borderRadius: 50, fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-              Închide
+              Inchide
             </button>
           </div>
         ) : (
           <>
             <div style={{ marginBottom: 20 }}>
-              <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, color: '#d97706', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Contactează furnizor</p>
+              <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, color: '#d97706', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Contacteaza furnizor</p>
               <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: '#111827' }}>{service.name}</h2>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
-                  <label style={lbl}>Nume și prenume *</label>
+                  <label style={lbl}>Nume si prenume *</label>
                   <input value={form.name} onChange={e => set('name', e.target.value)} placeholder="Ex: Maria Popescu" style={inp} />
                 </div>
                 <div>
@@ -134,13 +134,13 @@ export const ContactModal: React.FC<{
               </div>
 
               <div>
-                <label style={lbl}>Adresă email *</label>
+                <label style={lbl}>Adresa email *</label>
                 <input type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="email@exemplu.ro" style={inp} />
               </div>
 
               <div>
-                <label style={lbl}>Adresă / Localitate</label>
-                <input value={form.address} onChange={e => set('address', e.target.value)} placeholder="Ex: București, Sector 3" style={inp} />
+                <label style={lbl}>Adresa / Localitate</label>
+                <input value={form.address} onChange={e => set('address', e.target.value)} placeholder="Ex: Bucuresti, Sector 3" style={inp} />
               </div>
 
               <div>
@@ -164,14 +164,14 @@ export const ContactModal: React.FC<{
                   <input type="checkbox" checked={form.gdprAccepted} onChange={e => set('gdprAccepted', e.target.checked)}
                     style={{ marginTop: 2, flexShrink: 0, accentColor: '#d97706' }} />
                   <span style={{ fontSize: 12, color: '#374151', lineHeight: 1.6 }}>
-                    * Sunt de acord cu <strong>prelucrarea datelor personale</strong> în conformitate cu GDPR, în scopul transmiterii cererii către furnizor.
+                    * Sunt de acord cu <strong>prelucrarea datelor personale</strong> in conformitate cu GDPR, in scopul transmiterii cererii catre furnizor.
                   </span>
                 </label>
                 <label style={{ display: 'flex', gap: 10, cursor: 'pointer', alignItems: 'flex-start' }}>
                   <input type="checkbox" checked={form.callApproved} onChange={e => set('callApproved', e.target.checked)}
                     style={{ marginTop: 2, flexShrink: 0, accentColor: '#d97706' }} />
                   <span style={{ fontSize: 12, color: '#374151', lineHeight: 1.6 }}>
-                    Sunt de acord să fiu contactat telefonic de către furnizor.
+                    Sunt de acord sa fiu contactat telefonic de catre furnizor.
                   </span>
                 </label>
               </div>
@@ -181,7 +181,7 @@ export const ContactModal: React.FC<{
 
             <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
               <button onClick={onClose} style={{ flex: 1, padding: '12px 0', background: '#f3f4f6', border: 'none', borderRadius: 10, fontSize: 13, fontWeight: 600, color: '#6b7280', cursor: 'pointer' }}>
-                Anulează
+                Anuleaza
               </button>
               <button onClick={submit} disabled={!canSubmit || sending}
                 style={{ flex: 2, padding: '12px 0', background: canSubmit ? 'linear-gradient(135deg,#d97706,#b45309)' : '#e5e7eb', border: 'none', borderRadius: 10, fontSize: 13, fontWeight: 700, color: canSubmit ? '#fff' : '#9ca3af', cursor: canSubmit ? 'pointer' : 'not-allowed', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
@@ -267,7 +267,7 @@ const ServiceRequests: React.FC<{ session: UserSession }> = ({ session }) => {
             Cereri Servicii
           </h1>
           <p style={{ margin: "4px 0 0", fontSize: 14, color: "#6b7280" }}>
-            {requests.length} cereri înregistrate
+            {requests.length} cereri inregistrate
           </p>
 
           {/* Status filter tabs */}
@@ -325,7 +325,7 @@ const ServiceRequests: React.FC<{ session: UserSession }> = ({ session }) => {
               strokeWidth={1}
               style={{ marginBottom: 12, opacity: 0.4 }}
             />
-            <p style={{ margin: 0 }}>Se încarcă...</p>
+            <p style={{ margin: 0 }}>Se incarca...</p>
           </div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: "center", padding: 60 }}>
@@ -336,7 +336,7 @@ const ServiceRequests: React.FC<{ session: UserSession }> = ({ session }) => {
             />
             <p style={{ margin: 0, fontSize: 15 }}>
               Nicio cerere{" "}
-              {statusFilter !== "all" ? "cu acest status" : "înregistrată"}.
+              {statusFilter !== "all" ? "cu acest status" : "inregistrata"}.
             </p>
           </div>
         ) : (
@@ -465,13 +465,13 @@ const ServiceRequests: React.FC<{ session: UserSession }> = ({ session }) => {
 Service Name: ${req.serviceName}
 Email: ${req.email}
 Telefon: ${req.phone}
-Adresă: ${req.address || "—"}
+Adresa: ${req.address || "—"}
 Buget: ${req.budget || "—"}
 Orar contact: ${req.contactTime}
 GDPR: ${req.gdprAccepted ? "Da" : "Nu"}
 Apel aprobat: ${req.callApproved ? "Da" : "Nu"}`;
                               navigator.clipboard.writeText(text);
-                              toast.success("Detaliile au fost copiate în clipboard!"); // <--- aici
+                              toast.success("Detaliile au fost copiate in clipboard!"); // <--- aici
                             }}
                             style={{
                               padding: "6px 12px",
@@ -484,7 +484,7 @@ Apel aprobat: ${req.callApproved ? "Da" : "Nu"}`;
                               marginLeft: "auto",
                             }}
                           >
-                            Copiază detalii
+                            Copiaza detalii
                           </button>
                           )}
 
@@ -524,7 +524,7 @@ Apel aprobat: ${req.callApproved ? "Da" : "Nu"}`;
                           { icon: Phone, label: "Telefon", val: req.phone },
                           {
                             icon: MapPin,
-                            label: "Adresă",
+                            label: "Adresa",
                             val: req.address || "—",
                           },
                           {
@@ -603,7 +603,7 @@ Apel aprobat: ${req.callApproved ? "Da" : "Nu"}`;
                                 marginLeft: "auto",
                               }}
                             >
-                              Schimbă status:
+                              Schimba status:
                             </span>
                             {(
                               [

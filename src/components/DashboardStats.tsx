@@ -70,11 +70,11 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
     const confirmedCount = guests.filter(g => g.status === 'confirmed').length;
     const declinedCount = guests.filter(g => g.status === 'declined').length;
     
-    // "Fără Reacție" logic: opened link but status is NOT confirmed or declined.
+    // "Fara Reactie" logic: opened link but status is NOT confirmed or declined.
     // In our system, status 'opened' means exactly this.
     const noReactionCount = guests.filter(g => g.status === 'opened').length;
     
-    // "Total Văzute" logic: opened + confirmed + declined
+    // "Total Vazute" logic: opened + confirmed + declined
     const totalViewedCount = noReactionCount + confirmedCount + declinedCount;
 
     const confirmationRate = sentCount > 0 ? Math.round((confirmedCount / sentCount) * 100) : 0;
@@ -257,7 +257,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
     // --- CONFIG FOR STATS CARDS ---
     const statsConfig = [
         { 
-            label: "Invitați Total", 
+            label: "Invitati Total", 
             val: totalGuests, 
             sub: `din ${maxCapacity} locuri`, 
             icon: Users,
@@ -279,7 +279,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
         { 
             label: "Mese Configurate", 
             val: tablesCount, 
-            sub: "Pregătite", 
+            sub: "Pregatite", 
             icon: LayoutGrid,
             color: "violet",
             textColor: "text-violet-600 dark:text-violet-400",
@@ -299,7 +299,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
         { 
             label: "Grad Ocupare", 
             val: `${occupancyRate}%`, 
-            sub: "Eficiență", 
+            sub: "Eficienta", 
             icon: Percent,
             color: "emerald",
             textColor: "text-emerald-600 dark:text-emerald-400",
@@ -331,7 +331,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
                              <span className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">{tasksToday}</span>
                              <span className="text-xs text-zinc-500 font-medium uppercase tracking-wider mt-1">Sarcini Azi</span>
                              <p className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-3 max-w-[120px]">
-                                 {tasksToday === 0 ? "O zi liniștită. Relaxează-te!" : tasksToday < 3 ? "Volum redus. Ușor de gestionat." : "Zi aglomerată! Prioritizează."}
+                                 {tasksToday === 0 ? "O zi linistita. Relaxeaza-te!" : tasksToday < 3 ? "Volum redus. Usor de gestionat." : "Zi aglomerata! Prioritizeaza."}
                              </p>
                          </div>
                          <div className="h-[100px] w-[100px] relative">
@@ -370,7 +370,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
 
                          <div className="flex items-center gap-2 text-xs text-muted-foreground bg-zinc-50 dark:bg-zinc-800/50 p-2 rounded-lg border border-zinc-100 dark:border-zinc-800">
                              <CheckSquare className="w-3 h-3 text-green-500" />
-                             <span>Ai finalizat {tasksCompleted} sarcini. Mai ai {tasksTotal - tasksCompleted} de făcut.</span>
+                             <span>Ai finalizat {tasksCompleted} sarcini. Mai ai {tasksTotal - tasksCompleted} de facut.</span>
                          </div>
                      </CardContent>
                  </Card>
@@ -379,7 +379,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
                  <Card className="border-l-4 border-l-amber-500 shadow-sm bg-amber-50/30 dark:bg-amber-900/10">
                      <CardHeader className="pb-2">
                          <CardTitle className="text-sm font-medium text-amber-700 dark:text-amber-500 flex items-center gap-2">
-                             <Star className="w-4 h-4 fill-current" /> Top Priorități
+                             <Star className="w-4 h-4 fill-current" /> Top Prioritati
                          </CardTitle>
                      </CardHeader>
                      <CardContent className="pt-2">
@@ -396,7 +396,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
                          ) : (
                              <div className="h-full flex flex-col items-center justify-center text-center py-4 text-muted-foreground">
                                  <CheckCircle2 className="w-8 h-8 text-green-500 mb-2 opacity-50" />
-                                 <p className="text-xs">Nicio sarcină critică restantă.<br/>Great job!</p>
+                                 <p className="text-xs">Nicio sarcina critica restanta.<br/>Great job!</p>
                              </div>
                          )}
                      </CardContent>
@@ -444,7 +444,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
                              <div className="flex flex-col p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800">
                                 <div className="flex items-center gap-2 mb-1">
                                     <Eye className="w-3.5 h-3.5 text-zinc-500" />
-                                    <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Total Văzute</span>
+                                    <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Total Vazute</span>
                                 </div>
                                 <span className="text-xl font-bold">{totalViewedCount}</span>
                              </div>
@@ -453,7 +453,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
                              <div className="flex flex-col p-3 rounded-lg bg-orange-50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-900/30">
                                 <div className="flex items-center gap-2 mb-1">
                                     <Clock className="w-3.5 h-3.5 text-orange-500" />
-                                    <span className="text-xs font-medium text-orange-700 dark:text-orange-400">Fără Reacție</span>
+                                    <span className="text-xs font-medium text-orange-700 dark:text-orange-400">Fara Reactie</span>
                                 </div>
                                 <span className="text-xl font-bold text-orange-800 dark:text-orange-200">{noReactionCount}</span>
                              </div>
@@ -540,7 +540,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
                      {/* Minimalist Header */}
                      <div className="flex items-center justify-between p-4 border-b border-zinc-100 dark:border-zinc-800">
                          <h3 className="font-semibold text-sm flex items-center gap-2">
-                             Distribuție Mese
+                             Distributie Mese
                          </h3>
                          <span className="flex items-center gap-1 text-[10px] text-muted-foreground bg-white dark:bg-zinc-800 px-2 py-1 rounded shadow-sm border border-zinc-100 dark:border-zinc-700">
                             <Sparkles className="w-3 h-3 text-amber-500" /> Live View
@@ -554,7 +554,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
                         ) : (
                             <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground text-xs p-4 text-center">
                                 <Armchair className="w-8 h-8 opacity-20 mb-2" />
-                                <p>Încă nu ai adăugat mese.</p>
+                                <p>Inca nu ai adaugat mese.</p>
                                 <p className="opacity-50">Mergi la Planificator.</p>
                             </div>
                         )}
@@ -570,7 +570,7 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
                     <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle className="flex items-center gap-2">
                             <Users className="w-5 h-5 text-indigo-500" />
-                            Lista Invitați Confirmați & Așezați
+                            Lista Invitati Confirmati & Asezati
                         </CardTitle>
                         <GuestListPDF elements={elements} />
                     </CardHeader>
@@ -615,8 +615,8 @@ const DashboardStats = ({ elements, tasks = [], guests = [], weddingDate, budget
                         ) : (
                             <div className="flex flex-col items-center justify-center py-10 text-muted-foreground h-full min-h-[200px] p-6">
                                 <Users className="w-12 h-12 opacity-10 mb-2" />
-                                <p className="text-sm text-center">Nu există invitați așezați la mese momentan.</p>
-                                <p className="text-xs text-center opacity-60">Mergi la secțiunea "Planificator" pentru a adăuga invitați.</p>
+                                <p className="text-sm text-center">Nu exista invitati asezati la mese momentan.</p>
+                                <p className="text-xs text-center opacity-60">Mergi la sectiunea "Planificator" pentru a adauga invitati.</p>
                             </div>
                         )}
                     </CardContent>

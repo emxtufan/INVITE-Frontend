@@ -229,7 +229,7 @@ const TasksView: React.FC<TasksViewProps> = ({
       if (onCheckActive && !onCheckActive()) return;
       if (taskToDelete) { 
           setTasks(prev => prev.filter(t => t.id !== taskToDelete)); 
-          toast({ title: "Sarcină ștearsă", variant: "default" }); 
+          toast({ title: "Sarcina stearsa", variant: "default" }); 
           setTaskToDelete(null);
           // If deleted from modal form, close the modal
           if (variant === 'form') {
@@ -240,7 +240,7 @@ const TasksView: React.FC<TasksViewProps> = ({
 
   const handleToggleStatus = (id: string) => { 
       if (onCheckActive && !onCheckActive()) return;
-      setTasks(prev => prev.map(t => { if (t.id !== id) return t; const newStatus = t.status === 'Done' ? 'Todo' : 'Done'; toast({ title: newStatus === 'Done' ? "Felicitări! Sarcină finalizată" : "Status actualizat", variant: newStatus === 'Done' ? "success" : "default" }); return { ...t, status: newStatus }; })); setOpenActionMenuId(null); 
+      setTasks(prev => prev.map(t => { if (t.id !== id) return t; const newStatus = t.status === 'Done' ? 'Todo' : 'Done'; toast({ title: newStatus === 'Done' ? "Felicitari! Sarcina finalizata" : "Status actualizat", variant: newStatus === 'Done' ? "success" : "default" }); return { ...t, status: newStatus }; })); setOpenActionMenuId(null); 
   };
 
   const toggleFilter = (type: 'status' | 'priority', value: string) => { if (type === 'status') { setStatusFilters(prev => prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]); } else { setPriorityFilters(prev => prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]); } };
@@ -257,14 +257,14 @@ const TasksView: React.FC<TasksViewProps> = ({
                       <Check className="w-8 h-8 text-green-600 dark:text-green-400" />
                   </div>
                   <h3 className="text-xl font-bold text-foreground">Salvat cu succes!</h3>
-                  <p className="text-muted-foreground text-sm">Se actualizează...</p>
+                  <p className="text-muted-foreground text-sm">Se actualizeaza...</p>
               </div>
           )}
 
           <div className="space-y-2">
-              <label className="text-sm font-medium">Titlu Sarcină</label>
+              <label className="text-sm font-medium">Titlu Sarcina</label>
               <Input 
-                  placeholder="Ex: Rezervare cabină foto..." 
+                  placeholder="Ex: Rezervare cabina foto..." 
                   value={taskTitle} 
                   onChange={(e: any) => setTaskTitle(e.target.value)}
                   autoFocus
@@ -275,7 +275,7 @@ const TasksView: React.FC<TasksViewProps> = ({
           <div className="grid grid-cols-5 gap-4">
               <div className="col-span-3 space-y-2">
                   <label className="text-sm font-medium flex items-center gap-2">
-                      <CalendarIcon className="w-4 h-4" /> Data Scadență
+                      <CalendarIcon className="w-4 h-4" /> Data Scadenta
                   </label>
                   <Input 
                       type="date"
@@ -318,7 +318,7 @@ const TasksView: React.FC<TasksViewProps> = ({
                       onChange={(e: any) => setTaskTag(e.target.value)}
                   >
                       <option value="General">General</option>
-                      <option value="Nunta">Nuntă</option>
+                      <option value="Nunta">Nunta</option>
                       <option value="Botez">Botez</option>
                   </select>
               </div>
@@ -342,8 +342,8 @@ const TasksView: React.FC<TasksViewProps> = ({
                           value={taskStatus}
                           onChange={(e: any) => setTaskStatus(e.target.value)}
                       >
-                          <option value="Todo">De făcut</option>
-                          <option value="In Progress">În Lucru</option>
+                          <option value="Todo">De facut</option>
+                          <option value="In Progress">In Lucru</option>
                           <option value="Backlog">Backlog</option>
                           <option value="Done">Finalizat</option>
                           <option value="Canceled">Anulat</option>
@@ -355,9 +355,9 @@ const TasksView: React.FC<TasksViewProps> = ({
           <div className="pt-4 flex items-center justify-between gap-3">
                <div className="flex gap-3">
                    <Button type="button" onClick={handleSaveTask} className="bg-indigo-600 hover:bg-indigo-700 text-white min-w-[100px]">
-                       {isEditing ? 'Actualizează' : 'Salvează'}
+                       {isEditing ? 'Actualizeaza' : 'Salveaza'}
                    </Button>
-                   <Button type="button" variant="outline" onClick={handleCloseModal}>Anulează</Button>
+                   <Button type="button" variant="outline" onClick={handleCloseModal}>Anuleaza</Button>
                </div>
 
                {isEditing && editingId && (
@@ -367,7 +367,7 @@ const TasksView: React.FC<TasksViewProps> = ({
                        onClick={() => confirmDelete(editingId)} 
                        className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 px-2"
                    >
-                       <Trash2 className="w-4 h-4 mr-2" /> Șterge
+                       <Trash2 className="w-4 h-4 mr-2" /> Sterge
                    </Button>
                )}
           </div>
@@ -382,12 +382,12 @@ const TasksView: React.FC<TasksViewProps> = ({
             <AlertDialog open={!!taskToDelete} onOpenChange={(open) => !open && setTaskToDelete(null)}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Ștergi sarcina selectată?</AlertDialogTitle>
-                        <AlertDialogDescription>Această acțiune nu poate fi anulată.</AlertDialogDescription>
+                        <AlertDialogTitle>Stergi sarcina selectata?</AlertDialogTitle>
+                        <AlertDialogDescription>Aceasta actiune nu poate fi anulata.</AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Anulează</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDeleteTask} className="bg-red-600">Șterge</AlertDialogAction>
+                        <AlertDialogCancel>Anuleaza</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDeleteTask} className="bg-red-600">Sterge</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
@@ -402,12 +402,12 @@ const TasksView: React.FC<TasksViewProps> = ({
       <div className="flex items-center justify-between gap-2">
         <div className="flex flex-col gap-1">
           <h2 className="text-2xl font-semibold tracking-tight">Sarcini & Organizare</h2>
-          <p className="text-muted-foreground">Urmărește progresul evenimentului tău pas cu pas.</p>
+          <p className="text-muted-foreground">Urmareste progresul evenimentului tau pas cu pas.</p>
         </div>
         <div className="flex items-center gap-2">
            <TasksPDF tasks={tasks} />
            <Button onClick={() => openAddModal()}>
-             <Plus className="w-4 h-4 mr-2" /> Adaugă Sarcină
+             <Plus className="w-4 h-4 mr-2" /> Adauga Sarcina
            </Button>
         </div>
       </div>
@@ -417,7 +417,7 @@ const TasksView: React.FC<TasksViewProps> = ({
         <div className="flex items-center justify-between">
             <div className="flex flex-1 items-center gap-2">
                 <Input 
-                    placeholder="Filtrează sarcini..." 
+                    placeholder="Filtreaza sarcini..." 
                     className="h-8 w-[150px] lg:w-[250px]"
                     value={filter}
                     onChange={(e: any) => setFilter(e.target.value)}
@@ -575,8 +575,8 @@ const TasksView: React.FC<TasksViewProps> = ({
                               <td colSpan={8} className="p-8 text-center text-muted-foreground h-40">
                                   <div className="flex flex-col items-center justify-center gap-2">
                                       <Search className="w-8 h-8 opacity-20" />
-                                      <p>Nu am găsit sarcini care să corespundă filtrului.</p>
-                                      <Button variant="link" onClick={() => { setFilter(""); setStatusFilters([]); setPriorityFilters([]); }}>Resetează filtrele</Button>
+                                      <p>Nu am gasit sarcini care sa corespunda filtrului.</p>
+                                      <Button variant="link" onClick={() => { setFilter(""); setStatusFilters([]); setPriorityFilters([]); }}>Reseteaza filtrele</Button>
                                   </div>
                               </td>
                           </tr>
@@ -586,7 +586,7 @@ const TasksView: React.FC<TasksViewProps> = ({
           </div>
           <div className="flex items-center justify-end space-x-2 py-4 px-4 border-t bg-muted/20">
             <div className="text-xs text-muted-foreground flex-1">
-                Afișare {filteredTasks.length} din {tasks.length} sarcini
+                Afisare {filteredTasks.length} din {tasks.length} sarcini
             </div>
           </div>
       </div>
@@ -594,12 +594,12 @@ const TasksView: React.FC<TasksViewProps> = ({
       <AlertDialog open={!!taskToDelete} onOpenChange={(open) => !open && setTaskToDelete(null)}>
         <AlertDialogContent>
             <AlertDialogHeader>
-                <AlertDialogTitle>Ștergi sarcina selectată?</AlertDialogTitle>
-                <AlertDialogDescription>Această acțiune nu poate fi anulată.</AlertDialogDescription>
+                <AlertDialogTitle>Stergi sarcina selectata?</AlertDialogTitle>
+                <AlertDialogDescription>Aceasta actiune nu poate fi anulata.</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-                <AlertDialogCancel>Anulează</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteTask} className="bg-red-600">Șterge</AlertDialogAction>
+                <AlertDialogCancel>Anuleaza</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteTask} className="bg-red-600">Sterge</AlertDialogAction>
             </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -608,9 +608,9 @@ const TasksView: React.FC<TasksViewProps> = ({
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                  <DialogTitle>{isEditing ? "Editează Sarcina" : "Adaugă Sarcină"}</DialogTitle>
+                  <DialogTitle>{isEditing ? "Editeaza Sarcina" : "Adauga Sarcina"}</DialogTitle>
                   <DialogDescription>
-                      Gestionează detaliile sarcinii pentru a rămâne organizat.
+                      Gestioneaza detaliile sarcinii pentru a ramane organizat.
                   </DialogDescription>
               </DialogHeader>
               <FormContent />

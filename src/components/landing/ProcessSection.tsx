@@ -7,9 +7,9 @@ const STEPS = [
     label: 'STEP 1',
     tabLabel: 'Register',
     title: 'Create Account',
-    description: 'Începe gratuit. Creează un cont în câteva secunde. Nu cerem card bancar la înregistrare, doar dorința de a crea ceva frumos.',
+    description: 'Incepe gratuit. Creeaza un cont in cateva secunde. Nu cerem card bancar la inregistrare, doar dorinta de a crea ceva frumos.',
     modalTitle: "Pasul 1: Crearea Contului",
-    modalDescription: "Platforma YES este construită pentru a elimina barierele de intrare. Îți poți crea un cont gratuit folosind doar adresa de email sau contul Google. Nu cerem informații de plată în această etapă. Ai acces imediat la toate temele și funcționalitățile de editare pentru a te convinge că este platforma potrivită pentru tine înainte de a plăti.",
+    modalDescription: "Platforma YES este construita pentru a elimina barierele de intrare. Iti poti crea un cont gratuit folosind doar adresa de email sau contul Google. Nu cerem informatii de plata in aceasta etapa. Ai acces imediat la toate temele si functionalitatile de editare pentru a te convinge ca este platforma potrivita pentru tine inainte de a plati.",
     icon: UserPlus,
     visual: (
        <div className="relative w-full h-full bg-[#0c0c0e] rounded-xl overflow-hidden flex flex-col shadow-2xl group border border-white/5">
@@ -49,9 +49,9 @@ const STEPS = [
     label: 'STEP 2',
     tabLabel: 'Test & Customize',
     title: 'Design & Preview',
-    description: 'Editează detaliile evenimentului. Alege tema preferată, modifică textul și previzualizează rezultatul în timp real pe mobil.',
-    modalTitle: "Pasul 2: Personalizare și Testare",
-    modalDescription: "Ai control total asupra aspectului. Poți schimba tema (avem opțiuni precum Editorial, Classic, Botanical), paleta de culori și fonturile. Funcția noastră unică de Live Preview îți arată instant cum va arăta invitația pe un telefon mobil, exact așa cum o vor vedea oaspeții tăi. Poți modifica textele, adăuga detalii despre locație și program oricând.",
+    description: 'Editeaza detaliile evenimentului. Alege tema preferata, modifica textul si previzualizeaza rezultatul in timp real pe mobil.',
+    modalTitle: "Pasul 2: Personalizare si Testare",
+    modalDescription: "Ai control total asupra aspectului. Poti schimba tema (avem optiuni precum Editorial, Classic, Botanical), paleta de culori si fonturile. Functia noastra unica de Live Preview iti arata instant cum va arata invitatia pe un telefon mobil, exact asa cum o vor vedea oaspetii tai. Poti modifica textele, adauga detalii despre locatie si program oricand.",
     icon: Palette,
     visual: (
        <div className="relative w-full h-full bg-[#0c0c0e] rounded-xl overflow-hidden flex shadow-2xl border border-white/5">
@@ -95,9 +95,9 @@ const STEPS = [
     label: 'STEP 3',
     tabLabel: 'Buy & Use',
     title: 'No Limits',
-    description: 'Totul arată perfect? Activează evenimentul cu pachetul Premium. Primești link-ul unic, tracking RSVP și suport prioritar.',
-    modalTitle: "Pasul 3: Activare și Distribuire",
-    modalDescription: "După ce invitația este perfectă, activezi pachetul Premium. Acesta deblochează link-ul tău unic (de exemplu yes.events/nunta-maria-si-andrei), elimină watermark-ul și îți oferă acces la panoul de administrare a oaspeților (Guest Management). Vei putea vedea cine a confirmat, cine a vizualizat invitația și vei putea exporta lista finală.",
+    description: 'Totul arata perfect? Activeaza evenimentul cu pachetul Premium. Primesti link-ul unic, tracking RSVP si suport prioritar.',
+    modalTitle: "Pasul 3: Activare si Distribuire",
+    modalDescription: "Dupa ce invitatia este perfecta, activezi pachetul Premium. Acesta deblocheaza link-ul tau unic (de exemplu yes.events/nunta-maria-si-andrei), elimina watermark-ul si iti ofera acces la panoul de administrare a oaspetilor (Guest Management). Vei putea vedea cine a confirmat, cine a vizualizat invitatia si vei putea exporta lista finala.",
     icon: Rocket,
     visual: (
        <div className="relative w-full h-full bg-[#0c0c0e] rounded-xl overflow-hidden flex flex-col items-center justify-center shadow-2xl relative group border border-white/5">
@@ -258,7 +258,7 @@ export default function ProcessSection() {
                         onClick={() => setIsModalOpen(false)}
                         className="px-6 py-2 bg-white text-black text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-gray-200 transition-colors"
                     >
-                        Închide
+                        Inchide
                     </button>
                 </div>
             </div>

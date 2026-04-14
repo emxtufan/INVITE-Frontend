@@ -43,7 +43,7 @@ export default function CustomizationSection() {
         <div className="wp-section-header">
           <span className="wp-section-tag">Dashboard</span>
           <h2 className="wp-section-title">Control Total.</h2>
-          <p className="wp-section-desc">Platforma YES îți oferă un panou de comandă complet. <br/>Editează detaliile evenimentului tău într-o interfață intuitivă.</p>
+          <p className="wp-section-desc">Platforma YES iti ofera un panou de comanda complet. <br/>Editeaza detaliile evenimentului tau intr-o interfata intuitiva.</p>
         </div>
 
         {/* Mobile Scaling Wrapper: 
@@ -69,7 +69,7 @@ export default function CustomizationSection() {
                                         onClick={() => setActiveTab('wedding')}
                                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[9px] font-medium transition-colors whitespace-nowrap ${activeTab === 'wedding' ? 'bg-white/10 text-white shadow-sm border border-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
                                     >
-                                        <Heart size={10} /> <span>Nuntă</span>
+                                        <Heart size={10} /> <span>Nunta</span>
                                     </button>
                                     <button 
                                         onClick={() => setActiveTab('baptism')}
@@ -102,7 +102,7 @@ export default function CustomizationSection() {
                                 {(activeTab === 'wedding' || activeTab === 'anniversary') && (
                                     <>
                                         <div className="grid grid-cols-2 gap-2">
-                                           <ContentCard title={activeTab === 'anniversary' ? "Detalii" : "Detalii Nuntă"} icon={activeTab === 'anniversary' ? Gift : Heart}>
+                                           <ContentCard title={activeTab === 'anniversary' ? "Detalii" : "Detalii Nunta"} icon={activeTab === 'anniversary' ? Gift : Heart}>
                                               <div className="space-y-1.5">
                                                  <InputGroup label="Partener 1" value="Prenume Nume" />
                                                  <InputGroup label="Partener 2" value="Prenume Nume" />
@@ -122,42 +122,42 @@ export default function CustomizationSection() {
                                            </ContentCard>
                                         </div>
 
-                                        <ContentCard title="Texte Invitație" icon={Type}>
+                                        <ContentCard title="Texte Invitatie" icon={Type}>
                                            <div className="space-y-2">
                                               <div>
                                                   <div className="flex items-center justify-between mb-1">
                                                       <label className="text-[8px] uppercase font-bold text-gray-500">Mesaj Intro</label>
                                                       <ToggleRight size={16} className="text-green-500 cursor-pointer" />
                                                   </div>
-                                                  <input type="text" defaultValue="Ex: Împreună cu familiile noastre..." className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                  <input type="text" defaultValue="Ex: Impreuna cu familiile noastre..." className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                               </div>
                                               <div>
                                                   <div className="flex items-center justify-between mb-1">
                                                       <label className="text-[8px] uppercase font-bold text-gray-500">Mesaj Celebrare</label>
                                                       <ToggleRight size={16} className="text-green-500 cursor-pointer" />
                                                   </div>
-                                                  <input type="text" defaultValue="Ex: Vă invităm la sărbătorirea..." className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                  <input type="text" defaultValue="Ex: Va invitam la sarbatorirea..." className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                               </div>
                                            </div>
                                         </ContentCard>
 
                                         <div className="grid grid-cols-3 gap-2">
-                                           <ContentCard title="Civilă" icon={Clock} headerAction={<ToggleRight size={16} className="text-green-500" />}>
+                                           <ContentCard title="Civila" icon={Clock} headerAction={<ToggleRight size={16} className="text-green-500" />}>
                                                <div className="space-y-1.5">
                                                   <div className="flex flex-col gap-1.5">
                                                       <input type="text" defaultValue="--:-- --" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-center" />
-                                                      <input type="text" defaultValue="Locația" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px]" />
+                                                      <input type="text" defaultValue="Locatia" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px]" />
                                                   </div>
-                                                  <input type="text" defaultValue="Adresă" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-gray-500" />
+                                                  <input type="text" defaultValue="Adresa" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-gray-500" />
                                                </div>
                                            </ContentCard>
-                                           <ContentCard title="Religioasă" icon={Clock} headerAction={<ToggleRight size={16} className="text-green-500" />}>
+                                           <ContentCard title="Religioasa" icon={Clock} headerAction={<ToggleRight size={16} className="text-green-500" />}>
                                                <div className="space-y-1.5">
                                                   <div className="flex flex-col gap-1.5">
                                                       <input type="text" defaultValue="--:-- --" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-center" />
-                                                      <input type="text" defaultValue="Locația" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px]" />
+                                                      <input type="text" defaultValue="Locatia" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px]" />
                                                   </div>
-                                                  <input type="text" defaultValue="Adresă" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-gray-500" />
+                                                  <input type="text" defaultValue="Adresa" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-gray-500" />
                                                </div>
                                            </ContentCard>
                                            <ContentCard title="Party" icon={Clock} headerAction={<ToggleRight size={16} className="text-green-500" />}>
@@ -166,30 +166,30 @@ export default function CustomizationSection() {
                                                       <input type="text" defaultValue="--:-- --" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-center" />
                                                       <input type="text" defaultValue="Sala" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px]" />
                                                   </div>
-                                                  <input type="text" defaultValue="Adresă" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-gray-500" />
+                                                  <input type="text" defaultValue="Adresa" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-gray-500" />
                                                </div>
                                            </ContentCard>
                                         </div>
 
                                         <ContentCard title="Cronologie" icon={List} headerAction={<div className="flex items-center gap-1"><ToggleRight size={16} className="text-green-500" /><button className="px-1.5 py-0.5 border border-white/10 rounded text-[8px] uppercase font-bold">+</button></div>}>
-                                           <div className="py-2 text-center text-gray-600 text-[9px] italic border border-dashed border-white/5 rounded">Niciun moment adăugat.</div>
+                                           <div className="py-2 text-center text-gray-600 text-[9px] italic border border-dashed border-white/5 rounded">Niciun moment adaugat.</div>
                                         </ContentCard>
 
                                         <div className="grid grid-cols-2 gap-2">
-                                           <ContentCard title="Nașii" icon={Users} headerAction={<div className="flex items-center gap-1"><ToggleLeft size={16} className="text-gray-600" /><button className="px-1.5 py-0.5 border border-white/10 rounded text-[8px] uppercase font-bold">+</button></div>}>
+                                           <ContentCard title="Nasii" icon={Users} headerAction={<div className="flex items-center gap-1"><ToggleLeft size={16} className="text-gray-600" /><button className="px-1.5 py-0.5 border border-white/10 rounded text-[8px] uppercase font-bold">+</button></div>}>
                                               <div className="grid grid-cols-2 gap-2">
-                                                 <input type="text" defaultValue="Nașul" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
-                                                 <input type="text" defaultValue="Nașa" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                 <input type="text" defaultValue="Nasul" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                 <input type="text" defaultValue="Nasa" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                               </div>
                                            </ContentCard>
-                                           <ContentCard title="Părinții" icon={Users} headerAction={<ToggleRight size={16} className="text-green-500" />}>
+                                           <ContentCard title="Parintii" icon={Users} headerAction={<ToggleRight size={16} className="text-green-500" />}>
                                               <div className="space-y-1.5">
                                                  <div className="grid grid-cols-2 gap-2">
-                                                    <input type="text" defaultValue="Tatăl 1" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                    <input type="text" defaultValue="Tatal 1" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                                     <input type="text" defaultValue="Mama 1" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                                  </div>
                                                  <div className="grid grid-cols-2 gap-2">
-                                                    <input type="text" defaultValue="Tatăl 2" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                    <input type="text" defaultValue="Tatal 2" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                                     <input type="text" defaultValue="Mama 2" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                                  </div>
                                               </div>
@@ -221,61 +221,61 @@ export default function CustomizationSection() {
                                            </ContentCard>
                                         </div>
 
-                                        <ContentCard title="Texte Invitație" icon={Type}>
+                                        <ContentCard title="Texte Invitatie" icon={Type}>
                                            <div className="space-y-2">
                                               <div>
                                                   <div className="flex items-center justify-between mb-1">
                                                       <label className="text-[8px] uppercase font-bold text-gray-500">Mesaj Intro</label>
                                                       <ToggleRight size={16} className="text-green-500 cursor-pointer" />
                                                   </div>
-                                                  <input type="text" defaultValue="Ex: Împreună cu familiile noastre..." className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                  <input type="text" defaultValue="Ex: Impreuna cu familiile noastre..." className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                               </div>
                                               <div>
                                                   <div className="flex items-center justify-between mb-1">
                                                       <label className="text-[8px] uppercase font-bold text-gray-500">Mesaj Celebrare</label>
                                                       <ToggleRight size={16} className="text-green-500 cursor-pointer" />
                                                   </div>
-                                                  <input type="text" defaultValue="Ex: Vă invităm la sărbătorirea..." className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                  <input type="text" defaultValue="Ex: Va invitam la sarbatorirea..." className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                               </div>
                                            </div>
                                         </ContentCard>
 
                                         <div className="grid grid-cols-2 gap-2">
-                                           <ContentCard title="Sfântul Botez" icon={Clock} headerAction={<ToggleRight size={16} className="text-green-500" />}>
+                                           <ContentCard title="Sfantul Botez" icon={Clock} headerAction={<ToggleRight size={16} className="text-green-500" />}>
                                                <div className="space-y-1.5">
                                                   <div className="flex flex-col gap-1.5">
                                                       <input type="text" defaultValue="--:-- --" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-center" />
-                                                      <input type="text" defaultValue="Locația" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px]" />
+                                                      <input type="text" defaultValue="Locatia" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px]" />
                                                   </div>
-                                                  <input type="text" defaultValue="Adresă" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-gray-500" />
+                                                  <input type="text" defaultValue="Adresa" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-gray-500" />
                                                </div>
                                            </ContentCard>
-                                           <ContentCard title="Masa de Seară" icon={Clock} headerAction={<ToggleRight size={16} className="text-green-500" />}>
+                                           <ContentCard title="Masa de Seara" icon={Clock} headerAction={<ToggleRight size={16} className="text-green-500" />}>
                                                <div className="space-y-1.5">
                                                   <div className="flex flex-col gap-1.5">
                                                       <input type="text" defaultValue="--:-- --" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-center" />
                                                       <input type="text" defaultValue="Sala" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px]" />
                                                   </div>
-                                                  <input type="text" defaultValue="Adresă" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-gray-500" />
+                                                  <input type="text" defaultValue="Adresa" className="w-full bg-[#18181b] border border-white/5 rounded px-1.5 py-1 text-[9px] text-gray-500" />
                                                </div>
                                            </ContentCard>
                                         </div>
 
                                         <ContentCard title="Cronologie" icon={List} headerAction={<div className="flex items-center gap-1"><ToggleRight size={16} className="text-green-500" /><button className="px-1.5 py-0.5 border border-white/10 rounded text-[8px] uppercase font-bold">+</button></div>}>
-                                           <div className="py-2 text-center text-gray-600 text-[9px] italic border border-dashed border-white/5 rounded">Niciun moment adăugat.</div>
+                                           <div className="py-2 text-center text-gray-600 text-[9px] italic border border-dashed border-white/5 rounded">Niciun moment adaugat.</div>
                                         </ContentCard>
 
                                         <div className="grid grid-cols-2 gap-2">
-                                           <ContentCard title="Nașii" icon={Users} headerAction={<div className="flex items-center gap-1"><ToggleLeft size={16} className="text-gray-600" /><button className="px-1.5 py-0.5 border border-white/10 rounded text-[8px] uppercase font-bold">+</button></div>}>
+                                           <ContentCard title="Nasii" icon={Users} headerAction={<div className="flex items-center gap-1"><ToggleLeft size={16} className="text-gray-600" /><button className="px-1.5 py-0.5 border border-white/10 rounded text-[8px] uppercase font-bold">+</button></div>}>
                                               <div className="grid grid-cols-2 gap-2">
-                                                 <input type="text" defaultValue="Nașul" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
-                                                 <input type="text" defaultValue="Nașa" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                 <input type="text" defaultValue="Nasul" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                 <input type="text" defaultValue="Nasa" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                               </div>
                                            </ContentCard>
-                                           <ContentCard title="Părinții" icon={Users} headerAction={<ToggleRight size={16} className="text-green-500" />}>
+                                           <ContentCard title="Parintii" icon={Users} headerAction={<ToggleRight size={16} className="text-green-500" />}>
                                               <div className="space-y-1.5">
                                                  <div className="grid grid-cols-2 gap-2">
-                                                    <input type="text" defaultValue="Tatăl" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
+                                                    <input type="text" defaultValue="Tatal" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                                     <input type="text" defaultValue="Mama" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500" />
                                                  </div>
                                               </div>
@@ -313,7 +313,7 @@ export default function CustomizationSection() {
                                                 <input type="text" defaultValue="Sala / Restaurantul" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500 focus:outline-none focus:border-white/20" />
                                             </div>
                                             <div className="space-y-1.5">
-                                                <input type="text" defaultValue="Adresă" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500 focus:outline-none focus:border-white/20" />
+                                                <input type="text" defaultValue="Adresa" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500 focus:outline-none focus:border-white/20" />
                                                 <input type="text" defaultValue="Link Waze" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-500 focus:outline-none focus:border-white/20" />
                                             </div>
                                         </ContentCard>
@@ -322,7 +322,7 @@ export default function CustomizationSection() {
                                             <ContentCard title="Speakers / VIP" icon={Mic} headerAction={<div className="flex items-center gap-1.5"><ToggleLeft size={16} className="text-gray-600 cursor-pointer" /><button className="px-1.5 py-0.5 border border-white/10 rounded text-[8px] font-bold uppercase hover:bg-white/5 transition-colors text-gray-300"><Plus size={10} /> Add</button></div>}>
                                                 <div className="grid grid-cols-2 gap-2">
                                                     <input type="text" defaultValue="Nume" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-600 focus:outline-none focus:border-white/20" />
-                                                    <input type="text" defaultValue="Funcție" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-600 focus:outline-none focus:border-white/20" />
+                                                    <input type="text" defaultValue="Functie" className="w-full bg-[#18181b] border border-white/5 rounded px-2 py-1.5 text-[10px] text-gray-600 focus:outline-none focus:border-white/20" />
                                                 </div>
                                             </ContentCard>
 

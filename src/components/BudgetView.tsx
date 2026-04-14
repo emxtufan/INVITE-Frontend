@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from "react";
 import { 
   Calculator, Plus, Trash2, Save, CreditCard, DollarSign, PieChart, 
@@ -63,8 +63,8 @@ const BudgetView: React.FC<BudgetViewProps> = ({
     if (!isPremium && amount > maxCalculatorBudget) {
         if (onShowUpgrade) {
             toast({ 
-                title: "Funcție Limitată", 
-                description: `În planul gratuit poți calcula bugete până la ${maxCalculatorBudget} LEI pentru testare.`,
+                title: "Functie Limitata", 
+                description: `In planul gratuit poti calcula bugete pana la ${maxCalculatorBudget} LEI pentru testare.`,
                 variant: "default"
             });
             onShowUpgrade();
@@ -73,21 +73,11 @@ const BudgetView: React.FC<BudgetViewProps> = ({
     }
 
     setTotalBudget(amount);
-
-    // Auto distribute based on percentages
-    const newCategories = categories.map(cat => {
-      const catTotal = (amount * cat.percentage) / 100;
-      const itemAvg = Math.floor(catTotal / cat.items.length);
-      
-      const newItems = cat.items.map(item => ({
-        ...item,
-        estimatedCost: item.estimatedCost === 0 ? itemAvg : item.estimatedCost // Only update if 0 to not overwrite user data
-      }));
-      return { ...cat, items: newItems };
+    toast({
+      title: "Buget actualizat",
+      description: "Bugetul total a fost salvat. Completezi manual costurile pe categorii.",
+      variant: "success",
     });
-
-    setCategories(newCategories);
-    toast({ title: "Buget Distribuit", description: "Sumele au fost alocate automat.", variant: "success" });
   };
 
   const updateItem = (catId: string, itemId: string, field: keyof BudgetItem, value: any) => {
@@ -124,14 +114,14 @@ const BudgetView: React.FC<BudgetViewProps> = ({
       if (cat.id !== catId) return cat;
       const newItem: BudgetItem = {
         id: `itm-${Date.now()}`,
-        name: 'Cheltuială nouă',
+        name: 'Cheltuiala noua',
         estimatedCost: 0,
         finalCost: 0,
         paidAmount: 0
       };
       return { ...cat, items: [...cat.items, newItem] };
     }));
-    toast({ title: "Rând adăugat" });
+    toast({ title: "Rand adaugat" });
   };
 
   const deleteItem = (catId: string, itemId: string) => {
@@ -141,7 +131,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
       if (cat.id !== catId) return cat;
       return { ...cat, items: cat.items.filter(i => i.id !== itemId) };
     }));
-    toast({ title: "Cheltuială ștearsă" });
+    toast({ title: "Cheltuiala stearsa" });
   };
 
   const toggleCategory = (id: string) => {
@@ -182,10 +172,10 @@ const BudgetView: React.FC<BudgetViewProps> = ({
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex flex-col gap-1.5">
               <h2 className="text-2xl font-semibold tracking-tight flex items-center gap-2">
-                <Wallet className="w-6 h-6 text-primary" /> Bugetul Nunții
+                <Wallet className="w-6 h-6 text-primary" /> Bugetul Nuntii
               </h2>
               <p className="text-sm text-muted-foreground">
-                Adio stres financiar! Planifică, urmărește și gestionează toate plățile într-un singur loc.
+                Gestioneaza bugetul manual, fara estimari automate.
               </p>
             </div>
             <BudgetPDF categories={categories} totalBudget={totalBudget} />
@@ -201,13 +191,13 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                   </CardTitle>
                   <Tooltip>
                     <TooltipTrigger><HelpCircle className="w-3 h-3 text-blue-400/70" /></TooltipTrigger>
-                    <TooltipContent>Limita maximă pe care ți-ai propus să o cheltui.</TooltipContent>
+                    <TooltipContent>Limita maxima pe care si-ai propus sa o cheltui.</TooltipContent>
                   </Tooltip>
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-blue-900 dark:text-blue-100">{totalBudget.toLocaleString()} LEI</div>
-              <div className="text-xs text-muted-foreground mt-1">Suma maximă alocată</div>
+              <div className="text-xs text-muted-foreground mt-1">Suma maxima alocata</div>
             </CardContent>
           </Card>
 
@@ -219,7 +209,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                   </CardTitle>
                    <Tooltip>
                     <TooltipTrigger><HelpCircle className="w-3 h-3 text-purple-400/70" /></TooltipTrigger>
-                    <TooltipContent>Suma costurilor finale (sau estimate, unde nu ai încă factură).</TooltipContent>
+                    <TooltipContent>Suma costurilor finale (sau estimate, unde nu ai inca factura).</TooltipContent>
                   </Tooltip>
               </div>
             </CardHeader>
@@ -240,11 +230,11 @@ const BudgetView: React.FC<BudgetViewProps> = ({
             <CardHeader className="pb-2">
               <div className="flex items-center gap-2">
                   <CardTitle className="text-sm font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4" /> Rămas de Plată
+                    <TrendingUp className="w-4 h-4" /> Ramas de Plata
                   </CardTitle>
                    <Tooltip>
                     <TooltipTrigger><HelpCircle className="w-3 h-3 text-emerald-400/70" /></TooltipTrigger>
-                    <TooltipContent>Diferența dintre costul total și ce ai achitat (avansuri) până acum.</TooltipContent>
+                    <TooltipContent>Diferenta dintre costul total si ce ai achitat (avansuri) pana acum.</TooltipContent>
                   </Tooltip>
               </div>
             </CardHeader>
@@ -272,8 +262,8 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                   <div className="absolute inset-0 z-20 bg-background/60 backdrop-blur-[2px] flex items-center justify-center text-center p-6">
                       <div className="bg-white dark:bg-zinc-900 shadow-xl border p-4 rounded-xl flex flex-col items-center gap-2 max-w-[250px]">
                            <Lock className="w-8 h-8 text-indigo-500" />
-                           <h4 className="font-bold text-sm">Calculator Premium</h4>
-                           <p className="text-xs text-muted-foreground">Deblochează distribuirea automată a bugetului.</p>
+                           <h4 className="font-bold text-sm">Buget Premium</h4>
+                           <p className="text-xs text-muted-foreground">Deblocheaza editarea bugetului total din acest panou.</p>
                            <Button size="sm" onClick={onShowUpgrade} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white mt-1">Upgrade</Button>
                       </div>
                   </div>
@@ -281,16 +271,16 @@ const BudgetView: React.FC<BudgetViewProps> = ({
 
               <CardHeader>
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <Calculator className="w-4 h-4" /> Calculator Automat
+                  <Calculator className="w-4 h-4" /> Buget Total Manual
                   <Tooltip>
                       <TooltipTrigger><HelpCircle className="w-3 h-3 text-muted-foreground" /></TooltipTrigger>
-                      <TooltipContent>Distribuie automat bugetul total pe categorii folosind procente standard din industrie.</TooltipContent>
+                      <TooltipContent>Seteaza doar bugetul total. Costurile pe categorii le completezi manual.</TooltipContent>
                   </Tooltip>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-xs text-muted-foreground">
-                  Introdu bugetul total și noi vom estima costurile pe categorii conform mediei pieței.
+                  Introdu bugetul total. Nu se mai fac estimari automate pe categorii.
                 </p>
                 <div className="flex gap-2">
                   <Tooltip className="flex-1">
@@ -301,11 +291,9 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                       onChange={(e: any) => setCalculatorInput(e.target.value)}
                       disabled={!isPremium && maxCalculatorBudget === 0}
                     />
-                    <TooltipContent>Introdu bugetul tău total (LEI)</TooltipContent>
+                    <TooltipContent>Introdu bugetul tau total (LEI)</TooltipContent>
                   </Tooltip>
-                  <Button onClick={handleDistributeBudget} title="Aplică distribuția" disabled={!isPremium && maxCalculatorBudget === 0}>
-                    Aplică
-                  </Button>
+                  <Button onClick={handleDistributeBudget} title="Seteaza bugetul total" disabled={!isPremium && maxCalculatorBudget === 0}>Seteaza</Button>
                 </div>
                 {!isPremium && maxCalculatorBudget > 0 && (
                     <div className="text-[10px] text-orange-600 bg-orange-50 dark:bg-orange-900/20 px-2 py-1 rounded flex items-center gap-1">
@@ -318,7 +306,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
             {/* CHART */}
             <Card className="h-[300px]">
               <CardHeader>
-                <CardTitle className="text-sm font-medium">Distribuție Cheltuieli</CardTitle>
+                <CardTitle className="text-sm font-medium">Distributie Cheltuieli</CardTitle>
               </CardHeader>
               <CardContent className="h-[220px]">
                 <Doughnut data={chartData} options={chartOptions} />
@@ -329,7 +317,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <CalendarDays className="w-4 h-4" /> Plăți Necesare
+                  <CalendarDays className="w-4 h-4" /> Plati Necesare
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -350,7 +338,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                 {totalPending === 0 && (
                   <div className="text-center py-4 text-muted-foreground text-xs flex flex-col items-center">
                     <CheckCircle2 className="w-6 h-6 text-green-500 mb-2" />
-                    Toate plățile sunt la zi!
+                    Toate platile sunt la zi!
                   </div>
                 )}
               </CardContent>
@@ -365,7 +353,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                 <PieChart className="w-5 h-5 text-muted-foreground" /> Detaliere Cheltuieli
               </h3>
               <Button variant="outline" size="sm" onClick={() => setExpandedCategories(expandedCategories.length > 0 ? [] : categories.map(c => c.id))}>
-                {expandedCategories.length > 0 ? "Restrânge Tot" : "Extinde Tot"}
+                {expandedCategories.length > 0 ? "Restrange Tot" : "Extinde Tot"}
               </Button>
             </div>
 
@@ -408,7 +396,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                                       Estimat
                                       <Tooltip>
                                           <TooltipTrigger><HelpCircle className="w-3 h-3" /></TooltipTrigger>
-                                          <TooltipContent>Prețul de listă sau oferta inițială.</TooltipContent>
+                                          <TooltipContent>Pretul de lista sau oferta initiala.</TooltipContent>
                                       </Tooltip>
                                   </div>
                               </th>
@@ -417,7 +405,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                                       Final
                                       <Tooltip>
                                           <TooltipTrigger><HelpCircle className="w-3 h-3" /></TooltipTrigger>
-                                          <TooltipContent>Suma finală de pe factură/contract. Are prioritate.</TooltipContent>
+                                          <TooltipContent>Suma finala de pe factura/contract. Are prioritate.</TooltipContent>
                                       </Tooltip>
                                   </div>
                               </th>
@@ -426,7 +414,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                                       Achitat
                                       <Tooltip>
                                           <TooltipTrigger><HelpCircle className="w-3 h-3" /></TooltipTrigger>
-                                          <TooltipContent>Suma totală plătită până acum (avansuri + rate).</TooltipContent>
+                                          <TooltipContent>Suma totala platita pana acum (avansuri + rate).</TooltipContent>
                                       </Tooltip>
                                   </div>
                               </th>
@@ -458,7 +446,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                                           onChange={(e: any) => handleNumChange(category.id, item.id, 'estimatedCost', e.target.value)}
                                         />
                                     </div>
-                                    <TooltipContent>Cât preconizezi să coste</TooltipContent>
+                                    <TooltipContent>Cat preconizezi sa coste</TooltipContent>
                                   </Tooltip>
                                 </td>
                                 <td className="p-2 text-right">
@@ -473,7 +461,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                                       placeholder="0"
                                       onChange={(e: any) => handleNumChange(category.id, item.id, 'finalCost', e.target.value)}
                                     />
-                                    <TooltipContent>Costul final real (de pe factură)</TooltipContent>
+                                    <TooltipContent>Costul final real (de pe factura)</TooltipContent>
                                   </Tooltip>
                                 </td>
                                 <td className="p-2 text-right">
@@ -485,7 +473,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                                       placeholder="0"
                                       onChange={(e: any) => handleNumChange(category.id, item.id, 'paidAmount', e.target.value)}
                                     />
-                                    <TooltipContent>Cât ai achitat până acum</TooltipContent>
+                                    <TooltipContent>Cat ai achitat pana acum</TooltipContent>
                                   </Tooltip>
                                 </td>
                                 <td className="p-2 hidden sm:table-cell">
@@ -512,12 +500,12 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
-                                                <AlertDialogTitle>Ștergi {item.name}?</AlertDialogTitle>
-                                                <AlertDialogDescription>Această acțiune nu poate fi anulată.</AlertDialogDescription>
+                                                <AlertDialogTitle>Stergi {item.name}?</AlertDialogTitle>
+                                                <AlertDialogDescription>Aceasta actiune nu poate fi anulata.</AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
-                                                <AlertDialogCancel>Anulează</AlertDialogCancel>
-                                                <AlertDialogAction onClick={() => deleteItem(category.id, item.id)} className="bg-red-600">Șterge</AlertDialogAction>
+                                                <AlertDialogCancel>Anuleaza</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => deleteItem(category.id, item.id)} className="bg-red-600">Sterge</AlertDialogAction>
                                             </AlertDialogFooter>
                                         </AlertDialogContent>
                                     </AlertDialog>
@@ -529,7 +517,7 @@ const BudgetView: React.FC<BudgetViewProps> = ({
                       </div>
                       <div className="p-2 bg-muted/20 border-t flex justify-center">
                         <Button variant="ghost" size="sm" className="text-xs h-7 gap-1 text-muted-foreground" onClick={() => addItem(category.id)}>
-                          <Plus className="w-3 h-3" /> Adaugă Cheltuială
+                          <Plus className="w-3 h-3" /> Adauga Cheltuiala
                         </Button>
                       </div>
                     </CardContent>

@@ -51,9 +51,9 @@ const RsvpModal: React.FC<RsvpModalProps> = ({ isOpen, onClose, onSubmit, guestN
         {/* Header */}
         <div className="bg-zinc-50 dark:bg-zinc-900/50 p-6 border-b border-zinc-100 dark:border-zinc-800 flex justify-between items-center">
           <div>
-              <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">Confirmare Prezență</h2>
+              <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">Confirmare Prezenta</h2>
               <p className="text-sm text-zinc-500">
-                  {isPublic ? "Te rugăm să completezi detaliile." : <>pentru <span className="font-semibold text-zinc-700 dark:text-zinc-300">{guestName}</span></>}
+                  {isPublic ? "Te rugam sa completezi detaliile." : <>pentru <span className="font-semibold text-zinc-700 dark:text-zinc-300">{guestName}</span></>}
               </p>
           </div>
           <button onClick={onClose} className="p-2 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors">
@@ -68,7 +68,7 @@ const RsvpModal: React.FC<RsvpModalProps> = ({ isOpen, onClose, onSubmit, guestN
            {isPublic && (
                <div className="space-y-2">
                    <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
-                       <User className="w-4 h-4" /> Numele Tău / Familia Ta <span className="text-red-500">*</span>
+                       <User className="w-4 h-4" /> Numele Tau / Familia Ta <span className="text-red-500">*</span>
                    </label>
                    <input 
                        type="text"
@@ -119,7 +119,7 @@ const RsvpModal: React.FC<RsvpModalProps> = ({ isOpen, onClose, onSubmit, guestN
                   <div className="grid grid-cols-2 gap-4">
                       {/* Adults Counter */}
                       <div className="p-3 bg-zinc-50 dark:bg-zinc-900/50 rounded-lg border border-zinc-200 dark:border-zinc-800 flex flex-col items-center gap-2">
-                          <label className="text-xs font-bold uppercase tracking-wider text-zinc-500">Adulți</label>
+                          <label className="text-xs font-bold uppercase tracking-wider text-zinc-500">Adulti</label>
                           <div className="flex items-center gap-4">
                               <button type="button" onClick={() => handleCounter(setAdults, -1, 1)} className="w-8 h-8 rounded-full bg-white dark:bg-zinc-800 shadow-sm border flex items-center justify-center hover:bg-zinc-100"><Minus className="w-4 h-4"/></button>
                               <span className="text-xl font-bold w-4 text-center">{adults}</span>
@@ -148,11 +148,11 @@ const RsvpModal: React.FC<RsvpModalProps> = ({ isOpen, onClose, onSubmit, guestN
 
            <div className="space-y-2">
               <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4" /> Mesaj pentru miri (opțional)
+                  <MessageSquare className="w-4 h-4" /> Mesaj pentru miri (optional)
               </label>
               <textarea 
                 className="w-full min-h-[80px] rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:ring-2 focus:ring-black focus:outline-none"
-                placeholder={status === 'declined' ? "Ne pare rău, dar..." : "Abia așteptăm să vă vedem!"}
+                placeholder={status === 'declined' ? "Ne pare rau, dar..." : "Abia asteptam sa va vedem!"}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
@@ -168,7 +168,7 @@ const RsvpModal: React.FC<RsvpModalProps> = ({ isOpen, onClose, onSubmit, guestN
                  : 'bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 shadow-lg'
              }`}
            >
-             {isSubmitting ? 'Se trimite...' : 'Trimite Răspunsul'}
+             {isSubmitting ? 'Se trimite...' : 'Trimite Raspunsul'}
            </button>
         </form>
       </div>

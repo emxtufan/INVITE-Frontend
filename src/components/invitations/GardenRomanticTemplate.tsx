@@ -10,7 +10,7 @@ export const meta: TemplateMeta = {
   id: 'garden-romantic',
   name: 'Garden Romantic',
   category: 'wedding',
-  description: 'Nuntă în grădină — arcade florale, fairy lights, pasteluri și petale în vânt.',
+  description: 'Nunta in gradina — arcade florale, fairy lights, pasteluri si petale in vant.',
   colors: ['#1a0e2e', '#d4a0b0', '#6b8f5e'],
   previewClass: "bg-purple-950 border-rose-300",
   elementsClass: "bg-rose-400",
@@ -237,7 +237,7 @@ const GardenIntro: React.FC<{ l1:string; l2:string; name1:string; name2:string; 
         </p>
         <p style={{ fontFamily:SANS, fontSize:9, fontWeight:700, letterSpacing:"0.5em",
           textTransform:"uppercase", color:"rgba(253,230,138,0.4)", marginTop:8 }}>
-          vă invită{showSecond?' la nunta lor':''}
+          va invita{showSecond?' la nunta lor':''}
         </p>
       </div>
 
@@ -456,9 +456,9 @@ const LocCard: React.FC<{ block:InvitationBlock; editMode:boolean; onUpdate:(p:P
         </div>
         <div style={{ background:"rgba(212,160,176,0.2)", alignSelf:"stretch" }}/>
         <div>
-          <InlineEdit tag="p" editMode={editMode} value={block.locationName||''} onChange={v=>onUpdate({locationName:v})} placeholder="Locație..."
+          <InlineEdit tag="p" editMode={editMode} value={block.locationName||''} onChange={v=>onUpdate({locationName:v})} placeholder="Locatie..."
             style={{ fontFamily:SANS, fontSize:13, fontWeight:600, color:"white", margin:"0 0 3px", lineHeight:1.35 }}/>
-          <InlineEdit tag="p" editMode={editMode} value={block.locationAddress||''} onChange={v=>onUpdate({locationAddress:v})} placeholder="Adresă..."
+          <InlineEdit tag="p" editMode={editMode} value={block.locationAddress||''} onChange={v=>onUpdate({locationAddress:v})} placeholder="Adresa..."
             style={{ fontFamily:SANS, fontSize:11, color:"rgba(212,160,176,0.5)", margin:0, lineHeight:1.5, fontStyle:"italic" }} multiline/>
         </div>
       </div>
@@ -572,9 +572,9 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
   const delGodparent = (i:number) => setGodparents(prev => { const ng=prev.filter((_,j)=>j!==i); upProfile('godparents',JSON.stringify(ng)); return ng; });
   const updParent = (field:string, val:string) => setParentsData((prev:any) => { const np={...prev,[field]:val}; upProfile('parents',JSON.stringify(np)); return np; });
 
-  const welcomeText     = profile.welcomeText?.trim()     || 'vă invită la nunta lor';
-  const celebrationText = profile.celebrationText?.trim() || 'căsătoriei';
-  const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirmă Prezența';
+  const welcomeText     = profile.welcomeText?.trim()     || 'va invita la nunta lor';
+  const celebrationText = profile.celebrationText?.trim() || 'casatoriei';
+  const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = profile.showRsvpButton !== false;
   const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';
   const displayBlocks   = editMode ? blocks : blocks.filter(b => b.show !== false);
@@ -614,7 +614,7 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
         <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full px-4 py-1.5 shadow-xl text-[10px] font-bold pointer-events-none select-none"
           style={{ background:"rgba(45,27,61,0.92)", border:"1px solid rgba(212,160,176,0.3)", color:"#d4a0b0", backdropFilter:"blur(8px)" }}>
           <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background:"#d4a0b0" }}/>
-          <span className="uppercase tracking-widest">Editare Directă</span>
+          <span className="uppercase tracking-widest">Editare Directa</span>
           <span className="font-normal" style={{ color:"rgba(212,160,176,0.5)" }}>— click pe orice text</span>
         </div>
       )}
@@ -708,7 +708,7 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
                       textTransform:"uppercase", color:"rgba(212,160,176,0.65)",
                       padding:"5px 16px", borderRadius:99,
                       background:"rgba(212,160,176,0.08)", border:"1.5px solid rgba(212,160,176,0.3)" }}>
-                      ✿ Timp rămas
+                      ✿ Timp ramas
                     </span>
                   </div>
                   <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"center", gap:6 }}>
@@ -739,7 +739,7 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
               <div style={{ background:"rgba(212,160,176,0.08)", border:"1.5px solid rgba(212,160,176,0.25)",
                 borderRadius:12, padding:"14px 20px" }}>
                 <p style={{ fontFamily:SANS, fontSize:9, fontWeight:700, letterSpacing:"0.4em",
-                  textTransform:"uppercase", color:"rgba(212,160,176,0.5)", margin:"0 0 6px" }}>Dragă</p>
+                  textTransform:"uppercase", color:"rgba(212,160,176,0.5)", margin:"0 0 6px" }}>Draga</p>
                 <p style={{ fontFamily:SERIF, fontSize:22, fontWeight:300, color:"white", margin:0, letterSpacing:1 }}>
                   {guest?.name || 'Nume Invitat'}
                 </p>
@@ -785,7 +785,7 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
 
                   {block.type === 'godparents' && (
                     <GlassCard>
-                      <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Nașii Noștri'} onChange={v=>updBlock(realIdx,{sectionTitle:v})} placeholder="Titlu..."
+                      <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Nasii Nostri'} onChange={v=>updBlock(realIdx,{sectionTitle:v})} placeholder="Titlu..."
                         style={{ fontFamily:SANS, fontSize:8, fontWeight:700, letterSpacing:"0.45em", textTransform:"uppercase",
                           color:"rgba(212,160,176,0.55)", margin:"0 0 10px", display:"block", textAlign:"center" }}/>
                       <InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Text introductiv..." multiline
@@ -794,10 +794,10 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
                       <div style={{ display:"flex", flexDirection:"column", gap:8, textAlign:"center" }}>
                         {godparents.map((g:any,i:number)=>(
                           <div key={i} className={cn("flex items-center justify-center gap-2",editMode&&"group/gp")}>
-                            <InlineEdit tag="span" editMode={editMode} value={g.godfather||''} onChange={v=>updGodparent(i,'godfather',v)} placeholder="Naș"
+                            <InlineEdit tag="span" editMode={editMode} value={g.godfather||''} onChange={v=>updGodparent(i,'godfather',v)} placeholder="Nas"
                               style={{ fontFamily:SERIF, fontSize:18, fontWeight:300, color:"rgba(255,255,255,0.82)", letterSpacing:1 }}/>
                             <span style={{ color:"#fde68a", margin:"0 8px", fontStyle:"italic", fontFamily:SERIF }}>& </span>
-                            <InlineEdit tag="span" editMode={editMode} value={g.godmother||''} onChange={v=>updGodparent(i,'godmother',v)} placeholder="Nașă"
+                            <InlineEdit tag="span" editMode={editMode} value={g.godmother||''} onChange={v=>updGodparent(i,'godmother',v)} placeholder="Nasa"
                               style={{ fontFamily:SERIF, fontSize:18, fontWeight:300, color:"rgba(255,255,255,0.82)", letterSpacing:1 }}/>
                             {editMode && <button type="button" onClick={()=>delGodparent(i)} className="opacity-0 group-hover/gp:opacity-100 transition-opacity p-0.5 rounded hover:bg-red-900/30"><Trash2 className="w-3 h-3 text-red-400"/></button>}
                           </div>
@@ -805,7 +805,7 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
                         {editMode && <button type="button" onClick={addGodparent}
                           className="text-[10px] font-bold border border-dashed rounded-full px-2 py-0.5 flex items-center gap-1 mx-auto transition-colors"
                           style={{ color:"#d4a0b0", borderColor:"rgba(212,160,176,0.35)" }}>
-                          <Plus className="w-2.5 h-2.5"/> adaugă
+                          <Plus className="w-2.5 h-2.5"/> adauga
                         </button>}
                       </div>
                     </GlassCard>
@@ -813,7 +813,7 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
 
                   {block.type === 'parents' && (
                     <GlassCard>
-                      <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Părinții Noștri'} onChange={v=>updBlock(realIdx,{sectionTitle:v})} placeholder="Titlu..."
+                      <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle||'Parintii Nostri'} onChange={v=>updBlock(realIdx,{sectionTitle:v})} placeholder="Titlu..."
                         style={{ fontFamily:SANS, fontSize:8, fontWeight:700, letterSpacing:"0.45em", textTransform:"uppercase",
                           color:"rgba(212,160,176,0.55)", margin:"0 0 10px", display:"block", textAlign:"center" }}/>
                       <InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Text introductiv..." multiline
@@ -821,8 +821,8 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
                           margin:"0 0 12px", display:"block", textAlign:"center" }}/>
                       <div style={{ display:"flex", flexDirection:"column", gap:4, alignItems:"center" }}>
                         {([
-                          {key:'p1_father',ph:'Tatăl Miresei'},{key:'p1_mother',ph:'Mama Miresei'},
-                          {key:'p2_father',ph:'Tatăl Mirelui'},{key:'p2_mother',ph:'Mama Mirelui'},
+                          {key:'p1_father',ph:'Tatal Miresei'},{key:'p1_mother',ph:'Mama Miresei'},
+                          {key:'p2_father',ph:'Tatal Mirelui'},{key:'p2_mother',ph:'Mama Mirelui'},
                         ] as const).map(({key,ph})=>{
                           const val=parentsData?.[key];
                           if(!val&&!editMode) return null;
@@ -835,14 +835,14 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
 
                   {block.type === 'text' && (
                     <div style={{ textAlign:"center", padding:"8px 4px" }}>
-                      <InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Scrieți un mesaj..." multiline
+                      <InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Scrieti un mesaj..." multiline
                         style={{ fontFamily:SERIF, fontSize:14, fontStyle:"italic", color:"rgba(255,255,255,0.45)", lineHeight:1.8 }}/>
                     </div>
                   )}
 
                   {block.type === 'title' && (
                     <div style={{ textAlign:"center", padding:"4px 0" }}>
-                      <InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Titlu secțiune..."
+                      <InlineEdit tag="p" editMode={editMode} value={block.content||''} onChange={v=>updBlock(realIdx,{content:v})} placeholder="Titlu sectiune..."
                         style={{ fontFamily:SANS, fontSize:8, fontWeight:700, letterSpacing:"0.45em", textTransform:"uppercase", color:"rgba(212,160,176,0.55)" }}/>
                     </div>
                   )}
@@ -864,12 +864,12 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
           {editMode && (
             <div className="text-center mt-4 py-4 border-2 border-dashed rounded-2xl transition-colors"
               style={{ borderColor:"rgba(212,160,176,0.2)" }}>
-              <p className="text-[9px] uppercase tracking-widest mb-2.5 font-bold" style={{ color:"rgba(212,160,176,0.4)", fontFamily:SANS }}>Adaugă bloc</p>
+              <p className="text-[9px] uppercase tracking-widest mb-2.5 font-bold" style={{ color:"rgba(212,160,176,0.4)", fontFamily:SANS }}>Adauga bloc</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {[
-                  {type:'location',   label:'Locație', def:{label:'',time:'',locationName:'',locationAddress:'',wazeLink:''}},
-                  {type:'godparents', label:'Nași',    def:{sectionTitle:'Nașii Noștri',content:''}},
-                  {type:'parents',    label:'Părinți', def:{sectionTitle:'Părinții Noștri',content:''}},
+                  {type:'location',   label:'Locatie', def:{label:'',time:'',locationName:'',locationAddress:'',wazeLink:''}},
+                  {type:'godparents', label:'Nasi',    def:{sectionTitle:'Nasii Nostri',content:''}},
+                  {type:'parents',    label:'Parinti', def:{sectionTitle:'Parintii Nostri',content:''}},
                   {type:'text',       label:'Text',    def:{content:''}},
                   {type:'title',      label:'Titlu',   def:{content:''}},
                   {type:'divider',    label:'Linie',   def:{}},

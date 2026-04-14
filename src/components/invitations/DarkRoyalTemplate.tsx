@@ -10,7 +10,7 @@ export const meta: TemplateMeta = {
   id: 'dark-royal',
   name: 'Dark Royal',
   category: 'wedding',
-  description: 'Design modern dark navy cu accente aurii și timeline animat.',
+  description: 'Design modern dark navy cu accente aurii si timeline animat.',
   colors: ['#0d1117', '#1a2035', '#c9a84c'],
   previewClass: "bg-slate-900 border-yellow-700",
   elementsClass: "bg-yellow-600"
@@ -203,10 +203,10 @@ const CardContent = ({ block, editMode, onUpdate, isLeft }: {
         className="text-white font-semibold text-sm" />
     </div>
     <InlineEdit tag="p" editMode={editMode} value={block.locationName || ''}
-      onChange={v => onUpdate({ locationName: v })} placeholder="Locație..."
+      onChange={v => onUpdate({ locationName: v })} placeholder="Locatie..."
       className="font-semibold text-white text-sm" />
     <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''}
-      onChange={v => onUpdate({ locationAddress: v })} placeholder="Adresă..."
+      onChange={v => onUpdate({ locationAddress: v })} placeholder="Adresa..."
       className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.45)' }} />
     {(block.wazeLink || editMode) && (
       <div className={isLeft ? "flex justify-end" : "flex justify-start"}>
@@ -332,9 +332,9 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
   const delGodparent = (i: number) => setGodparents(prev => { const ng = prev.filter((_, j) => j !== i); upProfile('godparents', JSON.stringify(ng)); return ng; });
   const updParent = (field: string, val: string) => setParentsData((prev: any) => { const np = { ...prev, [field]: val }; upProfile('parents', JSON.stringify(np)); return np; });
 
-  const welcomeText     = profile.welcomeText?.trim()     || 'Împreună cu familiile noastre';
-  const celebrationText = profile.celebrationText?.trim() || 'nunții noastre';
-  const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirmă Prezența';
+  const welcomeText     = profile.welcomeText?.trim()     || 'Impreuna cu familiile noastre';
+  const celebrationText = profile.celebrationText?.trim() || 'nuntii noastre';
+  const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = profile.showRsvpButton !== false;
   const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';
   const displayBlocks   = editMode ? blocks : blocks.filter(b => b.show !== false);
@@ -363,7 +363,7 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
         <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full px-4 py-1.5 shadow-2xl text-[10px] font-bold pointer-events-none select-none"
           style={{ background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.3)', color: '#c9a84c' }}>
           <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#c9a84c' }} />
-          <span className="uppercase tracking-widest">Editare Directă</span>
+          <span className="uppercase tracking-widest">Editare Directa</span>
           <span style={{ color: 'rgba(201,168,76,0.5)' }} className="font-normal">— click pe orice text</span>
         </div>
       )}
@@ -456,7 +456,7 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
         {/* ── COUNTDOWN ── */}
         {profile.showCountdown && profile.weddingDate && !countdown.expired && (
           <div className="py-12 px-8 text-center" style={{ borderTop: '1px solid rgba(201,168,76,0.1)', borderBottom: '1px solid rgba(201,168,76,0.1)' }}>
-            <p className="text-[10px] uppercase tracking-[0.4em] mb-8 font-bold" style={{ color: 'rgba(201,168,76,0.5)' }}>Până la marele eveniment</p>
+            <p className="text-[10px] uppercase tracking-[0.4em] mb-8 font-bold" style={{ color: 'rgba(201,168,76,0.5)' }}>Pana la marele eveniment</p>
             <div className="flex justify-center gap-4 sm:gap-8">
               <CUnit value={countdown.days}    label="Zile" />
               <CUnit value={countdown.hours}   label="Ore" />
@@ -516,14 +516,14 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
                 <button onClick={() => addBlock('location', { label: '', time: '', locationName: '', locationAddress: '', wazeLink: '' })}
                   className="text-[10px] uppercase tracking-widest font-bold px-4 py-2 rounded-full transition-all"
                   style={{ color: '#c9a84c', border: '1px dashed rgba(201,168,76,0.3)' }}>
-                  + Adaugă locație
+                  + Adauga locatie
                 </button>
               </div>
             )}
           </div>
         )}
 
-        {/* ── OTHER BLOCKS (nași, părinți, text, title, divider) ── */}
+        {/* ── OTHER BLOCKS (nasi, parinti, text, title, divider) ── */}
         <div className="max-w-xl mx-auto px-8 pb-16 space-y-8">
 
           {otherBlocks.map((block) => {
@@ -556,7 +556,7 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
                 {block.type === 'godparents' && (
                   <div className="text-center space-y-4 py-6">
                     <GoldDivider />
-                    <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Nașii Noștri'}
+                    <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Nasii Nostri'}
                       onChange={v => updBlock(realIdx, { sectionTitle: v })} placeholder="Titlu..."
                       className="text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: '#c9a84c' }} />
                     <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
@@ -565,13 +565,13 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
                     <div className="flex flex-wrap justify-center gap-x-8 gap-y-2">
                       {godparents.map((g: any, i: number) => (
                         <div key={i} className={cn("text-sm font-medium text-white flex items-center gap-2", editMode && "group/gp")}>
-                          <InlineEdit tag="span" editMode={editMode} value={g.godfather || ''} onChange={v => updGodparent(i, 'godfather', v)} placeholder="Naș" className="text-white" />
+                          <InlineEdit tag="span" editMode={editMode} value={g.godfather || ''} onChange={v => updGodparent(i, 'godfather', v)} placeholder="Nas" className="text-white" />
                           <span style={{ color: '#c9a84c' }}>&</span>
-                          <InlineEdit tag="span" editMode={editMode} value={g.godmother || ''} onChange={v => updGodparent(i, 'godmother', v)} placeholder="Nașă" className="text-white" />
+                          <InlineEdit tag="span" editMode={editMode} value={g.godmother || ''} onChange={v => updGodparent(i, 'godmother', v)} placeholder="Nasa" className="text-white" />
                           {editMode && <button type="button" onClick={() => delGodparent(i)} className="opacity-0 group-hover/gp:opacity-100 transition-opacity p-0.5 rounded hover:bg-red-900/30"><Trash2 className="w-3 h-3 text-red-400" /></button>}
                         </div>
                       ))}
-                      {editMode && <button type="button" onClick={addGodparent} className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full transition-colors" style={{ color: '#c9a84c', border: '1px dashed rgba(201,168,76,0.3)' }}><Plus className="w-2.5 h-2.5 inline" /> adaugă</button>}
+                      {editMode && <button type="button" onClick={addGodparent} className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full transition-colors" style={{ color: '#c9a84c', border: '1px dashed rgba(201,168,76,0.3)' }}><Plus className="w-2.5 h-2.5 inline" /> adauga</button>}
                     </div>
                     <GoldDivider />
                   </div>
@@ -579,7 +579,7 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
 
                 {block.type === 'parents' && (
                   <div className="text-center space-y-3 py-4">
-                    <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Părinții Noștri'}
+                    <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Parintii Nostri'}
                       onChange={v => updBlock(realIdx, { sectionTitle: v })} placeholder="Titlu..."
                       className="text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: '#c9a84c' }} />
                     <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
@@ -587,8 +587,8 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
                       className="text-sm italic" style={{ color: 'rgba(255,255,255,0.5)', fontFamily: 'Georgia, serif' }} multiline />
                     <div className="flex flex-col gap-1">
                       {([
-                        { key: 'p1_father', ph: 'Tatăl Miresei' }, { key: 'p1_mother', ph: 'Mama Miresei' },
-                        { key: 'p2_father', ph: 'Tatăl Mirelui' }, { key: 'p2_mother', ph: 'Mama Mirelui' },
+                        { key: 'p1_father', ph: 'Tatal Miresei' }, { key: 'p1_mother', ph: 'Mama Miresei' },
+                        { key: 'p2_father', ph: 'Tatal Mirelui' }, { key: 'p2_mother', ph: 'Mama Mirelui' },
                       ] as const).map(({ key, ph }) => {
                         const val = parentsData?.[key];
                         if (!val && !editMode) return null;
@@ -608,7 +608,7 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
 
                 {block.type === 'title' && (
                   <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
-                    onChange={v => updBlock(realIdx, { content: v })} placeholder="Titlu secțiune..."
+                    onChange={v => updBlock(realIdx, { content: v })} placeholder="Titlu sectiune..."
                     className="text-center text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: '#c9a84c' }} />
                 )}
 
@@ -622,11 +622,11 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
           {/* Add non-location blocks */}
           {editMode && (
             <div className="text-center pt-4">
-              <p className="text-[9px] uppercase tracking-widest mb-3 font-bold" style={{ color: 'rgba(201,168,76,0.4)' }}>Adaugă bloc</p>
+              <p className="text-[9px] uppercase tracking-widest mb-3 font-bold" style={{ color: 'rgba(201,168,76,0.4)' }}>Adauga bloc</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {[
-                  { type:'godparents', label:'Nași',    def:{ sectionTitle:'Nașii Noștri', content:'' } },
-                  { type:'parents',    label:'Părinți',  def:{ sectionTitle:'Părinții Noștri', content:'' } },
+                  { type:'godparents', label:'Nasi',    def:{ sectionTitle:'Nasii Nostri', content:'' } },
+                  { type:'parents',    label:'Parinti',  def:{ sectionTitle:'Parintii Nostri', content:'' } },
                   { type:'text',       label:'Text',     def:{ content:'' } },
                   { type:'title',      label:'Titlu',    def:{ content:'' } },
                   { type:'divider',    label:'Linie',    def:{} },

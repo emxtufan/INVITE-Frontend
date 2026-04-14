@@ -174,15 +174,15 @@ const navGroups = [
   ],
   [{ id: "budget", label: "Buget", icon: Wallet }],
   [
-    { id: "guests", label: "Invitați", icon: Users },
+    { id: "guests", label: "Invitati", icon: Users },
    
-    { id: "invitations", label: "Invitații", icon: Mail },
+    { id: "invitations", label: "Template-urile", icon: Mail },
   ],
   [ { id: "services", label: "Servicii", icon: ShoppingBag },
     { id: "service-requests", label: "Cereri", icon: Inbox },
   ],
   [
-    { id: "settings", label: "Setări", icon: Settings },
+    { id: "settings", label: "Setari", icon: Settings },
     { id: "history", label: "Istoric", icon: History },
   ],
 ];
@@ -198,8 +198,8 @@ const navGroupsForUi = [
   ],
   [{ id: "budget", label: "Buget", icon: Wallet }],
   [
-    { id: "guests", label: "Invitati", icon: Users },
-    { id: "invitations", label: "Invitatii", icon: Mail },
+    { id: "guests", label: "Generare Linkuri", icon: Users },
+    { id: "invitations", label: "Template-urile", icon: Mail },
     { id: "settings", label: "Config Template", icon: Settings },
   ],
   [
@@ -496,7 +496,7 @@ const GuestInput = memo(
           placeholder={
             elementType === ElementType.PRESIDIUM
               ? "Rol (ex: Mire)..."
-              : "Caută invitat..."
+              : "Cauta invitat..."
           }
           value={value}
           onChange={handleChange}
@@ -515,7 +515,7 @@ const GuestInput = memo(
               e.preventDefault(); // Prevent blur so click registers
               handleManualConfirm();
             }}
-            title={isNewEntry ? "Adaugă" : "Salvează"}
+            title={isNewEntry ? "Adauga" : "Salveaza"}
           >
             {isNewEntry ? (
               <Plus className="w-3.5 h-3.5" />
@@ -533,7 +533,7 @@ const GuestInput = memo(
               e.preventDefault();
               handleManualRemove();
             }}
-            title="Eliberează Locul"
+            title="Elibereaza Locul"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
@@ -581,7 +581,7 @@ const GuestInput = memo(
                     </div>
                   ) : (
                     <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                      {g.status === "opened" ? "Văzut" : "În așteptare"}
+                      {g.status === "opened" ? "Vazut" : "In asteptare"}
                     </span>
                   )}
                 </div>
@@ -595,6 +595,14 @@ const GuestInput = memo(
 );
 
 const DashboardApp = () => {
+  const removeSuggestedTasks = (taskList: Task[] | undefined | null): Task[] =>
+    Array.isArray(taskList)
+      ? taskList.filter(
+          (task) =>
+            !(typeof task?.id === "string" && /^EVT-\d+$/i.test(task.id)),
+        )
+      : [];
+
   const { toast } = useToast();
 
   // --- STATE ---
@@ -690,7 +698,9 @@ const DashboardApp = () => {
   });
   const [elements, setElements] = useState<CanvasElement[]>([]);
 
-  const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
+  const [tasks, setTasks] = useState<Task[]>(() =>
+    removeSuggestedTasks(INITIAL_TASKS),
+  );
 
   const [budgetCategories, setBudgetCategories] = useState<BudgetCategory[]>(
     INITIAL_BUDGET_CATEGORIES,
@@ -829,7 +839,7 @@ const DashboardApp = () => {
       if (viewingSnapshotId) {
         toast({
           title: "Mod Vizualizare",
-          description: "Aceasta este o arhivă Read-Only.",
+          description: "Aceasta este o arhiva Read-Only.",
           variant: "warning",
         });
       } else {
@@ -882,7 +892,7 @@ const DashboardApp = () => {
     localStorage.removeItem("weddingPro_hasProfileOverrides");
     setSession(null);
     setElements([]);
-    setTasks(INITIAL_TASKS);
+    setTasks([]);
     setBudgetCategories(INITIAL_BUDGET_CATEGORIES);
     setNotifications([]);
     setNotificationActivity({});
@@ -890,7 +900,7 @@ const DashboardApp = () => {
     setIsAccountPanelOpen(false);
     toast({
       title: "Deconectat",
-      description: "Te așteptăm să revii!",
+      description: "Te asteptam sa revii!",
       variant: "default",
     });
   };
@@ -1326,8 +1336,8 @@ const DashboardApp = () => {
   const handleSetupSubmit = async () => {
     if (!setupDate) {
       toast({
-        title: "Dată lipsă",
-        description: "Te rugăm să alegi data evenimentului.",
+        title: "Data lipsa",
+        description: "Te rugam sa alegi data evenimentului.",
         variant: "destructive",
       });
       return;
@@ -1428,7 +1438,7 @@ const DashboardApp = () => {
   const handleArchiveAndReset = async () => {
     if (
       !confirm(
-        "Ești sigur că vrei să arhivezi evenimentul curent și să începi unul nou? Datele vor fi salvate în istoric, dar planul tău va reveni la Free pentru noul eveniment.",
+        "Esti sigur ca vrei sa arhivezi evenimentul curent si sa incepi unul nou? Datele vor fi salvate in istoric, dar planul tau va reveni la Free pentru noul eveniment.",
       )
     )
       return;
@@ -1443,7 +1453,7 @@ const DashboardApp = () => {
       if (res.ok) {
         toast({
           title: "Eveniment Arhivat",
-          description: "Puteți începe planificarea noului eveniment.",
+          description: "Puteti incepe planificarea noului eveniment.",
           variant: "success",
         });
         // Force a full refresh to clear all states and re-fetch clean data
@@ -1471,7 +1481,7 @@ const DashboardApp = () => {
       const res = await fetch(`${API_URL}/archived-event/${snapshotId}`, {
         headers: { Authorization: `Bearer ${session.token}` },
       });
-      if (!res.ok) throw new Error("Nu am putut încărca arhiva.");
+      if (!res.ok) throw new Error("Nu am putut incarca arhiva.");
 
       const data = await res.json();
 
@@ -1486,7 +1496,7 @@ const DashboardApp = () => {
       // Project Data
       if (data.project) {
         setElements(data.project.elements || []);
-        setTasks(data.project.tasks || []);
+        setTasks(removeSuggestedTasks(data.project.tasks));
         setBudgetCategories(data.project.budget || []);
         setTotalBudget(data.project.totalBudget || 0);
         setSelectedTemplate(data.project.selectedTemplate || "classic");
@@ -1498,16 +1508,16 @@ const DashboardApp = () => {
 
       setView("dashboard");
       toast({
-        title: "Mod Arhivă",
+        title: "Mod Arhiva",
         description:
-          "Vizualizezi un eveniment trecut. Modificările sunt dezactivate.",
+          "Vizualizezi un eveniment trecut. Modificarile sunt dezactivate.",
         variant: "default",
       });
     } catch (e) {
       console.error(e);
       toast({
         title: "Eroare",
-        description: "Arhiva nu a putut fi încărcată.",
+        description: "Arhiva nu a putut fi incarcata.",
         variant: "destructive",
       });
     } finally {
@@ -1527,7 +1537,7 @@ const DashboardApp = () => {
       label: "Mese",
       items: [
         {
-          label: "Rotundă",
+          label: "Rotunda",
           icon: Circle,
           onClick: () => {
             if (handleActionAttempt())
@@ -1538,7 +1548,7 @@ const DashboardApp = () => {
                   height: 130,
                   shape: TableShape.ROUND,
                   capacity: 10,
-                  name: "Masă Rotundă",
+                  name: "Masa Rotunda",
                 },
               });
           },
@@ -1555,13 +1565,13 @@ const DashboardApp = () => {
                   height: 90,
                   shape: TableShape.RECT,
                   capacity: 10,
-                  name: "Masă Lungă",
+                  name: "Masa Lunga",
                 },
               });
           },
         },
         {
-          label: "Pătrată",
+          label: "Patrata",
           icon: Square,
           onClick: () => {
             if (handleActionAttempt())
@@ -1572,7 +1582,7 @@ const DashboardApp = () => {
                   height: 110,
                   shape: TableShape.SQUARE,
                   capacity: 8,
-                  name: "Masă Pătrată",
+                  name: "Masa Patrata",
                 },
               });
           },
@@ -1617,13 +1627,13 @@ const DashboardApp = () => {
           },
         },
         {
-          label: "Scenă",
+          label: "Scena",
           icon: Speaker,
           onClick: () => {
             if (handleActionAttempt())
               setPlacementMode({
                 type: ElementType.STAGE,
-                config: { width: 300, height: 150, name: "Scenă" },
+                config: { width: 300, height: 150, name: "Scena" },
               });
           },
         },
@@ -1693,13 +1703,13 @@ const DashboardApp = () => {
       label: "Structural",
       items: [
         {
-          label: "Stâlp",
+          label: "Stalp",
           icon: Circle,
           onClick: () => {
             if (handleActionAttempt())
               setPlacementMode({
                 type: ElementType.DECOR,
-                config: { width: 30, height: 30, name: "Stâlp" },
+                config: { width: 30, height: 30, name: "Stalp" },
               });
           },
         },
@@ -1714,7 +1724,7 @@ const DashboardApp = () => {
               });
           },
         },
-        // { label: 'Sala', icon: Home, onClick: () => { if(handleActionAttempt()) setPlacementMode({ type: ElementType.ROOM, config: { width: 1000, height: 800, name: 'Sală' } }) } },
+        // { label: 'Sala', icon: Home, onClick: () => { if(handleActionAttempt()) setPlacementMode({ type: ElementType.ROOM, config: { width: 1000, height: 800, name: 'Sala' } }) } },
       ],
     },
   ];
@@ -2032,9 +2042,9 @@ const DashboardApp = () => {
       }
 
       if (data.tasks && data.tasks.length > 0) {
-        setTasks(data.tasks);
+        setTasks(removeSuggestedTasks(data.tasks));
       } else {
-        setTasks(INITIAL_TASKS);
+        setTasks([]);
       }
 
       if (data.budget) setBudgetCategories(data.budget);
@@ -2047,7 +2057,7 @@ const DashboardApp = () => {
 
     } catch (e) {
       console.error(e);
-      setTasks(INITIAL_TASKS);
+      setTasks([]);
       setBudgetCategories(INITIAL_BUDGET_CATEGORIES);
     } finally {
       setIsLoadingData(false);
@@ -2067,7 +2077,7 @@ const DashboardApp = () => {
     }
   };
 
-  // ACTUALIZARE PROFIL (SETTINGS) CU PERSISTENȚĂ FIXATĂ
+  // ACTUALIZARE PROFIL (SETTINGS) CU PERSISTENTA FIXATA
   const handleUpdateProfile = useCallback(async (newProfile: UserProfile) => {
     if (!session?.token) return;
 
@@ -2237,7 +2247,7 @@ const DashboardApp = () => {
     } as UserSession;
     setSession(newSession);
     localStorage.setItem("weddingPro_session", JSON.stringify(newSession));
-    toast({ title: "Felicitări! Ești Premium!", variant: "success" });
+    toast({ title: "Felicitari! Esti Premium!", variant: "success" });
   };
 
   useEffect(() => {
@@ -2350,7 +2360,7 @@ const DashboardApp = () => {
           toast({
             title: "Nu s-a putut salva",
             description:
-              fullErr || "Salvarea a eșuat. Verifică statusul evenimentului.",
+              fullErr || "Salvarea a esuat. Verifica statusul evenimentului.",
             variant: "destructive",
           });
         }
@@ -2415,14 +2425,14 @@ const DashboardApp = () => {
     };
     setElements((prev) => [...prev, newEl]);
     setPlacementMode(null);
-    toast({ title: "Element adăugat" });
+    toast({ title: "Element adaugat" });
   };
 
   const handleDelete = (id: string) => {
     if (!handleActionAttempt()) return;
     setElements((prev) => prev.filter((el) => el.id !== id));
     if (selectedId === id) setSelectedId(null);
-    toast({ title: "Element șters" });
+    toast({ title: "Element sters" });
   };
 
   const handleClearCanvas = () => {
@@ -2561,7 +2571,7 @@ const DashboardApp = () => {
     }
 
     placeGuestOnTable(elId, startIdx, guestEntry, confirmedCount, 0);
-    toast({ title: "Grup Adăugat", variant: "success" });
+    toast({ title: "Grup Adaugat", variant: "success" });
   };
 
   const resolveConflict = (action: "move_all" | "split") => {
@@ -2580,7 +2590,7 @@ const DashboardApp = () => {
       if (!nearestTable) {
         toast({
           title: "Eroare",
-          description: "Nu există alte mese disponibile.",
+          description: "Nu exista alte mese disponibile.",
           variant: "destructive",
         });
         return;
@@ -2589,7 +2599,7 @@ const DashboardApp = () => {
       placeGuestOnTable(nearestTable.id, targetIdx, guestEntry, needed, 0);
       toast({
         title: "Grup Mutat",
-        description: `Tot grupul a fost așezat la ${nearestTable.name}.`,
+        description: `Tot grupul a fost asezat la ${nearestTable.name}.`,
         variant: "default",
       });
     } else if (action === "split") {
@@ -2611,14 +2621,14 @@ const DashboardApp = () => {
           available,
         );
         toast({
-          title: "Grup Împărțit",
+          title: "Grup Impartit",
           description: `${available} aici, ${remaining} la ${nearestTable.name}.`,
           variant: "success",
         });
       } else {
         toast({
-          title: "Grup Împărțit",
-          description: `${available} așezați. ${remaining} au rămas pe dinafară (fără locuri).`,
+          title: "Grup Impartit",
+          description: `${available} asezati. ${remaining} au ramas pe dinafara (fara locuri).`,
           variant: "warning",
         });
       }
@@ -2725,7 +2735,7 @@ const DashboardApp = () => {
                 Bine ai venit! 👋
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
-                Hai să configurăm primul tău eveniment.
+                Hai sa configuram primul tau eveniment.
               </p>
             </CardHeader>
             <CardContent className="space-y-6 pt-4 overflow-y-auto flex-1 min-h-0">
@@ -2765,7 +2775,7 @@ const DashboardApp = () => {
                       {type === "kids" && <Gift className="w-4 h-4" />}
                       <span className="capitalize">
                         {type === "wedding"
-                          ? "Nuntă"
+                          ? "Nunta"
                           : type === "baptism"
                             ? "Botez"
                             : type === "anniversary"
@@ -2826,8 +2836,8 @@ const DashboardApp = () => {
                   onChange={(e) => setSetupDate(e.target.value)}
                 />
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" /> Atenție: Evenimentul se
-                  finalizează automat la 24 de ore după această dată.
+                  <AlertCircle className="w-3 h-3" /> Atentie: Evenimentul se
+                  finalizeaza automat la 24 de ore dupa aceasta data.
                 </p>
               </div>
               <Button
@@ -2844,7 +2854,7 @@ const DashboardApp = () => {
                 {isSettingUp ? (
                   <Loader2 className="w-4 h-4 animate-spin mr-2" />
                 ) : (
-                  "Creează Evenimentul"
+                  "Creeaza Evenimentul"
                 )}
               </Button>
             </CardContent>
@@ -2863,10 +2873,10 @@ const DashboardApp = () => {
               Eveniment Expirat
             </DialogTitle>
             <DialogDescription className="text-center pt-2">
-              Acest eveniment a avut loc deja și a trecut în modul "Read Only"
+              Acest eveniment a avut loc deja si a trecut in modul "Read Only"
               (Offline).
               <br />
-              Nu mai poți face modificări asupra datelor.
+              Nu mai poti face modificari asupra datelor.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-center">
@@ -2904,9 +2914,9 @@ const DashboardApp = () => {
               <History className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-sm">Mod Vizualizare Arhivă</h3>
+              <h3 className="font-bold text-sm">Mod Vizualizare Arhiva</h3>
               <p className="text-xs opacity-90">
-                Ești în modul Read-Only. Modificările nu sunt salvate.
+                Esti in modul Read-Only. Modificarile nu sunt salvate.
               </p>
             </div>
           </div>
@@ -2914,7 +2924,7 @@ const DashboardApp = () => {
             onClick={handleExitSnapshot}
             className="bg-white text-blue-600 hover:bg-white/90 border-none shadow-sm"
           >
-            Ieși din Arhivă
+            Iesi din Arhiva
           </Button>
         </div>
       )}
@@ -2931,7 +2941,7 @@ const DashboardApp = () => {
                 Eveniment Finalizat (Offline)
               </h3>
               <p className="text-xs opacity-90">
-                Mod "Read-Only". Arhivează pentru a începe unul nou.
+                Mod "Read-Only". Arhiveaza pentru a incepe unul nou.
               </p>
             </div>
           </div>
@@ -2943,7 +2953,7 @@ const DashboardApp = () => {
             {isResetting ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
-              "Arhivează & Eveniment Nou"
+              "Arhiveaza & Eveniment Nou"
             )}
           </Button>
         </div>
@@ -2957,12 +2967,12 @@ const DashboardApp = () => {
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-amber-600">
-              <AlertCircle className="w-5 h-5" /> Capacitate Insuficientă
+              <AlertCircle className="w-5 h-5" /> Capacitate Insuficienta
             </DialogTitle>
             <DialogDescription className="pt-2">
               Grupul <strong>{conflictData?.guestEntry.name}</strong> are{" "}
-              <strong>{conflictData?.needed}</strong> persoane, dar la această
-              masă mai sunt doar <strong>{conflictData?.available}</strong>{" "}
+              <strong>{conflictData?.needed}</strong> persoane, dar la aceasta
+              masa mai sunt doar <strong>{conflictData?.available}</strong>{" "}
               locuri libere.
             </DialogDescription>
           </DialogHeader>
@@ -2978,13 +2988,13 @@ const DashboardApp = () => {
             >
               <div className="flex flex-col">
                 <span className="font-semibold flex items-center gap-2">
-                  <ArrowRight className="w-4 h-4 text-blue-500" /> Mută tot
+                  <ArrowRight className="w-4 h-4 text-blue-500" /> Muta tot
                   grupul
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  Găsește loc la{" "}
+                  Gaseste loc la{" "}
                   <strong>{conflictData?.nearestTable?.name || "..."}</strong>{" "}
-                  (cea mai apropiată).
+                  (cea mai apropiata).
                 </span>
               </div>
               <Button
@@ -2992,7 +3002,7 @@ const DashboardApp = () => {
                 variant="secondary"
                 disabled={!conflictData?.nearestTable}
               >
-                Selectează
+                Selecteaza
               </Button>
             </div>
             <div
@@ -3001,24 +3011,24 @@ const DashboardApp = () => {
             >
               <div className="flex flex-col">
                 <span className="font-semibold flex items-center gap-2">
-                  <Split className="w-4 h-4 text-orange-500" /> Împarte grupul
+                  <Split className="w-4 h-4 text-orange-500" /> Imparte grupul
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  Umple masa curentă ({conflictData?.available} pers), restul{" "}
+                  Umple masa curenta ({conflictData?.available} pers), restul{" "}
                   {conflictData?.nearestTable
                     ? `la ${conflictData.nearestTable.name}`
-                    : "în așteptare"}
+                    : "in asteptare"}
                   .
                 </span>
               </div>
               <Button size="sm" variant="secondary">
-                Selectează
+                Selecteaza
               </Button>
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setConflictData(null)}>
-              Anulează
+              Anuleaza
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -3030,9 +3040,9 @@ const DashboardApp = () => {
               <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                 <Loader2 className="w-6 h-6 text-primary animate-spin" />
               </div>
-              <h3 className="font-semibold text-lg">Se salvează...</h3>
+              <h3 className="font-semibold text-lg">Se salveaza...</h3>
               <p className="text-sm text-muted-foreground mt-1">
-                Sincronizăm datele cu serverul.
+                Sincronizam datele cu serverul.
               </p>
             </>
           ) : (
@@ -3042,7 +3052,7 @@ const DashboardApp = () => {
               </div>
               <h3 className="font-semibold text-lg">Salvat cu succes!</h3>
               <p className="text-sm text-muted-foreground mt-1">
-                Toate modificările au fost înregistrate.
+                Toate modificarile au fost inregistrate.
               </p>
             </>
           )}
@@ -3062,10 +3072,10 @@ const DashboardApp = () => {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>
-              {calendarTaskEdit ? "Editează Sarcina" : "Adaugă Sarcină"}
+              {calendarTaskEdit ? "Editeaza Sarcina" : "Adauga Sarcina"}
             </DialogTitle>
             <DialogDescription>
-              Adaugă detalii în calendar. Salvarea se face automat în lista de
+              Adauga detalii in calendar. Salvarea se face automat in lista de
               sarcini.
             </DialogDescription>
           </DialogHeader>
@@ -3087,7 +3097,7 @@ const DashboardApp = () => {
             />
           ) : (
             <div className="text-center py-8 text-muted-foreground">
-              Eveniment finalizat. Nu se pot adăuga sarcini noi.
+              Eveniment finalizat. Nu se pot adauga sarcini noi.
             </div>
           )}
         </DialogContent>
@@ -3228,7 +3238,7 @@ const DashboardApp = () => {
                       Upgrade to Pro
                     </h3>
                     <p className="text-sm text-muted-foreground dark:text-neutral-400 leading-relaxed mb-3">
-                      Deblochează funcții nelimitate și teme exclusive.
+                      Deblocheaza functii nelimitate si teme exclusive.
                     </p>
                     <Button
                       size="sm"
@@ -3920,7 +3930,7 @@ const DashboardApp = () => {
               )}
               {saveStatus === "saving" && (
                 <>
-                  <Loader2 className="w-3 h-3 animate-spin" /> Se salvează...
+                  <Loader2 className="w-3 h-3 animate-spin" /> Se salveaza...
                 </>
               )}
               {saveStatus === "unsaved" && (
@@ -3939,7 +3949,7 @@ const DashboardApp = () => {
               disabled={!isEventActive}
             >
               <Save className="w-4 h-4" />{" "}
-              <span className="hidden sm:inline">Salvează</span>
+              <span className="hidden sm:inline">Salveaza</span>
             </Button>
           </div>
         </header>
@@ -4054,7 +4064,7 @@ const DashboardApp = () => {
                   onClick={() => setIsLibraryOpen(!isLibraryOpen)}
                   className="absolute -right-5 top-1/2 -translate-y-1/2 h-12 w-5 bg-background border border-l-0 rounded-r-md shadow-md flex items-center justify-center hover:bg-accent transition-all z-50 text-muted-foreground hover:text-primary focus:outline-none"
                   style={{ pointerEvents: "auto" }}
-                  title={isLibraryOpen ? "Ascunde Meniul" : "Arată Meniul"}
+                  title={isLibraryOpen ? "Ascunde Meniul" : "Arata Meniul"}
                 >
                   {isLibraryOpen ? (
                     <ChevronLeft className="w-3 h-3" />
@@ -4098,7 +4108,7 @@ const DashboardApp = () => {
                     {placementMode ? (
                       <div className="flex flex-col gap-2 animate-in slide-in-from-bottom-2">
                         <span className="text-xs font-semibold text-primary flex items-center gap-1">
-                          <Plus className="w-3 h-3" /> Plasează:{" "}
+                          <Plus className="w-3 h-3" /> Plaseaza:{" "}
                           {placementMode.config.name}
                         </span>
                         <Button
@@ -4107,12 +4117,12 @@ const DashboardApp = () => {
                           onClick={() => setPlacementMode(null)}
                           className="w-full h-8 text-xs"
                         >
-                          Anulează
+                          Anuleaza
                         </Button>
                       </div>
                     ) : (
                       <p className="text-center text-xs text-muted-foreground">
-                        Selectează un obiect
+                        Selecteaza un obiect
                       </p>
                     )}
                   </div>
@@ -4178,19 +4188,19 @@ const DashboardApp = () => {
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>
-                            Ștergi Tot Planul?
+                            Stergi Tot Planul?
                           </AlertDialogTitle>
                           <AlertDialogDescription>
-                            Această acțiune este ireversibilă.
+                            Aceasta actiune este ireversibila.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Anulează</AlertDialogCancel>
+                          <AlertDialogCancel>Anuleaza</AlertDialogCancel>
                           <AlertDialogAction
                             className="bg-red-600"
                             onClick={handleClearCanvas}
                           >
-                            Șterge Tot
+                            Sterge Tot
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
@@ -4246,7 +4256,7 @@ const DashboardApp = () => {
               >
                 <div className="h-14 border-b flex items-center justify-between px-4 bg-muted/10 shrink-0">
                   <span className="font-semibold text-sm">
-                    Proprietăți Element
+                    Proprietati Element
                   </span>
                   <Button
                     variant="ghost"
@@ -4315,7 +4325,7 @@ const DashboardApp = () => {
                         </div>
                         <div className="space-y-2">
                           <label className="text-xs font-medium text-muted-foreground uppercase flex justify-between">
-                            <span>Invitați Așezați</span>
+                            <span>Invitati Asezati</span>
                             <span>
                               {selectedEl.guests?.filter(Boolean).length}/
                               {selectedEl.capacity}
@@ -4418,7 +4428,7 @@ const DashboardApp = () => {
                         disabled={!isEventActive}
                         onClick={() => handleDelete(selectedEl.id)}
                       >
-                        Șterge Element
+                        Sterge Element
                       </Button>
                     </div>
                   </div>
@@ -4428,7 +4438,7 @@ const DashboardApp = () => {
                       <Settings className="w-6 h-6 opacity-20" />
                     </div>
                     <p className="text-sm">
-                      Selectează un element din plan pentru a-l edita.
+                      Selecteaza un element din plan pentru a-l edita.
                     </p>
                   </div>
                 )}
@@ -4442,4 +4452,3 @@ const DashboardApp = () => {
 };
 
 export default DashboardApp;
-

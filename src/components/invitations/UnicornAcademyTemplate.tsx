@@ -23,7 +23,7 @@ export const meta: TemplateMeta = {
   id: 'unicorn-academy',
   name: 'Unicorn Academy',
   category: 'kids',
-  description: 'Magie purpurie — Sophia & Wildstar te invită la petrecere, cu lumini de stele și corn de unicorn.',
+  description: 'Magie purpurie — Sophia & Wildstar te invita la petrecere, cu lumini de stele si corn de unicorn.',
   colors: ['#3a006f', '#F5A623', '#DDB6F8'],
   previewClass: "bg-purple-950 border-yellow-500",
   elementsClass: "bg-yellow-500",
@@ -400,7 +400,7 @@ const Countdown: React.FC<{ targetDate: string | undefined }> = ({ targetDate })
         <span style={{ fontFamily:F.label, fontSize:8, letterSpacing:'.48em',
           textTransform:'uppercase', color:C.gold, opacity:.75,
           padding:'4px 16px', border:`1px solid ${hexToRgba(C.gold,.2)}`, borderRadius:50 }}>
-          {isSoon ? '✦ Mâine ✦' : 'Timp rămas'}
+          {isSoon ? '✦ Maine ✦' : 'Timp ramas'}
         </span>
       </div>
       <div style={{ display:'flex', justifyContent:'center', alignItems:'flex-start', gap:8 }}>
@@ -513,7 +513,7 @@ const UnicornIntro: React.FC<IntroProps> = ({ l1, l2, onDone }) => {
         </h1>
         <p style={{ fontFamily:F.label, fontSize:8, letterSpacing:'.5em',
           textTransform:'uppercase', color:hexToRgba(C.lavender,.6), margin:0 }}>
-          — te invită la petrecere —
+          — te invita la petrecere —
         </p>
       </div>
 
@@ -593,8 +593,8 @@ const NavBtns: React.FC<{ address?:string; wazeLink?:string }> = ({ address, waz
 
 // ─── BLOCK TOOLBAR & INSERT ───────────────────────────────────────────────────
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: "🖼", text: "✏️", location: "📍", calendar: "📅", countdown: "⏱",
-  timeline: "🕒", music: "🎵", gift: "🎁", whatsapp: "💬", rsvp: "✉️",
+  photo: "🖼", text: "✏", location: "📍", calendar: "📅", countdown: "⏱",
+  timeline: "🕒", music: "🎵", gift: "🎁", whatsapp: "💬", rsvp: "✉",
   divider: "—", family: "👨‍👩‍👧", date: "📆", description: "📝",
 };
 
@@ -805,7 +805,7 @@ const MusicBlock: React.FC<{
         </div>
         <span style={{ fontFamily:F.label, fontSize:10, fontWeight:700, letterSpacing:"0.3em", textTransform:"uppercase",
           color:playing ? C.purple : C.purpleMid, transition:"color 0.3s" }}>
-          {playing ? "Se redă acum" : "Melodia zilei"}
+          {playing ? "Se reda acum" : "Melodia zilei"}
         </span>
         {playing && (
           <div style={{ display:"flex", alignItems:"flex-end", gap:2, height:14, marginLeft:"auto" }}>
@@ -830,7 +830,7 @@ const MusicBlock: React.FC<{
       {!isActive && !editMode && (
         <div style={{ textAlign:"center", padding:"16px 0", opacity:.4 }}>
           <Music className="w-8 h-8" style={{ color:C.purple, display:"block", margin:"0 auto 6px" }}/>
-          <p style={{ fontFamily:F.body, fontSize:12, fontStyle:"italic", color:C.purpleMid, margin:0 }}>Melodia va apărea aici</p>
+          <p style={{ fontFamily:F.body, fontSize:12, fontStyle:"italic", color:C.purpleMid, margin:0 }}>Melodia va aparea aici</p>
         </div>
       )}
       {isActive && (
@@ -908,8 +908,8 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
         <Music className="w-8 h-8" style={{ color:C.purple }}/>
       </div>
       <p style={{ fontFamily:F.display, fontSize:28, color:C.purple, margin:"0 0 6px", lineHeight:1.2 }}>{childName}</p>
-      <p style={{ fontFamily:F.body, fontSize:13, fontWeight:700, color:C.purpleMid, margin:"0 0 8px" }}>te invită la petrecere magică</p>
-      <p style={{ fontFamily:F.body, fontSize:11, color:"#5f6f84", margin:"0 0 28px", lineHeight:1.6 }}>Invitația are o melodie specială.<br/>Vrei să activezi muzica?</p>
+      <p style={{ fontFamily:F.body, fontSize:13, fontWeight:700, color:C.purpleMid, margin:"0 0 8px" }}>te invita la petrecere magica</p>
+      <p style={{ fontFamily:F.body, fontSize:11, color:"#5f6f84", margin:"0 0 28px", lineHeight:1.6 }}>Invitatia are o melodie speciala.<br/>Vrei sa activezi muzica?</p>
       <button type="button" onClick={onAllow} style={{ width:"100%", padding:"14px 0",
         background:`linear-gradient(135deg,${C.purpleLight},${C.purple})`, border:"none", borderRadius:50,
         cursor:"pointer", fontFamily:F.label, fontSize:11, fontWeight:700, color:"white",
@@ -1078,10 +1078,10 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
 
   const getEventText = () => {
     const map: Record<string,any> = {
-      wedding:     { welcome:'Cu onoare vă invităm',       celebration:'căsătoriei',     churchLabel:'Cununia',    venueLabel:'Recepția',   civilLabel:'Cununie Civilă' },
-      baptism:     { welcome:'Cu bucurie vă invităm',      celebration:'botezului',       churchLabel:'Botezul',    venueLabel:'Petrecerea', civilLabel:'' },
-      anniversary: { welcome:'Cu drag vă invităm alături', celebration:'aniversării',     churchLabel:'Ceremonia',  venueLabel:'Recepția',   civilLabel:'' },
-      kids:        { welcome:'Te invităm la',               celebration:'ziua de naștere', churchLabel:'Distracția', venueLabel:'Petrecerea', civilLabel:'' },
+      wedding:     { welcome:'Cu onoare va invitam',       celebration:'casatoriei',     churchLabel:'Cununia',    venueLabel:'Receptia',   civilLabel:'Cununie Civila' },
+      baptism:     { welcome:'Cu bucurie va invitam',      celebration:'botezului',       churchLabel:'Botezul',    venueLabel:'Petrecerea', civilLabel:'' },
+      anniversary: { welcome:'Cu drag va invitam alaturi', celebration:'aniversarii',     churchLabel:'Ceremonia',  venueLabel:'Receptia',   civilLabel:'' },
+      kids:        { welcome:'Te invitam la',               celebration:'ziua de nastere', churchLabel:'Distractia', venueLabel:'Petrecerea', civilLabel:'' },
     };
     const d = map[profile.eventType || 'wedding'] || map.wedding;
     return {
@@ -1120,19 +1120,19 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
 
   const BLOCK_TYPES = [
     { type:"photo",       label:"Foto",       def:{ imageData:"", altText:"", aspectRatio:"1:1", photoClip:"rect", photoMasks:[] } },
-    { type:"text",        label:"Text",       def:{ content:"O poveste magică începe..." } },
+    { type:"text",        label:"Text",       def:{ content:"O poveste magica incepe..." } },
     { type:"location",    label:"Locatie",    def:{ label:"Locatie", time:"11:00", locationName:"Locatie eveniment", locationAddress:"Strada Exemplu, Nr. 1", wazeLink:"" } },
     { type:"calendar",    label:"Calendar",   def:{} },
-    { type:"countdown",   label:"Countdown",  def:{ countdownTitle:"Timp rămas până la eveniment" } },
+    { type:"countdown",   label:"Countdown",  def:{ countdownTitle:"Timp ramas pana la eveniment" } },
     { type:"timeline",    label:"Cronologie", def:{} },
     { type:"music",       label:"Muzica",     def:{ musicTitle:"", musicArtist:"", musicType:"none" } },
     { type:"gift",        label:"Cadouri",    def:{ sectionTitle:"Sugestie cadou", content:"", iban:"", ibanName:"" } },
     { type:"whatsapp",    label:"WhatsApp",   def:{ label:"Contact WhatsApp", content:"0700000000" } },
-    { type:"rsvp",        label:"RSVP",       def:{ label:"Confirmă Prezența" } },
+    { type:"rsvp",        label:"RSVP",       def:{ label:"Confirma Prezenta" } },
     { type:"divider",     label:"Linie",      def:{} },
-    { type:"family",      label:"Familie",    def:{ label:"Părinții copilului", content:"Cu drag și recunoștință", members:JSON.stringify([{name1:"Mama",name2:"Tata"}]) } },
+    { type:"family",      label:"Familie",    def:{ label:"Parintii copilului", content:"Cu drag si recunostinta", members:JSON.stringify([{name1:"Mama",name2:"Tata"}]) } },
     { type:"date",        label:"Data",       def:{} },
-    { type:"description", label:"Descriere",  def:{ content:"O scurtă descriere..." } },
+    { type:"description", label:"Descriere",  def:{ content:"O scurta descriere..." } },
   ];
 
   return (
@@ -1140,7 +1140,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
       <style>{UA_CSS}</style>
       {showAudioModal && (
         <AudioPermissionModal
-          childName={profile.partner1Name || "Invitația"}
+          childName={profile.partner1Name || "Invitatia"}
           onAllow={() => { audioAllowedRef.current = true; musicPlayRef.current?.unlock(); setShowAudioModal(false); }}
           onDeny={() => { audioAllowedRef.current = false; setShowAudioModal(false); }}
         />
@@ -1190,7 +1190,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
                   </div>
                   <p style={{ fontFamily:F.label, fontSize:8, letterSpacing:'.62em', textTransform:'uppercase',
                     color:C.gold, margin:'0 0 14px', opacity:.85 }}>
-                    Unicorn Academy · Invitație
+                    Unicorn Academy · Invitatie
                   </p>
                 </Reveal>
 
@@ -1238,7 +1238,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
                   <Reveal from="bottom" delay={0.35}>
                     <p style={{ fontFamily:F.body, fontSize:13, fontWeight:700, fontStyle:'italic',
                       color:hexToRgba(C.lavender,.5), margin:'12px 0 0', lineHeight:1.7 }}>
-                      vă invită la{" "}
+                      va invita la{" "}
                       <InlineEdit tag="span" editMode={!!editMode} value={texts.celebration}
                         onChange={v => upProfile("celebrationText", v)} textLabel="Hero - celebrare"
                         style={{ fontFamily:F.body, fontSize:13, fontStyle:'italic', color:hexToRgba(C.lavender,.5) }}/>
@@ -1279,7 +1279,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
                     <div style={{ position:'absolute', top:0, left:'15%', right:'15%', height:'1.5px',
                       background:`linear-gradient(to right,transparent,${C.gold},transparent)`, opacity:.4 }}/>
                     <p style={{ fontFamily:F.label, fontSize:7, letterSpacing:'.55em', textTransform:'uppercase',
-                      color:hexToRgba(C.gold,.5), margin:'0 0 7px' }}>Invitație pentru</p>
+                      color:hexToRgba(C.gold,.5), margin:'0 0 7px' }}>Invitatie pentru</p>
                     <p style={{ fontFamily:F.display, fontWeight:700, fontSize:19, color:C.offWhite, margin:0,
                       letterSpacing:1.5, textShadow:`0 0 18px ${hexToRgba(C.gold,.2)}` }}>
                       {guest?.name || 'Invitatul Special'}
@@ -1364,7 +1364,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
 
                       {block.type === "countdown" && (
                         <div style={sectionStyle}><div style={starDots}/>
-                          <InlineEdit tag="p" editMode={editMode} value={block.countdownTitle||"Timp rămas până la eveniment"}
+                          <InlineEdit tag="p" editMode={editMode} value={block.countdownTitle||"Timp ramas pana la eveniment"}
                             onChange={v => updBlock(idx,{countdownTitle:v})} textLabel="Countdown - titlu"
                             style={{fontFamily:F.label,fontSize:9,letterSpacing:".4em",textTransform:"uppercase",color:C.gold,textAlign:"center",margin:"0 0 10px"}}/>
                           <Countdown targetDate={profile.weddingDate}/>
@@ -1378,7 +1378,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
                           <div style={sectionStyle}><div style={starDots}/>
                             <p style={{fontFamily:F.label,fontSize:9,letterSpacing:".4em",textTransform:"uppercase",color:C.gold,textAlign:"center",margin:"0 0 14px"}}>Programul zilei</p>
                             {timelineItems.length === 0 && editMode && (
-                              <p style={{fontFamily:F.body,fontSize:12,fontStyle:"italic",color:C.lavender,textAlign:"center",margin:"0 0 8px"}}>Adaugă primul moment al zilei.</p>
+                              <p style={{fontFamily:F.body,fontSize:12,fontStyle:"italic",color:C.lavender,textAlign:"center",margin:"0 0 8px"}}>Adauga primul moment al zilei.</p>
                             )}
                             {timelineItems.map((item: any, i: number) => (
                               <div key={item.id} style={{display:"grid",gridTemplateColumns:"58px 18px 1fr",alignItems:"stretch",minHeight:44}}>
@@ -1469,7 +1469,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
                               border:"none",fontFamily:F.label,fontSize:10,letterSpacing:".3em",
                               textTransform:"uppercase",color:C.purple,cursor:"pointer",
                               boxShadow:`0 6px 28px ${C.goldGlow}`}}>
-                            <InlineEdit tag="span" editMode={editMode} value={block.label||"Confirmă Prezența"}
+                            <InlineEdit tag="span" editMode={editMode} value={block.label||"Confirma Prezenta"}
                               onChange={v => updBlock(idx,{label:v})}/>
                           </button>
                         </div>
@@ -1568,7 +1568,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
 export const CASTLE_DEFAULTS = {
   partner1Name: "Sofia",
   partner2Name: "",
-  welcomeText: "Cu bucurie vă invităm",
+  welcomeText: "Cu bucurie va invitam",
   celebrationText: "botezului",
   eventType: "baptism",
   weddingDate: "",
@@ -1583,23 +1583,23 @@ export const CASTLE_DEFAULTS = {
   showVenue: true,
   churchLabel: "Botezul",
   venueLabel: "Petrecerea",
-  civilLabel: "Cununie Civilă",
+  civilLabel: "Cununie Civila",
   civilTime: "10:00",
   churchTime: "11:00",
   eventTime: "14:00",
-  civilLocationName: "Primăria",
-  civilLocationAddress: "Strada Principală 1, București",
-  churchLocationName: "Biserica Sfânta Maria",
-  churchLocationAddress: "Strada Bisericii 5, București",
+  civilLocationName: "Primaria",
+  civilLocationAddress: "Strada Principala 1, Bucuresti",
+  churchLocationName: "Biserica Sfanta Maria",
+  churchLocationAddress: "Strada Bisericii 5, Bucuresti",
   locationName: "Salon Unicorn",
-  locationAddress: "Strada Magică 1, București",
+  locationAddress: "Strada Magica 1, Bucuresti",
   civilWazeLink: "",
   churchWazeLink: "",
   venueWazeLink: "",
-  godparents: JSON.stringify([{ godfather: "Nume Naș", godmother: "Nume Nașă" }]),
+  godparents: JSON.stringify([{ godfather: "Nume Nas", godmother: "Nume Nasa" }]),
   timeline: JSON.stringify([]),
   colorTheme: "magic",
-  rsvpButtonText: "Confirmă Prezența",
+  rsvpButtonText: "Confirma Prezenta",
 };
 
 export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
@@ -1617,23 +1617,23 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
     id: "def-text-1",
     type: "text" as const,
     show: true,
-    content: "Te așteptăm cu drag să fim împreună în această zi magică.",
+    content: "Te asteptam cu drag sa fim impreuna in aceasta zi magica.",
   },
   {
     id: "def-family-1",
     type: "family" as const,
     show: true,
-    label: "Părinții",
-    content: "Cu drag și recunoștință",
+    label: "Parintii",
+    content: "Cu drag si recunostinta",
     members: JSON.stringify([{ name1: "Mama", name2: "Tata" }]),
   },
   {
     id: "def-family-2",
     type: "family" as const,
     show: true,
-    label: "Nașii",
-    content: "Cu drag și recunoștință",
-    members: JSON.stringify([{ name1: "Nașa", name2: "Nașul" }]),
+    label: "Nasii",
+    content: "Cu drag si recunostinta",
+    members: JSON.stringify([{ name1: "Nasa", name2: "Nasul" }]),
   },
   {
     id: "def-calendar",
@@ -1648,8 +1648,8 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
     show: true,
     label: "Ceremonia",
     time: "11:00",
-    locationName: "Biserica Sfânta Maria",
-    locationAddress: "Strada Bisericii 5, București",
+    locationName: "Biserica Sfanta Maria",
+    locationAddress: "Strada Bisericii 5, Bucuresti",
     wazeLink: "",
   },
   {
@@ -1659,14 +1659,14 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
     label: "Petrecerea",
     time: "14:00",
     locationName: "Salon Unicorn",
-    locationAddress: "Strada Magică 1, București",
+    locationAddress: "Strada Magica 1, Bucuresti",
     wazeLink: "",
   },
   {
     id: "def-text-2",
     type: "text" as const,
     show: true,
-    content: "O piesă de suflet, aleasă cu drag pentru această zi de neuitat.",
+    content: "O piesa de suflet, aleasa cu drag pentru aceasta zi de neuitat.",
   },
   {
     id: "def-music",
@@ -1691,13 +1691,13 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
     id: "def-text-3",
     type: "text" as const,
     show: true,
-    content: "Ne-ar bucura să ne confirmați prezența pentru o bună organizare a evenimentului.",
+    content: "Ne-ar bucura sa ne confirmati prezenta pentru o buna organizare a evenimentului.",
   },
   {
     id: "def-rsvp",
     type: "rsvp" as const,
     show: true,
-    label: "Confirmă Prezența",
+    label: "Confirma Prezenta",
   },
 ];
 

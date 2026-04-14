@@ -55,22 +55,22 @@ export default function AboutMeSection() {
                 </div>
 
                 <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
-                    Mai mult decât <br/>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">o simplă invitație.</span>
+                    Mai mult decat <br/>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">o simpla invitatie.</span>
                 </h2>
 
                 <div className="space-y-6 text-gray-400 text-base md:text-lg leading-relaxed">
                     <p>
-                        <span className="text-white font-bold">Event Smart Asisstant</span> a apărut din dorința de a elimina haosul din organizarea nunților și a evenimentelor speciale. Știm că fiecare detaliu contează, iar instrumentele tradiționale nu mai sunt suficiente.
+                        <span className="text-white font-bold">Event Smart Asisstant</span> a aparut din dorinta de a elimina haosul din organizarea nuntilor si a evenimentelor speciale. Stim ca fiecare detaliu conteaza, iar instrumentele traditionale nu mai sunt suficiente.
                     </p>
                     <p>
-                        Nu suntem doar un builder de invitații. Suntem platforma care centralizează totul: de la designul impecabil al invitației digitale, la gestionarea listei de oaspeți și confirmări în timp real.
+                        Nu suntem doar un builder de invitatii. Suntem platforma care centralizeaza totul: de la designul impecabil al invitatiei digitale, la gestionarea listei de oaspeti si confirmari in timp real.
                     </p>
                     <p>
-                        Misiunea noastră este să aducem puterea tehnologiei moderne în industria evenimentelor, oferind cuplurilor și organizatorilor liniște sufletească și o experiență digitală premium.
+                        Misiunea noastra este sa aducem puterea tehnologiei moderne in industria evenimentelor, oferind cuplurilor si organizatorilor liniste sufleteasca si o experienta digitala premium.
                     </p>
                     <p className="text-white italic font-serif border-l-2 border-indigo-500 pl-4 py-1 bg-white/5 rounded-r-lg text-sm md:text-base">
-                        "Planificare fără stres. Design fără compromis."
+                        "Planificare fara stres. Design fara compromis."
                     </p>
                 </div>
 
@@ -87,7 +87,7 @@ export default function AboutMeSection() {
                         <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
                              <Infinity size={16} className="text-emerald-500 md:w-[18px] md:h-[18px]" />
                         </div>
-                        <span className="text-[10px] md:text-xs text-gray-500 font-medium text-left leading-tight">Posibilități<br/>Nelimitated</span>
+                        <span className="text-[10px] md:text-xs text-gray-500 font-medium text-left leading-tight">Posibilitati<br/>Nelimitated</span>
                      </div>
                 </div>
              </div>

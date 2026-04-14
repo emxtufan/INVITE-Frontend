@@ -68,11 +68,11 @@ const TasksDocument = ({ tasks }: { tasks: Task[] }) => {
                 <Text style={[styles.statValue, { color: '#365314' }]}>{completed}</Text>
              </View>
              <View style={[styles.statBox, { backgroundColor: '#fff7ed', borderColor: '#ffedd5' }]}>
-                <Text style={[styles.statLabel, { color: '#ea580c' }]}>De Făcut</Text>
+                <Text style={[styles.statLabel, { color: '#ea580c' }]}>De Facut</Text>
                 <Text style={[styles.statValue, { color: '#7c2d12' }]}>{pending}</Text>
              </View>
              <View style={[styles.statBox, { backgroundColor: '#fef2f2', borderColor: '#fee2e2' }]}>
-                <Text style={[styles.statLabel, { color: '#dc2626' }]}>Prioritate Maximă</Text>
+                <Text style={[styles.statLabel, { color: '#dc2626' }]}>Prioritate Maxima</Text>
                 <Text style={[styles.statValue, { color: '#7f1d1d' }]}>{highPriority}</Text>
              </View>
           </View>

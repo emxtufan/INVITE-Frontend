@@ -37,7 +37,7 @@ export const meta: TemplateMeta = {
   name: 'regal',
   category: 'wedding',
   tags: ['wedding'],
-  description: 'Design de poveste cu castel roz și efect de deschidere orizontală pe bază de scroll.',
+  description: 'Design de poveste cu castel roz si efect de deschidere orizontala pe baza de scroll.',
   colors: ['#fdf2f8', '#be185d', '#f472b6'],
   previewClass: "bg-pink-50 border-pink-200",
   elementsClass: "bg-pink-500",
@@ -147,7 +147,7 @@ const MusicBlock: React.FC<{
     try {
       const form = new FormData(); form.append('file', file);
       const res = await fetch(`${API_URL}/upload`, { method: 'POST', headers: { Authorization: `Bearer ${_s?.token || ''}` }, body: form });
-      if (!res.ok) throw new Error('Upload eșuat');
+      if (!res.ok) throw new Error('Upload esuat');
       const { url } = await res.json();
       onUpdate({ musicUrl: url, musicType: 'mp3' });
       deleteUploadedFile; // keeps the import used
@@ -171,7 +171,7 @@ const MusicBlock: React.FC<{
       onUpdate({ musicUrl: data.url, musicType: 'mp3', musicTitle: data.title || '', musicArtist: data.author || '' });
       setShowYt(false); setYtUrl('');
     } catch (e: any) {
-      setYtError(e.message || 'Nu s-a putut descărca melodia.');
+      setYtError(e.message || 'Nu s-a putut descarca melodia.');
     } finally {
       setYtDownloading(false);
     }
@@ -212,7 +212,7 @@ const MusicBlock: React.FC<{
           <Music className="w-4 h-4" style={{ color: isPlaying ? 'white' : PINK_DARK }} />
         </div>
         <span style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: isPlaying ? PINK_DARK : MUTED, transition: 'color 0.3s' }}>
-          {isPlaying ? 'Se redă acum' : 'Melodia Zilei'}
+          {isPlaying ? 'Se reda acum' : 'Melodia Zilei'}
         </span>
         {isPlaying && (
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: 2, height: 14, marginLeft: 'auto' }}>
@@ -240,7 +240,7 @@ const MusicBlock: React.FC<{
                 <button type="button" onClick={() => { setShowYt(false); setYtUrl(''); setYtError(''); }} disabled={ytDownloading}
                   style={{ background: PINK_XL, border: 'none', borderRadius: 8, padding: '0 10px', cursor: 'pointer', color: MUTED, fontSize: 14 }}>✕</button>
               </div>
-              {ytDownloading && <p style={{ fontFamily: SANS, fontSize: 9, color: PINK_DARK, margin: 0, textAlign: 'center', letterSpacing: '0.1em' }}>⏳ Se descarcă melodia de pe YouTube...</p>}
+              {ytDownloading && <p style={{ fontFamily: SANS, fontSize: 9, color: PINK_DARK, margin: 0, textAlign: 'center', letterSpacing: '0.1em' }}>⏳ Se descarca melodia de pe YouTube...</p>}
               {ytError && <p style={{ fontFamily: SANS, fontSize: 9, color: '#ef4444', margin: 0 }}>⚠ {ytError}</p>}
             </div>
           ) : (
@@ -268,7 +268,7 @@ const MusicBlock: React.FC<{
       {!isActive && !editMode && (
         <div style={{ textAlign: 'center', padding: '16px 0', opacity: 0.4 }}>
           <Music className="w-8 h-8" style={{ color: PINK_DARK, display: 'block', margin: '0 auto 6px' }} />
-          <p style={{ fontFamily: SERIF, fontSize: 12, fontStyle: 'italic', color: MUTED, margin: 0 }}>Melodia va apărea aici</p>
+          <p style={{ fontFamily: SERIF, fontSize: 12, fontStyle: 'italic', color: MUTED, margin: 0 }}>Melodia va aparea aici</p>
         </div>
       )}
       {isActive && (
@@ -319,7 +319,7 @@ const MusicBlock: React.FC<{
               <button type="button"
                 onClick={() => { onUpdate({ musicUrl: '', musicType: 'none' as any }); setShowYt(true); }}
                 style={{ background: PINK_XL, border: `1px solid ${PINK_L}`, borderRadius: 99, padding: '4px 14px', cursor: 'pointer', fontFamily: SANS, fontSize: 9, color: MUTED, fontWeight: 700 }}>
-                Schimbă sursa
+                Schimba sursa
               </button>
             </div>
           )}
@@ -390,7 +390,7 @@ const WazeButton: React.FC<{
             <circle cx="14.5" cy="11.5" r="1.5" fill={PINK_DARK}/>
             <path d="M10 15s.75 1 2 1 2-1 2-1" stroke={PINK_DARK} strokeWidth="1.5" strokeLinecap="round"/>
           </svg>
-          Deschide în Waze
+          Deschide in Waze
         </a>
       ) : editMode ? (
         <button type="button" onClick={() => setOpen(true)}
@@ -402,7 +402,7 @@ const WazeButton: React.FC<{
             fontFamily: SANS, fontSize: '0.6rem', fontWeight: 700,
             color: MUTED, letterSpacing: '0.15em', textTransform: 'uppercase' as const,
           }}>
-          + Adaugă link Waze
+          + Adauga link Waze
         </button>
       ) : null}
     </div>
@@ -568,7 +568,7 @@ const CountdownSection: React.FC<{ date: string | undefined }> = ({ date }) => {
   if (!date || cd.expired) return null;
   return (
     <div style={{ background: PINK_DARK, borderRadius: 16, padding: 24, textAlign: 'center', color: 'white' }}>
-      <p style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', marginBottom: 16 }}>AU MAI RĂMAS</p>
+      <p style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', marginBottom: 16 }}>AU MAI RAMAS</p>
       <div style={{ display: 'flex', justifyContent: 'center', gap: 16 }}>
         {[{ v: cd.days, l: 'ZILE' }, { v: cd.hours, l: 'ORE' }, { v: cd.minutes, l: 'MIN' }, { v: cd.seconds, l: 'SEC' }].map((x, i) => (
           <div key={i}>
@@ -620,8 +620,8 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
 const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (p: Partial<InvitationBlock>) => void }> = ({ block, editMode, onUpdate }) => (
   <div style={{ background: 'white', border: `1px solid ${PINK_L}`, borderRadius: 16, padding: 24, textAlign: 'center' }}>
     <MapPin className="w-8 h-8 text-pink-500 mx-auto mb-4" />
-    <InlineEdit tag="h3" editMode={editMode} value={block.locationName || ''} onChange={v => onUpdate({ locationName: v })} placeholder="Locație..." style={{ fontFamily: SCRIPT, fontSize: 32, color: PINK_DARK, marginBottom: 8 }} />
-    <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''} onChange={v => onUpdate({ locationAddress: v })} placeholder="Adresă..." multiline style={{ fontFamily: SANS, fontSize: 12, color: MUTED, lineHeight: 1.6 }} />
+    <InlineEdit tag="h3" editMode={editMode} value={block.locationName || ''} onChange={v => onUpdate({ locationName: v })} placeholder="Locatie..." style={{ fontFamily: SCRIPT, fontSize: 32, color: PINK_DARK, marginBottom: 8 }} />
+    <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''} onChange={v => onUpdate({ locationAddress: v })} placeholder="Adresa..." multiline style={{ fontFamily: SANS, fontSize: 12, color: MUTED, lineHeight: 1.6 }} />
     <div className="mt-4"><InlineWaze value={block.wazeLink || ''} onChange={v => onUpdate({ wazeLink: v })} editMode={editMode} /></div>
   </div>
 );
@@ -687,7 +687,7 @@ const DoorHint: React.FC = () => (
 
 // ── Seam Particles ────────────────────────────────────────────────────────────
 
-// ── Dissolve Intro — replica exactă a structurii din exemplu ────────────────
+// ── Dissolve Intro — replica exacta a structurii din exemplu ────────────────
 
 const DISSOLVE_VERTEX = `
   varying vec2 vUv;
@@ -950,7 +950,7 @@ const DissolveIntro: React.FC<JungleIntroProps> = ({ castleUrl, castleUrlMobile,
 
   return (
     /*
-      Structură identică cu exemplul:
+      Structura identica cu exemplul:
         .hero           → position:relative, height:175svh, overflow:hidden
         .hero-img       → position:absolute, inset:0 (full)
         .hero-header    → position:absolute, height:100svh, flex center
@@ -1198,24 +1198,24 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
         <Music className="w-8 h-8" style={{ color: 'white' }} />
       </div>
       <p style={{ fontFamily: SCRIPT, fontSize: 26, color: PINK_DARK, margin: '0 0 6px', lineHeight: 1.2 }}>{childName}</p>
-      <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: TEXT, margin: '0 0 8px' }}>Te invită la o poveste magică 🌟</p>
-      <p style={{ fontFamily: SANS, fontSize: 11, color: MUTED, margin: '0 0 28px', lineHeight: 1.6 }}>Această invitație are o melodie specială.<br/>Vrei să activezi muzica?</p>
+      <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: TEXT, margin: '0 0 8px' }}>Te invita la o poveste magica 🌟</p>
+      <p style={{ fontFamily: SANS, fontSize: 11, color: MUTED, margin: '0 0 28px', lineHeight: 1.6 }}>Aceasta invitatie are o melodie speciala.<br/>Vrei sa activezi muzica?</p>
       <button type="button" onClick={onAllow}
         style={{ width: '100%', padding: '14px 0', background: `linear-gradient(135deg,${PINK_DARK},${PINK_D})`, border: 'none', borderRadius: 50, cursor: 'pointer', fontFamily: SANS, fontSize: 12, fontWeight: 700, color: 'white', letterSpacing: '0.1em', marginBottom: 10, boxShadow: `0 6px 20px rgba(190,24,93,0.4)`, transition: 'transform 0.15s' }}
         onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.03)'}
         onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'}>
-        🎵 Da, activează muzica
+        🎵 Da, activeaza muzica
       </button>
       <button type="button" onClick={onDeny}
         style={{ width: '100%', padding: '10px 0', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: SANS, fontSize: 11, color: MUTED }}>
-        Nu, continuă fără muzică
+        Nu, continua fara muzica
       </button>
     </div>
   </div>
 );
 
 
-// ── Template Defaults — sursa unică de adevăr ────────────────────────────────
+// ── Template Defaults — sursa unica de adevar ────────────────────────────────
 export const CASTLE_DEFAULTS = {
   partner1Name:         'El',
   partner2Name:         'Ea',
@@ -1229,17 +1229,17 @@ export const CASTLE_DEFAULTS = {
   castleIntroWelcome:   'WELCOME',
   castleInviteTop:      'dqwdqwdwqdqdqw dqwdqwdqwd dqwdqwdqw',
   jungleHeaderText:     'Save The Date',
-  jungleOverlayText:    'Cu bucurie vă invităm să fiți parte din povestea noastră.',
+  jungleOverlayText:    'Cu bucurie va invitam sa fiti parte din povestea noastra.',
   jungleFooterText:     '',
   jungleIntroStyle:     'dissolve' as const,
   castleInviteMiddle:   '',
-  castleInviteBottom:   'va fii botezată',
-  castleInviteTag:      '✦ deschide porțile ✦',
-  welcomeText:          'Vă invităm cu drag',
-  celebrationText:      'la botezul prințesei noastre',
+  castleInviteBottom:   'va fii botezata',
+  castleInviteTag:      '✦ deschide portile ✦',
+  welcomeText:          'Va invitam cu drag',
+  celebrationText:      'la botezul printesei noastre',
   weddingDate:          '',
   showRsvpButton:       true,
-  rsvpButtonText:       'Confirmă Prezența',
+  rsvpButtonText:       'Confirma Prezenta',
   showWelcomeText:      true,
   showCelebrationText:  true,
   showTimeline:         false,
@@ -1248,7 +1248,7 @@ export const CASTLE_DEFAULTS = {
 };
 
 export const CASTLE_DEFAULT_BLOCKS = [
-  // ── Muzică ─────────────────────────────────────────────────────────────────
+  // ── Muzica ─────────────────────────────────────────────────────────────────
   {
     id: 'def-music',
     type: 'music' as const,
@@ -1259,13 +1259,13 @@ export const CASTLE_DEFAULT_BLOCKS = [
     musicType: 'none' as const,
   },
 
-  // ── Foto principală — portret arc, fade jos ────────────────────────────────
+  // ── Foto principala — portret arc, fade jos ────────────────────────────────
   {
     id: 'def-photo-1',
     type: 'photo' as const,
     show: true,
     imageData: 'https://clubulbebelusilor.ro/wp-content/uploads/2021/02/bebelusi-sfaturi-pentru-mamici.jpg',
-    altText: 'Fotografia prințesei',
+    altText: 'Fotografia printesei',
     aspectRatio: '3:4' as const,
     photoClip: 'arch' as const,
     photoMasks: ['fade-b'] as any,
@@ -1276,7 +1276,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     id: 'def-text-1',
     type: 'text' as const,
     show: true,
-    content: 'O poveste magică începe odată cu venirea pe lume a celui mai iubit copil. Vă așteptăm cu drag să fiți parte din această zi de poveste.',
+    content: 'O poveste magica incepe odata cu venirea pe lume a celui mai iubit copil. Va asteptam cu drag sa fiti parte din aceasta zi de poveste.',
   },
 
   // ── Countdown ──────────────────────────────────────────────────────────────
@@ -1284,7 +1284,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
   id: 'def-countdown',
   type: 'countdown' as const,
   show: true,
-  countdownTitle: 'Timp rămas până la Marele Eveniment',  // adaugă aici
+  countdownTitle: 'Timp ramas pana la Marele Eveniment',  // adauga aici
 },
 
   // ── Calendar ───────────────────────────────────────────────────────────────
@@ -1300,25 +1300,25 @@ export const CASTLE_DEFAULT_BLOCKS = [
     type: 'photo' as const,
     show: true,
     imageData: 'https://clubulbebelusilor.ro/wp-content/uploads/2021/02/bebelusi-sfaturi-pentru-mamici.jpg',
-    altText: 'Decorațiuni',
+    altText: 'Decoratiuni',
     aspectRatio: '16:9' as const,
     photoClip: 'rounded' as const,
     photoMasks: [] as any,
   },
 
-  // ── Locație Biserică ───────────────────────────────────────────────────────
+  // ── Locatie Biserica ───────────────────────────────────────────────────────
   {
     id: 'def-loc-church',
     type: 'location' as const,
     show: true,
     label: 'Slujba de Botez',
     time: '11:00',
-    locationName: 'Biserica Sfânta Maria',
-    locationAddress: 'Str. Bisericii nr. 5, București',
+    locationName: 'Biserica Sfanta Maria',
+    locationAddress: 'Str. Bisericii nr. 5, Bucuresti',
     wazeLink: '',
   },
 
-  // ── Locație Petrecere ──────────────────────────────────────────────────────
+  // ── Locatie Petrecere ──────────────────────────────────────────────────────
   {
     id: 'def-loc-party',
     type: 'location' as const,
@@ -1326,11 +1326,11 @@ export const CASTLE_DEFAULT_BLOCKS = [
     label: 'Petrecere',
     time: '14:00',
     locationName: 'Salon Castelul Magic',
-    locationAddress: 'Str. Basmului nr. 1, București',
+    locationAddress: 'Str. Basmului nr. 1, Bucuresti',
     wazeLink: '',
   },
 
-  // ── Foto 3 — cerc cu vignetă ───────────────────────────────────────────────
+  // ── Foto 3 — cerc cu vigneta ───────────────────────────────────────────────
   {
     id: 'def-photo-3',
     type: 'photo' as const,
@@ -1348,18 +1348,18 @@ export const CASTLE_DEFAULT_BLOCKS = [
     type: 'gift' as const,
     show: true,
     sectionTitle: 'Sugestie de cadou',
-    content: 'Cel mai frumos cadou este prezența voastră alături de noi. Dacă doriți să contribuiți la viitorul prințesei noastre, vă lăsăm datele de mai jos.',
+    content: 'Cel mai frumos cadou este prezenta voastra alaturi de noi. Daca doriti sa contribuiti la viitorul printesei noastre, va lasam datele de mai jos.',
     iban: 'RO00 BANK 0000 0000 0000 0000',
     ibanName: 'Familia Ionescu',
   },
 
-  // ── Foto finală — blob ─────────────────────────────────────────────────────
+  // ── Foto finala — blob ─────────────────────────────────────────────────────
   {
     id: 'def-photo-4',
     type: 'photo' as const,
     show: true,
     imageData: 'https://clubulbebelusilor.ro/wp-content/uploads/2021/02/bebelusi-sfaturi-pentru-mamici.jpg',
-    altText: 'Fotografie finală',
+    altText: 'Fotografie finala',
     aspectRatio: '3:4' as const,
     photoClip: 'blob' as const,
     photoMasks: ['fade-b'] as any,
@@ -1370,7 +1370,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     id: 'def-whatsapp',
     type: 'whatsapp' as const,
     show: true,
-    label: 'Contactează-ne pe WhatsApp',
+    label: 'Contacteaza-ne pe WhatsApp',
     content: '0700000000',
   },
 
@@ -1379,7 +1379,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     id: 'def-rsvp',
     type: 'rsvp' as const,
     show: true,
-    label: 'Confirmă Prezența',
+    label: 'Confirma Prezenta',
   },
 ];
 
@@ -1397,8 +1397,8 @@ export const CASTLE_PREVIEW_DATA = {
 
 // ── Insert Block Button ───────────────────────────────────────────────────────
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: '🖼', text: '✏️', location: '📍', calendar: '📅',
-  countdown: '⏱', timeline: '🕒', music: '🎵', gift: '🎁',   whatsapp: '💬', rsvp: '✉️', divider: '—', family: '👨‍👩‍👧',
+  photo: '🖼', text: '✏', location: '📍', calendar: '📅',
+  countdown: '⏱', timeline: '🕒', music: '🎵', gift: '🎁',   whatsapp: '💬', rsvp: '✉', divider: '—', family: '👨‍👩‍👧',
   date: '📆', description: '📝',
 };
 const InsertBlockButton: React.FC<{
@@ -1417,7 +1417,7 @@ const InsertBlockButton: React.FC<{
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* linie punctată */}
+      {/* linie punctata */}
       <div style={{
         position: 'absolute', left: 0, right: 0, height: 1,
         background: `repeating-linear-gradient(to right, ${PINK_L} 0, ${PINK_L} 6px, transparent 6px, transparent 12px)`,
@@ -1458,7 +1458,7 @@ const InsertBlockButton: React.FC<{
           onMouseLeave={() => setHovered(false)}
         >
           <p style={{ fontFamily: SANS, fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: MUTED, margin: '0 0 10px', textAlign: 'center' }}>
-            Adaugă bloc
+            Adauga bloc
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
             {BLOCK_TYPES.map(bt => (
@@ -1498,13 +1498,13 @@ const JO: React.FC<InvitationTemplateProps & {
   const { profile, guest } = data;
   
   // ─────────────────────────────────────────────────────────────────────────────
-  // SURSA DE ADEVĂR: templateul însuși.
-  // DB-ul este doar un OVERRIDE opțional — dacă nu există nimic salvat,
-  // templateul arată perfect cu propriile sale default-uri.
+  // SURSA DE ADEVAR: templateul insusi.
+  // DB-ul este doar un OVERRIDE optional — daca nu exista nimic salvat,
+  // templateul arata perfect cu propriile sale default-uri.
   // ─────────────────────────────────────────────────────────────────────────────
   const safeJSON = (s: string | undefined, fb: any) => { try { return s ? JSON.parse(s) : fb; } catch { return fb; } };
 
-  // Profile: fiecare câmp citit cu fallback la CASTLE_DEFAULTS (niciun câmp nu referențiează `p`)
+  // Profile: fiecare camp citit cu fallback la CASTLE_DEFAULTS (niciun camp nu referentieaza `p`)
   const pr = profile as any;
   const p = {
     partner1Name:        pr.partner1Name        ?? CASTLE_DEFAULTS.partner1Name,
@@ -1534,7 +1534,7 @@ const JO: React.FC<InvitationTemplateProps & {
     heroContentImageMobile: pr.heroContentImageMobile ?? CASTLE_DEFAULTS.heroContentImageMobile,
   };
 
-    // ── Config global template (imagini uși + paletă) — vin din admin ───────────
+    // ── Config global template (imagini usi + paleta) — vin din admin ───────────
   const [globalConfig, setGlobalConfig] = useState<Record<string, any>>({});
   useEffect(() => {
     fetch(`${API_URL}/config/template-defaults/${meta.id}`)
@@ -1590,12 +1590,12 @@ const JO: React.FC<InvitationTemplateProps & {
     .cm-wrap .animate-pulse { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
   `;
 
-  // Imaginile default — în ordinea în care apar blocurile foto în template
+  // Imaginile default — in ordinea in care apar blocurile foto in template
   const DEFAULT_PHOTO_URLS = (CASTLE_DEFAULT_BLOCKS as any[])
     .filter(b => b.type === 'photo' && b.imageData)
     .map(b => b.imageData as string);
 
-  // Merge: photo fără imageData preia URL-ul default după poziția sa (1st photo -> url[0] etc.)
+  // Merge: photo fara imageData preia URL-ul default dupa pozitia sa (1st photo -> url[0] etc.)
   const mergeWithDefaults = (dbBlocks: InvitationBlock[]): InvitationBlock[] => {
     let photoIdx = 0;
     return dbBlocks.map(b => {
@@ -1606,7 +1606,7 @@ const JO: React.FC<InvitationTemplateProps & {
     });
   };
 
-  // Blocks: DB override sau CASTLE_DEFAULT_BLOCKS — niciodată gol
+  // Blocks: DB override sau CASTLE_DEFAULT_BLOCKS — niciodata gol
   const blocksFromDB: InvitationBlock[] | null = safeJSON(profile.customSections, null);
   const hasDBBlocks = Array.isArray(blocksFromDB) && blocksFromDB.length > 0;
 
@@ -1614,13 +1614,13 @@ const JO: React.FC<InvitationTemplateProps & {
     hasDBBlocks ? mergeWithDefaults(blocksFromDB!) : CASTLE_DEFAULT_BLOCKS as unknown as InvitationBlock[]
   );
 
-  // Sync blocks când DB-ul se actualizează din exterior (upload foto etc.)
+  // Sync blocks cand DB-ul se actualizeaza din exterior (upload foto etc.)
   useEffect(() => {
     const fresh: InvitationBlock[] | null = safeJSON(profile.customSections, null);
     if (Array.isArray(fresh) && fresh.length > 0) {
       setBlocks(mergeWithDefaults(fresh));
     }
-    // Dacă DB devine gol (reset), revenim la defaults
+    // Daca DB devine gol (reset), revenim la defaults
     else if (fresh !== null && Array.isArray(fresh) && fresh.length === 0) {
       setBlocks(CASTLE_DEFAULT_BLOCKS as unknown as InvitationBlock[]);
     }
@@ -1636,7 +1636,7 @@ const JO: React.FC<InvitationTemplateProps & {
       : fallbackIntroVariantId;
   const activeIntroVariant = (introVariants[activeIntroVariantId] || {}) as { label?: string; desktop?: string; mobile?: string };
 
-  // Fallback: dacă nu există introVariants (config vechi), folosim heroBgImage/themeImages
+  // Fallback: daca nu exista introVariants (config vechi), folosim heroBgImage/themeImages
   const themeImgs   = globalConfig.themeImages?.[activeColorTheme] || {};
   const defaultImgs = globalConfig.themeImages?.['default'] || {};
   const heroBgImage       = activeIntroVariant.desktop || themeImgs.desktop || defaultImgs.desktop || globalConfig.heroBgImage;
@@ -1647,7 +1647,7 @@ const JO: React.FC<InvitationTemplateProps & {
   useEffect(() => { setHeroContentImage((profile as any).heroContentImage ?? CASTLE_DEFAULTS.heroContentImage); }, [(profile as any).heroContentImage]);
   useEffect(() => { setHeroContentImageMobile((profile as any).heroContentImageMobile ?? CASTLE_DEFAULTS.heroContentImageMobile); }, [(profile as any).heroContentImageMobile]);
 
-  // Alias-uri clare pentru câmpurile de profil (din `p`, nu din `profile`)
+  // Alias-uri clare pentru campurile de profil (din `p`, nu din `profile`)
   const castleSubtitle   = p.castleIntroSubtitle;
   const castleWelcome    = p.castleIntroWelcome;
   const jungleHeaderText = p.jungleHeaderText;
@@ -1691,7 +1691,7 @@ const JO: React.FC<InvitationTemplateProps & {
   }, [onProfileUpdate]);
 
   const resetToDefaults = useCallback(() => {
-    if (!window.confirm('Resetezi templateul la valorile implicite? Toate modificările vor fi pierdute.')) return;
+    if (!window.confirm('Resetezi templateul la valorile implicite? Toate modificarile vor fi pierdute.')) return;
     onProfileUpdate?.({
       ...CASTLE_DEFAULTS,
       weddingDate: pr.weddingDate ?? CASTLE_DEFAULTS.weddingDate,
@@ -1780,19 +1780,19 @@ const JO: React.FC<InvitationTemplateProps & {
 
   const BLOCK_TYPES = [
     { type: 'photo',     label: '📷 Foto',      def: { imageData: undefined, aspectRatio: '1:1', photoClip: 'rect', photoMasks: [] } },
-    { type: 'text',      label: 'Text',          def: { content: 'O poveste magică începe...' } },
-    { type: 'location',  label: 'Locație',       def: { locationName: 'Castelul Magic', locationAddress: 'Strada Basmului nr. 1' } },
+    { type: 'text',      label: 'Text',          def: { content: 'O poveste magica incepe...' } },
+    { type: 'location',  label: 'Locatie',       def: { locationName: 'Castelul Magic', locationAddress: 'Strada Basmului nr. 1' } },
     { type: 'calendar',  label: '📅 Calendar',  def: {} },
     { type: 'countdown', label: '⏱ Countdown', def: {} },
     { type: 'timeline',  label: '🕒 Cronologie', def: {} },
-    { type: 'music',     label: '🎵 Muzică',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
+    { type: 'music',     label: '🎵 Muzica',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
     { type: 'gift',      label: '🎁 Cadouri',   def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
     { type: 'whatsapp',  label: 'WhatsApp',      def: { label: 'Contact WhatsApp', content: '0700000000' } },
-    { type: 'rsvp',      label: 'RSVP',          def: { label: 'Confirmă Prezența' } },
+    { type: 'rsvp',      label: 'RSVP',          def: { label: 'Confirma Prezenta' } },
     { type: 'divider',     label: 'Linie',         def: {} },
-    { type: 'family',      label: '👨‍👩‍👧 Familie',  def: { label: 'Părinții copilului', content: 'Cu drag și recunoștință', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) } },
-    { type: 'date',        label: '📆 Dată',       def: {} },
-    { type: 'description', label: 'Descriere',      def: { content: 'O scurtă descriere...' } },
+    { type: 'family',      label: '👨‍👩‍👧 Familie',  def: { label: 'Parintii copilului', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) } },
+    { type: 'date',        label: '📆 Data',       def: {} },
+    { type: 'description', label: 'Descriere',      def: { content: 'O scurta descriere...' } },
   ];
 
   return (
@@ -1801,7 +1801,7 @@ const JO: React.FC<InvitationTemplateProps & {
 
       {showAudioModal && !editMode && (
         <AudioPermissionModal
-          childName={p.partner1Name || "Prințesa"}
+          childName={p.partner1Name || "Printesa"}
           onAllow={() => {
             audioAllowedRef.current = true;
             setAudioAllowed(true);
@@ -1899,7 +1899,7 @@ const JO: React.FC<InvitationTemplateProps & {
                         <InlineEdit
                           tag="p"
                           editMode={editMode}
-                          value={jungleOverlayText || 'Cu bucurie vÄƒ invitÄƒm sÄƒ fiÈ›i parte din povestea noastrÄƒ.'}
+                          value={jungleOverlayText || 'Cu bucurie vAƒ invitAƒm sAƒ fiE›i parte din povestea noastrAƒ.'}
                           onChange={(v) => upProfile('jungleOverlayText', v)}
                           textKey="intro:text"
                           textLabel="Intro Text"
@@ -1944,7 +1944,7 @@ const JO: React.FC<InvitationTemplateProps & {
               </div>
             </div>
           )}
-        {/* Imagini uși se configurează din admin panel */}
+        {/* Imagini usi se configureaza din admin panel */}
 
           <div className="text-center">
             <BlockStyleProvider
@@ -2073,7 +2073,7 @@ const JO: React.FC<InvitationTemplateProps & {
                 />
               </div>
 
-              {/* Data — display custom cu zi / lună / an separate */}
+              {/* Data — display custom cu zi / luna / an separate */}
               {p.weddingDate &&
                 (() => {
                   const d = new Date(p.weddingDate);
@@ -2339,7 +2339,7 @@ const JO: React.FC<InvitationTemplateProps & {
           </div>
 
           <div className="space-y-0">
-            {/* Buton insert ÎNAINTE de primul bloc */}
+            {/* Buton insert INAINTE de primul bloc */}
             {editMode && (
               <InsertBlockButton
                 insertIdx={-1}
@@ -2424,7 +2424,7 @@ const JO: React.FC<InvitationTemplateProps & {
                         <div
                           className="absolute inset-0 z-10 flex items-center justify-center p-4"
                           aria-hidden="false"
-                          style={{ pointerEvents: "auto" }} // overlay interactiv doar în editMode
+                          style={{ pointerEvents: "auto" }} // overlay interactiv doar in editMode
                         >
                           {/* backdrop semi-transparent */}
                           <div
@@ -2594,7 +2594,7 @@ const JO: React.FC<InvitationTemplateProps & {
                                       onChange={(v) =>
                                         updBlock(idx, { label: v })
                                       }
-                                      placeholder="Tip locație..."
+                                      placeholder="Tip locatie..."
                                       style={{
                                         fontFamily: SANS,
                                         fontSize: "0.58rem",
@@ -2646,7 +2646,7 @@ const JO: React.FC<InvitationTemplateProps & {
                                     onChange={(v) =>
                                       updBlock(idx, { locationName: v })
                                     }
-                                    placeholder="Numele locației..."
+                                    placeholder="Numele locatiei..."
                                     style={{
                                       fontFamily: SCRIPT,
                                       fontSize: "1.45rem",
@@ -2663,7 +2663,7 @@ const JO: React.FC<InvitationTemplateProps & {
                                     onChange={(v) =>
                                       updBlock(idx, { locationAddress: v })
                                     }
-                                    placeholder="Adresa completă..."
+                                    placeholder="Adresa completa..."
                                     multiline
                                     style={{
                                       fontFamily: SANS,
@@ -2706,7 +2706,7 @@ const JO: React.FC<InvitationTemplateProps & {
                           editMode={editMode}
                           titleText={
                             block.countdownTitle ||
-                            "Timp rămas până la Marele Eveniment"
+                            "Timp ramas pana la Marele Eveniment"
                           }
                           onTitleChange={(text) =>
                             updBlock(idx, { countdownTitle: text })
@@ -3026,7 +3026,7 @@ const JO: React.FC<InvitationTemplateProps & {
                                     margin: 0,
                                   }}
                                 >
-                                  Răspundem rapid
+                                  Raspundem rapid
                                 </p>
                               </div>
                             </a>
@@ -3053,7 +3053,7 @@ const JO: React.FC<InvitationTemplateProps & {
                                     color: MUTED,
                                   }}
                                 >
-                                  Număr:
+                                  Numar:
                                 </span>
                                 <InlineEdit
                                   tag="span"
@@ -3114,7 +3114,7 @@ const JO: React.FC<InvitationTemplateProps & {
                                 <InlineEdit
                                   tag="span"
                                   editMode={editMode}
-                                  value={block.label || "Confirmă Prezența"}
+                                  value={block.label || "Confirma Prezenta"}
                                   onChange={(v) => updBlock(idx, { label: v })}
                                 />
                               </span>
@@ -3200,7 +3200,7 @@ const JO: React.FC<InvitationTemplateProps & {
                                   <InlineEdit
                                     tag="p"
                                     editMode={editMode}
-                                    value={block.label || "Părinții copilului"}
+                                    value={block.label || "Parintii copilului"}
                                     onChange={(v) =>
                                       updBlock(idx, { label: v })
                                     }
@@ -3218,7 +3218,7 @@ const JO: React.FC<InvitationTemplateProps & {
                                     tag="p"
                                     editMode={editMode}
                                     value={
-                                      block.content || "Cu drag și recunoștință"
+                                      block.content || "Cu drag si recunostinta"
                                     }
                                     onChange={(v) =>
                                       updBlock(idx, { content: v })
@@ -3355,7 +3355,7 @@ const JO: React.FC<InvitationTemplateProps & {
                                       color: PINK_DARK,
                                     }}
                                   >
-                                    + Adaugă
+                                    + Adauga
                                   </button>
                                 )}
                               </div>
@@ -3365,7 +3365,7 @@ const JO: React.FC<InvitationTemplateProps & {
                       )}
                     </BlockStyleProvider>
                   </div>
-                  {/* Buton insert DUPĂ fiecare bloc */}
+                  {/* Buton insert DUPA fiecare bloc */}
                   {editMode && (
                     <InsertBlockButton
                       insertIdx={idx}
@@ -3415,7 +3415,7 @@ const JO: React.FC<InvitationTemplateProps & {
                   <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
                   <path d="M3 3v5h5" />
                 </svg>
-                Resetează la valorile implicite
+                Reseteaza la valorile implicite
               </button>
             </div>
           )}

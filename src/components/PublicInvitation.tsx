@@ -75,7 +75,7 @@ const PublicInvitation = () => {
             
             fetch(`${API_URL}/public-invite-data/${slug}`)
                 .then(res => {
-                    if (!res.ok) throw new Error("Evenimentul nu a fost găsit sau link-ul este invalid.");
+                    if (!res.ok) throw new Error("Evenimentul nu a fost gasit sau link-ul este invalid.");
                     return res.json();
                 })
                 .then(inviteData => handleInviteData(inviteData))
@@ -90,7 +90,7 @@ const PublicInvitation = () => {
         const inviteIndex = pathParts.indexOf('invite');
         
         if (inviteIndex === -1 || inviteIndex === pathParts.length - 1) {
-            setError("Link invalid (Token lipsă).");
+            setError("Link invalid (Token lipsa).");
             setLoading(false);
             return;
         }
@@ -100,7 +100,7 @@ const PublicInvitation = () => {
 
         fetch(`${API_URL}/invite-data/${extractedToken}`)
             .then(res => {
-                if (!res.ok) throw new Error("Invitația nu a fost găsită sau evenimentul a expirat.");
+                if (!res.ok) throw new Error("Invitatia nu a fost gasita sau evenimentul a expirat.");
                 return res.json();
             })
             .then(inviteData => {
@@ -152,10 +152,10 @@ const PublicInvitation = () => {
             }
 
             toast({
-                title: rsvpPayload.status === 'confirmed' ? "Mulțumim pentru confirmare!" : "Răspuns înregistrat",
+                title: rsvpPayload.status === 'confirmed' ? "Multumim pentru confirmare!" : "Raspuns inregistrat",
                 description: rsvpPayload.status === 'confirmed' 
-                    ? "Te așteptăm cu drag!" 
-                    : "Ne pare rău că nu poți ajunge.",
+                    ? "Te asteptam cu drag!" 
+                    : "Ne pare rau ca nu poti ajunge.",
                 variant: rsvpPayload.status === 'confirmed' ? "success" : "default"
             });
 
@@ -163,7 +163,7 @@ const PublicInvitation = () => {
             console.error(error);
             toast({
                 title: "Eroare",
-                description: error.message || "Nu am putut trimite răspunsul. Încearcă din nou.",
+                description: error.message || "Nu am putut trimite raspunsul. Incearca din nou.",
                 variant: "destructive"
             });
         }
@@ -200,7 +200,7 @@ const PublicInvitation = () => {
         return (
             <div className="min-h-screen w-full flex flex-col items-center justify-center bg-zinc-50 gap-4">
                 <Loader2 className="w-10 h-10 animate-spin text-zinc-300" />
-                <p className="text-zinc-400 text-sm animate-pulse">Se încarcă invitația...</p>
+                <p className="text-zinc-400 text-sm animate-pulse">Se incarca invitatia...</p>
             </div>
         );
     }
@@ -211,7 +211,7 @@ const PublicInvitation = () => {
                 <div className="bg-white p-8 rounded-2xl shadow-xl border max-w-sm">
                     <h1 className="text-2xl font-bold text-zinc-800 mb-2">Ooops!</h1>
                     <p className="text-zinc-600 mb-4">{error}</p>
-                    <a href="/" className="text-primary text-sm font-medium hover:underline">Mergi la pagina principală</a>
+                    <a href="/" className="text-primary text-sm font-medium hover:underline">Mergi la pagina principala</a>
                 </div>
             </div>
         );
@@ -247,7 +247,7 @@ const PublicInvitation = () => {
     if (!TemplateComponent) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <p>Template-ul "{templateId}" nu a fost găsit. Contactează suportul.</p>
+                <p>Template-ul "{templateId}" nu a fost gasit. Contacteaza suportul.</p>
             </div>
         );
     }

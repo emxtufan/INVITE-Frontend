@@ -331,16 +331,16 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
       return 'Completeaza un numar de telefon valid.';
     }
     if (!payload.country) {
-      return 'Țara este obligatorie';
+      return 'Tara este obligatorie';
     }
     if (!payload.county) {
-      return 'Județul este obligatoriu';
+      return 'Judetul este obligatoriu';
     }
     if (!payload.city) {
       return 'Localitatea este obligatorie';
     }
     if (!isCityMatchingCounty(payload.city, payload.county, payload.country)) {
-      return 'Localitatea nu corespunde județului selectat';
+      return 'Localitatea nu corespunde judetului selectat';
     }
     if (!payload.streetAddress) {
       return 'Adresa este obligatorie';

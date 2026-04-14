@@ -536,7 +536,7 @@
   user-select: none;
 }
 
-/* Desktop: păstrează ordinea normală */
+/* Desktop: pastreaza ordinea normala */
 #landing-root .wp-calendar-section .wp-invite-split > :first-child {
     order: 2;
 }
@@ -544,7 +544,7 @@
     order: 1;
 }
 
-/* Mobil: inversăm ordinea copiilor */
+/* Mobil: inversam ordinea copiilor */
 
 
 #landing-root .wp-budget-container > :first-child {

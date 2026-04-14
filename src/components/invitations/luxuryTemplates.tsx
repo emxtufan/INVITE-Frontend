@@ -224,7 +224,7 @@ const LuxuryTemplate: React.FC<
                 transition-all duration-300
               "
             >
-              {profile.rsvpButtonText || "Confirmă Prezența"}
+              {profile.rsvpButtonText || "Confirma Prezenta"}
             </button>
           </section>
         )}

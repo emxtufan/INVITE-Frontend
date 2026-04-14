@@ -35,15 +35,15 @@ interface Service {
 
 const CATEGORIES: Record<string, { label: string; icon: React.FC<any>; color: string }> = {
   candybar:     { label: 'Candy Bar',    icon: Cake,        color: '#d97706' },
-  formatie:     { label: 'Formație',     icon: Music2,      color: '#7c3aed' },
+  formatie:     { label: 'Formatie',     icon: Music2,      color: '#7c3aed' },
   dj:           { label: 'DJ',           icon: Sparkles,    color: '#0891b2' },
   'foto-video': { label: 'Foto / Video', icon: Camera,      color: '#059669' },
-  florarie:     { label: 'Florărie',     icon: Flower2,     color: '#db2777' },
+  florarie:     { label: 'Florarie',     icon: Flower2,     color: '#db2777' },
   catering:     { label: 'Catering',     icon: Utensils,    color: '#ea580c' },
   decor:        { label: 'Decor',        icon: Heart,       color: '#be185d' },
   transport:    { label: 'Transport',    icon: Car,         color: '#1d4ed8' },
-  cofetarie:    { label: 'Cofetărie',    icon: Package,     color: '#b45309' },
-  animatie:     { label: 'Animație',     icon: PartyPopper, color: '#7c3aed' },
+  cofetarie:    { label: 'Cofetarie',    icon: Package,     color: '#b45309' },
+  animatie:     { label: 'Animatie',     icon: PartyPopper, color: '#7c3aed' },
   altele:       { label: 'Altele',       icon: Tag,         color: '#6b7280' },
 };
 
@@ -96,8 +96,8 @@ const ServiceModal: React.FC<{
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border sticky top-0 bg-background z-10">
           <div>
-            <h2 className="text-lg font-bold">{service?._id ? 'Editează serviciu' : 'Serviciu nou'}</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">Completează detaliile serviciului pentru marketplace</p>
+            <h2 className="text-lg font-bold">{service?._id ? 'Editeaza serviciu' : 'Serviciu nou'}</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">Completeaza detaliile serviciului pentru marketplace</p>
           </div>
           <button onClick={onClose} className="p-2 rounded-lg hover:bg-muted transition-colors">
             <X className="w-5 h-5" />
@@ -123,24 +123,24 @@ const ServiceModal: React.FC<{
           {/* Description */}
           <Field label="Descriere">
             <textarea value={form.description} onChange={e => set('description', e.target.value)}
-              rows={3} placeholder="Descriere scurtă a serviciului..."
+              rows={3} placeholder="Descriere scurta a serviciului..."
               className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring resize-y" />
           </Field>
 
           {/* Price */}
           <div className="flex gap-3 flex-wrap">
-            <Field label="Preț de la (RON)" half>
+            <Field label="Pret de la (RON)" half>
               <Input type="number" value={form.priceFrom} onChange={(e:any) => set('priceFrom', Number(e.target.value))} />
             </Field>
-            <Field label="Preț până la (RON)" half>
-              <Input type="number" value={form.priceTo ?? ''} onChange={(e:any) => set('priceTo', e.target.value ? Number(e.target.value) : undefined)} placeholder="opțional" />
+            <Field label="Pret pana la (RON)" half>
+              <Input type="number" value={form.priceTo ?? ''} onChange={(e:any) => set('priceTo', e.target.value ? Number(e.target.value) : undefined)} placeholder="optional" />
             </Field>
-            <Field label="Unitate preț">
+            <Field label="Unitate pret">
               <select value={form.priceUnit} onChange={e => set('priceUnit', e.target.value as any)}
                 className="h-10 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring w-full">
                 <option value="total">/ eveniment</option>
-                <option value="perPerson">/ persoană</option>
-                <option value="perHour">/ oră</option>
+                <option value="perPerson">/ persoana</option>
+                <option value="perHour">/ ora</option>
                 <option value="negociabil">Negociabil</option>
               </select>
             </Field>
@@ -148,8 +148,8 @@ const ServiceModal: React.FC<{
 
           {/* Contact */}
           <div className="flex gap-3 flex-wrap">
-            <Field label="Locație" half>
-              <Input value={form.location} onChange={(e:any) => set('location', e.target.value)} placeholder="Ex: București" />
+            <Field label="Locatie" half>
+              <Input value={form.location} onChange={(e:any) => set('location', e.target.value)} placeholder="Ex: Bucuresti" />
             </Field>
             <Field label="Telefon" half>
               <Input value={form.phone ?? ''} onChange={(e:any) => set('phone', e.target.value)} placeholder="07xx xxx xxx" />
@@ -192,7 +192,7 @@ const ServiceModal: React.FC<{
             <div className="flex gap-2">
               <Input value={tagInput} onChange={(e:any) => setTagInput(e.target.value)}
                 onKeyDown={(e:any) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                placeholder="Scrie tag și apasă Enter..." className="flex-1" />
+                placeholder="Scrie tag si apasa Enter..." className="flex-1" />
               <Button type="button" variant="outline" onClick={addTag} className="shrink-0">+</Button>
             </div>
             {form.tags.length > 0 && (
@@ -229,10 +229,10 @@ const ServiceModal: React.FC<{
 
         {/* Footer */}
         <div className="flex justify-end gap-3 p-6 border-t border-border sticky bottom-0 bg-background">
-          <Button variant="outline" onClick={onClose}>Anulează</Button>
+          <Button variant="outline" onClick={onClose}>Anuleaza</Button>
           <Button onClick={handleSave} disabled={!form.name.trim() || saving}
             className="bg-amber-600 hover:bg-amber-700 text-white">
-            {saving ? 'Se salvează...' : service?._id ? 'Salvează modificările' : 'Adaugă serviciu'}
+            {saving ? 'Se salveaza...' : service?._id ? 'Salveaza modificarile' : 'Adauga serviciu'}
           </Button>
         </div>
       </div>
@@ -259,7 +259,7 @@ const ServiceManagement = ({ token }: { token: string }) => {
       const cfg = await cfgRes.json();
       setComingSoon(!!cfg?.enabled);
     } catch (e) {
-      toast({ title: 'Eroare', description: 'Nu s-au putut încărca serviciile.', variant: 'destructive' });
+      toast({ title: 'Eroare', description: 'Nu s-au putut incarca serviciile.', variant: 'destructive' });
     } finally {
       setLoading(false);
     }
@@ -288,7 +288,7 @@ const ServiceManagement = ({ token }: { token: string }) => {
         body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error();
-      toast({ title: isNew ? 'Serviciu adăugat' : 'Serviciu actualizat', variant: 'success' as any });
+      toast({ title: isNew ? 'Serviciu adaugat' : 'Serviciu actualizat', variant: 'success' as any });
       setModal({ open: false, service: null });
       fetchServices();
     } catch {
@@ -297,16 +297,16 @@ const ServiceManagement = ({ token }: { token: string }) => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Ștergi acest serviciu definitiv?')) return;
+    if (!confirm('Stergi acest serviciu definitiv?')) return;
     try {
       await fetch(`${API_URL}/admin/services/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
-      toast({ title: 'Serviciu șters', variant: 'default' });
+      toast({ title: 'Serviciu sters', variant: 'default' });
       fetchServices();
     } catch {
-      toast({ title: 'Eroare ștergere', variant: 'destructive' });
+      toast({ title: 'Eroare stergere', variant: 'destructive' });
     }
   };
 
@@ -322,7 +322,7 @@ const ServiceManagement = ({ token }: { token: string }) => {
 
   if (loading) return (
     <div className="flex items-center justify-center h-64 text-muted-foreground">
-      <Package className="w-8 h-8 animate-pulse mr-3" /> Se încarcă serviciile...
+      <Package className="w-8 h-8 animate-pulse mr-3" /> Se incarca serviciile...
     </div>
   );
 
@@ -332,7 +332,7 @@ const ServiceManagement = ({ token }: { token: string }) => {
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Servicii Marketplace</h2>
-          <p className="text-muted-foreground text-sm">{services.length} servicii în baza de date</p>
+          <p className="text-muted-foreground text-sm">{services.length} servicii in baza de date</p>
         </div>
         <div className="flex gap-2 flex-wrap">
           <Button variant="outline" size="sm"
@@ -342,7 +342,7 @@ const ServiceManagement = ({ token }: { token: string }) => {
               fetchServices();
             }}
             className="text-xs text-muted-foreground">
-            Resetează seed
+            Reseteaza seed
           </Button>
           <Button variant="outline" size="sm"
             onClick={async () => {
@@ -356,7 +356,7 @@ const ServiceManagement = ({ token }: { token: string }) => {
           </Button>
           <Button onClick={() => setModal({ open: true, service: null })}
             className="bg-amber-600 hover:bg-amber-700 text-white flex items-center gap-2">
-            <Plus className="w-4 h-4" /> Adaugă serviciu nou
+            <Plus className="w-4 h-4" /> Adauga serviciu nou
           </Button>
         </div>
       </div>
@@ -369,8 +369,8 @@ const ServiceManagement = ({ token }: { token: string }) => {
             <p className="text-sm font-semibold">{comingSoon ? 'Modul Coming Soon activ' : 'Serviciile sunt vizibile'}</p>
             <p className="text-xs text-muted-foreground">
               {comingSoon
-                ? 'Utilizatorii văd pagina "Coming Soon" în loc de servicii.'
-                : 'Utilizatorii văd serviciile disponibile din marketplace.'}
+                ? 'Utilizatorii vad pagina "Coming Soon" in loc de servicii.'
+                : 'Utilizatorii vad serviciile disponibile din marketplace.'}
             </p>
           </div>
         </div>
@@ -403,10 +403,10 @@ const ServiceManagement = ({ token }: { token: string }) => {
       {/* Table card */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-4">
-          <CardTitle>Listă Servicii</CardTitle>
+          <CardTitle>Lista Servicii</CardTitle>
           <div className="relative w-64">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Caută..." className="pl-9"
+            <Input placeholder="Cauta..." className="pl-9"
               value={search} onChange={(e:any) => setSearch(e.target.value)} />
           </div>
         </CardHeader>
@@ -417,16 +417,16 @@ const ServiceManagement = ({ token }: { token: string }) => {
                 <tr>
                   <th className="text-left p-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">Serviciu</th>
                   <th className="text-left p-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">Categorie</th>
-                  <th className="text-left p-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">Preț</th>
+                  <th className="text-left p-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">Pret</th>
                   <th className="text-left p-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">Rating</th>
                   <th className="text-left p-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">Status</th>
-                  <th className="text-right p-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">Acțiuni</th>
+                  <th className="text-right p-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">Actiuni</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {filtered.length === 0 && (
                   <tr><td colSpan={6} className="text-center py-12 text-muted-foreground">
-                    Niciun serviciu găsit.
+                    Niciun serviciu gasit.
                   </td></tr>
                 )}
                 {filtered.map(s => {
@@ -502,20 +502,20 @@ const ServiceManagement = ({ token }: { token: string }) => {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => toggleAvailable(s)}
-                            title={s.available ? 'Ascunde' : 'Activează'}
+                            title={s.available ? 'Ascunde' : 'Activeaza'}
                             className={`p-1.5 rounded-lg transition-colors ${s.available ? 'text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20' : 'text-zinc-400 hover:bg-muted'}`}>
                             {s.available ? <ToggleRight className="w-5 h-5" /> : <ToggleLeft className="w-5 h-5" />}
                           </button>
                           <button
                             onClick={() => setModal({ open: true, service: s })}
                             className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-                            title="Editează">
+                            title="Editeaza">
                             <Edit2 className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDelete(s._id!)}
                             className="p-1.5 rounded-lg text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                            title="Șterge">
+                            title="Sterge">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>

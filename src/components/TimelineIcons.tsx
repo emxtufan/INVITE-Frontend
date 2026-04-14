@@ -2,28 +2,28 @@
  * TimelineIcons.tsx — Wedding timeline icon library
  *
  * ═══════════════════════════════════════════════════════════
- *  CUM ADAUGI / ÎNLOCUIEȘTI UN ICON:
+ *  CUM ADAUGI / INLOCUIESTI UN ICON:
  *
  *  1. Deschide orice SVG editor (Figma, Illustrator, svg-repo.com…)
- *  2. Copiază DOAR conținutul interior al <svg> (path-urile, nu wrapper-ul)
- *  3. Lipește-l ca valoare a cheii dorite mai jos
- *  4. Gata. Componenta WeddingIcon se ocupă de wrapper-ul <svg>.
+ *  2. Copiaza DOAR continutul interior al <svg> (path-urile, nu wrapper-ul)
+ *  3. Lipeste-l ca valoare a cheii dorite mai jos
+ *  4. Gata. Componenta WeddingIcon se ocupa de wrapper-ul <svg>.
  *
  *  Exemple de surse gratuite SVG:
  *    https://www.svgrepo.com/collection/wedding-hand-drawn-doodle-icons/
  *    https://www.svgrepo.com/collection/wedding-icons/
  *
  *  IMPORTANT: Iconurile sunt proiectate pe un canvas 32×32 (viewBox "0 0 32 32").
- *  Dacă SVG-ul tău are alt viewBox, rescalează în Figma înainte de paste.
- *  stroke="currentColor" este moștenit automat — nu trebuie setat manual.
+ *  Daca SVG-ul tau are alt viewBox, rescaleaza in Figma inainte de paste.
+ *  stroke="currentColor" este mostenit automat — nu trebuie setat manual.
  * ═══════════════════════════════════════════════════════════
  */
 
 import React from 'react';
 
-// ─── Dicționar SVG strings ────────────────────────────────────────────────────
-// Valoarea fiecărei chei = innerHTML-ul unui <svg viewBox="0 0 32 32">.
-// Înlocuiește orice valoare cu SVG-ul tău preferat.
+// ─── Dictionar SVG strings ────────────────────────────────────────────────────
+// Valoarea fiecarei chei = innerHTML-ul unui <svg viewBox="0 0 32 32">.
+// Inlocuieste orice valoare cu SVG-ul tau preferat.
 
 /**
  * Fiecare cheie poate fi:
@@ -31,16 +31,16 @@ import React from 'react';
  *   - un obiect { vb: '0 0 64 64', html: `...paths...` }  ← pentru SVG-uri cu alt viewBox
  *
  * CUM ADAUGI UN SVG DE PE SVG REPO / FIGMA:
- *   1. Copiază SVG-ul complet
- *   2. Găsește viewBox-ul (ex: viewBox="0 0 64 64")
- *   3. Extrage DOAR conținutul interior (fără tag-ul <svg> și </svg>)
- *   4. Pune-l ca obiect: { vb: '0 0 64 64', html: `...conținut...` }
+ *   1. Copiaza SVG-ul complet
+ *   2. Gaseste viewBox-ul (ex: viewBox="0 0 64 64")
+ *   3. Extrage DOAR continutul interior (fara tag-ul <svg> si </svg>)
+ *   4. Pune-l ca obiect: { vb: '0 0 64 64', html: `...continut...` }
  */
 export type SvgIconValue = string | { vb: string; html: string };
 export const SVG_ICONS: Record<string, SvgIconValue> = {
 
   // ── 💍 Inele (SVG Repo, viewBox 64×64) ──────────────────────────────────
-  //  Înlocuit cu icon de pe svgrepo.com — format obiect { vb, html }
+  //  Inlocuit cu icon de pe svgrepo.com — format obiect { vb, html }
   rings: {
     vb: '0 0 64 64',
     html: `
@@ -75,7 +75,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <circle cx="4" cy="15" r="1" fill="currentColor" stroke="none"/>
   `,
 
-  // ── ⛪ Biserică cu cruce, ferestre arcuite, ușă ───────────────────────────
+  // ── ⛪ Biserica cu cruce, ferestre arcuite, usa ───────────────────────────
   ceremony: `
     <line x1="16" y1="0.5" x2="16" y2="5"/>
     <line x1="14" y1="2.5" x2="18" y2="2.5"/>
@@ -91,7 +91,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <circle cx="29" cy="11" r="1" fill="currentColor" stroke="none"/>
   `,
 
-  // ── 🕯️ Trei lumânări pe sfeșnice ─────────────────────────────────────────
+  // ── 🕯 Trei lumanari pe sfesnice ─────────────────────────────────────────
   candles: `
     <rect x="5.5" y="14" width="4" height="12"/>
     <line x1="7.5" y1="14" x2="7.5" y2="11"/>
@@ -123,7 +123,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <ellipse cx="24.5" cy="30.5" rx="3" ry="1.2"/>
   `,
 
-  // ── 📷 Cameră foto DSLR vintage ──────────────────────────────────────────
+  // ── 📷 Camera foto DSLR vintage ──────────────────────────────────────────
   photo: `
     <rect x="2" y="10" width="28" height="17" rx="2"/>
     <path d="M10 10 L10 7 L15 5 L17 5 L22 7 L22 10"/>
@@ -141,7 +141,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <line x1="27.5" y1="6.4" x2="27.5" y2="9.6" stroke-width="0.9"/>
   `,
 
-  // ── 🌸 Arc floral (intrare în sală) ──────────────────────────────────────
+  // ── 🌸 Arc floral (intrare in sala) ──────────────────────────────────────
   arch: `
     <line x1="7" y1="32" x2="7" y2="15"/>
     <line x1="25" y1="32" x2="25" y2="15"/>
@@ -169,7 +169,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <line x1="16" y1="0.7" x2="16" y2="4.3" stroke-width="0.9"/>
   `,
 
-  // ── 💃 Cuplu dansând, rochia în vânt ─────────────────────────────────────
+  // ── 💃 Cuplu dansand, rochia in vant ─────────────────────────────────────
   dance: `
     <circle cx="11" cy="5" r="2.5"/>
     <path d="M9 3 L9 1.5 L13 1.5 L13 3"/>
@@ -214,7 +214,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <circle cx="8" cy="15" r="1" fill="currentColor" stroke="none"/>
   `,
 
-  // ── 🍽️ Farfurie + furculiță + cuțit ──────────────────────────────────────
+  // ── 🍽 Farfurie + furculita + cutit ──────────────────────────────────────
   dinner: `
     <circle cx="16" cy="17" r="9.5"/>
     <circle cx="16" cy="17" r="7"/>
@@ -262,7 +262,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <circle cx="2" cy="29.5" r="1" fill="currentColor" stroke="none"/>
   `,
 
-  // ── 🎂 Tort 3 niveluri cu perle, lumânare + flacără ──────────────────────
+  // ── 🎂 Tort 3 niveluri cu perle, lumanare + flacara ──────────────────────
   cake: `
     <rect x="15" y="4" width="2" height="5"/>
     <path d="M14.5 5.5 Q16 2 17.5 5.5 Q17.5 7.5 16 8 Q14.5 7.5 14.5 5.5 Z"
@@ -296,7 +296,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <line x1="10" y1="30" x2="22" y2="30" stroke-width="1.5"/>
   `,
 
-  // ── 💐 Buchet de trandafiri cu fundă ─────────────────────────────────────
+  // ── 💐 Buchet de trandafiri cu funda ─────────────────────────────────────
   bouquet: `
     <path d="M13 32 Q13 26 16 22"/>
     <path d="M16 32 L16 22"/>
@@ -330,7 +330,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <circle cx="19" cy="5"   r="1" fill="currentColor" stroke="none"/>
   `,
 
-  // ── 🥂 Două pahare de șampanie ────────────────────────────────────────────
+  // ── 🥂 Doua pahare de sampanie ────────────────────────────────────────────
   champagne: `
     <path d="M8 4 L6.5 16 Q6.5 20 10 20 Q13.5 20 13.5 16 L12 4 Z"/>
     <line x1="10" y1="20" x2="10" y2="27"/>
@@ -356,7 +356,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <circle cx="18" cy="1.5" r="1" fill="currentColor" stroke="none"/>
   `,
 
-  // ── 🚗 Mașina Just Married cu cutii + panglici ────────────────────────────
+  // ── 🚗 Masina Just Married cu cutii + panglici ────────────────────────────
   car: `
     <path d="M3 13 L3 22 Q3 23 4 23 L28 23 Q29 23 29 22 L29 13
              Q29 12 28 12 L4 12 Q3 12 3 13 Z"/>
@@ -389,7 +389,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <circle cx="22" cy="3.5" r="1" fill="currentColor" stroke="none"/>
   `,
 
-  // ── 🪩 Disco ball cu grilă + diamante sparkle ────────────────────────────
+  // ── 🪩 Disco ball cu grila + diamante sparkle ────────────────────────────
   disco: `
     <line x1="16" y1="5" x2="16" y2="3"/>
     <line x1="13" y1="3" x2="19" y2="3"/>
@@ -412,7 +412,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <circle cx="28" cy="15" r="1" fill="currentColor" stroke="none"/>
   `,
 
-  // ── 🎆 Artificii / explozii tip păpădie ──────────────────────────────────
+  // ── 🎆 Artificii / explozii tip papadie ──────────────────────────────────
   fireworks: `
     <circle cx="9" cy="18" r="1.8" fill="currentColor" fill-opacity="0.2"/>
     <line x1="9" y1="14"   x2="9" y2="9.5"   stroke-width="0.95"/>
@@ -455,7 +455,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <circle cx="29" cy="28" r="1" fill="currentColor" stroke="none"/>
   `,
 
-  // ── 🌙 Lună + stele (finalul evenimentului) ───────────────────────────────
+  // ── 🌙 Luna + stele (finalul evenimentului) ───────────────────────────────
   moon: `
     <path d="M21 14 A9 9 0 1 1 11 24 A7 7 0 0 0 21 14 Z"/>
     <path d="M22 5 L22.8 7.5 L25.5 7.5 L23.3 9.2 L24.1 11.7
@@ -481,7 +481,7 @@ export const SVG_ICONS: Record<string, SvgIconValue> = {
     <path d="M9 27.5 Q16 26 23 27.5"/>
   `,
 
-  // ── 👗 Rochie de mireasă tip prințesă ─────────────────────────────────────
+  // ── 👗 Rochie de mireasa tip printesa ─────────────────────────────────────
   dress: `
     <path d="M11 2 Q10 4 10 7 L13 11 L19 11 L22 7 Q22 4 21 2"/>
     <path d="M11 2 Q12.5 5.5 16 4.5 Q19.5 5.5 21 2"/>
@@ -522,8 +522,8 @@ export interface WeddingIconProps {
 }
 
 /**
- * Randează un icon din SVG_ICONS.
- * Dacă cheia nu există, afișează 'champagne' ca fallback.
+ * Randeaza un icon din SVG_ICONS.
+ * Daca cheia nu exista, afiseaza 'champagne' ca fallback.
  */
 export const WeddingIcon: React.FC<WeddingIconProps> = ({
   iconKey,
@@ -534,7 +534,7 @@ export const WeddingIcon: React.FC<WeddingIconProps> = ({
   const key = ALIASES[iconKey] ?? iconKey;
   const raw = SVG_ICONS[key] ?? SVG_ICONS.champagne;
 
-  // Suportă atât string simplu cât și obiect { vb, html }
+  // Suporta atat string simplu cat si obiect { vb, html }
   const viewBox = typeof raw === 'object' ? raw.vb : '0 0 32 32';
   const inner   = typeof raw === 'object' ? raw.html : raw;
 

@@ -102,9 +102,9 @@ export default function Features() {
     <section id="features" className="wp-features-section">
       <div className="wp-container">
         <div className="wp-section-header wp-fade-up">
-          <span className="wp-section-tag">Funcționalități</span>
+          <span className="wp-section-tag">Functionalitati</span>
           <h2 className="wp-section-title">
-           <BlurText text="Construit pentru viteză"
+           <BlurText text="Construit pentru viteza"
                           delay={20}
                           animateBy="letters"
                           direction="bottom"
@@ -122,7 +122,7 @@ export default function Features() {
 
 
           <p className="wp-section-desc">
-            Fiecare interacțiune din WeddingPro este gândită să fie instantanee. Elimină haosul din Excel.
+            Fiecare interactiune din WeddingPro este gandita sa fie instantanee. Elimina haosul din Excel.
           </p>
         </div>
 
@@ -158,7 +158,7 @@ export default function Features() {
                 </div>
               </div>
 
-              {/* 🔽 Conținutul tău */}
+              {/* 🔽 Continutul tau */}
               <div className="wp-bento-card-content" style={{ maxWidth: 360, position: "relative", zIndex: 2 }}>
                 <div className="wp-bento-icon pink">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -173,7 +173,7 @@ export default function Features() {
                   pauseBetweenAnimations={1.2}
                   fontSize="17px"
                   />
-                <p>Organizează sala vizual în câteva minute. Trage invitații direct pe locurile libere, grupează familiile și gestionează conflictele automat.</p>
+                <p>Organizeaza sala vizual in cateva minute. Trage invitatii direct pe locurile libere, grupeaza familiile si gestioneaza conflictele automat.</p>
               </div>
 
               <div style={{ zIndex: 2 }}>
@@ -200,7 +200,7 @@ export default function Features() {
                   pauseBetweenAnimations={1.2}
                   fontSize="17px"
                   />
-                <p>Link unic sau public. Invitații confirmă online în timp real. Fără hârtie, fără telefoane.</p>
+                <p>Link unic sau public. Invitatii confirma online in timp real. Fara hartie, fara telefoane.</p>
               </div>
               <div className="wp-rsvp-glow" />
               <div className="wp-rsvp-notif">
@@ -224,7 +224,7 @@ export default function Features() {
                   pauseBetweenAnimations={1.5}
                   fontSize="17px"
                   />
-                <p>Ține evidența cheltuielilor și plăților scadente în timp real.</p>
+                <p>Tine evidenta cheltuielilor si platilor scadente in timp real.</p>
                 <div className="wp-budget-bar-wrap">
                   <div className="wp-budget-bar-meta"><span>Cheltuit</span><span>75%</span></div>
                   <div className="wp-budget-bar-track">
@@ -251,21 +251,21 @@ export default function Features() {
                   pauseBetweenAnimations={1}
                   fontSize="17px"
                   />
-                  <p>Nu știi de unde să începi? WeddingPro vine cu o listă de sarcini predefinită și un asistent AI care îți oferă sfaturi personalizate pe bugetul tău.</p>
+                  <p>Nu stii de unde sa incepi? WeddingPro vine cu o lista de sarcini predefinita si un asistent AI care iti ofera sfaturi personalizate pe bugetul tau.</p>
                 </div>
                 <div className="wp-ai-chat-side">
                   <div className="wp-ai-chat-wrap">
                     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                       <div className="wp-chat-row">
                         <div className="wp-chat-avatar ai"><IconZap /></div>
-                        <div className="wp-chat-bubble ai">Salut! Pe baza bugetului tău, îți recomand să aloci 40% pentru locație.</div>
+                        <div className="wp-chat-bubble ai">Salut! Pe baza bugetului tau, iti recomand sa aloci 40% pentru locatie.</div>
                       </div>
                       <div className="wp-chat-row right">
-                        <div className="wp-chat-bubble user">Super, adaugă sarcina în listă.</div>
+                        <div className="wp-chat-bubble user">Super, adauga sarcina in lista.</div>
                       </div>
                       <div className="wp-chat-row">
                         <div className="wp-chat-avatar ai"><IconZap /></div>
-                        <div className="wp-chat-bubble ai">Gata! Am adăugat „Rezervare locație" cu deadline în 3 zile. ✓</div>
+                        <div className="wp-chat-bubble ai">Gata! Am adaugat „Rezervare locatie" cu deadline in 3 zile. ✓</div>
                       </div>
                     </div>
                   </div>

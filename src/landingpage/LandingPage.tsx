@@ -390,14 +390,14 @@ function Navbar() {
               WeddingPro
             </a>
             <ul className="wp-nav-links">
-              <li><a href="#features" onClick={e => { e.preventDefault(); scrollTo("features"); }}>Funcționalități</a></li>
-              <li><a href="#pricing"  onClick={e => { e.preventDefault(); scrollTo("pricing");  }}>Prețuri</a></li>
-              <li><a href="#faq"      onClick={e => { e.preventDefault(); scrollTo("faq");      }}>Întrebări</a></li>
+              <li><a href="#features" onClick={e => { e.preventDefault(); scrollTo("features"); }}>Functionalitati</a></li>
+              <li><a href="#pricing"  onClick={e => { e.preventDefault(); scrollTo("pricing");  }}>Preturi</a></li>
+              <li><a href="#faq"      onClick={e => { e.preventDefault(); scrollTo("faq");      }}>Intrebari</a></li>
             </ul>
           </div>
           <div className="wp-nav-actions">
             <a href="/login" className="wp-btn-ghost">Autentificare</a>
-            <a href="/register" className="wp-btn-primary">Începe Gratuit <IconArrow /></a>
+            <a href="/register" className="wp-btn-primary">Incepe Gratuit <IconArrow /></a>
             <button className="wp-hamburger" onClick={() => setOpen(o => !o)} aria-label="Menu">
               <IconHamburger />
             </button>
@@ -406,11 +406,11 @@ function Navbar() {
       </div>
       {open && (
         <div className="wp-mobile-menu">
-          <a href="#features" onClick={() => { scrollTo("features"); close(); }}>Funcționalități</a>
-          <a href="#pricing"  onClick={() => { scrollTo("pricing");  close(); }}>Prețuri</a>
-          <a href="#faq"      onClick={() => { scrollTo("faq");      close(); }}>Întrebări</a>
+          <a href="#features" onClick={() => { scrollTo("features"); close(); }}>Functionalitati</a>
+          <a href="#pricing"  onClick={() => { scrollTo("pricing");  close(); }}>Preturi</a>
+          <a href="#faq"      onClick={() => { scrollTo("faq");      close(); }}>Intrebari</a>
           <a href="/login"    onClick={close}>Autentificare</a>
-          <a href="/register" onClick={close}>Creează Cont Gratuit →</a>
+          <a href="/register" onClick={close}>Creeaza Cont Gratuit →</a>
         </div>
       )}
     </nav>
@@ -438,12 +438,12 @@ function Hero() {
           <em>the plan it deserves</em>
         </h1>
         <p className="wp-fade-up visible wp-d1">
-          Platforma completă pentru miri și organizatori. Gestionează invitați, așezarea la mese, bugetul și confirmările RSVP — într-un singur loc.
+          Platforma completa pentru miri si organizatori. Gestioneaza invitati, asezarea la mese, bugetul si confirmarile RSVP — intr-un singur loc.
         </p>
 
         <div className="wp-hero-btns wp-fade-up visible wp-d2">
           <a href="/register" className="wp-btn-primary wp-btn-lg">
-            Începe Gratuit <IconArrow />
+            Incepe Gratuit <IconArrow />
           </a>
           <a href="#features" className="wp-btn-outline-lg" onClick={e => { e.preventDefault(); scrollTo("features"); }}>
             <IconPlay /> Demo Live
@@ -483,7 +483,7 @@ function Hero() {
                   {/* Sidebar */}
                   <div className="wp-db-sidebar">
                     <div className="wp-db-sidebar-label">Meniu</div>
-                    {["Overview","Invitați","Planificator","Buget","Setări"].map((item, i) => (
+                    {["Overview","Invitati","Planificator","Buget","Setari"].map((item, i) => (
                       <div key={item} className={`wp-db-nav-item${i === 0 ? " active" : ""}`}>
                         <span className={`wp-db-nav-dot${i === 0 ? " active" : ""}`} />
                         {item}
@@ -504,7 +504,7 @@ function Hero() {
                     <div className="wp-db-topbar">
                       <div>
                         <div className="wp-db-topbar-title">Bun venit, Alex & Maria</div>
-                        <div className="wp-db-topbar-sub">Ai 3 sarcini noi astăzi. Nunta în 24 de zile.</div>
+                        <div className="wp-db-topbar-sub">Ai 3 sarcini noi astazi. Nunta in 24 de zile.</div>
                       </div>
                       <div style={{ width: 32, height: 32, borderRadius: "50%", background: "linear-gradient(135deg,var(--primary),var(--accent))" }} />
                     </div>
@@ -512,10 +512,10 @@ function Hero() {
                       {/* KPIs */}
                       <div className="wp-db-kpis">
                         {[
-                          { label: "Invitați", val: "142", cls: "" },
+                          { label: "Invitati", val: "142", cls: "" },
                           { label: "Buget",    val: "45K", cls: "" },
                           { label: "Zile",     val: "24",  cls: " indigo" },
-                          { label: "Confirmări",val: "78%", cls: " green" },
+                          { label: "Confirmari",val: "78%", cls: " green" },
                         ].map(({ label, val, cls }) => (
                           <div key={label} className="wp-db-kpi">
                             <div className="wp-db-kpi-label">{label}</div>
@@ -534,12 +534,12 @@ function Hero() {
                           </div>
                         </div>
                         <div className="wp-db-chart-card">
-                          <div className="wp-db-chart-title">Activitate Recentă</div>
+                          <div className="wp-db-chart-title">Activitate Recenta</div>
                           <div className="wp-db-activity">
                             {[
-                              { label: "Confirmare nouă",    time: "Acum 2 minute",  cls: "" },
-                              { label: "Masă editată",       time: "Acum 18 minute", cls: " indigo" },
-                              { label: "Buget actualizat",   time: "Acum 1 oră",     cls: " green" },
+                              { label: "Confirmare noua",    time: "Acum 2 minute",  cls: "" },
+                              { label: "Masa editata",       time: "Acum 18 minute", cls: " indigo" },
+                              { label: "Buget actualizat",   time: "Acum 1 ora",     cls: " green" },
                             ].map(({ label, time, cls }) => (
                               <div key={label} className="wp-db-act-item">
                                 <div className={`wp-db-act-avatar${cls}`} />
@@ -572,7 +572,7 @@ function Logos() {
   return (
     <div className="wp-logos-section wp-fade-up">
       <div className="wp-container">
-        <p className="wp-logos-label">Utilizat de miri din toată România</p>
+        <p className="wp-logos-label">Utilizat de miri din toata Romania</p>
         <div className="wp-logos-row">
           <div className="wp-logo-chip">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>
@@ -641,13 +641,13 @@ function Features() {
     <section id="features" className="wp-features-section">
       <div className="wp-container">
         <div className="wp-section-header wp-fade-up">
-          <span className="wp-section-tag">Funcționalități</span>
+          <span className="wp-section-tag">Functionalitati</span>
           <h2 className="wp-section-title">
-            Construit pentru viteză.<br />
+            Construit pentru viteza.<br />
             <span className="muted-text">Optimizat pentru claritate.</span>
           </h2>
           <p className="wp-section-desc">
-            Fiecare interacțiune din WeddingPro este gândită să fie instantanee. Elimină haosul din Excel.
+            Fiecare interactiune din WeddingPro este gandita sa fie instantanee. Elimina haosul din Excel.
           </p>
         </div>
 
@@ -660,7 +660,7 @@ function Features() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
               </div>
               <h3>Planificator Mese Drag & Drop</h3>
-              <p>Organizează sala vizual în câteva minute. Trage invitații direct pe locurile libere, grupează familiile și gestionează conflictele automat.</p>
+              <p>Organizeaza sala vizual in cateva minute. Trage invitatii direct pe locurile libere, grupeaza familiile si gestioneaza conflictele automat.</p>
             </div>
             <SeatingVisual />
           </div>
@@ -675,7 +675,7 @@ function Features() {
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" strokeWidth="3"/></svg>
                 </div>
                 <h3>RSVP Digital</h3>
-                <p>Link unic sau public. Invitații confirmă online în timp real. Fără hârtie, fără telefoane.</p>
+                <p>Link unic sau public. Invitatii confirma online in timp real. Fara hartie, fara telefoane.</p>
               </div>
               <div className="wp-rsvp-glow" />
               <div className="wp-rsvp-notif">
@@ -691,7 +691,7 @@ function Features() {
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
                 </div>
                 <h3>Buget Smart</h3>
-                <p>Ține evidența cheltuielilor și plăților scadente în timp real.</p>
+                <p>Tine evidenta cheltuielilor si platilor scadente in timp real.</p>
                 <div className="wp-budget-bar-wrap">
                   <div className="wp-budget-bar-meta"><span>Cheltuit</span><span>75%</span></div>
                   <div className="wp-budget-bar-track">
@@ -709,21 +709,21 @@ function Features() {
                 <div className="wp-ai-text-side">
                   <div className="wp-bento-icon pink" style={{ marginBottom: 20 }}><IconZap /></div>
                   <h3>Asistent AI & Checklist</h3>
-                  <p>Nu știi de unde să începi? WeddingPro vine cu o listă de sarcini predefinită și un asistent AI care îți oferă sfaturi personalizate pe bugetul tău.</p>
+                  <p>Nu stii de unde sa incepi? WeddingPro vine cu o lista de sarcini predefinita si un asistent AI care iti ofera sfaturi personalizate pe bugetul tau.</p>
                 </div>
                 <div className="wp-ai-chat-side">
                   <div className="wp-ai-chat-wrap">
                     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                       <div className="wp-chat-row">
                         <div className="wp-chat-avatar ai"><IconZap /></div>
-                        <div className="wp-chat-bubble ai">Salut! Pe baza bugetului tău, îți recomand să aloci 40% pentru locație.</div>
+                        <div className="wp-chat-bubble ai">Salut! Pe baza bugetului tau, iti recomand sa aloci 40% pentru locatie.</div>
                       </div>
                       <div className="wp-chat-row right">
-                        <div className="wp-chat-bubble user">Super, adaugă sarcina în listă.</div>
+                        <div className="wp-chat-bubble user">Super, adauga sarcina in lista.</div>
                       </div>
                       <div className="wp-chat-row">
                         <div className="wp-chat-avatar ai"><IconZap /></div>
-                        <div className="wp-chat-bubble ai">Gata! Am adăugat „Rezervare locație" cu deadline în 3 zile. ✓</div>
+                        <div className="wp-chat-bubble ai">Gata! Am adaugat „Rezervare locatie" cu deadline in 3 zile. ✓</div>
                       </div>
                     </div>
                   </div>
@@ -748,7 +748,7 @@ function Stats() {
         <div className="wp-stats-card wp-fade-up">
           {[
             { target: 2500, suffix: "+", label: "Cupluri care au ales WeddingPro" },
-            { target: 98,   suffix: "%", label: "Satisfacție confirmată de utilizatori" },
+            { target: 98,   suffix: "%", label: "Satisfactie confirmata de utilizatori" },
             { target: 40,   suffix: "h", label: "Timp economisit per eveniment" },
           ].map(({ target, suffix, label }) => (
             <div key={label} className="wp-stat-item">
@@ -767,17 +767,17 @@ function Stats() {
 /* ══════════════════════════════════════════════════════════════════════════
    PRICING
 ══════════════════════════════════════════════════════════════════════════ */
-const FREE_FEATURES  = ["1 Invitat Demo","5 Elemente Canvas","Acces Tema \"Classic\"","Checklist de bază"];
-const PRO_FEATURES   = ["Invitați Nelimitați","Planificator Mese Nelimitat","Toate Temele (Modern, Floral)","Calculator Buget Automat","Asistent AI & Export PDF"];
+const FREE_FEATURES  = ["1 Invitat Demo","5 Elemente Canvas","Acces Tema \"Classic\"","Checklist de baza"];
+const PRO_FEATURES   = ["Invitati Nelimitati","Planificator Mese Nelimitat","Toate Temele (Modern, Floral)","Calculator Buget Automat","Asistent AI & Export PDF"];
 
 function Pricing() {
   return (
     <section id="pricing" className="wp-pricing-section">
       <div className="wp-container">
         <div className="wp-section-header wp-fade-up">
-          <span className="wp-section-tag">Prețuri</span>
-          <h2 className="wp-section-title">Investiție unică.<br />Acces pe viață.</h2>
-          <p className="wp-section-desc">Fără abonamente lunare ascunse. Plătești o singură dată și ai acces nelimitat.</p>
+          <span className="wp-section-tag">Preturi</span>
+          <h2 className="wp-section-title">Investitie unica.<br />Acces pe viata.</h2>
+          <p className="wp-section-desc">Fara abonamente lunare ascunse. Platesti o singura data si ai acces nelimitat.</p>
         </div>
         <div className="wp-pricing-grid">
 
@@ -796,7 +796,7 @@ function Pricing() {
                 </li>
               ))}
             </ul>
-            <a href="/register" className="wp-btn-plan secondary">Începe Gratuit</a>
+            <a href="/register" className="wp-btn-plan secondary">Incepe Gratuit</a>
           </div>
 
           {/* PREMIUM */}
@@ -805,12 +805,12 @@ function Pricing() {
             <div className="wp-price-name" style={{ display: "flex", alignItems: "center", gap: 6 }}>
               Premium <IconStar />
             </div>
-            <div className="wp-price-desc">Plată unică. Acces nelimitat.</div>
+            <div className="wp-price-desc">Plata unica. Acces nelimitat.</div>
             <div style={{ display: "flex", alignItems: "baseline" }}>
               <div className="wp-price-amount paid">49 LEI</div>
               <span className="wp-price-orig">99 LEI</span>
             </div>
-            <div className="wp-price-period">O singură plată · Acces pe viață</div>
+            <div className="wp-price-period">O singura plata · Acces pe viata</div>
             <div className="wp-price-divider" />
             <ul className="wp-price-list">
               {PRO_FEATURES.map(f => (
@@ -820,7 +820,7 @@ function Pricing() {
                 </li>
               ))}
             </ul>
-            <a href="/register" className="wp-btn-plan main">Activează Premium</a>
+            <a href="/register" className="wp-btn-plan main">Activeaza Premium</a>
           </div>
 
         </div>
@@ -833,11 +833,11 @@ function Pricing() {
    FAQ
 ══════════════════════════════════════════════════════════════════════════ */
 const FAQ_ITEMS = [
-  { q: "Este plata recurentă?",                   a: "Nu. Plătești o singură dată suma de 49 LEI și ai acces pe viață la contul tău pentru un eveniment. Nicio taxă ascunsă, niciun abonament lunar." },
-  { q: "Pot exporta lista de invitați?",          a: "Da, poți exporta lista completă în format PDF, gata de trimis către locație sau firma de catering. Formatul este profesional și include toate detaliile necesare." },
-  { q: "Pot folosi platforma de pe telefon?",     a: "Da, platforma este optimizată pentru mobil. Totuși, pentru planificarea meselor (drag & drop) recomandăm un ecran mai mare — laptop sau tabletă." },
-  { q: "Datele mele sunt în siguranță?",          a: "Absolut. Toate datele sunt criptate end-to-end și stocate pe servere securizate. Nu partajăm niciodată informațiile tale cu terți fără consimțământul tău explicit." },
-  { q: "Pot organiza mai multe nunți?",           a: "Planul Premium include un eveniment complet. Dacă ești organizator profesionist, contactează-ne pentru un plan personalizat la prețuri speciale." },
+  { q: "Este plata recurenta?",                   a: "Nu. Platesti o singura data suma de 49 LEI si ai acces pe viata la contul tau pentru un eveniment. Nicio taxa ascunsa, niciun abonament lunar." },
+  { q: "Pot exporta lista de invitati?",          a: "Da, poti exporta lista completa in format PDF, gata de trimis catre locatie sau firma de catering. Formatul este profesional si include toate detaliile necesare." },
+  { q: "Pot folosi platforma de pe telefon?",     a: "Da, platforma este optimizata pentru mobil. Totusi, pentru planificarea meselor (drag & drop) recomandam un ecran mai mare — laptop sau tableta." },
+  { q: "Datele mele sunt in siguranta?",          a: "Absolut. Toate datele sunt criptate end-to-end si stocate pe servere securizate. Nu partajam niciodata informatiile tale cu terti fara consimtamantul tau explicit." },
+  { q: "Pot organiza mai multe nunti?",           a: "Planul Premium include un eveniment complet. Daca esti organizator profesionist, contacteaza-ne pentru un plan personalizat la preturi speciale." },
 ];
 
 function FAQ() {
@@ -852,8 +852,8 @@ function FAQ() {
     <section id="faq" className="wp-faq-section">
       <div className="wp-container-sm">
         <div className="wp-section-header wp-fade-up">
-          <span className="wp-section-tag">Întrebări</span>
-          <h2 className="wp-section-title">Întrebări frecvente</h2>
+          <span className="wp-section-tag">Intrebari</span>
+          <h2 className="wp-section-title">Intrebari frecvente</h2>
         </div>
         <div className="wp-faq-list wp-fade-up">
           {FAQ_ITEMS.map((item, i) => (
@@ -890,19 +890,19 @@ function CTA() {
           <div style={{ position: "relative", zIndex: 1 }}>
             <div className="wp-badge" style={{ margin: "0 auto 28px" }}>
               <span className="wp-badge-dot" />
-              Ofertă limitată — 50% reducere
+              Oferta limitata — 50% reducere
             </div>
-            <h2>Gata să organizezi nunta visurilor?</h2>
-            <p>Alătură-te celor peste 2,500 de cupluri care au scăpat de stresul planificării cu WeddingPro.</p>
+            <h2>Gata sa organizezi nunta visurilor?</h2>
+            <p>Alatura-te celor peste 2,500 de cupluri care au scapat de stresul planificarii cu WeddingPro.</p>
             <div className="wp-cta-btns">
               <a href="/register" className="wp-btn-primary wp-btn-lg">
-                Creează Cont Gratuit <IconArrow />
+                Creeaza Cont Gratuit <IconArrow />
               </a>
               <a href="#pricing" className="wp-btn-outline-lg" onClick={e => { e.preventDefault(); scrollTo("pricing"); }}>
-                Vede Prețuri
+                Vede Preturi
               </a>
             </div>
-            <p className="wp-cta-note">Nu necesită card de credit pentru înregistrare.</p>
+            <p className="wp-cta-note">Nu necesita card de credit pentru inregistrare.</p>
           </div>
         </div>
       </div>
@@ -924,9 +924,9 @@ function Footer() {
           </a>
           <div className="wp-footer-links">
             <a href="#">Termeni</a>
-            <a href="#">Confidențialitate</a>
+            <a href="#">Confidentialitate</a>
             <a href="#">Contact</a>
-            <a href="#faq" onClick={e => { e.preventDefault(); scrollTo("faq"); }}>Întrebări</a>
+            <a href="#faq" onClick={e => { e.preventDefault(); scrollTo("faq"); }}>Intrebari</a>
           </div>
           <div className="wp-footer-copy">© {new Date().getFullYear()} WeddingPro. Toate drepturile rezervate.</div>
         </div>

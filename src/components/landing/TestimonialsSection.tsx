@@ -8,14 +8,14 @@ const TESTIMONIALS = [
     type: "Modern Garden Wedding",
     location: "Palatul Snagov",
     image: "https://images.pexels.com/photos/31757195/pexels-photo-31757195.jpeg",
-    story: "Ne doream o nuntă relaxată, fără stresul listelor pe hârtie. Platforma ne-a permis să centralizăm totul. Invitații au fost impresionați de designul digital, iar noi am putut vedea confirmările în timp real.",
+    story: "Ne doream o nunta relaxata, fara stresul listelor pe hartie. Platforma ne-a permis sa centralizam totul. Invitatii au fost impresionati de designul digital, iar noi am putut vedea confirmarile in timp real.",
     stats: [
-      { value: "98%", label: "Rată RSVP" },
+      { value: "98%", label: "Rata RSVP" },
       { value: "45h", label: "Timp Economisit" }
     ],
     quote: {
-      text: "Au înțeles perfect viziunea noastră minimalistă. Funcția de RSVP automat a eliminat complet haosul telefoanelor.",
-      highlight: "viziunea minimalistă",
+      text: "Au inteles perfect viziunea noastra minimalista. Functia de RSVP automat a eliminat complet haosul telefoanelor.",
+      highlight: "viziunea minimalista",
       highlight2: "eliminat haosul"
     }
   },
@@ -25,30 +25,30 @@ const TESTIMONIALS = [
     type: "Classic Cathedral",
     location: "Cluj-Napoca",
     image: "https://images.pexels.com/photos/14304756/pexels-photo-14304756.jpeg",
-    story: "Aveam invitați din toată lumea. Faptul că am putut pune link-uri de Waze și recomandări de cazare direct în invitație a fost un game-changer. Nimeni nu ne-a sunat să ne întrebe unde este locația.",
+    story: "Aveam invitati din toata lumea. Faptul ca am putut pune link-uri de Waze si recomandari de cazare direct in invitatie a fost un game-changer. Nimeni nu ne-a sunat sa ne intrebe unde este locatia.",
     stats: [
-      { value: "250+", label: "Invitați Gestionați" },
+      { value: "250+", label: "Invitati Gestionati" },
       { value: "0", label: "Apeluri 'Unde e?'" }
     ],
     quote: {
-      text: "Un instrument indispensabil pentru o nuntă mare. Oaspeții noștri au apreciat detaliile și organizarea impecabilă.",
+      text: "Un instrument indispensabil pentru o nunta mare. Oaspetii nostri au apreciat detaliile si organizarea impecabila.",
       highlight: "instrument indispensabil",
-      highlight2: "organizarea impecabilă"
+      highlight2: "organizarea impecabila"
     }
   },
   {
     id: 3,
-    couple: "Ștefan & Elena",
+    couple: "Stefan & Elena",
     type: "Destination Wedding",
     location: "Toscana, Italy",
     image: "https://images.pexels.com/photos/32468906/pexels-photo-32468906.png",
-    story: "Să organizezi o nuntă în altă țară e un coșmar logistic. ESA ne-a ajutat să ținem toți invitații informați cu schimbările de program. Designul 'Botanical' s-a potrivit perfect cu peisajul.",
+    story: "Sa organizezi o nunta in alta tara e un cosmar logistic. ESA ne-a ajutat sa tinem toti invitatii informati cu schimbarile de program. Designul 'Botanical' s-a potrivit perfect cu peisajul.",
     stats: [
       { value: "100%", label: "Feedback Pozitiv" },
       { value: "3", label: "Update-uri Trimise" }
     ],
     quote: {
-      text: "Designul a dat tonul evenimentului înainte ca acesta să înceapă. A fost simplu, elegant și incredibil de eficient.",
+      text: "Designul a dat tonul evenimentului inainte ca acesta sa inceapa. A fost simplu, elegant si incredibil de eficient.",
       highlight: "dat tonul",
       highlight2: "incredibil de eficient"
     }
@@ -131,7 +131,7 @@ export default function TestimonialsSection() {
               Real Weddings to <span className="font-serif italic font-normal text-purple-400">Inspire</span>
             </h2>
             <p className="text-gray-400 text-sm md:text-lg leading-relaxed max-w-xl mx-auto">
-              Descoperă cum cuplurile moderne folosesc tehnologia pentru a scăpa de stres și a crea experiențe memorabile.
+              Descopera cum cuplurile moderne folosesc tehnologia pentru a scapa de stres si a crea experiente memorabile.
             </p>
         </div>
 

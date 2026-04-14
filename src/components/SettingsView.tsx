@@ -216,7 +216,7 @@ const Collapsible: React.FC<{
           />
         </div>
       </div>
-      {/* display:block/none — fără max-h, fără animație, fără tăiere conținut */}
+      {/* display:block/none — fara max-h, fara animatie, fara taiere continut */}
       <div style={{ display: open ? 'block' : 'none', marginTop: isCard ? 14 : 12 }}>
         {children}
       </div>
@@ -227,7 +227,7 @@ const Collapsible: React.FC<{
 const Hr = () => <hr className="border-zinc-100 dark:border-zinc-800 my-4" />;
 const EventTypeBadge = ({ et }: { et: string }) => {
   const m: Record<string, { label: string; icon: any; cls: string }> = {
-    wedding:     { label: "Nuntă",      icon: Heart,       cls: "bg-rose-50 text-rose-700 border-rose-200" },
+    wedding:     { label: "Nunta",      icon: Heart,       cls: "bg-rose-50 text-rose-700 border-rose-200" },
     baptism:     { label: "Botez",      icon: Baby,        cls: "bg-blue-50 text-blue-700 border-blue-200" },
     anniversary: { label: "Aniversare", icon: PartyPopper, cls: "bg-amber-50 text-amber-700 border-amber-200" },
     office:      { label: "Corporate",  icon: Briefcase,   cls: "bg-zinc-50 text-zinc-700 border-zinc-300" },
@@ -261,7 +261,7 @@ const ResetModal: React.FC<{ resetting: boolean; onCancel: () => void; onConfirm
       <div className="flex gap-2">
         <button type="button" onClick={onCancel} disabled={resetting}
           className="flex-1 py-2 rounded-xl border border-zinc-200 text-xs font-bold text-zinc-600 hover:bg-zinc-50 transition-colors disabled:opacity-40">
-          Anulează
+          Anuleaza
         </button>
         <button type="button" onClick={onConfirm} disabled={resetting}
           className="flex-1 py-2 rounded-xl bg-red-500 text-white text-xs font-bold hover:bg-red-600 transition-colors disabled:opacity-60 flex items-center justify-center gap-1.5">
@@ -279,20 +279,20 @@ const ResetModal: React.FC<{ resetting: boolean; onCancel: () => void; onConfirm
 // ─── Settings Content (shared between mobile and desktop) ─────────────────────
 // ─── Timeline preset moments with icons ───────────────────────────────────────
 const TIMELINE_PRESETS = [
-  { icon: 'diamond',   emoji: '💍', title: 'Pregătirea mirilor' },
-  { icon: 'dress',     emoji: '👗', title: 'Îmbrăcarea miresii' },
-  { icon: 'ceremony',  emoji: '⛪', title: 'Ceremonia civilă' },
-  { icon: 'candles',   emoji: '🕯️', title: 'Ceremonia religioasă' },
-  { icon: 'photo',     emoji: '📷', title: 'Ședința foto' },
-  { icon: 'arch',      emoji: '🌸', title: 'Intrarea în sală' },
+  { icon: 'diamond',   emoji: '💍', title: 'Pregatirea mirilor' },
+  { icon: 'dress',     emoji: '👗', title: 'Imbracarea miresii' },
+  { icon: 'ceremony',  emoji: '⛪', title: 'Ceremonia civila' },
+  { icon: 'candles',   emoji: '🕯', title: 'Ceremonia religioasa' },
+  { icon: 'photo',     emoji: '📷', title: 'Sedinta foto' },
+  { icon: 'arch',      emoji: '🌸', title: 'Intrarea in sala' },
   { icon: 'dance',     emoji: '💃', title: 'Dansul mirilor' },
   { icon: 'cocktails', emoji: '🍸', title: 'Cocktail & aperitiv' },
-  { icon: 'dinner',    emoji: '🍽️', title: 'Masa festivă' },
-  { icon: 'music',     emoji: '🎵', title: 'Muzică live' },
+  { icon: 'dinner',    emoji: '🍽', title: 'Masa festiva' },
+  { icon: 'music',     emoji: '🎵', title: 'Muzica live' },
   { icon: 'mic',       emoji: '🎤', title: 'Toast & discursuri' },
-  { icon: 'cake',      emoji: '🎂', title: 'Tăierea tortului' },
+  { icon: 'cake',      emoji: '🎂', title: 'Taierea tortului' },
   { icon: 'bouquet',   emoji: '💐', title: 'Aruncarea buchetului' },
-  { icon: 'champagne', emoji: '🥂', title: 'Șampanie & felicitări' },
+  { icon: 'champagne', emoji: '🥂', title: 'Sampanie & felicitari' },
   { icon: 'car',       emoji: '🚗', title: 'Plecare miri' },
   { icon: 'disco',     emoji: '🪩', title: 'After party' },
   { icon: 'fireworks', emoji: '🎆', title: 'Focuri de artificii' },
@@ -396,8 +396,8 @@ const SettingsContent: React.FC<{
       {/* ① DATA & LINK */}
       <Collapsible
         title="Date Eveniment"
-        hint={profile.weddingDate || "neconfigurată"}
-        desc="Data eveniment, nume participanți și link public."
+        hint={profile.weddingDate || "neconfigurata"}
+        desc="Data eveniment, nume participanti si link public."
         icon={Calendar}
         tourId="panel-date-event"
         openSignal={isTouringDateEvent ? `tour-${tourFocus}` : undefined}
@@ -410,7 +410,7 @@ const SettingsContent: React.FC<{
               onChange={(e: any) => hc("weddingDate", e.target.value)}
               disabled={!isActive} className="h-8 text-xs" />
             <p className="text-[10px] text-amber-600 flex items-center gap-1 mt-1">
-              <AlertCircle className="w-3 h-3 shrink-0" /> Expiră la 24h după eveniment.
+              <AlertCircle className="w-3 h-3 shrink-0" /> Expira la 24h dupa eveniment.
             </p>
           </div>
           {/* Nume parteneri */}
@@ -560,7 +560,7 @@ const SettingsContent: React.FC<{
           <Collapsible
             title="Paleta de culori"
             hint={activeTheme ? activeTheme.name : "neconfigurat"}
-            desc="Alege tema cromatică a invitației."
+            desc="Alege tema cromatica a invitatiei."
 	            icon={Palette}
 	            tourId="panel-color-theme"
 	            openSignal={isTouringColorTheme ? `tour-${tourFocus}` : undefined}
@@ -605,7 +605,7 @@ const SettingsContent: React.FC<{
 	                          type="button"
 	                          onClick={e => { e.stopPropagation(); setExpandedTheme(effectiveExpandedTheme === t.id ? null : t.id); }}
 	                          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', display: 'flex', alignItems: 'center', flexShrink: 0 }}
-                          title={doorImages[t.id]?.desktop ? "Vezi imaginile ușilor" : "Fără imagini încărcate"}
+                          title={doorImages[t.id]?.desktop ? "Vezi imaginile usilor" : "Fara imagini incarcate"}
                         >
                           <svg
                             width="12" height="12" viewBox="0 0 12 12"
@@ -655,7 +655,7 @@ const SettingsContent: React.FC<{
                                   </div>
                                 ) : (
                                   <div style={{ width: '100%', paddingTop: '56.25%', position: 'relative', borderRadius: 6, background: '#f3f4f6', border: '1px dashed #e5e7eb' }}>
-                                    <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af' }}>lipsă</span>
+                                    <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af' }}>lipsa</span>
                                   </div>
                                 )}
                               </div>
@@ -675,14 +675,14 @@ const SettingsContent: React.FC<{
                                   </div>
                                 ) : (
                                   <div style={{ width: 44, paddingTop: '177%', position: 'relative', borderRadius: 6, background: '#f3f4f6', border: '1px dashed #e5e7eb' }}>
-                                    <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af', writingMode: 'vertical-rl' }}>lipsă</span>
+                                    <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af', writingMode: 'vertical-rl' }}>lipsa</span>
                                   </div>
                                 )}
                               </div>
                             </div>
                           ) : (
                             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                              <span style={{ fontSize: 14 }}>🖼️</span>
+                              <span style={{ fontSize: 14 }}>🖼</span>
                               <div>
                                 <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#6b7280' }}>Imagini implicite</p>
                                 <p style={{ margin: '1px 0 0', fontSize: 9, color: '#9ca3af' }}>Se folosesc imaginile temei Default</p>
@@ -701,11 +701,11 @@ const SettingsContent: React.FC<{
 
       {inlineBlockPanel && (
         <Collapsible
-          title="Proprietăți"
+          title="Proprietati"
           desc={
             selectedBlockType === 'photo'
-              ? "Dimensiune, formă, mască și poziționare pentru imagine."
-              : "Font, dimensiune, spațiere și culoare pentru textul selectat."
+              ? "Dimensiune, forma, masca si pozitionare pentru imagine."
+              : "Font, dimensiune, spatiere si culoare pentru textul selectat."
           }
           icon={Sliders}
           tourId="panel-properties"
@@ -724,7 +724,7 @@ const SettingsContent: React.FC<{
       {hasIntro && (
         <Collapsible
           title="Intro"
-          desc="Animația de început, texte și variante."
+          desc="Animatia de inceput, texte si variante."
           icon={Sparkles}
 	          tourId="panel-intro"
 	          openSignal={isTouringIntro ? `tour-${tourFocus}` : undefined}
@@ -733,8 +733,8 @@ const SettingsContent: React.FC<{
           <div className="space-y-4">
 	            <div data-tour="intro-preview-toggle" className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 px-3 py-2">
               <div>
-                <p className="text-xs font-medium text-zinc-700 dark:text-zinc-200">Arată intro în preview</p>
-                <p className="text-[10px] text-zinc-400">Util pentru a regla textele înainte de publicare.</p>
+                <p className="text-xs font-medium text-zinc-700 dark:text-zinc-200">Arata intro in preview</p>
+                <p className="text-[10px] text-zinc-400">Util pentru a regla textele inainte de publicare.</p>
               </div>
               <Toggle on={introPreview} onChange={(v) => onIntroPreviewChange?.(v)} />
             </div>
@@ -743,17 +743,17 @@ const SettingsContent: React.FC<{
               <Collapsible title="Texte Intro Castel" defaultOpen={false} variant="sub">
                 <div className="space-y-3">
                   <p className="text-[9px] text-zinc-400 italic mb-2">
-                    Textele care apar în animația de scroll înainte de deschiderea ușilor.
+                    Textele care apar in animatia de scroll inainte de deschiderea usilor.
                   </p>
 
                   <div>
                     <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block mb-1">
-                      Rând 1 (deasupra numelui)
+                      Rand 1 (deasupra numelui)
                     </label>
                     <Input
-                      value={(profile as any).castleInviteTop ?? 'Cu bucurie vă anunțăm'}
+                      value={(profile as any).castleInviteTop ?? 'Cu bucurie va anuntam'}
                       onChange={(e: any) => hc('castleInviteTop', e.target.value)}
-                      placeholder="Cu bucurie vă anunțăm"
+                      placeholder="Cu bucurie va anuntam"
                       className="h-7 text-xs w-full"
                       disabled={!isActive}
                     />
@@ -761,12 +761,12 @@ const SettingsContent: React.FC<{
 
                   <div>
                     <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block mb-1">
-                      Rând 2 (text script central)
+                      Rand 2 (text script central)
                     </label>
                     <Input
-                      value={(profile as any).castleInviteMiddle ?? 'în lumina credinței'}
+                      value={(profile as any).castleInviteMiddle ?? 'in lumina credintei'}
                       onChange={(e: any) => hc('castleInviteMiddle', e.target.value)}
-                      placeholder="în lumina credinței"
+                      placeholder="in lumina credintei"
                       className="h-7 text-xs w-full"
                       disabled={!isActive}
                     />
@@ -774,7 +774,7 @@ const SettingsContent: React.FC<{
 
                   <div>
                     <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block mb-1">
-                      Rând 3 (sub textul central)
+                      Rand 3 (sub textul central)
                     </label>
                     <Input
                       value={(profile as any).castleInviteBottom ?? 'a fost botezat'}
@@ -787,12 +787,12 @@ const SettingsContent: React.FC<{
 
                   <div>
                     <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block mb-1">
-                      Tag (ultimul rând)
+                      Tag (ultimul rand)
                     </label>
                     <Input
-                      value={(profile as any).castleInviteTag ?? '✦ deschide porțile ✦'}
+                      value={(profile as any).castleInviteTag ?? '✦ deschide portile ✦'}
                       onChange={(e: any) => hc('castleInviteTag', e.target.value)}
-                      placeholder="✦ deschide porțile ✦"
+                      placeholder="✦ deschide portile ✦"
                       className="h-7 text-xs w-full"
                       disabled={!isActive}
                     />
@@ -800,7 +800,7 @@ const SettingsContent: React.FC<{
 
                   <div>
                     <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block mb-1">
-                      Subtitlu uși (sub numele copilului pe uși)
+                      Subtitlu usi (sub numele copilului pe usi)
                     </label>
                     <Input
                       value={(profile as any).castleIntroSubtitle ?? 'in my castle'}
@@ -831,7 +831,7 @@ const SettingsContent: React.FC<{
               <Collapsible title="Video Intro Royal" defaultOpen={false} variant="sub">
                 <div className="space-y-3">
                   <p className="text-[9px] text-zinc-400 italic">
-                    Video care apare ca fundal în intro-ul animat.
+                    Video care apare ca fundal in intro-ul animat.
                   </p>
                   {(profile as any).castleVideoUrl ? (
                     <div className="relative group rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
@@ -846,7 +846,7 @@ const SettingsContent: React.FC<{
                           onClick={() => guard(() => hc('castleVideoUrl' as any, undefined))}
                           className="p-2 bg-white rounded-full text-red-500 text-xs font-bold"
                         >
-                          Șterge
+                          Sterge
                         </button>
                       </div>
                     </div>
@@ -884,7 +884,7 @@ const SettingsContent: React.FC<{
               <Collapsible title="Texte Intro Jungle" defaultOpen={false} variant="sub">
                 <div className="space-y-3">
                   <p className="text-[9px] text-zinc-400 italic">
-                    Câmpuri dedicate pentru intro-ul template-ului Jungle/Regal.
+                    Campuri dedicate pentru intro-ul template-ului Jungle/Regal.
                   </p>
 
                   <div>
@@ -905,9 +905,9 @@ const SettingsContent: React.FC<{
                       Text principal editorial
                     </label>
                     <textarea
-                      value={(profile as any).jungleOverlayText ?? 'Cu bucurie vă invităm să fiți parte din povestea noastră.'}
+                      value={(profile as any).jungleOverlayText ?? 'Cu bucurie va invitam sa fiti parte din povestea noastra.'}
                       onChange={(e: any) => hc('jungleOverlayText' as any, e.target.value)}
-                      placeholder="Textul care apare cuvânt cu cuvânt în intro..."
+                      placeholder="Textul care apare cuvant cu cuvant in intro..."
                       className="w-full min-h-[88px] rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-xs"
                       disabled={!isActive}
                     />
@@ -920,7 +920,7 @@ const SettingsContent: React.FC<{
                     <Input
                       value={(profile as any).jungleFooterText ?? ''}
                       onChange={(e: any) => hc('jungleFooterText' as any, e.target.value)}
-                      placeholder="Lasă gol pentru a folosi data nunții"
+                      placeholder="Lasa gol pentru a folosi data nuntii"
                       className="h-7 text-xs w-full"
                       disabled={!isActive}
                     />
@@ -930,7 +930,7 @@ const SettingsContent: React.FC<{
             )}
 
             {selectedTemplate === 'regal' && Object.keys(introVariants).length > 0 && (
-              <Collapsible title="Variantă Intro" defaultOpen={false} variant="sub">
+              <Collapsible title="Varianta Intro" defaultOpen={false} variant="sub">
                 <div className="space-y-1">
                   {Object.entries(introVariants).map(([ivId, iv]) => {
                     const selectedVariantId = (profile as any).introVariant as string | undefined;
@@ -972,7 +972,7 @@ const SettingsContent: React.FC<{
                             type="button"
                             onClick={e => { e.stopPropagation(); setExpandedTheme(isExpanded ? null : ivId); }}
                             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', display: 'flex', alignItems: 'center', flexShrink: 0 }}
-                            title={hasImg ? 'Vezi previzualizare' : 'Fără imagini'}
+                            title={hasImg ? 'Vezi previzualizare' : 'Fara imagini'}
                           >
                             <svg
                               width="12" height="12" viewBox="0 0 12 12"
@@ -1014,7 +1014,7 @@ const SettingsContent: React.FC<{
                                     </div>
                                   ) : (
                                     <div style={{ width: '100%', paddingTop: '56.25%', position: 'relative', borderRadius: 6, background: '#f3f4f6', border: '1px dashed #e5e7eb' }}>
-                                      <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af' }}>lipsă</span>
+                                      <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af' }}>lipsa</span>
                                     </div>
                                   )}
                                 </div>
@@ -1027,17 +1027,17 @@ const SettingsContent: React.FC<{
                                     </div>
                                   ) : (
                                     <div style={{ width: 44, paddingTop: '177%', position: 'relative', borderRadius: 6, background: '#f3f4f6', border: '1px dashed #e5e7eb' }}>
-                                      <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af', writingMode: 'vertical-rl' }}>lipsă</span>
+                                      <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af', writingMode: 'vertical-rl' }}>lipsa</span>
                                     </div>
                                   )}
                                 </div>
                               </div>
                             ) : (
                               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                <span style={{ fontSize: 14 }}>🖼️</span>
+                                <span style={{ fontSize: 14 }}>🖼</span>
                                 <div>
-                                  <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#6b7280' }}>Fără imagini</p>
-                                  <p style={{ margin: '1px 0 0', fontSize: 9, color: '#9ca3af' }}>Configurează imaginile din Admin → Template Management</p>
+                                  <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#6b7280' }}>Fara imagini</p>
+                                  <p style={{ margin: '1px 0 0', fontSize: 9, color: '#9ca3af' }}>Configureaza imaginile din Admin → Template Management</p>
                                 </div>
                               </div>
                             )}
@@ -1051,13 +1051,13 @@ const SettingsContent: React.FC<{
             )}
 
             {selectedTemplate === 'regal' && (
-              <Collapsible title="Stil Intro" defaultOpen={false} hint="animația de deschidere" variant="sub">
+              <Collapsible title="Stil Intro" defaultOpen={false} hint="animatia de deschidere" variant="sub">
                 <div className="space-y-2">
                   {[
                     {
                       id: 'dissolve',
                       title: 'Dissolve',
-                      desc: 'Varianta actuală, cu scroll și efectul canvas.',
+                      desc: 'Varianta actuala, cu scroll si efectul canvas.',
                     },
                   ].map((styleOption) => {
                     const activeStyle = ((profile as any).jungleIntroStyle || 'dissolve') === styleOption.id;
@@ -1100,25 +1100,25 @@ const SettingsContent: React.FC<{
         </Collapsible>
       )}
 
-      {/* ③ OPȚIUNI */}
-      {/* <Collapsible title="Opțiuni" defaultOpen={false}>
+      {/* ③ OPTIUNI */}
+      {/* <Collapsible title="Optiuni" defaultOpen={false}>
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-medium text-zinc-700 dark:text-zinc-200">Countdown</p>
-              <p className="text-[10px] text-zinc-400">Numărătoare inversă</p>
+              <p className="text-[10px] text-zinc-400">Numaratoare inversa</p>
             </div>
             <Toggle on={!!profile.showCountdown} onChange={v => hc("showCountdown", v)} />
           </div>
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-medium text-zinc-700 dark:text-zinc-200">Buton RSVP</p>
-              <p className="text-[10px] text-zinc-400">Confirmă prezența</p>
+              <p className="text-[10px] text-zinc-400">Confirma prezenta</p>
             </div>
             <Toggle on={false} onChange={v => hc("showRsvpButton", v)} />
           </div>
         </div>
-        <p className="text-[9px] text-zinc-400 mt-2 italic">Textul butonului se editează direct ←</p>
+        <p className="text-[9px] text-zinc-400 mt-2 italic">Textul butonului se editeaza direct ←</p>
       </Collapsible>
 
       <Hr /> */}
@@ -1128,7 +1128,7 @@ const SettingsContent: React.FC<{
         <Collapsible
           title="Cronologie"
           defaultOpen={false}
-          desc="Programul zilei și momentele cheie."
+          desc="Programul zilei si momentele cheie."
           icon={Clock}
 	          tourId="panel-timeline"
 	          openSignal={isTouringTimeline ? `tour-${tourFocus}` : undefined}
@@ -1138,7 +1138,7 @@ const SettingsContent: React.FC<{
             <button type="button" disabled={!isActive}
               onClick={() => guard(() => pushTimeline([...timeline, { id: Date.now().toString(), title: "", time: "", location: "", icon: "party", notice: "" }]))}
               className="flex items-center gap-0.5 text-[10px] font-bold text-zinc-400 hover:text-black dark:hover:text-white transition-colors disabled:opacity-30">
-              <Plus className="w-3 h-3" /> Adaugă moment
+              <Plus className="w-3 h-3" /> Adauga moment
             </button>
           </div>
 
@@ -1155,7 +1155,7 @@ const SettingsContent: React.FC<{
 
           <div className={cn("space-y-2", !profile.showTimeline && "opacity-40 pointer-events-none")}>
             {timeline.length === 0 && (
-              <p className="text-[10px] text-zinc-400 italic">Niciun moment adăugat. Folosește butoanele de mai sus sau adaugă manual.</p>
+              <p className="text-[10px] text-zinc-400 italic">Niciun moment adaugat. Foloseste butoanele de mai sus sau adauga manual.</p>
             )}
             {timeline.map(item => (
               <div key={item.id} className="rounded-lg border border-zinc-100 dark:border-zinc-800 p-2 space-y-1.5 group">
@@ -1182,7 +1182,7 @@ const SettingsContent: React.FC<{
                   </button>
                 </div>
                 {/* Row 2: notice (optional extra info) */}
-                <Input placeholder="Notă (ex: Florin Salam, pauză 30 min...)" value={item.notice || ''} className="h-6 text-[10px] w-full"
+                <Input placeholder="Nota (ex: Florin Salam, pauza 30 min...)" value={item.notice || ''} className="h-6 text-[10px] w-full"
                   onChange={(e: any) => pushTimeline(timeline.map(t => t.id === item.id ? { ...t, notice: e.target.value } : t))}
                   disabled={!isActive} />
               </div>
@@ -1198,17 +1198,17 @@ const SettingsContent: React.FC<{
           <Collapsible title="Texte Intro Castel" defaultOpen={false}>
             <div className="space-y-3">
               <p className="text-[9px] text-zinc-400 italic mb-2">
-                Textele care apar în animația de scroll înainte de deschiderea ușilor.
+                Textele care apar in animatia de scroll inainte de deschiderea usilor.
               </p>
 
               <div>
                 <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block mb-1">
-                  Rând 1 (deasupra numelui)
+                  Rand 1 (deasupra numelui)
                 </label>
                 <Input
-                  value={(profile as any).castleInviteTop ?? 'Cu bucurie vă anunțăm'}
+                  value={(profile as any).castleInviteTop ?? 'Cu bucurie va anuntam'}
                   onChange={(e: any) => hc('castleInviteTop', e.target.value)}
-                  placeholder="Cu bucurie vă anunțăm"
+                  placeholder="Cu bucurie va anuntam"
                   className="h-7 text-xs w-full"
                   disabled={!isActive}
                 />
@@ -1216,12 +1216,12 @@ const SettingsContent: React.FC<{
 
               <div>
                 <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block mb-1">
-                  Rând 2 (text script central)
+                  Rand 2 (text script central)
                 </label>
                 <Input
-                  value={(profile as any).castleInviteMiddle ?? 'în lumina credinței'}
+                  value={(profile as any).castleInviteMiddle ?? 'in lumina credintei'}
                   onChange={(e: any) => hc('castleInviteMiddle', e.target.value)}
-                  placeholder="în lumina credinței"
+                  placeholder="in lumina credintei"
                   className="h-7 text-xs w-full"
                   disabled={!isActive}
                 />
@@ -1229,7 +1229,7 @@ const SettingsContent: React.FC<{
 
               <div>
                 <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block mb-1">
-                  Rând 3 (sub textul central)
+                  Rand 3 (sub textul central)
                 </label>
                 <Input
                   value={(profile as any).castleInviteBottom ?? 'a fost botezat'}
@@ -1242,12 +1242,12 @@ const SettingsContent: React.FC<{
 
               <div>
                 <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block mb-1">
-                  Tag (ultimul rând)
+                  Tag (ultimul rand)
                 </label>
                 <Input
-                  value={(profile as any).castleInviteTag ?? '✦ deschide porțile ✦'}
+                  value={(profile as any).castleInviteTag ?? '✦ deschide portile ✦'}
                   onChange={(e: any) => hc('castleInviteTag', e.target.value)}
-                  placeholder="✦ deschide porțile ✦"
+                  placeholder="✦ deschide portile ✦"
                   className="h-7 text-xs w-full"
                   disabled={!isActive}
                 />
@@ -1255,7 +1255,7 @@ const SettingsContent: React.FC<{
 
               <div>
                 <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block mb-1">
-                  Subtitlu uși (sub numele copilului pe uși)
+                  Subtitlu usi (sub numele copilului pe usi)
                 </label>
                 <Input
                   value={(profile as any).castleIntroSubtitle ?? 'in my castle'}
@@ -1290,7 +1290,7 @@ const SettingsContent: React.FC<{
           <Collapsible title="🎬 Video Intro Royal" defaultOpen={false}>
             <div className="space-y-3">
               <p className="text-[9px] text-zinc-400 italic">
-                Video care apare ca fundal în intro-ul animat.
+                Video care apare ca fundal in intro-ul animat.
               </p>
               {(profile as any).castleVideoUrl ? (
                 <div className="relative group rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
@@ -1305,7 +1305,7 @@ const SettingsContent: React.FC<{
                       onClick={() => guard(() => hc('castleVideoUrl' as any, undefined))}
                       className="p-2 bg-white rounded-full text-red-500 text-xs font-bold"
                     >
-                      Șterge
+                      Sterge
                     </button>
                   </div>
                 </div>
@@ -1346,7 +1346,7 @@ const SettingsContent: React.FC<{
           <Collapsible title="Texte Intro Jungle" defaultOpen={false}>
             <div className="space-y-3">
               <p className="text-[9px] text-zinc-400 italic">
-                Câmpuri dedicate pentru intro-ul template-ului Jungle/Regal.
+                Campuri dedicate pentru intro-ul template-ului Jungle/Regal.
               </p>
 
               <div>
@@ -1367,9 +1367,9 @@ const SettingsContent: React.FC<{
                   Text principal editorial
                 </label>
                 <textarea
-                  value={(profile as any).jungleOverlayText ?? 'Cu bucurie vă invităm să fiți parte din povestea noastră.'}
+                  value={(profile as any).jungleOverlayText ?? 'Cu bucurie va invitam sa fiti parte din povestea noastra.'}
                   onChange={(e: any) => hc('jungleOverlayText' as any, e.target.value)}
-                  placeholder="Textul care apare cuvânt cu cuvânt în intro..."
+                  placeholder="Textul care apare cuvant cu cuvant in intro..."
                   className="w-full min-h-[88px] rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-xs"
                   disabled={!isActive}
                 />
@@ -1382,7 +1382,7 @@ const SettingsContent: React.FC<{
                 <Input
                   value={(profile as any).jungleFooterText ?? ''}
                   onChange={(e: any) => hc('jungleFooterText' as any, e.target.value)}
-                  placeholder="Lasă gol pentru a folosi data nunții"
+                  placeholder="Lasa gol pentru a folosi data nuntii"
                   className="h-7 text-xs w-full"
                   disabled={!isActive}
                 />
@@ -1397,7 +1397,7 @@ const SettingsContent: React.FC<{
           {Object.keys(introVariants).length > 0 && (
             <>
               <Hr />
-              <Collapsible title="🖼 Variantă Intro" defaultOpen={true}>
+              <Collapsible title="🖼 Varianta Intro" defaultOpen={true}>
                 <div className="space-y-1">
                   {Object.entries(introVariants).map(([ivId, iv]) => {
                     const selectedVariantId = (profile as any).introVariant as string | undefined;
@@ -1439,7 +1439,7 @@ const SettingsContent: React.FC<{
                             type="button"
                             onClick={e => { e.stopPropagation(); setExpandedTheme(isExpanded ? null : ivId); }}
                             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', display: 'flex', alignItems: 'center', flexShrink: 0 }}
-                            title={hasImg ? 'Vezi previzualizare' : 'Fără imagini'}
+                            title={hasImg ? 'Vezi previzualizare' : 'Fara imagini'}
                           >
                             <svg
                               width="12" height="12" viewBox="0 0 12 12"
@@ -1481,7 +1481,7 @@ const SettingsContent: React.FC<{
                                 </div>
                               ) : (
                                 <div style={{ width: '100%', paddingTop: '56.25%', position: 'relative', borderRadius: 6, background: '#f3f4f6', border: '1px dashed #e5e7eb' }}>
-                                  <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af' }}>lipsă</span>
+                                  <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af' }}>lipsa</span>
                                 </div>
                               )}
                             </div>
@@ -1494,17 +1494,17 @@ const SettingsContent: React.FC<{
                                 </div>
                               ) : (
                                 <div style={{ width: 44, paddingTop: '177%', position: 'relative', borderRadius: 6, background: '#f3f4f6', border: '1px dashed #e5e7eb' }}>
-                                  <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af', writingMode: 'vertical-rl' }}>lipsă</span>
+                                  <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#9ca3af', writingMode: 'vertical-rl' }}>lipsa</span>
                                 </div>
                               )}
                             </div>
                           </div>
                         ) : (
                           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                            <span style={{ fontSize: 14 }}>🖼️</span>
+                            <span style={{ fontSize: 14 }}>🖼</span>
                             <div>
-                              <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#6b7280' }}>Fără imagini</p>
-                              <p style={{ margin: '1px 0 0', fontSize: 9, color: '#9ca3af' }}>Configurează imaginile din Admin → Template Management</p>
+                              <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#6b7280' }}>Fara imagini</p>
+                              <p style={{ margin: '1px 0 0', fontSize: 9, color: '#9ca3af' }}>Configureaza imaginile din Admin → Template Management</p>
                             </div>
                           </div>
                         )}
@@ -1519,13 +1519,13 @@ const SettingsContent: React.FC<{
           )}
 
           <div className={cn(Object.keys(introVariants).length > 0 ? "mt-3" : "")}>
-            <Collapsible title="Stil Intro" defaultOpen={true} hint="animația de deschidere">
+            <Collapsible title="Stil Intro" defaultOpen={true} hint="animatia de deschidere">
               <div className="space-y-2">
                 {[
                   {
                     id: 'dissolve',
                     title: 'Dissolve',
-                    desc: 'Varianta actuală, cu scroll și efectul canvas.',
+                    desc: 'Varianta actuala, cu scroll si efectul canvas.',
                   },
                 ].map((styleOption) => {
                   const activeStyle = ((profile as any).jungleIntroStyle || 'dissolve') === styleOption.id;
@@ -1569,7 +1569,7 @@ const SettingsContent: React.FC<{
 
       {!isActive && (
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-[10px] text-amber-700">
-          Evenimentul s-a încheiat. Invitația este în modul de vizualizare.
+          Evenimentul s-a incheiat. Invitatia este in modul de vizualizare.
         </div>
       )}
 
@@ -1838,9 +1838,9 @@ const SettingsView: React.FC<SettingsViewProps> = ({
     showTimeline:        session.profile?.showTimeline ?? true,
     showCountdown:       session.profile?.showCountdown ?? true,
     showRsvpButton:      session.profile?.showRsvpButton ?? true,
-    rsvpButtonText:      session.profile?.rsvpButtonText || "Confirmă Prezența",
-    godparents:          session.profile?.godparents || JSON.stringify([{ godfather: "Prenume Naș", godmother: "Prenume Nașă" }]),
-    parents:             session.profile?.parents || JSON.stringify({ p1_father: "Tatăl Miresei", p1_mother: "Mama Miresei", p2_father: "Tatăl Mirelui", p2_mother: "Mama Mirelui", others: [] }),
+    rsvpButtonText:      session.profile?.rsvpButtonText || "Confirma Prezenta",
+    godparents:          session.profile?.godparents || JSON.stringify([{ godfather: "Prenume Nas", godmother: "Prenume Nasa" }]),
+    parents:             session.profile?.parents || JSON.stringify({ p1_father: "Tatal Miresei", p1_mother: "Mama Miresei", p2_father: "Tatal Mirelui", p2_mother: "Mama Mirelui", others: [] }),
     customSections:      session.profile?.customSections || "[]",
   } as UserProfile));
 
@@ -1944,7 +1944,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
     if (onCheckActive && !onCheckActive()) return;
     if (saveTimer.current) clearTimeout(saveTimer.current);
     onUpdateProfile({ ...latestProfile.current, timeline: JSON.stringify(timeline) });
-    toast({ title: "Salvat!", description: "Modificările au fost înregistrate." });
+    toast({ title: "Salvat!", description: "Modificarile au fost inregistrate." });
   };
 
   const resetToDefault = () => {
@@ -2058,7 +2058,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
   const guard = (fn: () => void) => { if (onCheckActive && !onCheckActive()) return; fn(); };
 
   const previewData = useMemo(() => {
-    // Pentru castle-magic: dacă profile-ul nu are customSections, injectăm defaulturile
+    // Pentru castle-magic: daca profile-ul nu are customSections, injectam defaulturile
     const isCastle = (selectedTemplate?.startsWith('castle-magic') || selectedTemplate === 'lord-effects') ?? false;
     const hasBlocks = profile.customSections && profile.customSections !== '[]' && profile.customSections !== 'null';
     
@@ -2067,7 +2067,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
     if (isCastle && !hasBlocks) {
       const tplDefaults = getTemplateDefaultBlocks(selectedTemplate || "");
       const blockDefaults = tplDefaults && tplDefaults.length > 0 ? tplDefaults : CASTLE_DEFAULT_BLOCKS;
-      // Injectăm datele default pentru previzualizare
+      // Injectam datele default pentru previzualizare
       return {
         guest:   { name: "Invitat Drag", status: "pending", type: "adult" },
         project: { selectedTemplate },
@@ -2446,7 +2446,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
                 onClick={saveAll}
                 disabled={!isActive}
               >
-                <Save className="w-3 h-3" /> Salvează
+                <Save className="w-3 h-3" /> Salveaza
               </Button>
             </div>
           </div>
@@ -2474,7 +2474,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
                   : "bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700",
               )}
             >
-              Setări
+              Setari
             </button>
             {showProps && (
               <button
@@ -2487,7 +2487,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
                     : "bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700",
                 )}
               >
-                Proprietăți
+                Proprietati
               </button>
             )}
           </div>
@@ -2532,7 +2532,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
                   ? "max-h-0 opacity-0 -translate-y-4 pointer-events-none py-0 border-transparent"
                   : "max-h-10 opacity-100 translate-y-0",
               )}>
-                Atinge un text sau o poză pentru a edita rapid din „Proprietăți”.
+                Atinge un text sau o poza pentru a edita rapid din „Proprietati”.
               </div>
               <div
                 className="relative"
@@ -2569,7 +2569,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
           <>
             <button
               type="button"
-              aria-label="Închide panoul proprietăți"
+              aria-label="Inchide panoul proprietati"
               onClick={() => setMobilePropsOpen(false)}
               className={cn(
                 "absolute inset-0 z-20 bg-black/35 transition-opacity",
@@ -2590,7 +2590,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
                   <div className="flex flex-col items-center">
                     <div className="w-10 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600 mb-1" />
                     <span className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400">
-                      Proprietăți {selectedBlock?.textLabel ? `• ${selectedBlock.textLabel}` : ""}
+                      Proprietati {selectedBlock?.textLabel ? `• ${selectedBlock.textLabel}` : ""}
                     </span>
                   </div>
                   <button
@@ -2598,7 +2598,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
                     onClick={() => setMobilePropsOpen(false)}
                     className="h-6 px-2 rounded-md border border-zinc-200 dark:border-zinc-700 text-[10px] font-bold text-zinc-600 dark:text-zinc-300"
                   >
-                    Închide
+                    Inchide
                   </button>
                 </div>
               </div>
@@ -2629,14 +2629,14 @@ const SettingsView: React.FC<SettingsViewProps> = ({
 	    <div className="flex h-full overflow-hidden bg-zinc-50 dark:bg-zinc-950/50">
 	      {configTemplateTour}
 
-      {/* Invitație */}
+      {/* Invitatie */}
 	      <div data-tour="preview-canvas" ref={setPreviewScrollerRef} className="flex-1 overflow-y-auto bg-stone-100 min-w-0">
         <div className="relative overflow-hidden" style={{ transform: 'translateZ(0)' }}>
           {templatePanel}
         </div>
       </div>
 
-      {/* ── SETĂRI — spine + panel ── */}
+      {/* ── SETARI — spine + panel ── */}
       <div className="flex shrink-0 h-full">
 
         {/* Spine cotor */}
@@ -2657,12 +2657,12 @@ const SettingsView: React.FC<SettingsViewProps> = ({
             className="text-[9px] font-black uppercase tracking-[0.22em] text-zinc-600 dark:text-zinc-300"
             style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
           >
-            Setări
+            Setari
           </span>
           <div className="w-1 h-1 rounded-full bg-amber-400" />
         </div>
 
-        {/* Panel Setări */}
+        {/* Panel Setari */}
         <div
           style={{ width: settingsOpen ? settingsW : 0 }}
           className="flex flex-col h-full bg-white dark:bg-black overflow-hidden min-h-0 text-zinc-900 dark:text-zinc-100"
@@ -2679,7 +2679,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
           {/* Header */}
 	          <div data-tour="settings-header" className="shrink-0 px-4 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black flex items-center justify-between gap-2 shadow-sm">
             <div className="flex items-center gap-2 min-w-0">
-              <span className="text-xs font-black tracking-tight whitespace-nowrap text-zinc-900 dark:text-zinc-100">Setări</span>
+              <span className="text-xs font-black tracking-tight whitespace-nowrap text-zinc-900 dark:text-zinc-100">Setari</span>
               <EventTypeBadge et={et} />
             </div>
             <div className="flex items-center gap-2 shrink-0">
@@ -2689,7 +2689,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
               </button>
 	              <Button data-tour="settings-save" size="sm" className="h-7 bg-black text-white hover:bg-zinc-800 gap-1 text-[10px]"
                 onClick={saveAll} disabled={!isActive}>
-                <Save className="w-3 h-3" /> Salvează
+                <Save className="w-3 h-3" /> Salveaza
               </Button>
             </div>
           </div>

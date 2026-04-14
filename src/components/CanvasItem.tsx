@@ -116,7 +116,7 @@ const CanvasItem = memo(({
     };
   };
 
-  // Handler comun selectare + drag (mouse și touch)
+  // Handler comun selectare + drag (mouse si touch)
   const handleSelectStart = (clientX: number, clientY: number) => {
     onTableClick?.(el.id);
     onSelect?.(el.id, { x: clientX, y: clientY });
@@ -159,7 +159,7 @@ const CanvasItem = memo(({
             target.closest('.resize-handle') ||
             target.closest('.control-bar')
           ) return;
-          // stopPropagation previne activarea panning-ului în Canvas.handleTouchStart
+          // stopPropagation previne activarea panning-ului in Canvas.handleTouchStart
           e.stopPropagation();
           const touch = e.touches[0];
           handleSelectStart(touch.clientX, touch.clientY);
@@ -219,7 +219,7 @@ const CanvasItem = memo(({
                   <button 
                     onClick={(e) => { e.stopPropagation(); onUpdateCapacity?.(el.id, 1); }} 
                     className="w-9 h-9 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-foreground dark:text-zinc-200 rounded-lg flex items-center justify-center shadow-lg hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"
-                    title="Adaugă Scaun"
+                    title="Adauga Scaun"
                   >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -236,7 +236,7 @@ const CanvasItem = memo(({
               <button 
                   onClick={(e) => { e.stopPropagation(); onDelete?.(el.id); }} 
                   className="w-9 h-9 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-lg flex items-center justify-center shadow-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"
-                  title="Șterge Element"
+                  title="Sterge Element"
               >
                   <Trash2 className="w-4 h-4" />
               </button>

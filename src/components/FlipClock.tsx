@@ -164,7 +164,7 @@ const FlipClock = ({ targetDate }: { targetDate: string }) => {
     <div className="w-full py-8 flex flex-col items-center justify-center bg-background border-b mb-6">
       <style>{flipStyles}</style>
       <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-6">
-        Timp rămas până la Marele Eveniment
+        Timp ramas pana la Marele Eveniment
       </h2>
       <div className="flex gap-4 sm:gap-6 md:gap-8">
         <FlipUnit value={timeLeft.days} label="Zile" />

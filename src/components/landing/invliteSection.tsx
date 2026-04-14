@@ -17,7 +17,7 @@ export default function InviteSection() {
                 Nu pierde <br/>niciun detaliu.
               </h2>
               <p className="text-gray-400 text-base md:text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
-                Uită de listele pe hârtie. Gestionează confirmările, vezi cine a deschis invitația și trimite remindere automate.
+                Uita de listele pe hartie. Gestioneaza confirmarile, vezi cine a deschis invitatia si trimite remindere automate.
               </p>
             </div>
 
@@ -28,7 +28,7 @@ export default function InviteSection() {
                   </div>
                   <div>
                     <h3 className="text-white font-bold text-sm mb-1">Link-uri Unice</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed">Fiecare invitat primește un link personalizat.</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">Fiecare invitat primeste un link personalizat.</p>
                   </div>
                </div>
                <div className="flex gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
@@ -37,7 +37,7 @@ export default function InviteSection() {
                   </div>
                   <div>
                     <h3 className="text-white font-bold text-sm mb-1">RSVP Securizat</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed">Confirmări actualizate instant în dashboard.</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">Confirmari actualizate instant in dashboard.</p>
                   </div>
                </div>
             </div>
@@ -59,7 +59,7 @@ export default function InviteSection() {
                               <div className="w-8 h-8 rounded-full border-2 border-[#111113] bg-[#18181b] flex items-center justify-center text-[10px] text-gray-400 font-medium">+142</div>
                            </div>
                            <div className="flex flex-col">
-                              <span className="text-white text-xs font-bold">Invitați Recenți</span>
+                              <span className="text-white text-xs font-bold">Invitati Recenti</span>
                               <span className="text-gray-500 text-[10px]">Actualizat acum 2 min</span>
                            </div>
                         </div>
@@ -99,7 +99,7 @@ export default function InviteSection() {
                               <div>
                                  <div className="text-white text-sm font-medium">Elena I.</div>
                                  <div className="text-blue-400/70 text-[10px] flex items-center gap-1">
-                                    <Eye size={10} /> Văzut 5m
+                                    <Eye size={10} /> Vazut 5m
                                  </div>
                               </div>
                            </div>
@@ -134,12 +134,12 @@ export default function InviteSection() {
                     {/* Footer Stats */}
                     <div className="px-6 py-4 bg-[#0c0c0e] border-t border-white/5 flex items-center justify-between">
                         <div className="flex flex-col">
-                           <span className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Confirmări</span>
+                           <span className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Confirmari</span>
                            <span className="text-lg text-white font-bold font-mono">84<span className="text-gray-600 text-sm">/120</span></span>
                         </div>
                         <div className="h-8 w-[1px] bg-white/10"></div>
                          <div className="flex flex-col items-end">
-                           <span className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Rată</span>
+                           <span className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Rata</span>
                            <span className="text-lg text-emerald-400 font-bold font-mono">70%</span>
                         </div>
                     </div>

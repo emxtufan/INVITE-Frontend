@@ -19,10 +19,10 @@ import BlurText from "./effectText/BlurText/BlurText ";
 
 
 const tasks = [
-  { text: 'Rezervare locație', done: true, badge: 'High' },
+  { text: 'Rezervare locatie', done: true, badge: 'High' },
   { text: 'Alegere meniu', done: true, badge: 'Med' },
-  { text: 'Trimite invitații', done: false, badge: 'High' },
-  { text: 'Comandă tort', done: false, badge: 'Med' },
+  { text: 'Trimite invitatii', done: false, badge: 'High' },
+  { text: 'Comanda tort', done: false, badge: 'Med' },
   { text: 'Programare machiaj', done: false, badge: 'Med' },
 ];
 
@@ -85,13 +85,13 @@ export function Logos() {
     return () => observer.disconnect();
   }, []);
 
-  // 🔥 Delay înainte să pornească spargerea
+  // 🔥 Delay inainte sa porneasca spargerea
   useEffect(() => {
     if (!visible) return;
 
     const timeout = setTimeout(() => {
       setStartPhysics(true);
-    }, 900); // ← modifică 700–1200 după gust
+    }, 900); // ← modifica 700–1200 dupa gust
 
     return () => clearTimeout(timeout);
   }, [visible]);
@@ -100,7 +100,7 @@ export function Logos() {
     <div ref={sectionRef} className="wp-logos-section wp-fade-up">
       <div className="wp-container">
         <p className="wp-logos-label">
-          Utilizat de miri din toată România
+          Utilizat de miri din toata Romania
         </p>
 
         <div
@@ -136,7 +136,7 @@ export function TasksSection() {
           
           <div className="wp-fade-up">
             <span className="wp-section-tag">Checklist</span>
-            <BlurText text="Nu uita nimic important. Rămâi organizat"
+            <BlurText text="Nu uita nimic important. Ramai organizat"
                 delay={30}
                 animateBy="letters"
                 direction="bottom"
@@ -145,7 +145,7 @@ export function TasksSection() {
               />
                
             <p className="wp-section-desc" style={{ marginBottom: 32 }}>
-              Urmărește fiecare pas al organizării. De la rezervarea locației până la ultimul detaliu, ai o listă clară cu sarcini prioritizate.
+              Urmareste fiecare pas al organizarii. De la rezervarea locatiei pana la ultimul detaliu, ai o lista clara cu sarcini prioritizate.
             </p>
             <div style={{ display: "flex", gap: 12, alignItems: "center", fontSize: 14, fontWeight: 500, color: "var(--muted)" }}>
                 <IconCheck color="var(--primary)" /> Sarcini Predefinite
@@ -167,7 +167,7 @@ export function TasksSection() {
                       )}
                       onItemSelect={(task, index) => console.log(task, index)}
                       className="wp-fade-up wp-d2 flex justify-center"
-                      itemClassName="wp-task-ui" // pentru SpotlightCard sau stilul fiecărui item
+                      itemClassName="wp-task-ui" // pentru SpotlightCard sau stilul fiecarui item
                       showGradients
                       enableArrowNavigation
                       displayScrollbar
@@ -188,7 +188,7 @@ export function CalendarSection() {
 
   // Floating items mici
   const floatingItems = [
-    { day: 1, offsetX: 0.1, text: "Plată Confirmată", size: 20 },  // 10% from left
+    { day: 1, offsetX: 0.1, text: "Plata Confirmata", size: 20 },  // 10% from left
     { day: 12, offsetX: 0, text: "Proba Costum", size: 18 }, // 50% from left
     { day: 30, offsetX: 0.8, text: "Plata DJ", size: 16 }, // 80% from left
     { day: 28, offsetX: 0.8, text: "Alege Rochia", size: 16 }, // 80% from left
@@ -217,7 +217,7 @@ export function CalendarSection() {
                         /></span>
             </h2>
             <p className="wp-section-desc mb-8">
-              Vizualizează toate termenele limită și plățile scadente într-un calendar interactiv. Sincronizat automat cu sarcinile tale.
+              Vizualizeaza toate termenele limita si platile scadente intr-un calendar interactiv. Sincronizat automat cu sarcinile tale.
             </p>
           </div>
 
@@ -252,17 +252,17 @@ export function CalendarSection() {
                           key={i}
                           className="wp-cal-floating absolute flex items-center gap-1 bg-black/50 rounded-lg text-green"
                           style={{
-                            top: `calc(${row * 40 + 20}px)`,           // poziția verticală
-                            left: `calc(${col * 40 + f.offsetX * 40}px)`, // poziția orizontală
+                            top: `calc(${row * 40 + 20}px)`,           // pozitia verticala
+                            left: `calc(${col * 40 + f.offsetX * 40}px)`, // pozitia orizontala
                             fontSize: `${f.size * 0.6}px`,
                             minWidth: "60px", 
-                            maxWidth: "130px",                          // să nu fie prea îngust
+                            maxWidth: "130px",                          // sa nu fie prea ingust
                             padding: "10px 6px",
                             height: "auto",
                             lineHeight: 1,
                           }}
                         >
-                          {/* Icon verde în stânga */}
+                          {/* Icon verde in stanga */}
                           <div className="flex-shrink-0 w-[1em] h-[1em] rounded bg-green/10 flex items-center justify-center">
                             <svg
                               width="100%"
@@ -302,7 +302,7 @@ export function InviteSection() {
         <div className="wp-invite-split">
           
           <div className="wp-fade-up">
-            <span className="wp-section-tag">Invitații Smart</span>
+            <span className="wp-section-tag">Invitatii Smart</span>
             <h2 className="wp-section-title">
               <BlurText text="Control Total."
                           delay={20}
@@ -310,7 +310,7 @@ export function InviteSection() {
                           direction="bottom"
                           className="wp-section-titleX"
                         /><br />
-              <span className="muted-text"><BlurText text="Fără surprize."
+              <span className="muted-text"><BlurText text="Fara surprize."
                           delay={30}
                           animateBy="letters"
                           direction="top"
@@ -318,21 +318,21 @@ export function InviteSection() {
                         /></span>
             </h2>
             <p className="wp-section-desc" style={{ marginBottom: 40 }}>
-              Uită de carnețele și mesaje pierdute pe WhatsApp. Trimite invitații digitale, vezi cine a deschis link-ul și primește confirmările direct în dashboard.
+              Uita de carnetele si mesaje pierdute pe WhatsApp. Trimite invitatii digitale, vezi cine a deschis link-ul si primeste confirmarile direct in dashboard.
             </p>
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
               <div style={{ display: "flex", gap: 12 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(232,121,249,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary)" }}><IconLink /></div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>Link Unic</div>
-                  <div style={{ fontSize: 13, color: "var(--muted)", maxWidth: 200 }}>Generează un link personalizat pentru fiecare invitat.</div>
+                  <div style={{ fontSize: 13, color: "var(--muted)", maxWidth: 200 }}>Genereaza un link personalizat pentru fiecare invitat.</div>
                 </div>
               </div>
               <div style={{ display: "flex", gap: 12 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(52,211,153,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--green)" }}><IconEye /></div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>Tracking Live</div>
-                  <div style={{ fontSize: 13, color: "var(--muted)", maxWidth: 200 }}>Vezi exact când invitatul a vizualizat invitația.</div>
+                  <div style={{ fontSize: 13, color: "var(--muted)", maxWidth: 200 }}>Vezi exact cand invitatul a vizualizat invitatia.</div>
                 </div>
               </div>
             </div>
@@ -365,11 +365,11 @@ export function InviteSection() {
                   <div className="wp-guest-avatar">EI</div>
                   <div>
                     <div className="wp-guest-name">Elena Ionescu</div>
-                    <div className="wp-guest-meta">Văzut acum 10 min</div>
+                    <div className="wp-guest-meta">Vazut acum 10 min</div>
                   </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div className="wp-status-badge blue"><IconEye /> Văzut</div>
+                  <div className="wp-status-badge blue"><IconEye /> Vazut</div>
                   <div className="wp-action-btn"><IconMail /></div>
                 </div>
               </div>
@@ -414,14 +414,14 @@ export function InviteSection() {
                   </div>
                 </div>
                 <div className="wp-invite-card-mock">
-                  <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: ".1em", color: "#db2777", marginBottom: 8, fontWeight: 700 }}>Invitație</div>
+                  <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: ".1em", color: "#db2777", marginBottom: 8, fontWeight: 700 }}>Invitatie</div>
                   <div className="wp-invite-title-mock">
                     Alex <span style={{ fontStyle: "italic", color: "#fbcfe8" }}>&</span> Maria
                   </div>
                   <div style={{ fontSize: 10, color: "#9d174d", lineHeight: 1.4 }}>
-                    Te așteptăm cu drag să sărbătorim împreună.
+                    Te asteptam cu drag sa sarbatorim impreuna.
                   </div>
-                  <div className="wp-btn-mock">Confirmă</div>
+                  <div className="wp-btn-mock">Confirma</div>
                 </div>
                 <div className="wp-phone-bar"></div>
               </div>
@@ -465,15 +465,15 @@ export function BudgetSection() {
           
           {/* TEXT SIDE */}
           <div className="wp-fade-up">
-            <span className="wp-section-tag">Buget & Finanțe</span>
+            <span className="wp-section-tag">Buget & Finante</span>
             <h2 className="wp-section-title">
-              <BlurText text="Fiecare leu contează."
+              <BlurText text="Fiecare leu conteaza."
                           delay={20}
                           animateBy="letters"
                           direction="bottom"
                           className="wp-section-titleX"
                         /><br />
-              <span className="muted-text"><BlurText text="Planifică inteligent."
+              <span className="muted-text"><BlurText text="Planifica inteligent."
                           delay={30}
                           animateBy="letters"
                           direction="top"
@@ -481,12 +481,12 @@ export function BudgetSection() {
                         /></span>
             </h2>
             <p className="wp-section-desc" style={{ marginBottom: 32 }}>
-              Stabilește un buget total și urmărește cheltuielile în timp real. Vezi exact cât ai plătit, ce restanțe ai și generează rapoarte PDF pentru furnizori.
+              Stabileste un buget total si urmareste cheltuielile in timp real. Vezi exact cat ai platit, ce restante ai si genereaza rapoarte PDF pentru furnizori.
             </p>
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, fontWeight: 500, color: "var(--text)" }}>
                     <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(232,121,249,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary)" }}><IconWallet /></div>
-                    Estimări vs Real
+                    Estimari vs Real
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, fontWeight: 500, color: "var(--text)" }}>
                     <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(52,211,153,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--green)" }}><IconPieChart /></div>
@@ -524,7 +524,7 @@ export function BudgetSection() {
 
                 <div className="wp-budget-list">
                     <div className="wp-budget-item">
-                        <div className="wp-budget-item-name"><span className="wp-budget-dot" style={{background: "var(--primary)"}}/> Locație & Meniu</div>
+                        <div className="wp-budget-item-name"><span className="wp-budget-dot" style={{background: "var(--primary)"}}/> Locatie & Meniu</div>
                         <div style={{ fontWeight: 700 }}>22.500 LEI</div>
                     </div>
                     <div className="wp-budget-item">
@@ -532,7 +532,7 @@ export function BudgetSection() {
                         <div style={{ fontWeight: 700 }}>6.800 LEI</div>
                     </div>
                     <div className="wp-budget-item">
-                        <div className="wp-budget-item-name"><span className="wp-budget-dot" style={{background: "var(--green)"}}/> Muzică</div>
+                        <div className="wp-budget-item-name"><span className="wp-budget-dot" style={{background: "var(--green)"}}/> Muzica</div>
                         <div style={{ fontWeight: 700 }}>4.400 LEI</div>
                     </div>
                 </div>
@@ -582,7 +582,7 @@ export function Stats() {
           </div>
           {[
             { target: 2500, suffix: "+", label: "Cupluri care au ales WeddingPro" },
-            { target: 98,   suffix: "%", label: "Satisfacție confirmată de utilizatori" },
+            { target: 98,   suffix: "%", label: "Satisfactie confirmata de utilizatori" },
             { target: 40,   suffix: "h", label: "Timp economisit per eveniment" },
           ].map(({ target, suffix, label }) => (
             <div key={label} className="wp-stat-item">
@@ -603,11 +603,11 @@ export function Stats() {
 
 
 const FAQ_ITEMS = [
-  { q: "Este plata recurentă?",                   a: "Nu. Plătești o singură dată suma de 49 LEI și ai acces pe viață la contul tău pentru un eveniment. Nicio taxă ascunsă, niciun abonament lunar." },
-  { q: "Pot exporta lista de invitați?",          a: "Da, poți exporta lista completă în format PDF, gata de trimis către locație sau firma de catering. Formatul este profesional și include toate detaliile necesare." },
-  { q: "Pot folosi platforma de pe telefon?",     a: "Da, platforma este optimizată pentru mobil. Totuși, pentru planificarea meselor (drag & drop) recomandăm un ecran mai mare — laptop sau tabletă." },
-  { q: "Datele mele sunt în siguranță?",          a: "Absolut. Toate datele sunt criptate end-to-end și stocate pe servere securizate. Nu partajăm niciodată informațiile tale cu terți fără consimțământul tău explicit." },
-  { q: "Pot organiza mai multe nunți?",           a: "Planul Premium include un eveniment complet. Dacă ești organizator profesionist, contactează-ne pentru un plan personalizat la prețuri speciale." },
+  { q: "Este plata recurenta?",                   a: "Nu. Platesti o singura data suma de 49 LEI si ai acces pe viata la contul tau pentru un eveniment. Nicio taxa ascunsa, niciun abonament lunar." },
+  { q: "Pot exporta lista de invitati?",          a: "Da, poti exporta lista completa in format PDF, gata de trimis catre locatie sau firma de catering. Formatul este profesional si include toate detaliile necesare." },
+  { q: "Pot folosi platforma de pe telefon?",     a: "Da, platforma este optimizata pentru mobil. Totusi, pentru planificarea meselor (drag & drop) recomandam un ecran mai mare — laptop sau tableta." },
+  { q: "Datele mele sunt in siguranta?",          a: "Absolut. Toate datele sunt criptate end-to-end si stocate pe servere securizate. Nu partajam niciodata informatiile tale cu terti fara consimtamantul tau explicit." },
+  { q: "Pot organiza mai multe nunti?",           a: "Planul Premium include un eveniment complet. Daca esti organizator profesionist, contacteaza-ne pentru un plan personalizat la preturi speciale." },
 ];
 
 export function FAQ() {
@@ -622,8 +622,8 @@ export function FAQ() {
     <section id="faq" className="wp-faq-section">
       <div className="wp-container-sm">
         <div className="wp-section-header wp-fade-up">
-          <span className="wp-section-tag">Întrebări</span>
-          <h2 className="wp-section-title">Întrebări frecvente</h2>
+          <span className="wp-section-tag">Intrebari</span>
+          <h2 className="wp-section-title">Intrebari frecvente</h2>
         </div>
         <div className="wp-faq-list wp-fade-up">
           {FAQ_ITEMS.map((item, i) => (
@@ -778,9 +778,9 @@ export function Footer() {
           </a>
           <div className="wp-footer-links">
             <a href="#">Termeni</a>
-            <a href="#">Confidențialitate</a>
+            <a href="#">Confidentialitate</a>
             <a href="#">Contact</a>
-            <a href="#faq" onClick={e => { e.preventDefault(); const el = document.getElementById("faq"); if(el) el.scrollIntoView({behavior:"smooth"}); }}>Întrebări</a>
+            <a href="#faq" onClick={e => { e.preventDefault(); const el = document.getElementById("faq"); if(el) el.scrollIntoView({behavior:"smooth"}); }}>Intrebari</a>
           </div>
           <div className="wp-footer-copy">© {new Date().getFullYear()} WeddingPro. Toate drepturile rezervate.</div>
         </div>
