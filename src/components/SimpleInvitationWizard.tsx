@@ -6,8 +6,12 @@ import {
   Copy,
   Crown,
   Eye,
+  ImagePlus,
   Loader2,
   RotateCcw,
+  Save,
+  Type,
+  AlertTriangle,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import Button from "./ui/button";
@@ -188,6 +192,14 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
     () => `weddingPro_simple_wizard_template_${session.userId || "anon"}`,
     [session.userId],
   );
+  const finalizeStorageKey = useMemo(
+    () => `weddingPro_simple_wizard_finalized_${session.userId || "anon"}`,
+    [session.userId],
+  );
+  const editHelpStorageKey = useMemo(
+    () => `weddingPro_simple_wizard_edit_help_seen_${session.userId || "anon"}`,
+    [session.userId],
+  );
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const loadedStepKeyRef = useRef<string | null>(null);
@@ -198,6 +210,7 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
   const paletteDragStartXRef = useRef(0);
   const paletteDragStartScrollRef = useRef(0);
   const paletteDragMovedRef = useRef(false);
+  const editChangeWarningShownRef = useRef(false);
 
   const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
@@ -208,6 +221,7 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
   const [finalizeState, setFinalizeState] = useState<
     "loading" | "success" | "error"
   >("loading");
+  const [finalizeMode, setFinalizeMode] = useState<"initial" | "update">("initial");
   const [isFinalizing, setIsFinalizing] = useState(false);
   const [paletteThemeImages, setPaletteThemeImages] = useState<
     Record<string, ThemeImageEntry>
@@ -234,10 +248,20 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
   );
   const [inlinePreviewScrollEl, setInlinePreviewScrollEl] =
     useState<HTMLDivElement | null>(null);
+  const [hasFinalizedInvite, setHasFinalizedInvite] = useState(false);
+  const [hasPendingPublishChanges, setHasPendingPublishChanges] = useState(false);
+  const [editHelpOpen, setEditHelpOpen] = useState(false);
 
   useEffect(() => {
     setWorkingProfile(normalizeProfile(session.profile));
   }, [session.userId]);
+
+  useEffect(() => {
+    const savedValue = localStorage.getItem(finalizeStorageKey);
+    setHasFinalizedInvite(savedValue === "1");
+    setHasPendingPublishChanges(false);
+    editChangeWarningShownRef.current = false;
+  }, [finalizeStorageKey, session.userId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1000,6 +1024,11 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
 
   const progress = Math.round(((step + 1) / STEP_TITLES.length) * 100);
   const stepsRemaining = Math.max(0, STEP_TITLES.length - (step + 1));
+  const finalActionLabel = !hasFinalizedInvite
+    ? "Finalizeaza"
+    : hasPendingPublishChanges
+      ? "Salveaza modificarile"
+      : "Invitatia este salvata";
   const isWeddingEvent =
     String(workingProfile.eventType || "").toLowerCase() === "wedding";
   const normalizedPlan = String(session?.plan || "free").toLowerCase();
@@ -1012,6 +1041,18 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
     if (typeof window === "undefined") return `/events/${slug}/public`;
     return `${window.location.origin}/events/${slug}/public`;
   }, [workingProfile.inviteSlug]);
+  const markDraftChanged = useCallback(() => {
+    if (!hasFinalizedInvite) return;
+    setHasPendingPublishChanges(true);
+    if (editChangeWarningShownRef.current) return;
+    editChangeWarningShownRef.current = true;
+    toast({
+      title: "Editezi invitatia curenta",
+      description:
+        "Modificarile raman in draft pana apesi Salveaza modificarile, apoi vor afecta invitatia publica existenta.",
+      variant: "warning",
+    });
+  }, [hasFinalizedInvite, toast]);
   const scheduleSync = (nextProfile: UserProfile) => {
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     saveTimerRef.current = setTimeout(() => {
@@ -1026,7 +1067,14 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
     saveTimerRef.current = null;
   };
 
-  const patchProfile = (patch: Partial<UserProfile>, immediate = false) => {
+  const patchProfile = (
+    patch: Partial<UserProfile>,
+    immediate = false,
+    options?: { markDirty?: boolean },
+  ) => {
+    if (options?.markDirty !== false) {
+      markDraftChanged();
+    }
     setWorkingProfile((prev) => {
       const next = { ...prev, ...patch };
       if (immediate) {
@@ -1039,17 +1087,23 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
   };
 
   useEffect(() => {
+    if (step !== 3) return;
+    if (localStorage.getItem(editHelpStorageKey) === "1") return;
+    setEditHelpOpen(true);
+  }, [editHelpStorageKey, step]);
+
+  useEffect(() => {
     const raw = String(workingProfile.jungleOverlayText || "").trim();
     if (!raw) return;
     const normalized = normalizeBrokenIntroOverlay(raw);
     if (raw === normalized) return;
-    patchProfile({ jungleOverlayText: normalized }, true);
+    patchProfile({ jungleOverlayText: normalized }, true, { markDirty: false });
   }, [workingProfile.jungleOverlayText]);
 
   useEffect(() => {
     const currentEventType = String(workingProfile.eventType || "").toLowerCase();
     if (currentEventType !== "wedding" && workingProfile.partner2Name) {
-      patchProfile({ partner2Name: "" });
+      patchProfile({ partner2Name: "" }, false, { markDirty: false });
     }
   }, [workingProfile.eventType, workingProfile.partner2Name]);
 
@@ -1105,7 +1159,15 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
     patchProfile({ introVariant: "" }, true);
   };
 
-  const persistNow = async (showToast = false) => {
+  const persistNow = async (
+    showToast = false,
+    options?: {
+      commitToServer?: boolean;
+      successTitle?: string;
+      successDescription?: string;
+      errorDescription?: string;
+    },
+  ) => {
     if (onCheckActive && !onCheckActive()) return false;
     try {
       setSaving(true);
@@ -1115,7 +1177,7 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
         inviteSlug: normalizeSlug(workingProfile.inviteSlug || ""),
       };
       await Promise.resolve(onUpdateProfile(profileToSave));
-      if (session?.token) {
+      if (options?.commitToServer && session?.token) {
         const profilePayload = sanitizeWizardProfilePayload(profileToSave);
         const res = await fetch(`${API_URL}/profile`, {
           method: "POST",
@@ -1136,8 +1198,12 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
       }
       if (showToast) {
         toast({
-          title: "Salvat",
-          description: "Modificarile au fost salvate.",
+          title: options?.successTitle || "Salvat",
+          description:
+            options?.successDescription ||
+            (options?.commitToServer
+              ? "Modificarile au fost salvate."
+              : "Draftul a fost actualizat local."),
           variant: "success",
         });
       }
@@ -1146,7 +1212,8 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
       console.error(error);
       toast({
         title: "Eroare",
-        description: "Nu am putut salva modificarile.",
+        description:
+          options?.errorDescription || "Nu am putut salva modificarile.",
         variant: "destructive",
       });
       return false;
@@ -1500,16 +1567,27 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
     if (isFinalizing) return;
     if (onCheckActive && !onCheckActive()) return;
 
+    setFinalizeMode(hasFinalizedInvite ? "update" : "initial");
     setFinalizeModalOpen(true);
     setFinalizeState("loading");
     setIsFinalizing(true);
 
     const startedAt = Date.now();
-    const ok = await persistNow(false);
+    const ok = await persistNow(false, {
+      commitToServer: true,
+      errorDescription: "Nu am putut salva invitatia finala.",
+    });
     const elapsed = Date.now() - startedAt;
     const minLoaderMs = 1400;
     if (elapsed < minLoaderMs) {
       await new Promise((resolve) => setTimeout(resolve, minLoaderMs - elapsed));
+    }
+
+    if (ok) {
+      localStorage.setItem(finalizeStorageKey, "1");
+      setHasFinalizedInvite(true);
+      setHasPendingPublishChanges(false);
+      editChangeWarningShownRef.current = false;
     }
 
     setFinalizeState(ok ? "success" : "error");
@@ -1560,32 +1638,16 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
       ...defaultPatch,
     };
 
+    markDraftChanged();
     setWorkingProfile(nextProfile);
     await Promise.resolve(onUpdateProfile(nextProfile));
-    if (session?.token) {
-      const profilePayload = sanitizeWizardProfilePayload(nextProfile);
-      const res = await fetch(`${API_URL}/profile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session.token}`,
-        },
-        body: JSON.stringify({ profile: profilePayload }),
-      });
-      if (!res.ok) {
-        let message = "Nu am putut salva default-urile template-ului in baza de date.";
-        try {
-          const data = await res.json();
-          message = data?.message || data?.error || message;
-        } catch {}
-        throw new Error(message);
-      }
-    }
 
     if (showSuccessToast) {
       toast({
         title: "Reset efectuat",
-        description: "Invitatia a fost resetata la valorile default din cod.",
+        description: hasFinalizedInvite
+          ? "Resetul a fost aplicat in draft. Apasa Salveaza modificarile ca sa actualizezi invitatia publica."
+          : "Invitatia a fost resetata la valorile default din cod.",
         variant: "success",
       });
     }
@@ -1689,10 +1751,6 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
       if (!String(workingProfile.weddingDate || "").trim()) {
         missingFields.push("Data eveniment");
       }
-      if (!String(workingProfile.eventTime || "").trim()) {
-        missingFields.push("Ora");
-      }
-
       if (missingFields.length > 0) {
         toast({
           title: "Completeaza campurile obligatorii",
@@ -1719,7 +1777,10 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
       return;
     }
 
-    const ok = await persistNow(false);
+    const ok = await persistNow(false, {
+      commitToServer: false,
+      errorDescription: "Nu am putut salva draftul local al pasului curent.",
+    });
     if (!ok) return;
 
     const nextStep =
@@ -2120,15 +2181,6 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
                     required
                     value={String(workingProfile.weddingDate || "")}
                     onChange={(e: any) => patchProfile({ weddingDate: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs text-muted-foreground">Ora *</label>
-                  <Input
-                    type="time"
-                    required
-                    value={String(workingProfile.eventTime || "")}
-                    onChange={(e: any) => patchProfile({ eventTime: e.target.value })}
                   />
                 </div>
               </div>
@@ -2602,6 +2654,30 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
               <CardTitle className="text-sm md:text-base">Step 4 - Editeaza invitatia</CardTitle>
             </CardHeader>
             <CardContent className="px-4 pb-4 pt-0 md:px-5 md:pb-5 space-y-2.5">
+              <div
+                className={cn(
+                  "rounded-lg border px-3 py-2 text-xs",
+                  hasFinalizedInvite
+                    ? "border-amber-200 bg-amber-50 text-amber-900"
+                    : "border-sky-200 bg-sky-50 text-sky-900",
+                )}
+              >
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <p className="font-semibold">
+                      {hasFinalizedInvite
+                        ? "Editezi invitatia curenta"
+                        : "Editezi draftul invitatiei"}
+                    </p>
+                    <p className="text-[11px] leading-relaxed opacity-90">
+                      {hasFinalizedInvite
+                        ? "Modificarile se pastreaza local pana apesi Salveaza modificarile. Dupa salvare, ele vor afecta invitatia publica deja existenta."
+                        : "Modificarile raman salvate local intre pasi si dupa refresh. Invitatia publica se actualizeaza doar cand apesi Finalizeaza."}
+                    </p>
+                  </div>
+                </div>
+              </div>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <p className="text-xs text-muted-foreground">
                   Editeaza textele direct pe preview.
@@ -2742,6 +2818,38 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
               <CardTitle className="text-sm md:text-base">Step 5 - Review + Share</CardTitle>
             </CardHeader>
             <CardContent className="px-4 pb-4 pt-0 md:px-5 md:pb-5 space-y-4">
+              <div
+                className={cn(
+                  "rounded-lg border px-3 py-2 text-xs",
+                  hasFinalizedInvite
+                    ? "border-amber-200 bg-amber-50 text-amber-900"
+                    : "border-emerald-200 bg-emerald-50 text-emerald-900",
+                )}
+              >
+                <div className="flex items-start gap-2">
+                  {hasFinalizedInvite ? (
+                    <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                  ) : (
+                    <Save className="w-4 h-4 shrink-0 mt-0.5" />
+                  )}
+                  <div className="space-y-1">
+                    <p className="font-semibold">
+                      {hasFinalizedInvite
+                        ? hasPendingPublishChanges
+                          ? "Ai modificari noi in draft"
+                          : "Invitatia actuala este deja salvata"
+                        : "Totul este pregatit pentru finalizare"}
+                    </p>
+                    <p className="text-[11px] leading-relaxed opacity-90">
+                      {hasFinalizedInvite
+                        ? hasPendingPublishChanges
+                          ? "Apasa Salveaza modificarile ca sa actualizezi invitatia publica."
+                          : "Poti reveni in Step 4 pentru editari. Dupa orice modificare, salveaza din nou pentru a actualiza linkul public."
+                        : "Pana acum ai lucrat in draft local. Finalizeaza publica modificarile si genereaza varianta finala a invitatiei."}
+                    </p>
+                  </div>
+                </div>
+              </div>
               <div className="grid grid-cols-1 xl:grid-cols-[minmax(280px,340px),minmax(0,1fr)] gap-3">
                 <div className="space-y-3 rounded-lg border border-input bg-background p-3">
                   <div className="text-xs font-semibold text-foreground">
@@ -2799,20 +2907,92 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
           </Button>
           <div className="hidden md:block text-xs text-muted-foreground text-center flex-1">
             {stepsRemaining === 0
-              ? "Esti la ultimul pas. Apasa Finalizeaza."
+              ? !hasFinalizedInvite
+                ? "Esti la ultimul pas. Apasa Finalizeaza."
+                : hasPendingPublishChanges
+                  ? "Ai modificari in draft. Apasa Salveaza modificarile."
+                  : "Invitatia publica este deja sincronizata."
               : `Mai ai ${stepsRemaining} pasi pana la finalizare.`}
           </div>
           <Button
             type="button"
             onClick={handleNext}
-            disabled={saving}
+            disabled={
+              saving ||
+              (step === STEP_TITLES.length - 1 &&
+                hasFinalizedInvite &&
+                !hasPendingPublishChanges)
+            }
             className="flex-1 sm:flex-none h-9 px-3 text-sm"
           >
-            {step === STEP_TITLES.length - 1 ? "Finalizeaza" : "Continua"}
+            {step === STEP_TITLES.length - 1 ? finalActionLabel : "Continua"}
             <ChevronRight className="w-4 h-4 ml-1" />
           </Button>
         </div>
       </div>
+
+      <Dialog open={editHelpOpen} onOpenChange={setEditHelpOpen}>
+        <DialogContent className="max-w-lg">
+          <div className="space-y-4 py-1">
+            <DialogHeader>
+              <DialogTitle>Cum editezi invitatia</DialogTitle>
+              <DialogDescription>
+                In acest pas configurezi direct varianta finala a invitatiei.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="grid gap-2">
+              <div className="rounded-lg border bg-background px-3 py-2 text-sm flex items-start gap-3">
+                <ImagePlus className="w-4 h-4 mt-0.5 text-primary shrink-0" />
+                <div>
+                  <div className="font-medium text-foreground">Schimba imaginile</div>
+                  <div className="text-xs text-muted-foreground">
+                    Da click pe formele de imagine din preview pentru a incarca sau inlocui pozele.
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-lg border bg-background px-3 py-2 text-sm flex items-start gap-3">
+                <Type className="w-4 h-4 mt-0.5 text-primary shrink-0" />
+                <div>
+                  <div className="font-medium text-foreground">Editeaza textele</div>
+                  <div className="text-xs text-muted-foreground">
+                    Da click direct pe orice text din preview pentru a-l modifica.
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-lg border bg-background px-3 py-2 text-sm flex items-start gap-3">
+                <RotateCcw className="w-4 h-4 mt-0.5 text-destructive shrink-0" />
+                <div>
+                  <div className="font-medium text-foreground">Reset to default</div>
+                  <div className="text-xs text-muted-foreground">
+                    Butonul de reset readuce invitatia la structura si stilul initial al template-ului.
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-lg border bg-background px-3 py-2 text-sm flex items-start gap-3">
+                <Save className="w-4 h-4 mt-0.5 text-emerald-600 shrink-0" />
+                <div>
+                  <div className="font-medium text-foreground">Draft local + finalizare</div>
+                  <div className="text-xs text-muted-foreground">
+                    Fiecare pas ramane salvat local si dupa refresh. Modificarile ajung in invitatia publica doar cand apesi Finalizeaza.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <Button
+              type="button"
+              className="w-full"
+              onClick={() => {
+                localStorage.setItem(editHelpStorageKey, "1");
+                setEditHelpOpen(false);
+              }}
+            >
+              Am inteles
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Dialog
         open={finalizeModalOpen}
@@ -2825,9 +3005,13 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
           {finalizeState === "loading" && (
             <div className="py-6">
               <DialogHeader>
-                <DialogTitle>Configuram invitatia</DialogTitle>
+                <DialogTitle>
+                  {finalizeMode === "update" ? "Actualizam invitatia" : "Configuram invitatia"}
+                </DialogTitle>
                 <DialogDescription>
-                  Pregatim setarile finale si link-ul public.
+                  {finalizeMode === "update"
+                    ? "Aplicam noile modificari si actualizam link-ul public existent."
+                    : "Pregatim setarile finale si link-ul public."}
                 </DialogDescription>
               </DialogHeader>
               <div className="mt-6 flex flex-col items-center gap-3">
@@ -2844,9 +3028,15 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
           {finalizeState === "success" && (
             <div className="py-1 space-y-4">
               <DialogHeader>
-                <DialogTitle>Invitatia ta este gata de trimis</DialogTitle>
+                <DialogTitle>
+                  {finalizeMode === "update"
+                    ? "Modificarile au fost aplicate"
+                    : "Invitatia ta este gata de trimis"}
+                </DialogTitle>
                 <DialogDescription>
-                  Acesta este link-ul public al invitatiei.
+                  {finalizeMode === "update"
+                    ? "Invitatia publica a fost actualizata cu noile modificari."
+                    : "Acesta este link-ul public al invitatiei."}
                 </DialogDescription>
               </DialogHeader>
 

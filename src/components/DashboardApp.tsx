@@ -209,9 +209,6 @@ const navGroupsForUi = [
   [{ id: "history", label: "Istoric", icon: History }],
 ];
 
-// Flattened list helper for title finding
-const allNavItems = navGroupsForUi.flat();
-
 type InAppNotification = {
   _id: string;
   title: string;
@@ -750,6 +747,22 @@ const DashboardApp = () => {
         "luxury-style-simple",
       ]),
     [],
+  );
+  const showTemplateConfigNav = !SIMPLE_TEMPLATE_IDS.has(selectedTemplate);
+  const visibleNavGroupsForUi = useMemo(
+    () =>
+      navGroupsForUi
+        .map((group) =>
+          group.filter(
+            (item) => item.id !== "settings" || showTemplateConfigNav,
+          ),
+        )
+        .filter((group) => group.length > 0),
+    [showTemplateConfigNav],
+  );
+  const allNavItems = useMemo(
+    () => visibleNavGroupsForUi.flat(),
+    [visibleNavGroupsForUi],
   );
   const [templateVisibility, setTemplateVisibility] = useState<
     Record<string, "live" | "coming_soon">
@@ -2246,6 +2259,12 @@ const DashboardApp = () => {
     viewingSnapshotId,
   ]);
 
+  useEffect(() => {
+    if (showTemplateConfigNav) return;
+    if (view !== "settings") return;
+    setView("invitations");
+  }, [showTemplateConfigNav, view]);
+
   const handleUpgradeSuccess = (payments?: any[]) => {
     if (!session) return;
     const newSession = {
@@ -3159,7 +3178,7 @@ const DashboardApp = () => {
         </div>
 
         <div className="flex-1 overflow-y-auto py-6 px-3 space-y-2 scrollbar-hide">
-          {navGroupsForUi.map((group, groupIdx) => (
+          {visibleNavGroupsForUi.map((group, groupIdx) => (
             <div key={groupIdx} className="space-y-1 relative">
               {groupIdx > 0 && (
                 <div
