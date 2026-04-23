@@ -17,7 +17,7 @@ export const meta: TemplateMeta = {
   id: 'gabbys-dollhouse',
   name: "Gabby's Dollhouse",
   category: 'kids',
-  description: 'Casuta magica a lui Gabby — pisici vesele, cupcakes, curcubeie si distractie fara sfarsit!',
+  description: 'Casuta magica a lui Gabby  pisici vesele, cupcakes, curcubeie si distractie fara sfarsit!',
   colors: ['#FFE6F2', '#EFDFFF', '#DFF7FF', '#FFF4D6'],
   previewClass: "bg-pink-200 border-purple-400",
   elementsClass: "bg-pink-400",
@@ -33,7 +33,7 @@ function deleteUploadedFile(url: string | undefined) {
   }).catch(() => {});
 }
 
-// ─── IMAGES ───────────────────────────────────────────────────────────────────
+//  IMAGES 
 const IMG_HEART = "/gabbys-dollhouse/homepage-s13-hero6.png";
 const IMG_LOGO = "/gabbys-dollhouse/gabby-logoGG.png";
 const IMG_RAINBOW = "/gabbys-dollhouse/homepage-s13-hero6.png";
@@ -50,7 +50,7 @@ const IMG_WEBSITE = "/gabbys-dollhouse/kittyfairy-hero.png";
 const IMG_BOXCAT  = "/gabbys-dollhouse/kittyfairy-hero.png";
 const HERO_IMG = '/gabbys-dollhouse/BGIMAGES.png';
 
-// ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
+//  DESIGN TOKENS 
 const F = {
   display : "'Fredoka One','Nunito',sans-serif",
   body    : "'Nunito','Quicksand',sans-serif",
@@ -104,7 +104,7 @@ const SERIF = F.body;
 const SCRIPT = F.display;
 const SANS = F.body;
 
-// ─── GLOBAL CSS ───────────────────────────────────────────────────────────────
+//  GLOBAL CSS 
 const GD_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap');
 
@@ -129,7 +129,7 @@ const GD_CSS = `
   .gd-hover:hover { animation:gd-wiggle .5s ease-in-out !important; cursor:pointer; }
 `;
 
-// ─── SCROLL REVEAL ────────────────────────────────────────────────────────────
+//  SCROLL REVEAL 
 function useReveal<T extends HTMLElement>(threshold=0.1):[React.RefObject<T>,boolean]{
   const ref=useRef<T>(null);
   const [vis,setVis]=useState(false);
@@ -154,7 +154,7 @@ const Reveal:React.FC<{children:React.ReactNode;delay?:number;from?:'bottom'|'le
   );
 };
 
-// ─── SPARKLE PARTICLE ─────────────────────────────────────────────────────────
+//  SPARKLE PARTICLE 
 const Sparkle:React.FC<{x:number;y:number;color:string;size:number;delay:number;fixed?:boolean}>=
   ({x,y,color,size,delay,fixed=false})=>(
   <div style={{
@@ -163,10 +163,10 @@ const Sparkle:React.FC<{x:number;y:number;color:string;size:number;delay:number;
     animation:`gd-sparkle ${2+Math.random()}s ${delay}s ease-in-out infinite`,
     pointerEvents:'none',zIndex:2,userSelect:'none',
     filter:`drop-shadow(0 0 4px ${color})`,
-  }}>✦</div>
+  }}></div>
 );
 
-// ─── CONFETTI BURST ───────────────────────────────────────────────────────────
+//  CONFETTI BURST 
 const Confetto:React.FC<{x:number;color:string;delay:number;size:number;shape:string}>=
   ({x,color,delay,size,shape})=>(
   <div style={{
@@ -179,7 +179,7 @@ const Confetto:React.FC<{x:number;color:string;delay:number;size:number;shape:st
   }}/>
 );
 
-// ─── RAINBOW DIVIDER ─────────────────────────────────────────────────────────
+//  RAINBOW DIVIDER 
 const RainbowBar:React.FC<{thin?:boolean}>=({thin=false})=>(
   <div style={{
     height:thin?3:5,borderRadius:3,
@@ -188,7 +188,7 @@ const RainbowBar:React.FC<{thin?:boolean}>=({thin=false})=>(
   }}/>
 );
 
-// ─── PAW PRINTS ───────────────────────────────────────────────────────────────
+//  PAW PRINTS 
 const PawScatter:React.FC<{fixed?:boolean}>=({fixed=false})=>{
   const paws=[
     {x:3,y:12,d:0},{x:91,y:8,d:1.5},{x:5,y:40,d:2.8},{x:93,y:38,d:.7},
@@ -202,13 +202,13 @@ const PawScatter:React.FC<{fixed?:boolean}>=({fixed=false})=>{
           fontSize:14,opacity:0,
           animation:`gd-paw ${3.5+i*.3}s ${p.d}s ease-in-out infinite`,
           pointerEvents:'none',userSelect:'none',zIndex:1,
-        }}>🐾</div>
+        }}></div>
       ))}
     </>
   );
 };
 
-// ─── LOCATION CARD ────────────────────────────────────────────────────────────
+//  LOCATION CARD 
 const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (p: Partial<InvitationBlock>) => void; stickerSrc?: string }> =
   ({ block, editMode, onUpdate, stickerSrc }) => {
     const [editWaze, setEditWaze] = useState(false);
@@ -245,14 +245,14 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
         <RainbowBar thin />
         <div style={{ paddingTop: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-            <span style={{ fontSize: 16, animation: 'gd-twinkle 2s ease-in-out infinite' }}>🐾</span>
+            <span style={{ fontSize: 16, animation: 'gd-twinkle 2s ease-in-out infinite' }}>{"\u{1F4CD}"}</span>
             <InlineEdit
               tag="p"
               editMode={editMode}
               value={label}
               onChange={v => onUpdate({ label: v })}
               placeholder="Tip locatie..."
-              textLabel="Locatie · label"
+              textLabel="Locatie  label"
               style={{
                 fontFamily: F.label, fontSize: 9, letterSpacing: '.4em', textTransform: 'uppercase',
                 color: C.deepPurple, margin: 0,
@@ -261,12 +261,12 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
           </div>
           {(editMode || time) && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
-              <span style={{ fontSize: 14 }}>⏰</span>
+              <span style={{ fontSize: 14 }}>{"\u{1F552}"}</span>
               <InlineTime
                 value={time}
                 onChange={v => onUpdate({ time: v })}
                 editMode={editMode}
-                textLabel="Locatie · ora"
+                textLabel="Locatie  ora"
                 style={{ fontFamily: F.display, fontSize: 22, color: C.deepPink, margin: 0, letterSpacing: 1 }}
               />
             </div>
@@ -277,12 +277,12 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
             value={name}
             onChange={v => onUpdate({ locationName: v })}
             placeholder="Numele locatiei..."
-            textLabel="Locatie · nume"
+            textLabel="Locatie  nume"
             style={{ fontFamily: F.body, fontSize: 14, fontWeight: 800, color: C.inkDark, margin: '0 0 3px' }}
           />
           {(editMode || address) && (
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 5, marginTop: 4 }}>
-              <span style={{ fontSize: 12, flexShrink: 0, marginTop: 2 }}>📍</span>
+              <span style={{ fontSize: 12, flexShrink: 0, marginTop: 2 }}>{"\u{1F3E0}"}</span>
               <InlineEdit
                 tag="p"
                 editMode={editMode}
@@ -290,7 +290,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
                 onChange={v => onUpdate({ locationAddress: v })}
                 placeholder="Adresa completa..."
                 multiline
-                textLabel="Locatie · adresa"
+                textLabel="Locatie  adresa"
                 style={{
                   fontFamily: F.body, fontSize: 11, fontWeight: 600,
                   color: `${C.deepPurple}99`, margin: 0, lineHeight: 1.6, fontStyle: 'italic',
@@ -352,7 +352,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
                         boxShadow: `0 6px 18px rgba(199,125,255,.25)`,
                       }}
                     >
-                      <span style={{ fontSize: 14 }}>🚗</span>
+                      <span style={{ fontSize: 14 }}>{"\u{1F9ED}"}</span>
                       {wazeLink ? 'Waze' : 'Adauga Waze'}
                     </button>
                   ) : (
@@ -379,7 +379,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
                         boxShadow: `0 6px 18px rgba(199,125,255,.25)`,
                       }}
                     >
-                      <span style={{ fontSize: 14 }}>🚗</span>
+                      <span style={{ fontSize: 14 }}>{"\u{1F9ED}"}</span>
                       Waze
                     </a>
                   )
@@ -408,7 +408,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
                       boxShadow: `0 6px 18px rgba(199,125,255,.25)`,
                     }}
                   >
-                    <span style={{ fontSize: 14 }}>📍</span>
+                    <span style={{ fontSize: 14 }}>{"\u{1F5FA}"}</span>
                     Google Maps
                   </a>
                 )}
@@ -431,7 +431,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
     );
   };
 
-// ── Shape / Clip system ───────────────────────────────────────────────────────
+//  Shape / Clip system 
 type ClipShape = 'rect' | 'rounded' | 'rounded-lg' | 'squircle' | 'circle' | 'arch' | 'arch-b' | 'hexagon' | 'diamond' | 'triangle' | 'star' | 'heart' | 'diagonal' | 'diagonal-r' | 'wave-b' | 'wave-t' | 'wave-both' | 'blob' | 'blob2' | 'blob3' | 'blob4';
 type MaskEffect = 'fade-b' | 'fade-t' | 'fade-l' | 'fade-r' | 'vignette';
 
@@ -484,7 +484,7 @@ const PhotoClipDefs: React.FC = () => (
   </svg>
 );
 
-// ── Photo block ───────────────────────────────────────────────────────────────
+//  Photo block 
 const PhotoBlock: React.FC<{
   imageData?: string; altText?: string; editMode: boolean;
   onUpload: (url: string) => void; onRemove: () => void;
@@ -547,7 +547,7 @@ const PhotoBlock: React.FC<{
   );
 };
 
-// ── Calendar ──────────────────────────────────────────────────────────────────
+//  Calendar 
 const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   if (!date) return null;
   const d = new Date(date);
@@ -574,7 +574,7 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ── Music block ───────────────────────────────────────────────────────────────
+//  Music block 
 const MusicBlock: React.FC<{
   block: InvitationBlock;
   editMode: boolean;
@@ -717,13 +717,13 @@ const MusicBlock: React.FC<{
                 />
                 <button type="button" onClick={submitYt} disabled={ytDownloading}
                   style={{ background: PINK_DARK, border: 'none', borderRadius: 8, padding: '0 14px', cursor: ytDownloading ? 'not-allowed' : 'pointer', fontFamily: SANS, fontSize: 11, fontWeight: 700, color: 'white', opacity: ytDownloading ? 0.7 : 1, minWidth: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {ytDownloading ? <div style={{ width: 14, height: 14, border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} /> : '✓'}
+                  {ytDownloading ? <div style={{ width: 14, height: 14, border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} /> : ''}
                 </button>
                 <button type="button" onClick={() => { setShowYt(false); setYtUrl(''); setYtError(''); }} disabled={ytDownloading}
-                  style={{ background: PINK_XL, border: 'none', borderRadius: 8, padding: '0 10px', cursor: 'pointer', color: MUTED, fontSize: 14 }}>✕</button>
+                  style={{ background: PINK_XL, border: 'none', borderRadius: 8, padding: '0 10px', cursor: 'pointer', color: MUTED, fontSize: 14 }}></button>
               </div>
-              {ytDownloading && <p style={{ fontFamily: SANS, fontSize: 9, color: PINK_DARK, margin: 0, textAlign: 'center', letterSpacing: '0.1em' }}>⏳ Se descarca melodia de pe YouTube...</p>}
-              {ytError && <p style={{ fontFamily: SANS, fontSize: 9, color: '#ef4444', margin: 0 }}>⚠ {ytError}</p>}
+              {ytDownloading && <p style={{ fontFamily: SANS, fontSize: 9, color: PINK_DARK, margin: 0, textAlign: 'center', letterSpacing: '0.1em' }}> Se descarca melodia de pe YouTube...</p>}
+              {ytError && <p style={{ fontFamily: SANS, fontSize: 9, color: '#ef4444', margin: 0 }}> {ytError}</p>}
             </div>
           ) : (
             <div style={{ display: 'flex', gap: 8 }}>
@@ -803,7 +803,7 @@ const MusicBlock: React.FC<{
   );
 };
 
-// ─── COUNTDOWN ────────────────────────────────────────────────────────────────
+//  COUNTDOWN 
 interface TimeLeft{days:number;hours:number;minutes:number;seconds:number;total:number}
 function calcTimeLeft(date:string):TimeLeft{
   const diff=new Date(date).getTime()-Date.now();
@@ -853,7 +853,7 @@ const Countdown:React.FC<{targetDate:string|undefined}>=({targetDate})=>{
   if(isOver) return(
     <div style={{textAlign:'center',padding:'12px 20px',
       background:`${C.pinkLight}55`,border:`3px solid ${C.hotPink}`,borderRadius:18}}>
-      <p style={{fontFamily:F.label,fontSize:12,color:C.deepPink,margin:0}}>🎉 Petrecerea a inceput! 🎉</p>
+      <p style={{fontFamily:F.label,fontSize:12,color:C.deepPink,margin:0}}> Petrecerea a inceput! </p>
     </div>
   );
   const vals=[tl?.days??0,tl?.hours??0,tl?.minutes??0,tl?.seconds??0];
@@ -865,7 +865,7 @@ const Countdown:React.FC<{targetDate:string|undefined}>=({targetDate})=>{
         <span style={{fontFamily:F.label,fontSize:9,letterSpacing:'.4em',textTransform:'uppercase',
           color:C.deepPurple,padding:'4px 16px',borderRadius:50,
           background:`${C.lavender}`,border:`2px solid ${C.purple}55`}}>
-          {isSoon?'🎉 Maine!':'⏳ Timp ramas'}
+          {isSoon?' Maine!':' Timp ramas'}
         </span>
       </div>
       <div style={{display:'flex',justifyContent:'center',alignItems:'flex-start',gap:8}}>
@@ -881,7 +881,7 @@ const Countdown:React.FC<{targetDate:string|undefined}>=({targetDate})=>{
   );
 };
 
-// ── Template Defaults (blocks) ────────────────────────────────────────────────
+//  Template Defaults (blocks) 
 export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
  {
     id: 'def-photo-1',
@@ -927,12 +927,12 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
 ];
 
 
-// ─── INTRO ────────────────────────────────────────────────────────────────────
+//  INTRO 
 interface IntroProps{l1:string;l2:string;onDone:()=>void}
 
 const GabbyIntro:React.FC<IntroProps>=({l1,l2,onDone})=>{
   const showSecond=Boolean(l2&&l2!==l1);
-  const [phase,setPhase]=useState(0);   // 0=sealed, 1→5=opening, 6=fade
+  const [phase,setPhase]=useState(0);   // 0=sealed, 15=opening, 6=fade
   const [fade,setFade]=useState(false);
   const [btnClicked,setBtnClicked]=useState(false);
   const [confetti,setConfetti]=useState<any[]>([]);
@@ -990,7 +990,7 @@ const GabbyIntro:React.FC<IntroProps>=({l1,l2,onDone})=>{
           pointerEvents:'none'}}/>
       ))}
 
-      {/* ── SEALED STATE ── */}
+      {/*  SEALED STATE  */}
       {phase===0&&(
         <div style={{position:'relative',zIndex:10,textAlign:'center',
           display:'flex',flexDirection:'column',alignItems:'center',gap:18}}>
@@ -1056,7 +1056,7 @@ const GabbyIntro:React.FC<IntroProps>=({l1,l2,onDone})=>{
         </div>
       )}
 
-      {/* ── OPENING SEQUENCE ── */}
+      {/*  OPENING SEQUENCE  */}
       {phase>=1&&(
         <div style={{position:'relative',zIndex:10,textAlign:'center',
           display:'flex',flexDirection:'column',alignItems:'center',gap:8}}>
@@ -1090,7 +1090,7 @@ const GabbyIntro:React.FC<IntroProps>=({l1,l2,onDone})=>{
             transition:'opacity .5s,transform .5s cubic-bezier(.22,1,.36,1)'}}>
             <p style={{fontFamily:F.label,fontSize:9,letterSpacing:'.55em',
               textTransform:'uppercase',color:C.deepPink,margin:'0 0 3px',opacity:.9}}>
-              ✨ GABBY'S DOLLHOUSE ✨
+              {"\u{2728} GABBY'S DOLLHOUSE \u{2728}"}
             </p>
             <h1 style={{fontFamily:F.display,fontSize:'clamp(30px,7.5vw,50px)',
               background:`linear-gradient(135deg,${C.deepPink},${C.deepPurple})`,
@@ -1100,7 +1100,7 @@ const GabbyIntro:React.FC<IntroProps>=({l1,l2,onDone})=>{
               {showSecond?`${l1} & ${l2}`:l1}
             </h1>
             <p style={{fontFamily:F.display,fontSize:14,color:C.deepPurple,margin:0,opacity:.75}}>
-              te invita in Casuta Magica! 🐱
+              {"te invita in Casuta Magica! \u{2728}"}
             </p>
           </div>
 
@@ -1130,7 +1130,7 @@ const GabbyIntro:React.FC<IntroProps>=({l1,l2,onDone})=>{
           <p style={{fontFamily:F.label,fontSize:8,letterSpacing:'.4em',
             textTransform:'uppercase',color:`rgba(123,47,190,.55)`,margin:'6px 0 0',
             opacity:phase>=5?1:0,transition:'opacity .5s'}}>
-            🐾 Casuta te asteapta! 🐾
+            {"\u{2728} Casuta te asteapta! \u{2728}"}
           </p>
         </div>
       )}
@@ -1167,11 +1167,26 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
   </div>
 );
 
-// ── Insert + Toolbar ──────────────────────────────────────────────────────────
+//  Insert + Toolbar 
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: '🖼', text: '✏️', location: '📍', calendar: '📅',
-  countdown: '⏱', music: '🎵', gift: '🎁', whatsapp: '💬', rsvp: '✉️', divider: '—', family: '👨‍👩‍👧',
-  date: '📆', description: '📝', timeline: '🗓',
+  photo: "IMG",
+  text: "TXT",
+  location: "LOC",
+  calendar: "CAL",
+  countdown: "TMR",
+  timeline: "TIME",
+  music: "MUS",
+  gift: "GFT",
+  whatsapp: "WA",
+  rsvp: "RSVP",
+  divider: "---",
+  family: "FAM",
+  date: "DATE",
+  description: "DESC",
+  title: "Aa",
+  godparents: "NAS",
+  parents: "PAR",
+  spacer: "SP",
 };
 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: any) => (
@@ -1223,7 +1238,7 @@ const InsertBlockButton: React.FC<{
           zIndex: 2, position: 'relative',
           lineHeight: 1, fontWeight: 700,
         }}
-      >{isOpen ? '×' : '+'}</button>
+      >{isOpen ? '' : '+'}</button>
 
       {isOpen && (
         <div
@@ -1269,7 +1284,7 @@ const InsertBlockButton: React.FC<{
   );
 };
 
-// ─── MAIN TEMPLATE ────────────────────────────────────────────────────────────
+//  MAIN TEMPLATE 
 const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
   editMode?: boolean;
   onProfileUpdate?: (patch: Record<string, any>) => void;
@@ -1503,19 +1518,19 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
   ];
 
   const BLOCK_TYPES = [
-    { type: 'photo',     label: '📷 Foto',      def: { imageData: undefined, aspectRatio: '1:1', photoClip: 'rect', photoMasks: [] } },
+    { type: 'photo',     label: 'Foto',      def: { imageData: undefined, aspectRatio: '1:1', photoClip: 'rect', photoMasks: [] } },
     { type: 'text',      label: 'Text',         def: { content: 'Te asteptam cu drag...' } },
     { type: 'location',  label: 'Locatie',      def: { label: 'Locatie', time: '11:00', locationName: 'Locatie eveniment', locationAddress: 'Strada Exemplu, Nr. 1' } },
-    { type: 'calendar',  label: '📅 Calendar',  def: {} },
-    { type: 'countdown', label: '⏱ Countdown',  def: {} },
-    { type: 'timeline',  label: '🗓 Cronologie', def: {} },
-    { type: 'music',     label: '🎵 Muzica',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
-    { type: 'gift',      label: '🎁 Cadouri',   def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
-    { type: 'whatsapp',  label: 'WhatsApp',     def: { label: 'Contact WhatsApp', content: '0700000000' } },
+    { type: 'calendar',  label: 'Calendar',  def: {} },
+    { type: 'countdown', label: 'Countdown',  def: {} },
+    { type: 'timeline',  label: 'Cronologie', def: {} },
+    { type: 'music',     label: 'Muzica',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
+    { type: 'gift',      label: 'Cadouri',   def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
+    { type: 'whatsapp',  label: 'WhatsApp',     def: { label: 'WhatsApp', content: '0700000000' } },
     { type: 'rsvp',      label: 'RSVP',         def: { label: 'Confirma Prezenta' } },
     { type: 'divider',   label: 'Linie',        def: {} },
-    { type: 'family',    label: '👨‍👩‍👧 Familie', def: { label: 'Parintii copilului', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) } },
-    { type: 'date',      label: '📆 Data',      def: {} },
+    { type: 'family',    label: 'Familie', def: { label: 'Parintii copilului', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) } },
+    { type: 'date',      label: 'Data',      def: {} },
     { type: 'description', label: 'Descriere', def: { content: 'O scurta descriere...' } },
   ];
 
@@ -1543,7 +1558,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
         transition:'opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)',
         paddingBottom:60}}>
 
-        {/* Background — soft candy gradient */}
+        {/* Background  soft candy gradient */}
         <div style={{position:'fixed',inset:0,zIndex:0}}>
           <div style={{
             position:'absolute',inset:0,
@@ -1582,7 +1597,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
 
         <div style={{position:'relative',zIndex:2,maxWidth:440,margin:'0 auto',padding:'28px 16px 0'}}>
 
-          {/* ── HERO CARD ── */}
+          {/*  HERO CARD  */}
           <Reveal from="fade">
             <BlockStyleProvider
               value={{
@@ -1619,7 +1634,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                     background:`linear-gradient(135deg,${C.deepPink},${C.deepPurple})`,
                     color:C.white,fontFamily:F.label,
                     fontSize:9,padding:'4px 18px',borderRadius:20,
-                    letterSpacing:2,marginBottom:14}}>✨ EsTI INVITAT ✨</div>
+                    letterSpacing:2,marginBottom:14}}>{"\u{2728} ESTI INVITAT \u{2728}"}</div>
                 </Reveal>
 
                 {(editMode || profile.showWelcomeText !== false) && (
@@ -1629,7 +1644,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                       editMode={editMode}
                       value={texts.welcome}
                       onChange={(v) => upProfile("welcomeText", v)}
-                      textLabel="Hero · welcome"
+                      textLabel="Hero  welcome"
                       style={{fontFamily:F.body,fontSize:13,fontWeight:700,fontStyle:'italic',
                         color:`rgba(123,47,190,.65)`,margin:'0 0 12px',lineHeight:1.7}}
                     />
@@ -1644,7 +1659,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                       editMode={editMode}
                       value={profile.partner1Name||'Prenume'}
                       onChange={(v) => upProfile('partner1Name', v)}
-                      textLabel="Hero · nume"
+                      textLabel="Hero  nume"
                       style={{fontFamily:F.display,fontSize:'clamp(32px,8vw,50px)',
                         background:`linear-gradient(135deg,${C.deepPink},${C.deepPurple})`,
                         WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
@@ -1658,7 +1673,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                         editMode={editMode}
                         value={profile.partner1Name||'Prenume'}
                         onChange={(v) => upProfile('partner1Name', v)}
-                        textLabel="Hero · nume 1"
+                        textLabel="Hero  nume 1"
                         style={{fontFamily:F.display,fontSize:'clamp(26px,7vw,40px)',
                           background:`linear-gradient(135deg,${C.deepPink},${C.deepPurple})`,
                           WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
@@ -1667,7 +1682,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                       <div style={{margin:'8px 0',display:'flex',alignItems:'center',gap:12,justifyContent:'center'}}>
                         <div style={{flex:1,height:'2px',borderRadius:2,
                           background:`linear-gradient(to right,transparent,${C.hotPink})`}}/>
-                        <span style={{fontFamily:F.display,fontSize:24,color:C.hotPink}}>❤️</span>
+                        <span style={{fontFamily:F.display,fontSize:24,color:C.hotPink}}>{"\u{1F496}"}</span>
                         <div style={{flex:1,height:'2px',borderRadius:2,
                           background:`linear-gradient(to left,transparent,${C.hotPink})`}}/>
                       </div>
@@ -1676,7 +1691,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                         editMode={editMode}
                         value={profile.partner2Name||'Prenume'}
                         onChange={(v) => upProfile('partner2Name', v)}
-                        textLabel="Hero · nume 2"
+                        textLabel="Hero  nume 2"
                         style={{fontFamily:F.display,fontSize:'clamp(26px,7vw,40px)',
                           background:`linear-gradient(135deg,${C.deepPurple},${C.deepMint})`,
                           WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
@@ -1693,7 +1708,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                       editMode={editMode}
                       value={texts.celebration}
                       onChange={(v) => upProfile("celebrationText", v)}
-                      textLabel="Hero · celebrare"
+                      textLabel="Hero  celebrare"
                       style={{fontFamily:F.display,fontSize:14,
                         color:C.deepPink,margin:'8px 0 0'}}
                     />
@@ -1723,7 +1738,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                     </div>
                     <div style={{fontFamily:F.body,fontWeight:800,fontSize:12,
                       color:C.inkDark,opacity:.6,textTransform:'capitalize',marginBottom:4}}>
-                      {displayWeekday} · {displayMonth} · {displayYear}
+                      {displayWeekday}  {displayMonth}  {displayYear}
                     </div>
                     <RainbowBar thin/>
                   </div>
@@ -1771,7 +1786,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                         pointerEvents: "none",
                       }}
                     />
-                    <div style={{position:'absolute',top:-10,left:'50%',transform:'translateX(-50%)',fontSize:20}}>🐾</div>
+                    <div style={{position:'absolute',top:-10,left:'50%',transform:'translateX(-50%)',fontSize:20}}></div>
                     <p style={{fontFamily:F.label,fontSize:8,letterSpacing:'.5em',
                       textTransform:'uppercase',color:C.deepPurple,margin:'0 0 6px',opacity:.7}}>
                       invitatie pentru
@@ -2192,7 +2207,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                                               lineHeight: 1,
                                             }}
                                           >
-                                            ✕
+                                            
                                           </button>
                                         )}
                                       </div>
@@ -2265,7 +2280,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                               editMode={editMode}
                               value={block.sectionTitle || "Sugestie de cadou"}
                               onChange={(v) => updBlock(idx, { sectionTitle: v })}
-                              textLabel="Cadou · titlu"
+                              textLabel="Cadou  titlu"
                               style={{fontFamily:F.display,fontSize:20,marginBottom:8}}
                             />
                             <InlineEdit
@@ -2274,7 +2289,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                               value={block.content || ""}
                               onChange={(v) => updBlock(idx, { content: v })}
                               multiline
-                              textLabel="Cadou · text"
+                              textLabel="Cadou  text"
                               style={{fontFamily:F.body,fontSize:12,opacity:0.9,lineHeight:1.6}}
                             />
                             {(block.iban || editMode) && (
@@ -2285,7 +2300,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                                   value={block.iban || ""}
                                   onChange={(v) => updBlock(idx, { iban: v })}
                                   placeholder="IBAN..."
-                                  textLabel="Cadou · IBAN"
+                                  textLabel="Cadou  IBAN"
                                   style={{fontFamily:F.body,fontSize:10,fontWeight:700}}
                                 />
                               </div>
@@ -2323,7 +2338,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                                   editMode={editMode}
                                   value={block.label || "Contact WhatsApp"}
                                   onChange={(v) => updBlock(idx, { label: v })}
-                                  textLabel="WhatsApp · label"
+                                  textLabel="WhatsApp  label"
                                   style={{fontWeight:800,fontSize:13,color:C.inkDark,margin:0}}
                                 />
                                 <p style={{fontFamily:F.body,fontSize:10,color:`${C.deepPurple}99`,margin:0}}>
@@ -2344,7 +2359,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                                   editMode={editMode}
                                   value={block.content || "0700000000"}
                                   onChange={(v) => updBlock(idx, { content: v })}
-                                  textLabel="WhatsApp · numar"
+                                  textLabel="WhatsApp  numar"
                                   style={{fontFamily:F.body,fontSize:"0.9rem",color:C.inkDark,fontWeight:700}}
                                 />
                               </div>
@@ -2390,7 +2405,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                                   editMode={editMode}
                                   value={block.label || "Confirma Prezenta"}
                                   onChange={(v) => updBlock(idx, { label: v })}
-                                  textLabel="RSVP · text"
+                                  textLabel="RSVP  text"
                                 />
                               </span>
                             </button>
@@ -2467,7 +2482,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                                     editMode={editMode}
                                     value={block.label || "Parintii copilului"}
                                     onChange={(v) => updBlock(idx, { label: v })}
-                                    textLabel="Familie · titlu"
+                                    textLabel="Familie  titlu"
                                     style={{
                                       fontFamily: F.label,
                                       fontSize: "0.55rem",
@@ -2483,7 +2498,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                                     editMode={editMode}
                                     value={block.content || "Cu drag si recunostinta"}
                                     onChange={(v) => updBlock(idx, { content: v })}
-                                    textLabel="Familie · text"
+                                    textLabel="Familie  text"
                                     style={{
                                       fontFamily: F.body,
                                       fontStyle: "italic",
@@ -2507,7 +2522,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                                             nm[mi] = { ...nm[mi], name1: v };
                                             updateMembers(nm);
                                           }}
-                                          textLabel={`Familie · nume ${mi + 1}A`}
+                                          textLabel={`Familie  nume ${mi + 1}A`}
                                           style={{ fontFamily: F.display, fontSize: "1.4rem", color: C.deepPurple }}
                                         />
                                         <span style={{ fontFamily: F.display, color: C.hotPink, fontSize: "1.3rem" }}>&amp;</span>
@@ -2520,7 +2535,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                                             nm[mi] = { ...nm[mi], name2: v };
                                             updateMembers(nm);
                                           }}
-                                          textLabel={`Familie · nume ${mi + 1}B`}
+                                          textLabel={`Familie  nume ${mi + 1}B`}
                                           style={{ fontFamily: F.display, fontSize: "1.4rem", color: C.deepPurple }}
                                         />
                                         {editMode && members.length > 1 && (
@@ -2538,7 +2553,7 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                                               lineHeight: 1,
                                             }}
                                           >
-                                            ✕
+                                            
                                           </button>
                                         )}
                                       </div>
@@ -2623,13 +2638,13 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
                 </div>
               </div>
               <div style={{display:'flex',justifyContent:'center',gap:10,marginBottom:8}}>
-                {['🐱','🌈','⭐','🎀','🏠','💖','🎂','🐾','✨'].map((e,i)=>(
+                {['\u{1F43E}','\u{2728}','\u{1F496}','\u{1F308}','\u{1F380}','\u{1F9C1}','\u{1F431}','\u{1F49C}','\u{2B50}'].map((e,i)=>(
                   <span key={i} style={{fontSize:15,
                     animation:`gd-twinkle ${1.5+i*.2}s ${i*.15}s ease-in-out infinite`,display:'inline-block'}}>{e}</span>
                 ))}
               </div>
               <p style={{fontFamily:F.display,fontSize:10,color:C.deepPurple,opacity:.5,margin:0}}>
-                Gabby's Dollhouse · {displayYear}
+                Gabby's Dollhouse  {displayYear}
               </p>
             </div>
           </Reveal>
@@ -2641,4 +2656,5 @@ const GabbysDollhouseTemplate: React.FC<InvitationTemplateProps & {
 };
 
 export default GabbysDollhouseTemplate;
+
 

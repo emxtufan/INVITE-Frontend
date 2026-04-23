@@ -1,4 +1,4 @@
-// src/components/invitations/LuxuryTemplate.tsx
+﻿// src/components/invitations/LuxuryTemplate.tsx
 import React, { useState, useEffect } from "react";
 import { Calendar } from "lucide-react";
 import { InvitationTemplateProps, TemplateMeta } from "./types";
@@ -6,9 +6,9 @@ import { InvitationBlock } from "../../types";
 import { cn } from "../../lib/utils";
 import { InlineEdit } from "./InlineEdit";
 
-/* ───────────────────────────────────────────── */
+/*  */
 /* Countdown Hook */
-/* ───────────────────────────────────────────── */
+/*  */
 export const meta: TemplateMeta = {
   id: 'luxury', name: 'LuxuryTemplate', category: 'wedding',
   description: 'dwdwdw',
@@ -43,9 +43,9 @@ function useCountdown(targetDate: string) {
   return time;
 }
 
-/* ───────────────────────────────────────────── */
+/*  */
 /* Main Component */
-/* ───────────────────────────────────────────── */
+/*  */
 
 const LuxuryTemplate: React.FC<
   InvitationTemplateProps & {
@@ -82,7 +82,7 @@ const LuxuryTemplate: React.FC<
     ? blocks
     : blocks.filter((b) => b.show !== false);
 
-  /* ───────────────────────────────────────────── */
+  /*  */
 
   return (
     <div
@@ -93,7 +93,7 @@ const LuxuryTemplate: React.FC<
     >
       <div className="max-w-5xl mx-auto px-8 py-28 space-y-32">
 
-        {/* ───────── HERO ───────── */}
+        {/*  HERO  */}
         <section className="text-center space-y-10">
 
           <InlineEdit
@@ -142,7 +142,7 @@ const LuxuryTemplate: React.FC<
           />
         </section>
 
-        {/* ───────── DATE ───────── */}
+        {/*  DATE  */}
         <section className="text-center border-t border-stone-200 pt-20 space-y-8">
 
           <Calendar className="mx-auto w-5 h-5 text-stone-400" />
@@ -168,7 +168,7 @@ const LuxuryTemplate: React.FC<
           )}
         </section>
 
-        {/* ───────── BLOCKS ───────── */}
+        {/*  BLOCKS  */}
         <section className="space-y-24">
           {visibleBlocks.map((block) => (
             <div key={block.id} className="text-center space-y-6">
@@ -210,7 +210,7 @@ const LuxuryTemplate: React.FC<
           ))}
         </section>
 
-        {/* ───────── RSVP ───────── */}
+        {/*  RSVP  */}
         {profile.showRsvpButton !== false && (
           <section className="text-center pt-10">
             <button

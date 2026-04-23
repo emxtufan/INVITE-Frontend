@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import { BlockStyleCtx, BlockStyleProvider, BlockStyle } from '../BlockStyleContext';
 
-// ─── Asset images ─────────────────────────────────────────────────────────────
+//  Asset images 
 const archWhiteImg   = '/ArchRoseTemplate/arch-white.png';
 const archPinkImg    = '/ArchRoseTemplate/arch-pink.png';
 const rosesCornerImg = '/ArchRoseTemplate/roses-corner.jpg';
@@ -34,13 +34,13 @@ export const meta: TemplateMeta = {
   id: 'arch-rose',
   name: 'Arch & Rose',
   category: 'wedding',
-  description: 'Arcada floreala cu trandafiri · fundal alb clasic, decoratii roz & crem, design romantic de lux.',
+  description: 'Arcada floreala cu trandafiri  fundal alb clasic, decoratii roz & crem, design romantic de lux.',
   colors: ['#f9f0ee', '#c4917a', '#8b4a6b'],
   previewClass: "bg-rose-50 border-rose-300",
   elementsClass: "bg-rose-400",
 };
 
-// ─── Design tokens ─────────────────────────────────────────────────────────────
+//  Design tokens 
 const ROSE     = '#c4917a';   // dusty rose
 const ROSE_D   = '#7a4040';   // deep rose / burgundy
 const ROSE_L   = '#e8c4b8';   // light blush
@@ -55,7 +55,7 @@ const SERIF    = "'Playfair Display','Cormorant Garamond',Georgia,serif";
 const SCRIPT   = "'Great Vibes','Parisienne',cursive,serif";
 const SANS     = "'Raleway','Montserrat',system-ui,sans-serif";
 
-// ─── Shared helpers (photo shape system) ─────────────────────────────────────
+//  Shared helpers (photo shape system) 
 type ClipShape = 'rect'|'rounded'|'rounded-lg'|'squircle'|'circle'|'arch'|'arch-b'|'hexagon'|'diamond'|'triangle'|'star'|'heart'|'diagonal'|'diagonal-r'|'wave-b'|'wave-t'|'wave-both'|'blob'|'blob2'|'blob3'|'blob4';
 type MaskEffect = 'fade-b'|'fade-t'|'fade-l'|'fade-r'|'vignette';
 
@@ -100,7 +100,7 @@ const PhotoClipDefs: React.FC = () => (
   </svg>
 );
 
-// ─── Reveal on scroll ─────────────────────────────────────────────────────────
+//  Reveal on scroll 
 function useReveal(delay = 0) {
   const ref = useRef<HTMLDivElement>(null);
   const [vis, setVis] = useState(false);
@@ -122,7 +122,7 @@ const Reveal: React.FC<{children: React.ReactNode; delay?: number; style?: React
   );
 };
 
-// ─── Rose divider ─────────────────────────────────────────────────────────────
+//  Rose divider 
 const RoseDivider = () => (
   <div style={{display:'flex', alignItems:'center', gap:10}}>
     <div style={{flex:1, height:0.5, background:`linear-gradient(to right, transparent, ${ROSE_L})`}}/>
@@ -142,14 +142,14 @@ const RoseDivider = () => (
   </div>
 );
 
-// ─── Small rose sprig (used as inline decoration) ─────────────────────────────
+//  Small rose sprig (used as inline decoration) 
 const RoseSprig: React.FC<{flip?: boolean; opacity?: number}> = ({flip, opacity=0.18}) => (
   <div style={{pointerEvents:'none', opacity, transform: flip ? 'scaleX(-1)' : undefined, display:'inline-block'}}>
     <img src={rosesSideImg} alt="" style={{width:90, height:90, objectFit:'cover', objectPosition:'top left', mixBlendMode:'multiply'}}/>
   </div>
 );
 
-// ─── Block toolbar ─────────────────────────────────────────────────────────────
+//  Block toolbar 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: any) => (
   <div className="absolute -top-3.5 right-2 flex items-center gap-0.5 rounded-full border shadow-lg px-1.5 py-1 opacity-0 group-hover/block:opacity-100 transition-all z-30 pointer-events-none group-hover/block:pointer-events-auto"
     style={{background: IVORY, borderColor: ROSE_L}}>
@@ -163,7 +163,7 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
   </div>
 );
 
-// ─── Photo placeholder ────────────────────────────────────────────────────────
+//  Photo placeholder 
 interface PhotoPlaceholderProps {
   aspectRatio: string; photoClip: ClipShape; photoMasks: MaskEffect[];
   initial1?: string; initial2?: string; variant?: number; editMode: boolean; onClick: () => void;
@@ -195,7 +195,7 @@ const PhotoPlaceholder: React.FC<PhotoPlaceholderProps> = ({aspectRatio,photoCli
   );
 };
 
-// ─── Photo block ───────────────────────────────────────────────────────────────
+//  Photo block 
 interface PhotoBlockProps {
   imageData: string|undefined; altText?: string; editMode: boolean;
   onUpload:(data:string)=>void; onRemove:()=>void;
@@ -248,7 +248,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
                 <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0.42)'}}/>
                 <button type="button" onClick={()=>fileRef.current?.click()} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'white',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:TEXT}}><Camera className="w-3.5 h-3.5"/> Schimba</button>
                 <button type="button" onClick={handleRemove} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'rgba(220,40,40,0.88)',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:'white'}}><Trash2 className="w-3.5 h-3.5"/> Sterge</button>
-                {isDemoPhoto && <div style={{position:'absolute',bottom:10,left:'50%',transform:'translateX(-50%)',background:'rgba(0,0,0,0.7)',color:'white',borderRadius:99,padding:'4px 14px',fontFamily:SANS,fontSize:9,fontWeight:700,whiteSpace:'nowrap',zIndex:2}}>📷 Fotografie demo</div>}
+                {isDemoPhoto && <div style={{position:'absolute',bottom:10,left:'50%',transform:'translateX(-50%)',background:'rgba(0,0,0,0.7)',color:'white',borderRadius:99,padding:'4px 14px',fontFamily:SANS,fontSize:9,fontWeight:700,whiteSpace:'nowrap',zIndex:2}}> Fotografie demo</div>}
               </div>
             )}
           </div>
@@ -278,7 +278,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
   );
 };
 
-// ─── Calendar ─────────────────────────────────────────────────────────────────
+//  Calendar 
 const CalendarMonth: React.FC<{date: string|undefined}> = ({date}) => {
   if (!date) return null;
   const d = new Date(date);
@@ -306,7 +306,7 @@ const CalendarMonth: React.FC<{date: string|undefined}> = ({date}) => {
   );
 };
 
-// ─── Countdown ────────────────────────────────────────────────────────────────
+//  Countdown 
 function useCountdown(target: string) {
   const calc = () => { const diff=new Date(target).getTime()-Date.now(); if(diff<=0)return{days:0,hours:0,minutes:0,seconds:0,expired:true}; return{days:Math.floor(diff/86400000),hours:Math.floor((diff%86400000)/3600000),minutes:Math.floor((diff%3600000)/60000),seconds:Math.floor((diff%60000)/1000),expired:false}; };
   const [t,setT] = useState(calc);
@@ -346,7 +346,7 @@ const CountdownSection: React.FC<{date: string|undefined}> = ({date}) => {
   );
 };
 
-// ─── Location card ────────────────────────────────────────────────────────────
+//  Location card 
 const LocCard: React.FC<{block: InvitationBlock; editMode: boolean; onUpdate:(p:Partial<InvitationBlock>)=>void; textColorOverride?:string}> = ({block,editMode,onUpdate,textColorOverride}) => {
   const {ref,vis} = useReveal();
   return (
@@ -365,14 +365,14 @@ const LocCard: React.FC<{block: InvitationBlock; editMode: boolean; onUpdate:(p:
   );
 };
 
-// ─── YouTube helpers ──────────────────────────────────────────────────────────
+//  YouTube helpers 
 declare global { interface Window { YT: any; onYouTubeIframeAPIReady:()=>void; } }
 let ytApiLoaded=false, ytApiLoading=false;
 const ytReadyCbs: Array<()=>void> = [];
 function loadYtApi(cb:()=>void){if(ytApiLoaded&&window.YT?.Player){cb();return;}ytReadyCbs.push(cb);if(ytApiLoading)return;ytApiLoading=true;const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);window.onYouTubeIframeAPIReady=()=>{ytApiLoaded=true;ytReadyCbs.forEach(f=>f());ytReadyCbs.length=0;};}
 function extractYoutubeId(url:string):string|null{if(!url)return null;const ps=[/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/)([a-zA-Z0-9_-]{11})/,/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/];for(const p of ps){const m=url.match(p);if(m)return m[1];}return null;}
 
-// ─── YouTube audio player ─────────────────────────────────────────────────────
+//  YouTube audio player 
 const YoutubeAudioPlayer:React.FC<{ytId:string;title:string;artist:string;editMode:boolean;onTitleChange:(v:string)=>void;onArtistChange:(v:string)=>void}>=({ytId,title,artist,editMode,onTitleChange,onArtistChange})=>{
   const cid=useRef(`yt-${ytId}-${Math.random().toString(36).slice(2)}`).current;
   const playerRef=useRef<any>(null);const tickRef=useRef<any>(null);
@@ -417,7 +417,7 @@ const YoutubeAudioPlayer:React.FC<{ytId:string;title:string;artist:string;editMo
   );
 };
 
-// ─── Music player ─────────────────────────────────────────────────────────────
+//  Music player 
 interface MusicPlayerProps { title:string; artist:string; musicUrl:string; musicType:'youtube'|'mp3'|'none'; editMode:boolean; onTitleChange:(v:string)=>void; onArtistChange:(v:string)=>void; onUrlChange:(url:string,type:'youtube'|'mp3'|'none')=>void; }
 
 const MusicPlayer: React.FC<MusicPlayerProps> = ({title,artist,musicUrl,musicType,editMode,onTitleChange,onArtistChange,onUrlChange}) => {
@@ -447,8 +447,8 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({title,artist,musicUrl,musicTyp
           <div style={{marginBottom:10}}>
             <div style={{display:'flex',gap:6}}>
               <input value={ytUrl} onChange={e=>{setYtUrl(e.target.value);setYtError('');}} onKeyDown={e=>{if(e.key==='Enter')submitYt();if(e.key==='Escape'){setShowYtInput(false);setYtError('');setYtUrl('');}}} placeholder="https://youtu.be/..." autoFocus style={{flex:1,background:'rgba(255,255,255,0.12)',border:`1px solid ${ytError?'#ff6b6b':'rgba(255,255,255,0.2)'}`,borderRadius:6,padding:'9px 12px',fontFamily:SANS,fontSize:11,color:'white',outline:'none'}}/>
-              <button type="button" onClick={submitYt} disabled={ytFetching} style={{background:ytFetching?ROSE_L:'white',border:'none',borderRadius:6,padding:'0 14px',cursor:ytFetching?'wait':'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:ROSE_D,whiteSpace:'nowrap'}}>{ytFetching?'Se incarca...':'✓ Adauga'}</button>
-              <button type="button" onClick={()=>{setShowYtInput(false);setYtError('');setYtUrl('');}} style={{background:'rgba(255,255,255,0.1)',border:'none',borderRadius:6,padding:'0 10px',cursor:'pointer',color:'rgba(255,255,255,0.5)',fontSize:14}}>✕</button>
+              <button type="button" onClick={submitYt} disabled={ytFetching} style={{background:ytFetching?ROSE_L:'white',border:'none',borderRadius:6,padding:'0 14px',cursor:ytFetching?'wait':'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:ROSE_D,whiteSpace:'nowrap'}}>{ytFetching?'Se incarca...':' Adauga'}</button>
+              <button type="button" onClick={()=>{setShowYtInput(false);setYtError('');setYtUrl('');}} style={{background:'rgba(255,255,255,0.1)',border:'none',borderRadius:6,padding:'0 10px',cursor:'pointer',color:'rgba(255,255,255,0.5)',fontSize:14}}></button>
             </div>
             {ytError&&<p style={{fontFamily:SANS,fontSize:10,color:'#ff9999',margin:'6px 0 0',lineHeight:1.4}}>{ytError}</p>}
           </div>
@@ -510,7 +510,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({title,artist,musicUrl,musicTyp
   );
 };
 
-// ─── Small block sub-components ───────────────────────────────────────────────
+//  Small block sub-components 
 const Card: React.FC<{children:React.ReactNode; align?:string; roseCorner?:boolean}> = ({children,align='center',roseCorner=false}) => (
   <div style={{background:IVORY, border:`1px solid ${ROSE_L}`, borderRadius:12, padding:'20px 24px', textAlign:align as any, position:'relative', overflow:'hidden'}}>
     {roseCorner && <div style={{position:'absolute',bottom:-12,right:-12,width:70,height:70,pointerEvents:'none',opacity:0.15,transform:'rotate(180deg)'}}><img src={rosesCornerImg} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}}/></div>}
@@ -564,7 +564,7 @@ const ThankyouBlock:React.FC<{block:InvitationBlock;editMode:boolean;onUpdate:(p
   </div>
 );
 
-// ─── Intro animation ──────────────────────────────────────────────────────────
+//  Intro animation 
 const ArchRoseIntro: React.FC<{name1:string; name2:string; date:string; onDone:()=>void}> = ({name1,name2,date,onDone}) => {
   const [phase, setPhase] = useState(0);
   useEffect(()=>{
@@ -592,19 +592,19 @@ const ArchRoseIntro: React.FC<{name1:string; name2:string; date:string; onDone:(
         <p style={{fontFamily:SCRIPT,fontSize:64,color:'white',margin:0,textShadow:'0 4px 30px rgba(90,20,40,0.4)',opacity:phase>=2?1:0,transform:phase>=2?'translateY(0)':'translateY(20px)',transition:'all 1.0s cubic-bezier(0.4,0,0.2,1) 0.2s'}}>{name2}</p>
         <div style={{width:60,height:0.5,background:'rgba(255,255,255,0.4)',margin:'18px 0 14px',opacity:phase>=3?1:0,transition:'opacity 0.6s ease-out'}}/>
         <p style={{fontFamily:SANS,fontSize:12,fontWeight:600,letterSpacing:'0.35em',textTransform:'uppercase',color:'rgba(255,255,255,0.65)',margin:0,opacity:phase>=3?1:0,transition:'opacity 0.6s ease-out 0.2s'}}>{date}</p>
-        <p style={{fontFamily:SANS,fontSize:10,fontWeight:500,color:'rgba(255,255,255,0.4)',margin:'24px 0 0',letterSpacing:'0.15em',opacity:phase>=3?1:0,transition:'opacity 0.5s ease-out 0.5s'}}>atingeti pentru a continua →</p>
+        <p style={{fontFamily:SANS,fontSize:10,fontWeight:500,color:'rgba(255,255,255,0.4)',margin:'24px 0 0',letterSpacing:'0.15em',opacity:phase>=3?1:0,transition:'opacity 0.5s ease-out 0.5s'}}>atingeti pentru a continua </p>
       </div>
     </div>
   );
 };
 
-// ─── EventType badge ──────────────────────────────────────────────────────────
+//  EventType badge 
 const EventTypeBadge: React.FC<{et: string}> = ({et}) => {
   const labels: Record<string,string> = {wedding:'Nunta',baptism:'Botez',kids:'Botez',birthday:'Aniversare',engagement:'Logodna'};
   return <span style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.25em',textTransform:'uppercase',color:MUTED,background:ROSE_XL,padding:'3px 8px',borderRadius:99}}>{labels[et]||'Nunta'}</span>;
 };
 
-// ─── Main template ─────────────────────────────────────────────────────────────
+//  Main template 
 export type ArchRoseProps = InvitationTemplateProps & {
   editMode?: boolean;
   onProfileUpdate?: (patch: Record<string,any>) => void;
@@ -669,21 +669,21 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
   const dateStrShort = d ? `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}` : 'DD.MM.YYYY';
 
   const BLOCK_TYPES = [
-    {type:'photo',      label:'📷 Fotografie',  def:{imageData:undefined,altText:'Fotografie',photoClip:'rect',photoMasks:[]}},
-    {type:'location',   label:'Locatie',         def:{label:'',time:'',locationName:'',locationAddress:''}},
-    {type:'godparents', label:'Nasi',            def:{sectionTitle:'Nasii Nostri',content:''}},
-    {type:'parents',    label:'Parinti',         def:{sectionTitle:'Parintii Nostri',content:''}},
-    {type:'calendar',   label:'📅 Calendar',    def:{}},
-    {type:'countdown',  label:'⏱ Countdown',   def:{}},
-    {type:'music',      label:'🎵 Muzica',      def:{musicTitle:'',musicArtist:''}},
+    {type:'photo',      label:' Fotografie',  def:{imageData:undefined,altText:'Fotografie',photoClip:'rect',photoMasks:[]}},
+    {type:'location',   label: 'Locatie',         def:{label:'',time:'',locationName:'',locationAddress:''}},
+    {type:'godparents', label: 'Nasi',            def:{sectionTitle:'Nasii Nostri',content:''}},
+    {type:'parents',    label: 'Parinti',         def:{sectionTitle:'Parintii Nostri',content:''}},
+    {type:'calendar',   label: 'Calendar',    def:{}},
+    {type:'countdown',  label: 'Countdown',   def:{}},
+    {type:'music',      label: 'Muzica',      def:{musicTitle:'',musicArtist:''}},
     {type:'dresscode',  label:'Dress Code',      def:{sectionTitle:'Cod vestimentar',label:'Elegant',content:''}},
-    {type:'gift',       label:'🎁 Cadouri',     def:{sectionTitle:'Sugestie cadou',content:'',iban:'',ibanName:''}},
+    {type:'gift',       label: 'Cadouri',     def:{sectionTitle:'Sugestie cadou',content:'',iban:'',ibanName:''}},
     {type:'nokids',     label:'Fara copii',      def:{sectionTitle:'Eveniment fara copii',content:''}},
     {type:'quote',      label:'Citat',           def:{content:''}},
     {type:'thankyou',   label:'Multumire',       def:{content:'Multumim din suflet!',label:''}},
-    {type:'text',       label:'Text',            def:{content:''}},
-    {type:'title',      label:'Titlu',           def:{content:''}},
-    {type:'divider',    label:'Linie',           def:{}},
+    {type:'text',       label: 'Text',            def:{content:''}},
+    {type:'title',      label: 'Titlu',           def:{content:''}},
+    {type:'divider',    label: 'Linie',           def:{}},
   ];
 
   return (
@@ -710,7 +710,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
         paddingTop: editMode ? 56 : 0,
       }}>
 
-        {/* ── Fixed rose corner decorations ── */}
+        {/*  Fixed rose corner decorations  */}
         <div style={{position:'fixed',top:0,left:0,zIndex:0,pointerEvents:'none',width:140,height:140,opacity:0.22}}>
           <img src={rosesSideImg} alt="" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'top left'}}/>
         </div>
@@ -729,13 +729,13 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
             style={{background:IVORY,border:`1px solid ${ROSE_L}`,color:ROSE_D,backdropFilter:'blur(8px)'}}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{background:ROSE}}/>
             <span className="uppercase tracking-widest">Editare Directa</span>
-            <span className="font-normal" style={{color:MUTED}}>— click pe orice text</span>
+            <span className="font-normal" style={{color:MUTED}}> click pe orice text</span>
           </div>
         )}
 
         <div style={{maxWidth:460, margin:'0 auto', position:'relative', zIndex:2, padding:'0 0 56px'}}>
 
-          {/* ── HERO — Arch with white flowers ── */}
+          {/*  HERO  Arch with white flowers  */}
           <div style={{position:'relative', width:'100%'}}>
             {/* The arch image fills the hero */}
             <div style={{position:'relative', width:'100%', paddingTop:'130%', overflow:'hidden'}}>
@@ -779,7 +779,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
             </div>
           </div>
 
-          {/* ── Monogram & welcome ── */}
+          {/*  Monogram & welcome  */}
           <Reveal delay={200}>
             <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10,margin:'28px 20px 24px',textAlign:'center'}}>
               {/* Pink arch mini accent */}
@@ -812,7 +812,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
             </Reveal>
           )}
 
-          {/* ── BLOCKS ── */}
+          {/*  BLOCKS  */}
           <div style={{display:'flex',flexDirection:'column',gap:10,padding:'0 20px'}}>
             {displayBlocks.map((block, displayIdx) => {
               const isVisible = block.show!==false;
@@ -843,7 +843,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
                     {editMode&&block.type==='photo'&&(
                       <div className="absolute bottom-1 right-1 opacity-0 group-hover/block:opacity-100 transition-opacity duration-100 pointer-events-none z-10">
                         <div style={{background:isSelected?ROSE:'rgba(0,0,0,0.55)',color:'white',borderRadius:99,padding:'2px 8px',fontSize:9,fontWeight:700,fontFamily:'system-ui',display:'flex',alignItems:'center',gap:4,backdropFilter:'blur(4px)',letterSpacing:'0.04em'}}>
-                          {isSelected?'Activ →':'Stil'}
+                          {isSelected?'Activ ':'Stil'}
                         </div>
                       </div>
                     )}
@@ -904,7 +904,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
             })}
           </div>
 
-          {/* ── ADD BLOCK STRIP ── */}
+          {/*  ADD BLOCK STRIP  */}
           {editMode && (
             <div style={{margin:'16px 20px 0',padding:'16px',border:`2px dashed ${ROSE_L}`,borderRadius:12,background:`${CREAM}88`,textAlign:'center'}}>
               <p style={{fontFamily:SANS,fontSize:9,fontWeight:700,letterSpacing:'0.4em',textTransform:'uppercase',color:MUTED,marginBottom:12}}>Adauga bloc</p>
@@ -919,7 +919,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
             </div>
           )}
 
-          {/* ── Timeline ── */}
+          {/*  Timeline  */}
           {profile.showTimeline && (() => {
             const timeline = safeJSON(profile.timeline,[]);
             if (!timeline.length) return null;
@@ -946,7 +946,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
             );
           })()}
 
-          {/* ── Pink arch accent before RSVP ── */}
+          {/*  Pink arch accent before RSVP  */}
           {showRsvp && (
             <Reveal style={{margin:'20px 20px 0'}}>
               <div style={{textAlign:'center'}}>
@@ -974,14 +974,14 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
             </Reveal>
           )}
 
-          {/* ── Footer ── */}
+          {/*  Footer  */}
           <Reveal style={{marginTop:40,textAlign:'center',padding:'0 20px'}}>
             <RoseDivider/>
             <div style={{marginTop:16,display:'flex',justifyContent:'center',gap:8,opacity:0.25}}>
               <img src={rosesCornerImg} alt="" style={{width:40,height:40,objectFit:'cover',objectPosition:'top left',borderRadius:'50%'}}/>
               <img src={rosesCornerImg} alt="" style={{width:40,height:40,objectFit:'cover',objectPosition:'top left',borderRadius:'50%',transform:'scaleX(-1)'}}/>
             </div>
-            <p style={{fontFamily:SERIF,fontSize:11,fontStyle:'italic',color:`${MUTED}88`,marginTop:12}}>cu drag · WeddingPro</p>
+            <p style={{fontFamily:SERIF,fontSize:11,fontStyle:'italic',color:`${MUTED}88`,marginTop:12}}>cu drag  WeddingPro</p>
           </Reveal>
         </div>
       </div>
@@ -990,3 +990,4 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
 };
 
 export default ArchRoseTemplate;
+

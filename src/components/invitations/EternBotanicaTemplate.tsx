@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronUp, ChevronDown, Eye, EyeOff, Trash2, Plus, Upload, Camera, Music, Play, Pause, SkipBack, SkipForward, Gift, MessageCircle } from "lucide-react";
 import { InvitationTemplateProps, TemplateMeta } from "./types";
 import { cn } from "../../lib/utils";
@@ -6,21 +6,22 @@ import { InvitationBlock } from "../../types";
 import { InlineEdit, InlineTime, InlineWaze } from "./InlineEdit";
 import { BlockStyleProvider, BlockStyle } from "../BlockStyleContext";
 import FlipClock from "./FlipClock";
-import { ETERN_BOTANICA_THEMES } from "./castleDefaults";
+import { ETERN_BOTANICA_THEMES } from "../invitations/castleDefaults";
 import { WeddingIcon } from "../TimelineIcons";
 import { API_URL } from "../../config/api";
+import { getSharedDefaultBlocks } from "../simple-templates/shared-default-blocks";
 
 export const meta: TemplateMeta = {
   id: 'etern-botanica',
   name: 'Etern Botanica',
   category: 'wedding',
-  description: 'Botanica acuarela — trandafiri pastel, ramuri aurii, silueta mireasa, cadru geometric gold.',
+  description: 'Botanica acuarela  trandafiri pastel, ramuri aurii, silueta mireasa, cadru geometric gold.',
   colors: ['#fdfaf7', '#f2c4ce', '#c9a84c'],
   previewClass: "bg-rose-50 border-rose-200",
   elementsClass: "bg-rose-300",
 };
 
-// ─── Tokens ───────────────────────────────────────────────────────────────────
+//  Tokens 
 let IVORY  = '#fdfaf7';
 let CREAM  = '#f5f0e8';
 let TEXT   = '#2a2118';
@@ -45,111 +46,74 @@ function deleteUploadedFile(url: string | undefined) {
   }).catch(() => {});
 }
 
-export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
-  {
-    id: "etern-photo-1",
-    type: "photo" as const,
-    show: true,
-    imageData: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80",
-    altText: "Fotografie cuplu",
-    aspectRatio: "3:4" as const,
-    photoClip: "rounded" as any,
-    photoMasks: [] as any,
-  },
-  { id: "etern-title-1", type: "title" as const, show: true, content: "Ceremonia" },
-  {
-    id: "etern-location-1",
-    type: "location" as const,
-    show: true,
-    label: "Cununia religioasa",
-    time: "16:00",
-    locationName: "Biserica Sf. Nicolae",
-    locationAddress: "Strada Principala nr. 10, Bucuresti",
-    wazeLink: "",
-  },
-  { id: "etern-divider-1", type: "divider" as const, show: true },
-  { id: "etern-title-2", type: "title" as const, show: true, content: "Petrecerea" },
-  {
-    id: "etern-location-2",
-    type: "location" as const,
-    show: true,
-    label: "Receptia",
-    time: "19:00",
-    locationName: "Salon Botanica",
-    locationAddress: "Bulevardul Unirii nr. 45, Bucuresti",
-    wazeLink: "",
-  },
-  { id: "etern-countdown-1", type: "countdown" as const, show: true, countdownTitle: "Timp ramas pana la marele eveniment" },
-  { id: "etern-timeline-1", type: "timeline" as any, show: true, sectionTitle: "Programul Zilei" },
-  { id: "etern-music-1", type: "music" as const, show: true, musicTitle: "", musicArtist: "", musicType: "none" as any },
-  { id: "etern-text-1", type: "text" as const, show: true, content: "Va asteptam cu drag sa celebram impreuna o zi speciala din povestea noastra." },
-];
+export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = getSharedDefaultBlocks("etern-botanica-simple");
 
 const cloneDefaultBlocks = (): InvitationBlock[] =>
   JSON.parse(JSON.stringify(CASTLE_DEFAULT_BLOCKS)) as InvitationBlock[];
 
 const ETERN_BLOCK_TYPES: Array<{ type: string; label: string; def: Partial<InvitationBlock> }> = [
-  { type: "photo", label: "📷 Foto", def: { imageData: undefined, altText: "", aspectRatio: "1:1", photoClip: "rect", photoMasks: [] } },
-  { type: "location", label: "Locatie", def: { label: "", time: "", locationName: "", locationAddress: "", wazeLink: "" } },
-  { type: "godparents", label: "Nasi", def: { sectionTitle: "Nasii Nostri", content: "" } },
-  { type: "parents", label: "Parinti", def: { sectionTitle: "Parintii Nostri", content: "" } },
-  { type: "calendar", label: "📅 Calendar", def: {} },
-  { type: "countdown", label: "⏱ Countdown", def: { countdownTitle: "Timp ramas pana la marele eveniment" } },
-  { type: "timeline", label: "🕒 Cronologie", def: { sectionTitle: "Programul Zilei" } },
-  { type: "music", label: "🎵 Muzica", def: { musicTitle: "", musicArtist: "", musicType: "none" } },
-  { type: "gift", label: "🎁 Cadouri", def: { sectionTitle: "Sugestie cadou", content: "", iban: "", ibanName: "" } },
-  { type: "whatsapp", label: "💬 WhatsApp", def: { label: "Contact WhatsApp", content: "0700000000" } },
-  { type: "rsvp", label: "RSVP", def: { label: "Confirma prezenta" } },
-  { type: "family", label: "👨‍👩‍👧 Familie", def: { label: "Parintii copilului", content: "Cu drag si recunostinta", members: JSON.stringify([{ name1: "Mama", name2: "Tata" }]) } },
-  { type: "date", label: "📆 Data", def: {} },
-  { type: "description", label: "Descriere", def: { content: "O scurta descriere..." } },
-  { type: "text", label: "Text", def: { content: "" } },
-  { type: "title", label: "Titlu", def: { content: "" } },
-  { type: "divider", label: "Linie", def: {} },
+  { type: "photo", label: 'Foto', def: { imageData: undefined, altText: "", aspectRatio: "1:1", photoClip: "rect", photoMasks: [] } },
+  { type: "location", label: 'Locatie', def: { label: "", time: "", locationName: "", locationAddress: "", wazeLink: "" } },
+  { type: "godparents", label: 'Nasi', def: { sectionTitle: "Nasii Nostri", content: "" } },
+  { type: "parents", label: 'Parinti', def: { sectionTitle: "Parintii Nostri", content: "" } },
+  { type: "calendar", label: 'Calendar', def: {} },
+  { type: "countdown", label: 'Countdown', def: { countdownTitle: "Timp ramas pana la marele eveniment" } },
+  { type: "timeline", label: 'Cronologie', def: { sectionTitle: "Programul Zilei" } },
+  { type: "music", label: 'Muzica', def: { musicTitle: "", musicArtist: "", musicType: "none" } },
+  { type: "gift", label: 'Cadouri', def: { sectionTitle: "Sugestie cadou", content: "", iban: "", ibanName: "" } },
+  { type: "whatsapp", label: 'WhatsApp', def: { label: 'WhatsApp', content: "0700000000" } },
+  { type: "rsvp", label: 'RSVP', def: { label: "Confirma prezenta" } },
+  { type: "family", label: 'Familie', def: { label: "Parintii copilului", content: "Cu drag si recunostinta", members: JSON.stringify([{ name1: "Mama", name2: "Tata" }]) } },
+  { type: "date", label: 'Data', def: {} },
+  { type: "description", label: 'Descriere', def: { content: "O scurta descriere..." } },
+  { type: "text", label: 'Text', def: { content: "" } },
+  { type: "title", label: 'Titlu', def: { content: "" } },
+  { type: "divider", label: 'Linie', def: {} },
 ];
 
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: "🖼",
-  text: "✏",
-  location: "📍",
-  calendar: "📅",
-  countdown: "⏱",
-  timeline: "🕒",
-  music: "🎵",
-  gift: "🎁",
-  whatsapp: "💬",
-  rsvp: "✉",
-  divider: "—",
-  family: "👨‍👩‍👧",
-  date: "📆",
-  description: "📝",
-  godparents: "💒",
-  parents: "👪",
-  title: "Aa",
+  photo: "\u{1F5BC}",
+  text: "\u{1F4DD}",
+  location: "\u{1F4CD}",
+  calendar: "\u{1F4C5}",
+  countdown: "\u23F1",
+  timeline: "\u23F0",
+  music: "\u{1F3B5}",
+  gift: "\u{1F381}",
+  whatsapp: "\u{1F4AC}",
+  rsvp: "\u2705",
+  divider: "\u2501",
+  family: "\u{1F46A}",
+  date: "\u{1F4C6}",
+  description: "\u{1F4C4}",
+  title: "\u{1F3F7}",
+  godparents: "\u{1F64F}",
+  parents: "\u{1F46B}",
+  spacer: "\u2B1C",
 };
 
 const TIMELINE_PRESETS = [
-  { icon: "diamond", emoji: "💍", title: "Pregatirea mirilor" },
-  { icon: "dress", emoji: "👗", title: "Imbracarea miresei" },
-  { icon: "ceremony", emoji: "⛪", title: "Ceremonia civila" },
-  { icon: "candles", emoji: "🕯", title: "Ceremonia religioasa" },
-  { icon: "photo", emoji: "📷", title: "Sedinta foto" },
-  { icon: "arch", emoji: "🌸", title: "Intrarea in sala" },
-  { icon: "dance", emoji: "💃", title: "Dansul mirilor" },
-  { icon: "cocktails", emoji: "🍸", title: "Cocktail & aperitiv" },
-  { icon: "dinner", emoji: "🍽", title: "Masa festiva" },
-  { icon: "music", emoji: "🎵", title: "Muzica live" },
-  { icon: "mic", emoji: "🎤", title: "Toast & discursuri" },
-  { icon: "cake", emoji: "🎂", title: "Taierea tortului" },
-  { icon: "bouquet", emoji: "💐", title: "Aruncarea buchetului" },
-  { icon: "champagne", emoji: "🥂", title: "Sampanie & felicitari" },
-  { icon: "car", emoji: "🚗", title: "Plecare miri" },
-  { icon: "disco", emoji: "🪩", title: "After party" },
-  { icon: "fireworks", emoji: "🎆", title: "Focuri de artificii" },
-  { icon: "moon", emoji: "🌙", title: "Finalul evenimentului" },
+  { icon: "diamond", emoji: "??", title: "Pregatirea mirilor" },
+  { icon: "dress", emoji: "??", title: "Imbracarea miresei" },
+  { icon: "ceremony", emoji: "?", title: "Ceremonia civila" },
+  { icon: "candles", emoji: "??", title: "Ceremonia religioasa" },
+  { icon: "photo", emoji: "??", title: "Sedinta foto" },
+  { icon: "arch", emoji: "??", title: "Intrarea in sala" },
+  { icon: "dance", emoji: "??", title: "Dansul mirilor" },
+  { icon: "cocktails", emoji: "??", title: "Cocktail & aperitiv" },
+  { icon: "dinner", emoji: "??", title: "Masa festiva" },
+  { icon: "music", emoji: "??", title: "Muzica live" },
+  { icon: "mic", emoji: "??", title: "Toast & discursuri" },
+  { icon: "cake", emoji: "??", title: "Taierea tortului" },
+  { icon: "bouquet", emoji: "??", title: "Aruncarea buchetului" },
+  { icon: "champagne", emoji: "??", title: "Sampanie & felicitari" },
+  { icon: "car", emoji: "??", title: "Plecare miri" },
+  { icon: "disco", emoji: "??", title: "After party" },
+  { icon: "fireworks", emoji: "??", title: "Focuri de artificii" },
+  { icon: "moon", emoji: "??", title: "Finalul evenimentului" },
 ];
 
-// ─── SVG: Watercolor rose cluster ─────────────────────────────────────────────
+//  SVG: Watercolor rose cluster 
 const RoseCluster: React.FC<{ flip?: boolean; scale?: number; style?: React.CSSProperties }> =
   ({ flip, scale = 1, style }) => (
   <svg viewBox="0 0 320 280" fill="none"
@@ -161,7 +125,7 @@ const RoseCluster: React.FC<{ flip?: boolean; scale?: number; style?: React.CSSP
       <filter id="eb-blur3"><feGaussianBlur stdDeviation="1.5"/></filter>
     </defs>
 
-    {/* Watercolor blobs — diffuse background wash */}
+    {/* Watercolor blobs  diffuse background wash */}
     <ellipse cx="110" cy="110" rx="100" ry="80" fill="#f9d8e0" opacity="0.35" filter="url(#eb-blur2)"/>
     <ellipse cx="180" cy="80" rx="80" ry="60" fill="#f2c4ce" opacity="0.28" filter="url(#eb-blur2)"/>
     <ellipse cx="80" cy="160" rx="70" ry="55" fill="#e8f5e0" opacity="0.3" filter="url(#eb-blur2)"/>
@@ -174,7 +138,7 @@ const RoseCluster: React.FC<{ flip?: boolean; scale?: number; style?: React.CSSP
     <path d="M120 70 C135 50 155 38 175 30 C195 22 220 20 250 25"
       stroke={GREEN_D} strokeWidth="1.3" fill="none" strokeLinecap="round" opacity="0.55"/>
 
-    {/* Eucalyptus leaves — left stem */}
+    {/* Eucalyptus leaves  left stem */}
     {[
       [75, 150, -35], [85, 128, -28], [94, 108, -22],
       [103, 90, -18], [112, 74, -12],
@@ -212,7 +176,7 @@ const RoseCluster: React.FC<{ flip?: boolean; scale?: number; style?: React.CSSP
       <circle key={i} cx={x} cy={y} r="2.5" fill={GOLD} opacity="0.7"/>
     ))}
 
-    {/* ── Main roses ── */}
+    {/*  Main roses  */}
     {/* Large center rose */}
     {[0, 45, 90, 135, 180, 225, 270, 315].map((a, i) => {
       const rad = (a * Math.PI) / 180;
@@ -297,7 +261,7 @@ const RoseCluster: React.FC<{ flip?: boolean; scale?: number; style?: React.CSSP
   </svg>
 );
 
-// ─── SVG: Gold geometric frame ────────────────────────────────────────────────
+//  SVG: Gold geometric frame 
 const GoldFrame: React.FC<{ w: number; h: number; phase: number }> = ({ w, h, phase }) => {
   const pad = 18;
   const innerPad = 36;
@@ -359,7 +323,7 @@ const GoldFrame: React.FC<{ w: number; h: number; phase: number }> = ({ w, h, ph
   );
 };
 
-// ─── SVG: Couple silhouette ───────────────────────────────────────────────────
+//  SVG: Couple silhouette 
 const CoupleSilhouette: React.FC<{ style?: React.CSSProperties }> = ({ style }) => (
   <svg viewBox="0 0 200 280" fill="none" style={{ width: 160, height: 224, pointerEvents: 'none', ...style }}>
     {/* Groom */}
@@ -421,12 +385,12 @@ const CoupleSilhouette: React.FC<{ style?: React.CSSProperties }> = ({ style }) 
   </svg>
 );
 
-// ─── Intro animation ───────────────────────────────────────────────────────────
+//  Intro animation 
 const BotanicaIntro: React.FC<{
   name1: string; name2: string; date: string; isBaptism: boolean; onDone: () => void;
 }> = ({ name1, name2, date, isBaptism, onDone }) => {
   const [phase, setPhase] = useState(0);
-  // 0→bg | 1→frame draws | 2→corner ornaments | 3→flourish | 4→florals bloom | 5→names | 6→couple | 7→hold | 8→fade
+  // 0bg | 1frame draws | 2corner ornaments | 3flourish | 4florals bloom | 5names | 6couple | 7hold | 8fade
 
   useEffect(() => {
     const ts = [
@@ -485,7 +449,7 @@ const BotanicaIntro: React.FC<{
         <GoldFrame w={IW} h={IH} phase={phase}/>
       </div>
 
-      {/* Florals — top left */}
+      {/* Florals  top left */}
       <div style={{
         position: 'absolute', top: -20, left: -20, zIndex: 2,
         opacity: phase >= 4 ? 1 : 0, transform: phase >= 4 ? 'scale(1)' : 'scale(0.7)',
@@ -495,7 +459,7 @@ const BotanicaIntro: React.FC<{
         <RoseCluster scale={0.9}/>
       </div>
 
-      {/* Florals — bottom right (flipped) */}
+      {/* Florals  bottom right (flipped) */}
       <div style={{
         position: 'absolute', bottom: -20, right: -20, zIndex: 2,
         opacity: phase >= 4 ? 1 : 0, transform: phase >= 4 ? 'scale(1)' : 'scale(0.7)',
@@ -572,7 +536,7 @@ const BotanicaIntro: React.FC<{
   );
 };
 
-// ─── Countdown ────────────────────────────────────────────────────────────────
+//  Countdown 
 function useCountdown(target: string) {
   const calc = () => {
     const diff = new Date(target).getTime() - Date.now();
@@ -587,7 +551,7 @@ function useCountdown(target: string) {
   return t;
 }
 
-// ─── Scroll reveal ────────────────────────────────────────────────────────────
+//  Scroll reveal 
 function useReveal(delay = 0) {
   const ref  = useRef<HTMLDivElement>(null);
   const [vis, setVis] = useState(false);
@@ -614,7 +578,7 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; style?: Reac
   );
 };
 
-// ─── Decorative dividers ──────────────────────────────────────────────────────
+//  Decorative dividers 
 const RoseDivider = () => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
     <div style={{ flex: 1, height: 0.6, background: `linear-gradient(to right, transparent, ${ROSE}55)` }}/>
@@ -643,7 +607,7 @@ const GoldLineDivider = () => (
   </div>
 );
 
-// ─── Block toolbar ────────────────────────────────────────────────────────────
+//  Block toolbar 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: any) => (
   <div className="absolute -top-3.5 right-2 flex items-center gap-0.5 rounded-full border shadow-lg px-1.5 py-1 opacity-0 group-hover/block:opacity-100 transition-all z-30 pointer-events-none group-hover/block:pointer-events-auto"
     style={{ background: IVORY, borderColor: `${ROSE}55` }}>
@@ -692,7 +656,7 @@ const InsertBlockButton: React.FC<{
           transform: visible ? "scale(1)" : "scale(0.7)",
           zIndex: 2, position: "relative", lineHeight: 1, fontWeight: 700,
         }}
-      >{isOpen ? "×" : "+"}</button>
+      >{isOpen ? "" : "+"}</button>
 
       {isOpen && (
         <div
@@ -734,10 +698,14 @@ const InsertBlockButton: React.FC<{
   );
 };
 
-// ─── Location card ────────────────────────────────────────────────────────────
+//  Location card 
 const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (p: Partial<InvitationBlock>) => void; idx?: number }> =
   ({ block, editMode, onUpdate, idx = 0 }) => {
   const { ref, vis } = useReveal(idx * 90);
+  const hasWaze = !!String(block.wazeLink || "").trim();
+  const mapsUrl = String(block.locationAddress || "").trim()
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(String(block.locationAddress || "").trim())}`
+    : "";
   return (
     <div ref={ref} style={{
       background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(8px)',
@@ -769,16 +737,70 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
             style={{ fontFamily: SANS, fontSize: 11, color: MUTED, margin: 0, lineHeight: 1.5 }}/>
         </div>
       </div>
-      {(block.wazeLink || editMode) && (
-        <div style={{ marginTop: 12 }}>
+      {(block.wazeLink || block.locationAddress || editMode) && (
+        <div style={{ marginTop: 12, display: "grid", gap: 8 }}>
           <InlineWaze value={block.wazeLink || ''} onChange={v => onUpdate({ wazeLink: v })} editMode={editMode}/>
+          <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 8 }}>
+            <a
+              href={hasWaze ? String(block.wazeLink) : "#"}
+              target={hasWaze ? "_blank" : undefined}
+              rel={hasWaze ? "noopener noreferrer" : undefined}
+              onClick={(e) => { if (!hasWaze) e.preventDefault(); }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "7px 12px",
+                borderRadius: 999,
+                fontFamily: SANS,
+                fontSize: 10,
+                fontWeight: 800,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                background: hasWaze ? `linear-gradient(135deg, ${ROSE_D}, ${TEXT})` : "rgba(255,255,255,0.75)",
+                color: hasWaze ? "white" : MUTED,
+                border: hasWaze ? `1px solid ${ROSE_D}` : `1px solid ${ROSE}66`,
+                boxShadow: hasWaze ? "0 6px 18px rgba(180,138,104,0.28)" : "none",
+                cursor: hasWaze ? "pointer" : "not-allowed",
+              }}
+            >
+              Waze
+            </a>
+            <a
+              href={mapsUrl || "#"}
+              target={mapsUrl ? "_blank" : undefined}
+              rel={mapsUrl ? "noopener noreferrer" : undefined}
+              onClick={(e) => { if (!mapsUrl) e.preventDefault(); }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "7px 12px",
+                borderRadius: 999,
+                fontFamily: SANS,
+                fontSize: 10,
+                fontWeight: 800,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                background: mapsUrl ? `linear-gradient(135deg, ${TEXT}, ${ROSE_D})` : "rgba(255,255,255,0.75)",
+                color: mapsUrl ? "white" : MUTED,
+                border: mapsUrl ? `1px solid ${TEXT}` : `1px solid ${ROSE}66`,
+                boxShadow: mapsUrl ? "0 6px 18px rgba(42,33,24,0.22)" : "none",
+                cursor: mapsUrl ? "pointer" : "not-allowed",
+              }}
+            >
+              Maps
+            </a>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-// ─── Card wrapper ─────────────────────────────────────────────────────────────
+//  Card wrapper 
 const Card: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> = ({ children, style }) => (
   <div style={{
     background: 'rgba(255,255,255,0.68)', backdropFilter: 'blur(8px)',
@@ -1082,7 +1104,7 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ─── Main template ─────────────────────────────────────────────────────────────
+//  Main template 
 export type EternBotanicaProps = InvitationTemplateProps & {
   editMode?: boolean;
   onProfileUpdate?: (patch: Record<string, any>) => void;
@@ -1095,17 +1117,25 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
   data, onOpenRSVP, editMode = false, introPreview = false, onProfileUpdate, onBlocksUpdate, onBlockSelect, selectedBlockId,
 }) => {
   const { profile, guest } = data;
+  const isPublicInvite = !!data.isPublic;
+  const guestDisplayName = isPublicInvite ? "Drag invitat" : (guest?.name || "");
   const [showIntro, setShowIntro]     = useState(!editMode || introPreview);
   const [contentVis, setContentVis]   = useState(editMode && !introPreview);
   const [framePhase, setFramePhase]   = useState(0);
 
   useEffect(() => {
-    if (editMode) {
-      if (introPreview) { setShowIntro(true); setContentVis(false); }
-      else { setShowIntro(false); setContentVis(true); }
-    } else {
-      setShowIntro(true); setContentVis(false);
+    if (introPreview) {
+      setShowIntro(false);
+      setContentVis(true);
+      return;
     }
+    if (editMode) {
+      setShowIntro(false);
+      setContentVis(true);
+      return;
+    }
+    setShowIntro(true);
+    setContentVis(false);
   }, [editMode, introPreview]);
 
   useEffect(() => {
@@ -1217,7 +1247,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
       return nb;
     });
   }, [onBlocksUpdate]);
-  const BLOCK_TYPES: { type: string; label: string; def: any }[] = ETERN_BLOCK_TYPES;
+  const BLOCK_TYPES: { type: string; label: string; def: any }[] = ETERN_BLOCK_TYPES.filter((b) => b.type !== "calendar");
   const handleInsertAt = useCallback((afterIdx: number, type: string, def: any) => {
     if (type === "timeline") {
       const items = getTimelineItems();
@@ -1318,11 +1348,11 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
           </svg>
         </div>
 
-        {/* Florals top left — fixed decorative */}
+        {/* Florals top left  fixed decorative */}
         <div style={{ position: 'fixed', top: -20, left: -20, zIndex: 0, pointerEvents: 'none' }}>
           <RoseCluster scale={0.72}/>
         </div>
-        {/* Florals bottom right — fixed decorative */}
+        {/* Florals bottom right  fixed decorative */}
         <div style={{ position: 'fixed', bottom: -20, right: -20, zIndex: 0, pointerEvents: 'none' }}>
           <RoseCluster flip scale={0.65}/>
         </div>
@@ -1343,13 +1373,13 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
             style={{ background: IVORY, border: `1px solid ${ROSE}44`, color: ROSE_D, backdropFilter: 'blur(8px)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: ROSE }}/>
             <span className="uppercase tracking-widest">Editare Directa</span>
-            <span className="font-normal" style={{ color: MUTED }}>— click pe orice text</span>
+            <span className="font-normal" style={{ color: MUTED }}> click pe orice text</span>
           </div>
         )}
 
         <div style={{ width: '100%', maxWidth: 460, margin: '0 auto', position: 'relative', zIndex: 2, padding: '0 24px 56px' }}>
 
-          {/* ── HERO ── */}
+          {/*  HERO  */}
           <div style={{ textAlign: 'center', padding: editMode ? '28px 0 36px' : '56px 0 36px' }}>
 
             {/* Welcome text */}
@@ -1363,7 +1393,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
               </Reveal>
             )}
 
-            {/* ── NAMES — centerpiece ── */}
+            {/*  NAMES  centerpiece  */}
             {isBaptism ? (
               <Reveal delay={150}>
                 <InlineEdit tag="h1" editMode={editMode} value={profile.partner1Name || ''}
@@ -1412,46 +1442,35 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
               <div style={{ margin: '24px 0' }}><RoseDivider/></div>
             </Reveal>
 
-            {/* Date — big typographic treatment */}
+            {/* Date  big typographic treatment */}
             <Reveal delay={520}>
-              {editMode ? (
-                <input type="date"
-                  value={profile.weddingDate ? new Date(profile.weddingDate).toISOString().split('T')[0] : ''}
-                  onChange={e => upProfile('weddingDate', e.target.value)}
-                  style={{ fontFamily: SERIF, fontSize: 18, fontWeight: 300, fontStyle: 'italic', color: TEXT,
-                    background: 'transparent', border: 'none',
-                    borderBottom: `1px solid ${ROSE}44`, outline: 'none',
-                    textAlign: 'center', cursor: 'pointer', padding: '2px 0',
-                    display: 'block', margin: '0 auto 4px', width: 'auto' }}/>
-              ) : (
-                <div>
-                  {/* Day of week + day number + month */}
-                  {d && (
-                    <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 14, marginBottom: 4 }}>
-                      <div style={{ textAlign: 'right' }}>
-                        <p style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.38em',
-                          textTransform: 'uppercase', color: MUTED, margin: 0 }}>
-                          {d.toLocaleDateString('ro-RO', { weekday: 'long' }).toUpperCase()}
-                        </p>
-                        <div style={{ width: '100%', height: 0.5, background: `${MUTED}44`, marginTop: 3 }}/>
-                      </div>
-                      <span style={{ fontFamily: SERIF, fontSize: 56, fontWeight: 300, color: TEXT, lineHeight: 0.9 }}>
-                        {d.getDate()}
-                      </span>
-                      <div style={{ textAlign: 'left' }}>
-                        <p style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.38em',
-                          textTransform: 'uppercase', color: MUTED, margin: 0 }}>
-                          {d.toLocaleDateString('ro-RO', { month: 'long', year: 'numeric' }).toUpperCase()}
-                        </p>
-                        <div style={{ width: '100%', height: 0.5, background: `${MUTED}44`, marginTop: 3 }}/>
-                      </div>
+              <div>
+                {/* Day of week + day number + month */}
+                {d && (
+                  <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 14, marginBottom: 4 }}>
+                    <div style={{ textAlign: 'right' }}>
+                      <p style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.38em',
+                        textTransform: 'uppercase', color: MUTED, margin: 0 }}>
+                        {d.toLocaleDateString('ro-RO', { weekday: 'long' }).toUpperCase()}
+                      </p>
+                      <div style={{ width: '100%', height: 0.5, background: `${MUTED}44`, marginTop: 3 }}/>
                     </div>
-                  )}
-                  {!d && (
-                    <p style={{ fontFamily: SERIF, fontSize: 18, fontStyle: 'italic', color: TEXT }}>{dateStrFull}</p>
-                  )}
-                </div>
-              )}
+                    <span style={{ fontFamily: SERIF, fontSize: 56, fontWeight: 300, color: TEXT, lineHeight: 0.9 }}>
+                      {d.getDate()}
+                    </span>
+                    <div style={{ textAlign: 'left' }}>
+                      <p style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.38em',
+                        textTransform: 'uppercase', color: MUTED, margin: 0 }}>
+                        {d.toLocaleDateString('ro-RO', { month: 'long', year: 'numeric' }).toUpperCase()}
+                      </p>
+                      <div style={{ width: '100%', height: 0.5, background: `${MUTED}44`, marginTop: 3 }}/>
+                    </div>
+                  </div>
+                )}
+                {!d && (
+                  <p style={{ fontFamily: SERIF, fontSize: 18, fontStyle: 'italic', color: TEXT }}>{dateStrFull}</p>
+                )}
+              </div>
             </Reveal>
 
             {/* Countdown */}
@@ -1462,7 +1481,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                     <span style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.4em',
                       textTransform: 'uppercase', color: MUTED, padding: '4px 16px', borderRadius: 99,
                       background: `${ROSE}12`, border: `1px solid ${ROSE}35` }}>
-                      ✿ Timp ramas
+                       Timp ramas
                     </span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: 6 }}>
@@ -1503,7 +1522,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
             </Reveal>
 
             {/* Guest badge */}
-            {guest?.name && (
+            {guestDisplayName && (
               <Reveal delay={660}>
                 <div style={{ display: 'inline-block', border: `1px solid ${ROSE}44`,
                   borderRadius: 2, padding: '14px 28px', margin: '0 0 8px',
@@ -1511,13 +1530,13 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                   <p style={{ fontFamily: SANS, fontSize: 8, fontWeight: 700, letterSpacing: '0.44em',
                     textTransform: 'uppercase', color: MUTED, margin: '0 0 6px' }}>Draga</p>
                   <p style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 300, fontStyle: 'italic',
-                    color: TEXT, margin: 0 }}>{guest.name}</p>
+                    color: TEXT, margin: 0 }}>{guestDisplayName}</p>
                 </div>
               </Reveal>
             )}
           </div>
 
-          {/* ── BLOCKS ── */}
+          {/*  BLOCKS  */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {editMode && (
               <InsertBlockButton
@@ -1532,18 +1551,19 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
               const isVisible = block.show !== false;
               const realIdx   = blocks.indexOf(block);
               const locIdx    = displayBlocks.filter((b, i) => i < displayIdx && b.type === 'location').length;
+              const isCalendarLocked = block.type === "calendar";
 
               return (
                 <div key={block.id} className="group/insert">
                 <div className={cn("relative group/block", !isVisible && editMode && "opacity-30")}
-                  onClick={editMode ? () => onBlockSelect?.(block, realIdx) : undefined}
-                  style={editMode ? {
+                  onClick={editMode && !isCalendarLocked ? () => onBlockSelect?.(block, realIdx) : undefined}
+                  style={editMode && !isCalendarLocked ? {
                     cursor: "pointer",
                     outline: selectedBlockId === block.id ? `2px solid ${ROSE_D}` : "none",
                     outlineOffset: 4,
                     borderRadius: 8,
                   } : undefined}>
-                  {editMode && (
+                  {editMode && !isCalendarLocked && (
                     <BlockToolbar
                       onUp={() => movBlock(realIdx, -1)} onDown={() => movBlock(realIdx, 1)}
                       onToggle={() => updBlock(realIdx, { show: !isVisible })} onDelete={() => delBlock(realIdx)}
@@ -1847,7 +1867,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                                         lineHeight: 1,
                                       }}
                                     >
-                                      ✕
+                                      
                                     </button>
                                   )}
                                 </div>
@@ -2142,7 +2162,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
             </Reveal>
           )}
 
-          {/* Couple silhouette — above RSVP */}
+          {/* Couple silhouette  above RSVP */}
           <Reveal delay={100}>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20, marginBottom: -8 }}>
               <div style={{ animation: contentVis ? 'eb-couple-float 5s ease-in-out infinite' : 'none' }}>
@@ -2152,7 +2172,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
           </Reveal>
 
           {/* RSVP */}
-          {showRsvp && (
+          {/* {showRsvp && (
             <Reveal>
               <div style={{ marginTop: 8, textAlign: 'center' }}>
                 <RoseDivider/>
@@ -2187,7 +2207,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
                 </div>
               </div>
             </Reveal>
-          )}
+          )} */}
 
           {/* Footer */}
           <Reveal delay={150}>
@@ -2195,7 +2215,7 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
               <GoldLineDivider/>
               <p style={{ fontFamily: SERIF, fontSize: 11, fontStyle: 'italic',
                 color: `${MUTED}88`, marginTop: 14 }}>
-                cu drag · WeddingPro
+                cu drag  WeddingPro
               </p>
             </div>
           </Reveal>
@@ -2206,3 +2226,4 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
 };
 
 export default EternBotanicaTemplate;
+

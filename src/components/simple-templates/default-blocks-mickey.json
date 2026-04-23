@@ -1,0 +1,88 @@
+[
+  {
+    "id": "mm-photo-1",
+    "type": "photo",
+    "show": true,
+    "imageData": "/mickey-mouse/mickey-mouse-birthday.jpg",
+    "altText": "Fotografia micutului erou",
+    "aspectRatio": "3:4",
+    "photoClip": "arch",
+    "photoMasks": ["fade-b"]
+  },
+  {
+    "id": "mm-text-1",
+    "type": "text",
+    "show": true,
+    "content": "Oh boy! Cu bucurie si entuziasm va invitam sa fiti parte din aceasta zi magica, plina de voie buna, ras si amintiri de neuitat!"
+  },
+  { "id": "mm-calendar", "type": "calendar", "show": true },
+  { "id": "mm-divider-1", "type": "divider", "show": true },
+  {
+    "id": "mm-text-2",
+    "type": "text",
+    "show": true,
+    "content": "Alaturi de cei dragi care ne sunt ghid si ancora la fiecare pas al acestei minunate aventuri."
+  },
+  {
+    "id": "mm-family-1",
+    "type": "family",
+    "show": true,
+    "label": "Parintii",
+    "content": "Cu drag si recunostinta",
+    "members": "[{\"name1\":\"Mama\",\"name2\":\"Tata\"}]"
+  },
+  {
+    "id": "mm-family-2",
+    "type": "family",
+    "show": true,
+    "label": "Nasii",
+    "content": "Cu drag si recunostinta",
+    "members": "[{\"name1\":\"Nasa\",\"name2\":\"Nasul\"}]"
+  },
+  {
+    "id": "mm-text-3",
+    "type": "text",
+    "show": true,
+    "content": "Momentele speciale ale acestei zile vor avea loc in urmatoarele locatii:"
+  },
+  {
+    "id": "mm-location-1",
+    "type": "location",
+    "show": true,
+    "label": "Slujba Botezului",
+    "time": "15:00",
+    "locationName": "Biserica Sfantul Nicolae",
+    "locationAddress": "Strada Bucuriei nr. 1",
+    "wazeLink": "https://waze.com"
+  },
+  { "id": "mm-divider-2", "type": "divider", "show": true },
+  {
+    "id": "mm-location-2",
+    "type": "location",
+    "show": true,
+    "label": "Petrecerea",
+    "time": "19:00",
+    "locationName": "Restaurant Clubul Mickey",
+    "locationAddress": "Strada Vesela nr. 7",
+    "wazeLink": "https://waze.com"
+  },
+  { "id": "mm-divider-3", "type": "divider", "show": true },
+  {
+    "id": "mm-photo-2",
+    "type": "photo",
+    "show": true,
+    "imageData": "/mickey-mouse/5ff43004212d45d6afab50630d245d58.jpg",
+    "altText": "Micutul nostru",
+    "aspectRatio": "1:1",
+    "photoClip": "circle",
+    "photoMasks": []
+  },
+  { "id": "mm-divider-4", "type": "divider", "show": true },
+  {
+    "id": "mm-text-5",
+    "type": "text",
+    "show": true,
+    "content": "Ne-ar bucura sa ne confirmati prezenta pentru o buna organizare a evenimentului."
+  },
+  { "id": "mm-rsvp-1", "type": "rsvp", "show": true, "label": "Confirma Prezenta" }
+]

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { WeddingIcon } from "../TimelineIcons";
@@ -44,7 +44,7 @@ export const meta: TemplateMeta = {
   elementsClass: "bg-pink-500",
 };
 
-// ── Color Themes ──────────────────────────────────────────────────────────────
+//  Color Themes 
 export interface CastleColorTheme {
   id: string; name: string; emoji: string;
   PINK_DARK: string; PINK_D: string; PINK_L: string; PINK_XL: string;
@@ -52,7 +52,7 @@ export interface CastleColorTheme {
 }
 
 
-// Runtime color vars — replaced per theme inside component
+// Runtime color vars  replaced per theme inside component
 let PINK_DARK = '#be185d';
 let PINK_D    = '#9d174d';
 let PINK_L    = '#fbcfe8';
@@ -67,7 +67,7 @@ const SCRIPT = "'Montserrat', cursive";
 const SANS   = "'Montserrat', sans-serif";
 const INTO_TEXT = "'ROMANTIC', cursive";
 const HeroText = "'Cormorant Garamond', serif"
-// ── Music player ──────────────────────────────────────────────────────────────
+//  Music player 
 declare global { interface Window { YT: any; onYouTubeIframeAPIReady: () => void; } }
 let ytApiLoaded_cm  = false;
 let ytApiLoading_cm = false;
@@ -127,7 +127,7 @@ const MusicBlock: React.FC<{
     };
   }, [block.musicUrl, block.musicType]);
 
-  // YouTube player removed — audio is now downloaded server-side
+  // YouTube player removed  audio is now downloaded server-side
 
   const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
   const pct = duration ? `${(progress / duration) * 100}%` : '0%';
@@ -236,13 +236,13 @@ const MusicBlock: React.FC<{
                 />
                 <button type="button" onClick={submitYt} disabled={ytDownloading}
                   style={{ background: PINK_DARK, border: 'none', borderRadius: 8, padding: '0 14px', cursor: ytDownloading ? 'not-allowed' : 'pointer', fontFamily: SANS, fontSize: 11, fontWeight: 700, color: 'white', opacity: ytDownloading ? 0.7 : 1, minWidth: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {ytDownloading ? <div style={{ width: 14, height: 14, border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} /> : '✓'}
+                  {ytDownloading ? <div style={{ width: 14, height: 14, border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} /> : ''}
                 </button>
                 <button type="button" onClick={() => { setShowYt(false); setYtUrl(''); setYtError(''); }} disabled={ytDownloading}
-                  style={{ background: PINK_XL, border: 'none', borderRadius: 8, padding: '0 10px', cursor: 'pointer', color: MUTED, fontSize: 14 }}>✕</button>
+                  style={{ background: PINK_XL, border: 'none', borderRadius: 8, padding: '0 10px', cursor: 'pointer', color: MUTED, fontSize: 14 }}></button>
               </div>
-              {ytDownloading && <p style={{ fontFamily: SANS, fontSize: 9, color: PINK_DARK, margin: 0, textAlign: 'center', letterSpacing: '0.1em' }}>⏳ Se descarca melodia de pe YouTube...</p>}
-              {ytError && <p style={{ fontFamily: SANS, fontSize: 9, color: '#ef4444', margin: 0 }}>⚠ {ytError}</p>}
+              {ytDownloading && <p style={{ fontFamily: SANS, fontSize: 9, color: PINK_DARK, margin: 0, textAlign: 'center', letterSpacing: '0.1em' }}> Se descarca melodia de pe YouTube...</p>}
+              {ytError && <p style={{ fontFamily: SANS, fontSize: 9, color: '#ef4444', margin: 0 }}> {ytError}</p>}
             </div>
           ) : (
             <div style={{ display: 'flex', gap: 8 }}>
@@ -330,7 +330,7 @@ const MusicBlock: React.FC<{
   );
 };
 
-// ── Decorative ────────────────────────────────────────────────────────────────
+//  Decorative 
 const CastleSparkles: React.FC<{ flip?: boolean; scale?: number; style?: React.CSSProperties }> = ({ flip, scale = 1, style }) => (
   <svg viewBox="0 0 200 200" fill="none" style={{ width: 200 * scale, height: 200 * scale, pointerEvents: 'none', transform: flip ? 'scaleX(-1)' : undefined, ...style }}>
     <g opacity="0.6">
@@ -410,7 +410,7 @@ const WazeButton: React.FC<{
   );
 };
 
-// ── Shape / Clip system ───────────────────────────────────────────────────────
+//  Shape / Clip system 
 type ClipShape = 'rect' | 'rounded' | 'rounded-lg' | 'squircle' | 'circle' | 'arch' | 'arch-b' | 'hexagon' | 'diamond' | 'triangle' | 'star' | 'heart' | 'diagonal' | 'diagonal-r' | 'wave-b' | 'wave-t' | 'wave-both' | 'blob' | 'blob2' | 'blob3' | 'blob4';
 type MaskEffect = 'fade-b' | 'fade-t' | 'fade-l' | 'fade-r' | 'vignette';
 
@@ -463,7 +463,7 @@ const PhotoClipDefs: React.FC = () => (
   </svg>
 );
 
-// ── Photo block ───────────────────────────────────────────────────────────────
+//  Photo block 
 const PhotoBlock: React.FC<{
   imageData?: string; altText?: string; editMode: boolean;
   onUpload: (url: string) => void; onRemove: () => void;
@@ -526,7 +526,7 @@ const PhotoBlock: React.FC<{
   );
 };
 
-// ── Calendar ──────────────────────────────────────────────────────────────────
+//  Calendar 
 const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   if (!date) return null;
   const d = new Date(date);
@@ -553,7 +553,7 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ── Countdown ─────────────────────────────────────────────────────────────────
+//  Countdown 
 function useCountdown(target: string) {
   const calc = () => {
     const diff = new Date(target).getTime() - Date.now();
@@ -582,7 +582,7 @@ const CountdownSection: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ── Reveal ────────────────────────────────────────────────────────────────────
+//  Reveal 
 const Reveal: React.FC<{ children: React.ReactNode; delay?: number; style?: React.CSSProperties }> = ({ children, delay = 0, style }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [vis, setVis] = useState(false);
@@ -598,7 +598,7 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; style?: Reac
   );
 };
 
-// ── Misc UI ───────────────────────────────────────────────────────────────────
+//  Misc UI 
 const WildDivider = () => (
   <div className="flex items-center gap-4">
     <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, transparent, ${PINK_L}, transparent)` }} />
@@ -627,7 +627,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
   </div>
 );
 
-// ── Profile Image Upload ───────────────────────────────────────────────────────
+//  Profile Image Upload 
 const ProfileImageUpload: React.FC<{ url?: string; onUpload: (url: string) => void; onRemove: () => void; label: string; editMode: boolean; className?: string; aspectRatio?: string }> =
   ({ url, onUpload, onRemove, label, editMode, className, aspectRatio = "aspect-video" }) => {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -665,7 +665,7 @@ const ProfileImageUpload: React.FC<{ url?: string; onUpload: (url: string) => vo
   );
 };
 
-// ── Door hint ─────────────────────────────────────────────────────────────────
+//  Door hint 
 const DoorHint: React.FC = () => (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
     <style>{`
@@ -673,12 +673,12 @@ const DoorHint: React.FC = () => (
     `}</style>
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, marginTop: 2, opacity: 0.9 }}>
       <span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 8, letterSpacing: '0.35em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>Scroll down</span>
-      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', animation: 'dh-down 1.6s ease-in-out infinite' }}>↓</span>
+      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', animation: 'dh-down 1.6s ease-in-out infinite' }}></span>
     </div>
   </div>
 );
 
-// ── Seam Particles ────────────────────────────────────────────────────────────
+//  Seam Particles 
 const _SEAM_PX = Array.from({ length: 150 }, (_, i) => {
   const a = (Math.imul(i * 2654435761 + 1013904223, 1) >>> 0);
   const b = (Math.imul((a ^ (a >> 16)) * 2246822519, 1) >>> 0);
@@ -751,7 +751,7 @@ const DoorSeam: React.FC<{ side: 'left' | 'right' }> = ({ side }) => (
   </div>
 );
 
-// ── Castle overlay ────────────────────────────────────────────────────────────
+//  Castle overlay 
 const CastleOverlayText: React.FC<{
   childName: string; subtitle: string; welcomeText: string;
   editMode?: boolean; overlayRef?: React.RefObject<HTMLDivElement>;
@@ -802,7 +802,7 @@ const CastleOverlayText: React.FC<{
     </div>
 
     {/* Phase 1 label (edit only) */}
-    {editMode && <div style={{ position: 'absolute', top: '1%', left: 0, right: 0, textAlign: 'center', zIndex: 20, pointerEvents: 'none' }}><span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: `${tc.gold}cc`, background: 'rgba(0,0,0,0.35)', borderRadius: 99, padding: '2px 10px' }}>TEXT USI — FAZA 1</span></div>}
+    {editMode && <div style={{ position: 'absolute', top: '1%', left: 0, right: 0, textAlign: 'center', zIndex: 20, pointerEvents: 'none' }}><span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: `${tc.gold}cc`, background: 'rgba(0,0,0,0.35)', borderRadius: 99, padding: '2px 10px' }}>TEXT USI  FAZA 1</span></div>}
 
     {/* Phase 1: name + subtitle */}
     <div style={{ position: 'absolute', top: nameTop, left: 0, right: 0, transform: nameTransform, textAlign: 'center', zIndex: 1, padding: '0 28px', opacity: nameOpacity }}>
@@ -829,30 +829,30 @@ const CastleOverlayText: React.FC<{
     </div>
 
     {/* Phase 2 label (edit only) */}
-    {editMode && <div style={{ position: 'absolute', top: '40%', left: 0, right: 0, textAlign: 'center', zIndex: 20, pointerEvents: 'none' }}><span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: tc.gold, background: 'rgba(0,0,0,0.4)', borderRadius: 99, padding: '2px 10px' }}>TEXT EFECT SCROLL — FAZA 2 ✎</span></div>}
+    {editMode && <div style={{ position: 'absolute', top: '40%', left: 0, right: 0, textAlign: 'center', zIndex: 20, pointerEvents: 'none' }}><span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: tc.gold, background: 'rgba(0,0,0,0.4)', borderRadius: 99, padding: '2px 10px' }}>TEXT EFECT SCROLL  FAZA 2 </span></div>}
 
     {/* Phase 2: invitation text */}
     <div style={{ position: 'absolute', top: inviteTopPos, left: 0, right: 0, transform: inviteTransform, textAlign: 'center', zIndex: 1, padding: '0 36px', pointerEvents: editMode ? 'auto' : 'none' }}>
       <div ref={inviteRef} style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', opacity: inviteOpacity }}>
         <InlineEdit tag="p" editMode={!!editMode} value={inviteTop || 'Cu bucurie va anuntam'} onChange={v => onInviteTopChange?.(v)}
           textKey="intro:inviteTop" textLabel="Intro Top"
-          style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.5em', textTransform: 'uppercase', color: `${tc.pinkL}dd`, textShadow: '0 2px 12px rgba(0,0,0,0.8)', margin: 0 }} />
+          style={{ fontFamily: 'Cinzel, serif', fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.44em', textTransform: 'uppercase', color: tc.pinkXL, textShadow: '0 3px 16px rgba(0,0,0,0.95), 0 0 10px rgba(255,255,255,0.2)', margin: 0 }} />
         <InlineEdit tag="p" editMode={!!editMode} value={inviteMiddle || dateStr || 'Data Evenimentului'} onChange={v => onInviteMiddleChange?.(v)}
           textKey="intro:inviteMiddle" textLabel="Intro Middle"
           style={{ fontFamily: 'Great Vibes, cursive', fontSize: '2.6rem', lineHeight: 1.2, color: tc.pinkXL, textShadow: `0 2px 32px rgba(0,0,0,0.9), 0 0 60px ${tc.pinkL}77`, margin: 0 }} />
         <InlineEdit tag="p" editMode={!!editMode} value={inviteBottom || 'a fost botezat'} onChange={v => onInviteBottomChange?.(v)}
           textKey="intro:inviteBottom" textLabel="Intro Bottom"
-          style={{ fontFamily: 'Cinzel, serif', fontSize: '0.68rem', fontWeight: 400, letterSpacing: '0.35em', textTransform: 'uppercase', color: tc.pinkL, textShadow: '0 2px 10px rgba(0,0,0,0.75)', margin: 0, lineHeight: 2 }} />
-        <InlineEdit tag="p" editMode={!!editMode} value={inviteTag || '✦ deschide portile ✦'} onChange={v => onInviteTagChange?.(v)}
+          style={{ fontFamily: 'Cinzel, serif', fontSize: '0.74rem', fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: tc.pinkXL, textShadow: '0 3px 14px rgba(0,0,0,0.92), 0 0 8px rgba(255,255,255,0.18)', margin: 0, lineHeight: 1.85 }} />
+        <InlineEdit tag="p" editMode={!!editMode} value={inviteTag || ' deschide portile '} onChange={v => onInviteTagChange?.(v)}
           textKey="intro:inviteTag" textLabel="Intro Tag"
-          style={{ fontFamily: 'Cinzel, serif', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.6em', textTransform: 'uppercase', color: `${tc.pinkL}88`, margin: '2px 0 0', textShadow: `0 0 8px ${tc.pinkL}66` }} />
+          style={{ fontFamily: 'Cinzel, serif', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.5em', textTransform: 'uppercase', color: `${tc.pinkXL}dd`, margin: '2px 0 0', textShadow: '0 2px 10px rgba(0,0,0,0.82)' }} />
       </div>
     </div>
   </div>
   );
 };
 
-// ── Castle Intro ──────────────────────────────────────────────────────────────
+//  Castle Intro 
 const CastleIntro: React.FC<{
   onDone: () => void; castleUrl?: string; castleUrlMobile?: string;
   editMode?: boolean; contentEl?: HTMLElement | null;
@@ -1017,7 +1017,7 @@ const CastleIntro: React.FC<{
   );
 };
 
-// ── Audio Permission Modal ────────────────────────────────────────────────────
+//  Audio Permission Modal 
 const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; onDeny: () => void }> = ({ childName, onAllow, onDeny }) => (
   <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
     <div style={{ position: 'absolute', inset: 0, background: 'rgba(157,23,77,0.65)', backdropFilter: 'blur(8px)' }} />
@@ -1027,13 +1027,13 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
         <Music className="w-8 h-8" style={{ color: 'white' }} />
       </div>
       <p style={{ fontFamily: SCRIPT, fontSize: 26, color: PINK_DARK, margin: '0 0 6px', lineHeight: 1.2 }}>{childName}</p>
-      <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: TEXT, margin: '0 0 8px' }}>Te invita la o poveste magica 🌟</p>
+      <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: TEXT, margin: '0 0 8px' }}>Te invita la o poveste magica </p>
       <p style={{ fontFamily: SANS, fontSize: 11, color: MUTED, margin: '0 0 28px', lineHeight: 1.6 }}>Aceasta invitatie are o melodie speciala.<br/>Vrei sa activezi muzica?</p>
       <button type="button" onClick={onAllow}
         style={{ width: '100%', padding: '14px 0', background: `linear-gradient(135deg,${PINK_DARK},${PINK_D})`, border: 'none', borderRadius: 50, cursor: 'pointer', fontFamily: SANS, fontSize: 12, fontWeight: 700, color: 'white', letterSpacing: '0.1em', marginBottom: 10, boxShadow: `0 6px 20px rgba(190,24,93,0.4)`, transition: 'transform 0.15s' }}
         onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.03)'}
         onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'}>
-        🎵 Da, activeaza muzica
+         Da, activeaza muzica
       </button>
       <button type="button" onClick={onDeny}
         style={{ width: '100%', padding: '10px 0', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: SANS, fontSize: 11, color: MUTED }}>
@@ -1044,7 +1044,7 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
 );
 
 
-// ── Template Defaults — sursa unica de adevar ────────────────────────────────
+//  Template Defaults  sursa unica de adevar 
 export const CASTLE_DEFAULTS = {
   partner1Name:         'Printul Adam',
   heroBgImage:          undefined as string | undefined,
@@ -1056,7 +1056,7 @@ export const CASTLE_DEFAULTS = {
   castleInviteTop:      'Cu multa bucurie va anuntam',
   castleInviteMiddle:   '',
   castleInviteBottom:   'va fii botezata',
-  castleInviteTag:      '✦ deschide portile ✦',
+  castleInviteTag:      ' deschide portile ',
   welcomeText:          'Va invitam cu drag',
   celebrationText:      'la botezul printesei noastre',
   weddingDate:          '',
@@ -1070,7 +1070,7 @@ export const CASTLE_DEFAULTS = {
 };
 
 export const CASTLE_DEFAULT_BLOCKS = [
-  // ── Muzica ─────────────────────────────────────────────────────────────────
+  //  Muzica 
   {
     id: 'def-music',
     type: 'music' as const,
@@ -1081,7 +1081,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     musicType: 'none' as const,
   },
 
-  // ── Foto principala — portret arc, fade jos ────────────────────────────────
+  //  Foto principala  portret arc, fade jos 
   {
     id: 'def-photo-1',
     type: 'photo' as const,
@@ -1093,7 +1093,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     photoMasks: ['fade-b'] as any,
   },
 
-  // ── Text poetic ────────────────────────────────────────────────────────────
+  //  Text poetic 
   {
     id: 'def-text-1',
     type: 'text' as const,
@@ -1101,7 +1101,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     content: 'O poveste magica incepe odata cu venirea pe lume a celui mai iubit copil. Va asteptam cu drag sa fiti parte din aceasta zi de poveste.',
   },
 
-  // ── Countdown ──────────────────────────────────────────────────────────────
+  //  Countdown 
   {
   id: 'def-countdown',
   type: 'countdown' as const,
@@ -1109,14 +1109,14 @@ export const CASTLE_DEFAULT_BLOCKS = [
   countdownTitle: 'Timp ramas pana la Marele Eveniment',  // adauga aici
 },
 
-  // ── Calendar ───────────────────────────────────────────────────────────────
+  //  Calendar 
   {
     id: 'def-calendar',
     type: 'calendar' as const,
     show: true,
   },
 
-  // ── Foto 2 — peisaj ────────────────────────────────────────────────────────
+  //  Foto 2  peisaj 
   {
     id: 'def-photo-2',
     type: 'photo' as const,
@@ -1128,7 +1128,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     photoMasks: [] as any,
   },
 
-  // ── Locatie Biserica ───────────────────────────────────────────────────────
+  //  Locatie Biserica 
   {
     id: 'def-loc-church',
     type: 'location' as const,
@@ -1140,7 +1140,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     wazeLink: '',
   },
 
-  // ── Locatie Petrecere ──────────────────────────────────────────────────────
+  //  Locatie Petrecere 
   {
     id: 'def-loc-party',
     type: 'location' as const,
@@ -1152,7 +1152,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     wazeLink: '',
   },
 
-  // ── Foto 3 — cerc cu vigneta ───────────────────────────────────────────────
+  //  Foto 3  cerc cu vigneta 
   {
     id: 'def-photo-3',
     type: 'photo' as const,
@@ -1164,7 +1164,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     photoMasks: ['vignette'] as any,
   },
 
-  // ── Cadouri ────────────────────────────────────────────────────────────────
+  //  Cadouri 
   {
     id: 'def-gift',
     type: 'gift' as const,
@@ -1175,7 +1175,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
     ibanName: 'Familia Ionescu',
   },
 
-  // ── Foto finala — blob ─────────────────────────────────────────────────────
+  //  Foto finala  blob 
   {
     id: 'def-photo-4',
     type: 'photo' as const,
@@ -1187,16 +1187,16 @@ export const CASTLE_DEFAULT_BLOCKS = [
     photoMasks: ['fade-b'] as any,
   },
 
-  // ── WhatsApp contact ───────────────────────────────────────────────────────
+  //  WhatsApp contact 
   {
     id: 'def-whatsapp',
     type: 'whatsapp' as const,
     show: true,
-    label: 'Contacteaza-ne pe WhatsApp',
+    label: 'WhatsApp',
     content: '0700000000',
   },
 
-  // ── RSVP ───────────────────────────────────────────────────────────────────
+  //  RSVP 
   {
     id: 'def-rsvp',
     type: 'rsvp' as const,
@@ -1205,7 +1205,7 @@ export const CASTLE_DEFAULT_BLOCKS = [
   },
 ];
 
-// ── Preview data — folosit de InvitationMarketplace pentru demo ──────────────
+//  Preview data  folosit de InvitationMarketplace pentru demo 
 export const CASTLE_PREVIEW_DATA = {
   guest:   { name: "Invitat Drag", status: "pending", type: "adult" },
   project: { selectedTemplate: 'castle-magic' },
@@ -1217,11 +1217,26 @@ export const CASTLE_PREVIEW_DATA = {
   },
 };
 
-// ── Insert Block Button ───────────────────────────────────────────────────────
+//  Insert Block Button 
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: '🖼', text: '✏', location: '📍', calendar: '📅',
-  countdown: '⏱', timeline: '🕒', music: '🎵', gift: '🎁',   whatsapp: '💬', rsvp: '✉', divider: '—', family: '👨‍👩‍👧',
-  date: '📆', description: '📝',
+  photo: "IMG",
+  text: "TXT",
+  location: "LOC",
+  calendar: "CAL",
+  countdown: "TMR",
+  timeline: "TIME",
+  music: "MUS",
+  gift: "GFT",
+  whatsapp: "WA",
+  rsvp: "RSVP",
+  divider: "---",
+  family: "FAM",
+  date: "DATE",
+  description: "DESC",
+  title: "Aa",
+  godparents: "NAS",
+  parents: "PAR",
+  spacer: "SP",
 };
 const InsertBlockButton: React.FC<{
   insertIdx: number;
@@ -1261,7 +1276,7 @@ const InsertBlockButton: React.FC<{
           zIndex: 2, position: 'relative',
           lineHeight: 1, fontWeight: 700,
         }}
-      >{isOpen ? '×' : '+'}</button>
+      >{isOpen ? '' : '+'}</button>
 
       {isOpen && (
         <div
@@ -1308,7 +1323,7 @@ const InsertBlockButton: React.FC<{
   );
 };
 
-// ── Main Template ─────────────────────────────────────────────────────────────
+//  Main Template 
 const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
   editMode?: boolean;
   introPreview?: boolean;
@@ -1319,11 +1334,11 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
 }> = ({ data, onOpenRSVP, editMode = false, introPreview = false, scrollContainer, onProfileUpdate, onBlocksUpdate, onBlockSelect, selectedBlockId }) => {
   const { profile, guest } = data;
   
-  // ─────────────────────────────────────────────────────────────────────────────
+  // 
   // SURSA DE ADEVAR: templateul insusi.
-  // DB-ul este doar un OVERRIDE optional — daca nu exista nimic salvat,
+  // DB-ul este doar un OVERRIDE optional  daca nu exista nimic salvat,
   // templateul arata perfect cu propriile sale default-uri.
-  // ─────────────────────────────────────────────────────────────────────────────
+  // 
   const safeJSON = (s: string | undefined, fb: any) => { try { return s ? JSON.parse(s) : fb; } catch { return fb; } };
 
   // Profile: fiecare camp citit cu fallback la CASTLE_DEFAULTS (niciun camp nu referentieaza `p`)
@@ -1349,7 +1364,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
     heroContentImageMobile: pr.heroContentImageMobile ?? CASTLE_DEFAULTS.heroContentImageMobile,
   };
 
-    // ── Config global template (imagini usi + paleta) — vin din admin ───────────
+    //  Config global template (imagini usi + paleta)  vin din admin 
   const [globalConfig, setGlobalConfig] = useState<Record<string, any>>({});
   useEffect(() => {
     fetch(`${API_URL}/config/template-defaults/${meta.id}`)
@@ -1360,7 +1375,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
       .catch(() => {});
   }, []);
   
-  // ── Apply color theme ───────────────────────────────────────────────────────
+  //  Apply color theme 
   const activeColorTheme = (pr as any).colorTheme || globalConfig.colorTheme || 'default';
   const theme = getCastleTheme(activeColorTheme);
   PINK_DARK = theme.PINK_DARK;
@@ -1391,7 +1406,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
     .cm-wrap .animate-pulse { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
   `;
 
-  // Imaginile default — in ordinea in care apar blocurile foto in template
+  // Imaginile default  in ordinea in care apar blocurile foto in template
   const DEFAULT_PHOTO_URLS = (CASTLE_DEFAULT_BLOCKS as any[])
     .filter(b => b.type === 'photo' && b.imageData)
     .map(b => b.imageData as string);
@@ -1407,7 +1422,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
     });
   };
 
-  // Blocks: DB override sau CASTLE_DEFAULT_BLOCKS — niciodata gol
+  // Blocks: DB override sau CASTLE_DEFAULT_BLOCKS  niciodata gol
   const blocksFromDB: InvitationBlock[] | null = safeJSON(profile.customSections, null);
   const hasDBBlocks = Array.isArray(blocksFromDB) && blocksFromDB.length > 0;
 
@@ -1427,7 +1442,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
     }
   }, [profile.customSections]);
 
-  // Imagini usi — din admin per tema activa
+  // Imagini usi  din admin per tema activa
   const themeImgs   = globalConfig.themeImages?.[activeColorTheme] || {};
   const defaultImgs = globalConfig.themeImages?.['default'] || {};
   const heroBgImage       = themeImgs.desktop || defaultImgs.desktop || globalConfig.heroBgImage;
@@ -1556,19 +1571,19 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
   const rsvpText = p.rsvpButtonText?.trim() || CASTLE_DEFAULTS.rsvpButtonText;
 
   const BLOCK_TYPES = [
-    { type: 'photo',     label: '📷 Foto',      def: { imageData: undefined, aspectRatio: '1:1', photoClip: 'rect', photoMasks: [] } },
+    { type: 'photo',     label: 'Foto',      def: { imageData: undefined, aspectRatio: '1:1', photoClip: 'rect', photoMasks: [] } },
     { type: 'text',      label: 'Text',          def: { content: 'O poveste magica incepe...' } },
     { type: 'location',  label: 'Locatie',       def: { locationName: 'Castelul Magic', locationAddress: 'Strada Basmului nr. 1' } },
-    { type: 'calendar',  label: '📅 Calendar',  def: {} },
-    { type: 'countdown', label: '⏱ Countdown', def: {} },
-    { type: 'timeline',  label: '🕒 Cronologie', def: {} },
-    { type: 'music',     label: '🎵 Muzica',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
-    { type: 'gift',      label: '🎁 Cadouri',   def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
-    { type: 'whatsapp',  label: 'WhatsApp',      def: { label: 'Contact WhatsApp', content: '0700000000' } },
+    { type: 'calendar',  label: 'Calendar',  def: {} },
+    { type: 'countdown', label: 'Countdown', def: {} },
+    { type: 'timeline',  label: 'Cronologie', def: {} },
+    { type: 'music',     label: 'Muzica',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
+    { type: 'gift',      label: 'Cadouri',   def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
+    { type: 'whatsapp',  label: 'WhatsApp',      def: { label: 'WhatsApp', content: '0700000000' } },
     { type: 'rsvp',      label: 'RSVP',          def: { label: 'Confirma Prezenta' } },
     { type: 'divider',     label: 'Linie',         def: {} },
-    { type: 'family',      label: '👨‍👩‍👧 Familie',  def: { label: 'Parintii copilului', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) } },
-    { type: 'date',        label: '📆 Data',       def: {} },
+    { type: 'family',      label: 'Familie',  def: { label: 'Parintii copilului', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) } },
+    { type: 'date',        label: 'Data',       def: {} },
     { type: 'description', label: 'Descriere',      def: { content: 'O scurta descriere...' } },
   ];
 
@@ -1683,7 +1698,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
           </div>
         )}
 
-        {/* ── Hero content image — full width ──────────────────────────────── */}
+        {/*  Hero content image  full width  */}
         {(() => {
           const isMob =
             typeof window !== "undefined" && window.innerWidth < 768;
@@ -1763,7 +1778,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                         textAlign: "center",
                       }}
                     >
-                      📸 Imagine Hero Continut
+                       Imagine Hero Continut
                     </p>
                     <div
                       style={{
@@ -1887,7 +1902,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                 }}
               />
 
-              {/* Data — display custom cu zi / luna / an separate */}
+              {/* Data  display custom cu zi / luna / an separate */}
               {p.weddingDate &&
                 (() => {
                   const d = new Date(p.weddingDate);
@@ -1986,7 +2001,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                   );
                 })()}
 
-              {/* Text intro — toggle vizibil/invizibil */}
+              {/* Text intro  toggle vizibil/invizibil */}
               {(editMode || p.showWelcomeText !== false) && (
                 <div className="relative inline-block w-full">
                   {editMode && (
@@ -2069,7 +2084,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
               >
                 {guest?.name || ""}
               </p>
-              {/* Text celebrare — toggle vizibil/invizibil */}
+              {/* Text celebrare  toggle vizibil/invizibil */}
               {(p.showCelebrationText !== false || editMode) && (
                 <div className="relative group/hero-celeb inline-block w-full">
                   {editMode && (
@@ -2486,7 +2501,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                                 </div>
                               </div>
 
-                              {/* Waze button — full width, pink-themed, rounded-lg */}
+                              {/* Waze button  full width, pink-themed, rounded-lg */}
                               {(block.wazeLink || editMode) && (
                                 <WazeButton
                                   wazeLink={block.wazeLink || ""}
@@ -2691,7 +2706,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                                               lineHeight: 1,
                                             }}
                                           >
-                                            ✕
+                                            
                                           </button>
                                         )}
                                       </div>
@@ -3124,7 +3139,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                                               lineHeight: 1,
                                             }}
                                           >
-                                            ✕
+                                            
                                           </button>
                                         )}
                                       </div>
@@ -3242,3 +3257,4 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
 };
 
 export default CastleMagicTemplate;
+

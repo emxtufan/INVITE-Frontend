@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronUp, ChevronDown, Eye, EyeOff, Trash2, Plus, Navigation, Upload, Camera, Music, Play, Pause, SkipBack, SkipForward, Gift, MessageCircle } from "lucide-react";
 import { InvitationTemplateProps, TemplateMeta } from "./types";
 import { cn } from "../../lib/utils";
@@ -23,13 +23,13 @@ export const meta: TemplateMeta = {
   id: 'velum',
   name: 'Velum',
   category: 'wedding',
-  description: 'Plic sigilat cu ceara — animatie 3D de deschidere, tipografie editorial ivory & gold.',
+  description: 'Plic sigilat cu ceara  animatie 3D de deschidere, tipografie editorial ivory & gold.',
   colors: ['#f7f3ec', '#ede8dc', '#c9a84c'],
   previewClass: "bg-amber-50 border-yellow-600",
   elementsClass: "bg-yellow-700",
 };
 
-// ─── Design tokens ────────────────────────────────────────────────────────────
+//  Design tokens 
 const SERIF   = "'Cormorant Garamond','Playfair Display',Georgia,serif";
 const SANS    = "'DM Sans','Helvetica Neue',system-ui,sans-serif";
 let IVORY   = '#f7f3ec';
@@ -141,44 +141,45 @@ const cloneDefaultBlocks = (): InvitationBlock[] =>
   JSON.parse(JSON.stringify(CASTLE_DEFAULT_BLOCKS)) as InvitationBlock[];
 
 const VELUM_BLOCK_TYPES: Array<{ type: string; label: string; def: Partial<InvitationBlock> }> = [
-  { type: "photo", label: "📷 Foto", def: { imageData: undefined, altText: "", aspectRatio: "1:1", photoClip: "rect", photoMasks: [] } },
-  { type: "location", label: "Locatie", def: { label: "", time: "", locationName: "", locationAddress: "", wazeLink: "" } },
-  { type: "godparents", label: "Nasi", def: { sectionTitle: "Nasii Nostri", content: "" } },
-  { type: "parents", label: "Parinti", def: { sectionTitle: "Parintii Nostri", content: "" } },
-  { type: "calendar", label: "📅 Calendar", def: {} },
-  { type: "countdown", label: "⏱ Countdown", def: { countdownTitle: "Timp ramas pana la marele eveniment" } },
-  { type: "music", label: "🎵 Muzica", def: { musicTitle: "", musicArtist: "", musicType: "none" } },
-  { type: "gift", label: "🎁 Cadouri", def: { sectionTitle: "Sugestie cadou", content: "", iban: "", ibanName: "" } },
-  { type: "whatsapp", label: "💬 WhatsApp", def: { label: "Contact WhatsApp", content: "0700000000" } },
-  { type: "rsvp", label: "RSVP", def: { label: "Confirma prezenta" } },
-  { type: "family", label: "👨‍👩‍👧 Familie", def: { label: "Parintii copilului", content: "Cu drag si recunostinta", members: JSON.stringify([{ name1: "Mama", name2: "Tata" }]) } },
-  { type: "date", label: "📆 Data", def: {} },
-  { type: "description", label: "Descriere", def: { content: "O scurta descriere..." } },
-  { type: "text", label: "Text", def: { content: "" } },
-  { type: "title", label: "Titlu", def: { content: "" } },
-  { type: "divider", label: "Linie", def: {} },
+  { type: "photo", label: 'Foto', def: { imageData: undefined, altText: "", aspectRatio: "1:1", photoClip: "rect", photoMasks: [] } },
+  { type: "location", label: 'Locatie', def: { label: "", time: "", locationName: "", locationAddress: "", wazeLink: "" } },
+  { type: "godparents", label: 'Nasi', def: { sectionTitle: "Nasii Nostri", content: "" } },
+  { type: "parents", label: 'Parinti', def: { sectionTitle: "Parintii Nostri", content: "" } },
+  { type: "calendar", label: 'Calendar', def: {} },
+  { type: "countdown", label: 'Countdown', def: { countdownTitle: "Timp ramas pana la marele eveniment" } },
+  { type: "music", label: 'Muzica', def: { musicTitle: "", musicArtist: "", musicType: "none" } },
+  { type: "gift", label: 'Cadouri', def: { sectionTitle: "Sugestie cadou", content: "", iban: "", ibanName: "" } },
+  { type: "whatsapp", label: 'WhatsApp', def: { label: 'WhatsApp', content: "0700000000" } },
+  { type: "rsvp", label: 'RSVP', def: { label: "Confirma prezenta" } },
+  { type: "family", label: 'Familie', def: { label: "Parintii copilului", content: "Cu drag si recunostinta", members: JSON.stringify([{ name1: "Mama", name2: "Tata" }]) } },
+  { type: "date", label: 'Data', def: {} },
+  { type: "description", label: 'Descriere', def: { content: "O scurta descriere..." } },
+  { type: "text", label: 'Text', def: { content: "" } },
+  { type: "title", label: 'Titlu', def: { content: "" } },
+  { type: "divider", label: 'Linie', def: {} },
 ];
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: "🖼",
-  text: "✏",
-  location: "📍",
-  calendar: "📅",
-  countdown: "⏱",
-  timeline: "🕒",
-  music: "🎵",
-  gift: "🎁",
-  whatsapp: "💬",
-  rsvp: "✉",
-  divider: "—",
-  family: "👨‍👩‍👧",
-  date: "📆",
-  description: "📝",
-  godparents: "💒",
-  parents: "👪",
+  photo: "IMG",
+  text: "TXT",
+  location: "LOC",
+  calendar: "CAL",
+  countdown: "TMR",
+  timeline: "TIME",
+  music: "MUS",
+  gift: "GFT",
+  whatsapp: "WA",
+  rsvp: "RSVP",
+  divider: "---",
+  family: "FAM",
+  date: "DATE",
+  description: "DESC",
   title: "Aa",
+  godparents: "NAS",
+  parents: "PAR",
+  spacer: "SP",
 };
 
-// ─── Wax seal SVG ─────────────────────────────────────────────────────────────
+//  Wax seal SVG 
 const WaxSeal: React.FC<{ size?: number; cracked?: boolean }> = ({ size = 88, cracked = false }) => {
   const r = size / 2;
   // Laurel wreath paths (simplified)
@@ -250,7 +251,7 @@ const WaxSeal: React.FC<{ size?: number; cracked?: boolean }> = ({ size = 88, cr
       {/* Center dot */}
       <circle cx={r} cy={r} r={2.5} fill="rgba(255,255,255,0.5)"/>
 
-      {/* Crack lines — animated */}
+      {/* Crack lines  animated */}
       {cracks.map((d, i) => (
         <path key={i} d={d}
           stroke={withAlpha(GOLD_D, 0.7)} strokeWidth="1.2" strokeLinecap="round"
@@ -261,7 +262,7 @@ const WaxSeal: React.FC<{ size?: number; cracked?: boolean }> = ({ size = 88, cr
   );
 };
 
-// ─── Envelope fold decorations ────────────────────────────────────────────────
+//  Envelope fold decorations 
 const EnvelopeFolds: React.FC<{ w: number; h: number }> = ({ w, h }) => (
   <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} fill="none"
     style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
@@ -286,7 +287,7 @@ const EnvelopeFolds: React.FC<{ w: number; h: number }> = ({ w, h }) => (
   </svg>
 );
 
-// ─── Envelope + opening animation ─────────────────────────────────────────────
+//  Envelope + opening animation 
 type EnvPhase = 'idle' | 'cracking' | 'opening' | 'rising' | 'done';
 
 const EnvelopeScene: React.FC<{
@@ -394,7 +395,7 @@ const EnvelopeScene: React.FC<{
         pointerEvents: 'none',
       }}/>
 
-      {/* ── ENVELOPE WRAPPER ── */}
+      {/*  ENVELOPE WRAPPER  */}
       <div style={{
         position: 'relative',
         width: EW, height: EH,
@@ -467,7 +468,7 @@ const EnvelopeScene: React.FC<{
           }}>{dateStr}</p>
         </div>
 
-        {/* ── ANIMATED FLAP ── */}
+        {/*  ANIMATED FLAP  */}
         <div style={{
           position: 'absolute', top: 0, left: 0, right: 0,
           height: EH * 0.52,
@@ -522,7 +523,7 @@ const EnvelopeScene: React.FC<{
         </div>
       </div>
 
-      {/* ── LETTER RISING ── */}
+      {/*  LETTER RISING  */}
       <div style={{
         position: 'absolute',
         left: '50%',
@@ -558,7 +559,7 @@ const EnvelopeScene: React.FC<{
   );
 };
 
-// ─── Countdown ────────────────────────────────────────────────────────────────
+//  Countdown 
 function useCountdown(target: string) {
   const calc = () => {
     const diff = new Date(target).getTime() - Date.now();
@@ -575,7 +576,7 @@ function useCountdown(target: string) {
   return t;
 }
 
-// ─── Scroll reveal hook ───────────────────────────────────────────────────────
+//  Scroll reveal hook 
 function useReveal(delay = 0) {
   const ref  = useRef<HTMLDivElement>(null);
   const [vis, setVis] = useState(false);
@@ -589,7 +590,7 @@ function useReveal(delay = 0) {
   return { ref, vis };
 }
 
-// ─── Gold divider ─────────────────────────────────────────────────────────────
+//  Gold divider 
 const GoldDivider: React.FC<{ wide?: boolean }> = ({ wide }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 14, margin: '2px 0' }}>
     <div style={{ flex: 1, height: 0.6,
@@ -603,7 +604,7 @@ const GoldDivider: React.FC<{ wide?: boolean }> = ({ wide }) => (
   </div>
 );
 
-// ─── Block toolbar ────────────────────────────────────────────────────────────
+//  Block toolbar 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: any) => (
   <div data-block-toolbar className="absolute -top-3.5 right-2 flex items-center gap-0.5 rounded-full border shadow-lg px-1.5 py-1 opacity-0 group-hover/block:opacity-100 transition-all z-30 pointer-events-none group-hover/block:pointer-events-auto"
     style={{ background: IVORY, borderColor: `${GOLD}44` }}>
@@ -762,7 +763,7 @@ const InsertBlockButton: React.FC<{
   );
 };
 
-// ─── Location card ────────────────────────────────────────────────────────────
+//  Location card 
 const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (p: Partial<InvitationBlock>) => void; idx?: number }> =
   ({ block, editMode, onUpdate, idx = 0 }) => {
   const { ref, vis } = useReveal(idx * 80);
@@ -815,7 +816,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
   );
 };
 
-// ─── Reveal wrapper ───────────────────────────────────────────────────────────
+//  Reveal wrapper 
 const Reveal: React.FC<{ children: React.ReactNode; delay?: number; style?: React.CSSProperties }> = ({ children, delay = 0, style }) => {
   const { ref, vis } = useReveal(delay);
   return (
@@ -828,7 +829,7 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; style?: Reac
   );
 };
 
-// ─── Glass card ───────────────────────────────────────────────────────────────
+//  Glass card 
 const Card: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> = ({ children, style }) => (
   <div style={{
     background: 'rgba(255,255,255,0.65)',
@@ -1135,7 +1136,7 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ─── Main Template ─────────────────────────────────────────────────────────────
+//  Main Template 
 export type VelumProps = InvitationTemplateProps & {
   editMode?: boolean;
   onProfileUpdate?: (patch: Record<string, any>) => void;
@@ -1301,7 +1302,7 @@ const VelumTemplate: React.FC<VelumProps> = ({
           onDone={() => { setShowEnvelope(false); setContentVis(true); }}/>
       )}
 
-      {/* ── FULL INVITATION CONTENT ── */}
+      {/*  FULL INVITATION CONTENT  */}
       <div style={{
         minHeight: '100vh',
         background: `linear-gradient(160deg, ${IVORY} 0%, ${ENV_BG} 50%, ${IVORY} 100%)`,
@@ -1331,13 +1332,13 @@ const VelumTemplate: React.FC<VelumProps> = ({
             style={{ background: IVORY, border: `1px solid ${GOLD}44`, color: GOLD_D, backdropFilter: 'blur(8px)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: GOLD }}/>
             <span className="uppercase tracking-widest">Editare Directa</span>
-            <span className="font-normal" style={{ color: MUTED }}>— click pe orice text</span>
+            <span className="font-normal" style={{ color: MUTED }}> click pe orice text</span>
           </div>
         )}
 
         <div style={{ width: '100%', maxWidth: 440, margin: '0 auto', position: 'relative', zIndex: 1, padding: '0 20px 48px' }}>
 
-          {/* ── HERO ── */}
+          {/*  HERO  */}
           <BlockStyleProvider value={{
             blockId: heroBlock.id,
             textStyles: (heroBlock as any).textStyles,
@@ -1355,7 +1356,7 @@ const VelumTemplate: React.FC<VelumProps> = ({
               </Reveal>
             )}
 
-            {/* Names — centerpiece */}
+            {/* Names  centerpiece */}
             <div style={{ marginBottom: 8 }}>
               {isBaptism ? (
                 <InlineEdit tag="h1" editMode={editMode} value={profile.partner1Name || ''}
@@ -1504,7 +1505,7 @@ const VelumTemplate: React.FC<VelumProps> = ({
             )}
           </div>
 
-          {/* ── BLOCKS ── */}
+          {/*  BLOCKS  */}
           </BlockStyleProvider>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {editMode && (
@@ -1938,7 +1939,7 @@ const VelumTemplate: React.FC<VelumProps> = ({
             </Reveal>
           )}
 
-          {/* ── RSVP ── */}
+          {/*  RSVP  */}
           {showRsvp && (
             <Reveal delay={100}>
               <div style={{ marginTop: 24, textAlign: 'center' }}>
@@ -1988,7 +1989,7 @@ const VelumTemplate: React.FC<VelumProps> = ({
               <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
                 <WaxSeal size={20}/>
                 <p style={{ fontFamily: SERIF, fontSize: 11, fontStyle: 'italic', color: `${MUTED}99`, margin: 0 }}>
-                  cu drag · WeddingPro
+                  cu drag  WeddingPro
                 </p>
               </div>
             </div>
@@ -2001,3 +2002,4 @@ const VelumTemplate: React.FC<VelumProps> = ({
 };
 
 export default VelumTemplate;
+

@@ -142,7 +142,7 @@ const Collapsible: React.FC<{
   highlight?: boolean;
   tourId?: string;
   children: React.ReactNode;
-}> = ({ title, defaultOpen = true, hint, desc, icon: Icon, variant = "card", openSignal, highlight, tourId, children }) => {
+}> = ({ title, defaultOpen = false, hint, desc, icon: Icon, variant = "card", openSignal, highlight, tourId, children }) => {
   const [open, setOpen] = useState(defaultOpen);
   const toggleOpen = () => setOpen(o => !o);
   const isCard = variant === "card";
@@ -350,6 +350,11 @@ const INLINE_TIMELINE_TEMPLATES = new Set([
   "jurassic-park",
 ]);
 
+const IS_REGAL_INTRO_TEMPLATE = (templateId?: string) =>
+  templateId === "regal" ||
+  templateId === "luxury-style-simple" ||
+  templateId === "jungle-magic-effect";
+
 const SettingsContent: React.FC<{
   profile: UserProfile;
   timeline: TimelineItem[];
@@ -373,6 +378,7 @@ const SettingsContent: React.FC<{
 }> = ({ profile, timeline, isActive, hc, guard, pushTimeline, selectedTemplate, templateMeta, doorImages = {}, introVariants = {}, defaultIntroVariant, inlineBlockPanel, introPreview = false, onIntroPreviewChange, hasIntro = false, selectedTextKey, selectedBlockId, selectedBlockType, tourFocus }) => {
   const [expandedTheme, setExpandedTheme] = React.useState<string | null>(null);
   const useInlineTimeline = INLINE_TIMELINE_TEMPLATES.has(selectedTemplate || "");
+  const isRegalIntroTemplate = IS_REGAL_INTRO_TEMPLATE(selectedTemplate);
   const publicInviteUrl = React.useMemo(() => {
     if (!profile.inviteSlug) return "";
     const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
@@ -728,7 +734,7 @@ const SettingsContent: React.FC<{
           icon={Sparkles}
 	          tourId="panel-intro"
 	          openSignal={isTouringIntro ? `tour-${tourFocus}` : undefined}
-	          defaultOpen={true}
+	          defaultOpen={false}
         >
           <div className="space-y-4">
 	            <div data-tour="intro-preview-toggle" className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 px-3 py-2">
@@ -880,7 +886,7 @@ const SettingsContent: React.FC<{
               </Collapsible>
             )}
 
-            {selectedTemplate === 'regal' && (
+            {isRegalIntroTemplate && (
               <Collapsible title="Texte Intro Jungle" defaultOpen={false} variant="sub">
                 <div className="space-y-3">
                   <p className="text-[9px] text-zinc-400 italic">
@@ -929,7 +935,7 @@ const SettingsContent: React.FC<{
               </Collapsible>
             )}
 
-            {selectedTemplate === 'regal' && Object.keys(introVariants).length > 0 && (
+            {isRegalIntroTemplate && Object.keys(introVariants).length > 0 && (
               <Collapsible title="Varianta Intro" defaultOpen={false} variant="sub">
                 <div className="space-y-1">
                   {Object.entries(introVariants).map(([ivId, iv]) => {
@@ -1050,7 +1056,7 @@ const SettingsContent: React.FC<{
               </Collapsible>
             )}
 
-            {selectedTemplate === 'regal' && (
+            {isRegalIntroTemplate && (
               <Collapsible title="Stil Intro" defaultOpen={false} hint="animatia de deschidere" variant="sub">
                 <div className="space-y-2">
                   {[
@@ -1340,7 +1346,7 @@ const SettingsContent: React.FC<{
         </>
       )}
 
-      {false && selectedTemplate === 'regal' && (
+      {false && isRegalIntroTemplate && (
         <>
           <Hr />
           <Collapsible title="Texte Intro Jungle" defaultOpen={false}>
@@ -1392,12 +1398,12 @@ const SettingsContent: React.FC<{
         </>
       )}
 
-      {selectedTemplate === 'regal' && (
+      {isRegalIntroTemplate && (
         <>
           {Object.keys(introVariants).length > 0 && (
             <>
               <Hr />
-              <Collapsible title="🖼 Varianta Intro" defaultOpen={true}>
+              <Collapsible title="🖼 Varianta Intro" defaultOpen={false}>
                 <div className="space-y-1">
                   {Object.entries(introVariants).map(([ivId, iv]) => {
                     const selectedVariantId = (profile as any).introVariant as string | undefined;
@@ -1519,7 +1525,7 @@ const SettingsContent: React.FC<{
           )}
 
           <div className={cn(Object.keys(introVariants).length > 0 ? "mt-3" : "")}>
-            <Collapsible title="Stil Intro" defaultOpen={true} hint="animatia de deschidere">
+            <Collapsible title="Stil Intro" defaultOpen={false} hint="animatia de deschidere">
               <div className="space-y-2">
                 {[
                   {

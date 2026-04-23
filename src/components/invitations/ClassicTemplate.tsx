@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Calendar, Clock, ChevronUp, ChevronDown, Eye, EyeOff, Trash2, Plus, GripVertical } from "lucide-react";
 import { InvitationTemplateProps, TemplateMeta } from "./types";
 import { cn } from "../../lib/utils";
@@ -13,7 +13,7 @@ export const meta: TemplateMeta = {
   previewClass: "bg-white border-zinc-200", elementsClass: "bg-stone-300"
 };
 
-// ─── Countdown ────────────────────────────────────────────────────────────────
+//  Countdown 
 function useCountdown(targetDate: string) {
   const calc = () => {
     const diff = new Date(targetDate).getTime() - Date.now();
@@ -44,7 +44,7 @@ const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
   </div>
 );
 
-// ─── Block hover toolbar ──────────────────────────────────────────────────────
+//  Block hover toolbar 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: {
   onUp: () => void; onDown: () => void; onToggle: () => void; onDelete: () => void;
   visible: boolean; isFirst: boolean; isLast: boolean;
@@ -72,7 +72,7 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
   </div>
 );
 
-// ─── Add block strip (edit mode) ──────────────────────────────────────────────
+//  Add block strip (edit mode) 
 const ADD_BLOCK_TYPES = [
   { type: 'location',   label: 'Locatie',  def: { label: '', time: '', locationName: '', locationAddress: '', wazeLink: '' } },
   { type: 'text',       label: 'Text',     def: { content: '' } },
@@ -80,7 +80,7 @@ const ADD_BLOCK_TYPES = [
   { type: 'divider',    label: 'Linie',    def: {} },
 ] as const;
 
-// ─── Main Template ────────────────────────────────────────────────────────────
+//  Main Template 
 export type ClassicTemplateProps = InvitationTemplateProps & {
   editMode?: boolean;
   onProfileUpdate?: (patch: Record<string, any>) => void;
@@ -111,7 +111,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
 
   const countdown = useCountdown(profile.weddingDate || '');
 
-  // ── Debounced helpers — prevents API call on every keystroke ────────────────
+  //  Debounced helpers  prevents API call on every keystroke 
   const _profileQueue = useRef<Record<string, any>>({});
   const _profileTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const _blocksTimer  = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -143,7 +143,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
       const nb = [...prev]; const to = idx + dir;
       if (to < 0 || to >= nb.length) return prev;
       [nb[idx], nb[to]] = [nb[to], nb[idx]];
-      onBlocksUpdate?.(nb); // structural change — save immediately
+      onBlocksUpdate?.(nb); // structural change  save immediately
       return nb;
     });
   }, [onBlocksUpdate]);
@@ -151,7 +151,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
   const delBlock = useCallback((idx: number) => {
     setBlocks(prev => {
       const nb = prev.filter((_, i) => i !== idx);
-      onBlocksUpdate?.(nb); // structural change — save immediately
+      onBlocksUpdate?.(nb); // structural change  save immediately
       return nb;
     });
   }, [onBlocksUpdate]);
@@ -159,7 +159,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
   const addBlock = useCallback((type: string, def: any) => {
     setBlocks(prev => {
       const nb = [...prev, { id: Date.now().toString(), type: type as any, show: true, ...def }];
-      onBlocksUpdate?.(nb); // structural change — save immediately
+      onBlocksUpdate?.(nb); // structural change  save immediately
       return nb;
     });
   }, [onBlocksUpdate]);
@@ -198,18 +198,18 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
   const celebrationText = profile.celebrationText?.trim() || 'nuntii noastre';
   const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = profile.showRsvpButton !== false;
-  const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';
+  const isSingleNameEvent = String(profile.eventType || "").toLowerCase() !== "wedding";
   const displayBlocks   = editMode ? blocks : blocks.filter(b => b.show !== false);
 
   return (
     <div className={cn("min-h-screen bg-stone-100 text-stone-900 font-serif flex items-start justify-center p-4", editMode ? "edit-mode py-8" : "py-12 items-center")}>
 
-      {/* ── Edit mode hint bar ── */}
+      {/*  Edit mode hint bar  */}
       {editMode && (
         <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-stone-900/90 backdrop-blur text-white rounded-full px-4 py-1.5 shadow-2xl text-[10px] font-bold pointer-events-none select-none">
           <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
           <span className="uppercase tracking-widest">Editare Directa</span>
-          <span className="text-stone-400 font-normal">— click pe orice text pentru a edita</span>
+          <span className="text-stone-400 font-normal"> click pe orice text pentru a edita</span>
         </div>
       )}
 
@@ -219,7 +219,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
         editMode && "mt-10"
       )}>
 
-        {/* ── HERO ── */}
+        {/*  HERO  */}
         <div>
           {profile.showWelcomeText && (
             <InlineEdit tag="p" editMode={editMode} value={welcomeText}
@@ -228,7 +228,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
               className="text-stone-500 uppercase tracking-[0.2em] text-[10px] mb-4 font-sans font-bold" />
           )}
 
-          {isBaptism ? (
+          {isSingleNameEvent ? (
             <InlineEdit tag="h1" editMode={editMode} value={profile.partner1Name || ''}
               onChange={v => upProfile('partner1Name', v)} placeholder="Prenume"
               className="text-5xl md:text-6xl text-stone-800 mb-4 leading-tight block" />
@@ -252,13 +252,13 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
           )}
         </div>
 
-        {/* ── GUEST BADGE ── */}
+        {/*  GUEST BADGE  */}
         <div className="py-4 bg-stone-50 rounded-lg border border-stone-100 mx-auto max-w-xs font-sans">
           <p className="font-bold text-lg text-stone-800">{guest?.name || 'Nume Invitat'}</p>
           <p className="text-[10px] text-stone-400 uppercase tracking-widest mt-1">Sunteti invitatii nostri de onoare</p>
         </div>
 
-        {/* ── DATE ── */}
+        {/*  DATE  */}
         <div className="flex flex-col items-center gap-2 font-sans text-sm">
           <Calendar className="w-5 h-5 text-stone-400" />
           {editMode ? (
@@ -277,7 +277,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
           )}
         </div>
 
-        {/* ── COUNTDOWN ── */}
+        {/*  COUNTDOWN  */}
         {profile.showCountdown && profile.weddingDate && !countdown.expired && (
           <div className="border-y border-stone-100 py-6 font-sans">
             <p className="text-[9px] uppercase tracking-widest text-stone-400 font-bold mb-4">Pana la eveniment</p>
@@ -290,7 +290,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
           </div>
         )}
 
-        {/* ── BLOCURI ── */}
+        {/*  BLOCURI  */}
         {displayBlocks.map((block, idx) => {
           const isVisible = block.show !== false;
           const allBlocks = blocks; // for toolbar isFirst/isLast against full array
@@ -337,7 +337,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
                 textAlign: block.blockAlign,
               } as BlockStyle}>
 
-                {/* ── LOCATIE ── */}
+                {/*  LOCATIE  */}
                 {block.type === 'location' && (
                   <div className={cn("space-y-3 py-6 border-b border-stone-100 last:border-0 text-sm font-sans", editMode && "px-3")}>
                     <InlineEdit tag="p" editMode={editMode} value={block.label || ''}
@@ -361,7 +361,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
                   </div>
                 )}
 
-              {/* ── NASI ── */}
+              {/*  NASI  */}
               {block.type === 'godparents' && (
                 <div className={cn("space-y-3 font-sans text-sm", editMode && "px-3 py-2")}>
                   <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Nasii Nostri'}
@@ -398,7 +398,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
                 </div>
               )}
 
-              {/* ── PARINTI ── */}
+              {/*  PARINTI  */}
               {block.type === 'parents' && (
                 <div className={cn("space-y-3 font-sans text-sm", editMode && "px-3 py-2")}>
                   <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Parintii Nostri'}
@@ -429,7 +429,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
                 </div>
               )}
 
-              {/* ── TEXT LIBER ── */}
+              {/*  TEXT LIBER  */}
               {block.type === 'text' && (
                 <div className={cn(editMode && "px-3 py-2")}>
                   <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
@@ -439,7 +439,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
                 </div>
               )}
 
-              {/* ── TITLU ── */}
+              {/*  TITLU  */}
               {block.type === 'title' && (
                 <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
                   onChange={v => updBlock(realIdx, { content: v })}
@@ -454,7 +454,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
           );
         })}
 
-        {/* ── ADD BLOCK strip (edit mode only) ── */}
+        {/*  ADD BLOCK strip (edit mode only)  */}
         {editMode && (
           <div className="border-2 border-dashed border-stone-100 hover:border-stone-200 rounded-xl py-4 transition-colors">
             <p className="text-[9px] text-stone-400 uppercase tracking-widest mb-2.5">Adauga bloc</p>
@@ -469,7 +469,7 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
           </div>
         )}
 
-        {/* ── RSVP ── */}
+        {/*  RSVP  */}
         {showRsvp && (
           <div className="pt-4">
             {editMode ? (
@@ -493,3 +493,4 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
 };
 
 export default ClassicTemplate;
+

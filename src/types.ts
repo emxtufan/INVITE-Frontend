@@ -280,10 +280,12 @@ export interface UserProfile {
   castleInviteMiddle?:   string;
   castleInviteBottom?:   string;
   castleInviteTag?:      string;
+  colorTheme?:           string;
   jungleHeaderText?:     string;
   jungleOverlayText?:    string;
   jungleFooterText?:     string;
   jungleIntroStyle?:     'dissolve';
+  introVariant?:         string;
 }
 
 export interface PlanLimits {

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import PublicInvitation from "./components/PublicInvitation";
 import TemplatePreviewPage from "./components/TemplatePreviewPage";
+import SimpleTemplatePreviewPage from "./components/SimpleTemplatePreviewPage";
 import DashboardApp from "./components/DashboardApp";
 import AdminApp from "./admin/AdminApp";
 import AuthForm from "./components/AuthForm";
@@ -60,6 +61,10 @@ const App = () => {
 
         if (currentPath.startsWith('/templates/') && currentPath.endsWith('/preview')) {
             return <TemplatePreviewPage />;
+        }
+
+        if (currentPath.startsWith('/simple-template-preview')) {
+            return <SimpleTemplatePreviewPage />;
         }
 
         if (currentPath === '/home' || currentPath === '/') {

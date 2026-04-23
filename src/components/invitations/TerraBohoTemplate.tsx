@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import { BlockStyleProvider, BlockStyle } from "../BlockStyleContext";
 
 import {
@@ -28,9 +28,9 @@ import { InlineEdit, InlineTime, InlineWaze } from "./InlineEdit";
 import { WeddingIcon } from "../TimelineIcons";
 import { API_URL } from "../../config/api";
 
-// ─── API URL — same origin as the Express server ─────────────────────────────
+//  API URL  same origin as the Express server 
 
-// ─── Shared helper: delete a file from the server ────────────────────────────
+//  Shared helper: delete a file from the server 
 // Called on: replace photo, delete photo, delete block with photo
 function deleteUploadedFile(url: string | undefined) {
   if (!url || !url.startsWith("/uploads/")) return; // skip base64 or empty
@@ -38,7 +38,7 @@ function deleteUploadedFile(url: string | undefined) {
     localStorage.getItem("weddingPro_session") || "{}",
   );
   const token = _session?.token || "";
-  // Fire-and-forget — we don't block UI on server cleanup
+  // Fire-and-forget  we don't block UI on server cleanup
   fetch(`${API_URL}/upload`, {
     method: "DELETE",
     headers: {
@@ -56,13 +56,13 @@ export const meta: TemplateMeta = {
   name: "Terra Boho",
   category: "wedding",
   description:
-    "Bej terracotta & script — fotografii reale, calendar, player muzica, dress code, registry cadouri.",
+    "Bej terracotta & script  fotografii reale, calendar, player muzica, dress code, registry cadouri.",
   colors: ["#f5f0e8", "#8b6355", "#c9a84c"],
   previewClass: "bg-amber-100 border-amber-700",
   elementsClass: "bg-amber-700",
 };
 
-// ─── Tokens ───────────────────────────────────────────────────────────────────
+//  Tokens 
 const BROWN = "#8b6355";
 const BROWN_D = "#6a4a3c";
 const BROWN_L = "#b08875";
@@ -76,7 +76,7 @@ const SERIF = "'Cormorant Garamond','Playfair Display',Georgia,serif";
 const SCRIPT = "'Dancing Script','Pacifico',cursive,serif";
 const SANS = "'DM Sans','Helvetica Neue',system-ui,sans-serif";
 
-// ─── Wildflower sprigs SVG ────────────────────────────────────────────────────
+//  Wildflower sprigs SVG 
 const Wildflowers: React.FC<{
   flip?: boolean;
   scale?: number;
@@ -205,16 +205,16 @@ const Wildflowers: React.FC<{
   </svg>
 );
 
-// ─── Photo upload component ────────────────────────────────────────────────────
-// ─── Photo shape definitions ──────────────────────────────────────────────────
-// ─── Shape System — Clip + Mask (combinable) ─────────────────────────────────
+//  Photo upload component 
+//  Photo shape definitions 
+//  Shape System  Clip + Mask (combinable) 
 //
-//  clipShape  : single value — controls the OUTLINE of the photo
-//  maskEffects: array        — controls FADE/OVERLAY effects (combinable)
+//  clipShape  : single value  controls the OUTLINE of the photo
+//  maskEffects: array         controls FADE/OVERLAY effects (combinable)
 //
 //  Example: circle + fade-b + fade-t = faded circle on both sides
 
-// ── Clip shapes (mutually exclusive) ─────────────────────────────────────────
+//  Clip shapes (mutually exclusive) 
 type ClipShape =
   | "rect"
   | "rounded"
@@ -238,10 +238,10 @@ type ClipShape =
   | "blob3"
   | "blob4";
 
-// ── Mask effects (additive) ───────────────────────────────────────────────────
+//  Mask effects (additive) 
 type MaskEffect = "fade-b" | "fade-t" | "fade-l" | "fade-r" | "vignette";
 
-// ── Clip shape → CSS ─────────────────────────────────────────────────────────
+//  Clip shape  CSS 
 function getClipStyle(clip: ClipShape): React.CSSProperties {
   const clips: Record<ClipShape, React.CSSProperties> = {
     rect: { borderRadius: 0 },
@@ -274,7 +274,7 @@ function getClipStyle(clip: ClipShape): React.CSSProperties {
   return clips[clip] || {};
 }
 
-// ── Mask effects → CSS mask-image (combinable via multi-layer gradient) ───────
+//  Mask effects  CSS mask-image (combinable via multi-layer gradient) 
 function getMaskStyle(effects: MaskEffect[]): React.CSSProperties {
   if (!effects.length) return {};
   const layers: string[] = effects.map((e) => {
@@ -293,7 +293,7 @@ function getMaskStyle(effects: MaskEffect[]): React.CSSProperties {
         return "none";
     }
   });
-  // CSS supports multiple mask layers — combine with multiply
+  // CSS supports multiple mask layers  combine with multiply
   const mask = layers.join(", ");
   return {
     WebkitMaskImage: mask,
@@ -303,7 +303,7 @@ function getMaskStyle(effects: MaskEffect[]): React.CSSProperties {
   };
 }
 
-// ── Clip shape thumbnails SVG ─────────────────────────────────────────────────
+//  Clip shape thumbnails SVG 
 const CLIP_SHAPES: ClipShape[] = [
   "rect",
   "rounded",
@@ -341,8 +341,8 @@ const CLIP_LABELS: Record<ClipShape, string> = {
   triangle: "Triunghi",
   star: "Stea",
   heart: "Inima",
-  diagonal: "Diag ↗",
-  "diagonal-r": "Diag ↘",
+  diagonal: "Diag ",
+  "diagonal-r": "Diag ",
   "wave-b": "Val jos",
   "wave-t": "Val sus",
   "wave-both": "Val dublu",
@@ -434,7 +434,7 @@ function ClipThumb({ shape, active }: { shape: ClipShape; active: boolean }) {
         />
       </>
     ),
-    // Blobs — organic shapes
+    // Blobs  organic shapes
     blob: (
       <path
         d="M20 7 C27 6 33 11 34 18 C35 25 30 32 22 34 C14 36 7 31 6 23 C5 15 10 8 20 7Z"
@@ -564,7 +564,7 @@ function MaskThumb({
   );
 }
 
-// ── Hidden SVG clip-path defs ─────────────────────────────────────────────────
+//  Hidden SVG clip-path defs 
 const PhotoClipDefs: React.FC = () => (
   <svg
     width="0"
@@ -584,22 +584,22 @@ const PhotoClipDefs: React.FC = () => (
       <clipPath id="clip-heart" clipPathUnits="objectBoundingBox">
         <path d="M0.5,0.85 C0.5,0.85 0.05,0.55 0.05,0.3 C0.05,0.12 0.18,0.05 0.3,0.1 C0.4,0.14 0.5,0.25 0.5,0.25 C0.5,0.25 0.6,0.14 0.7,0.1 C0.82,0.05 0.95,0.12 0.95,0.3 C0.95,0.55 0.5,0.85 0.5,0.85Z" />
       </clipPath>
-      {/* Blob 1 — from user SVG, normalized to objectBoundingBox */}
+      {/* Blob 1  from user SVG, normalized to objectBoundingBox */}
       <clipPath id="clip-blob" clipPathUnits="objectBoundingBox">
         <path d="M0.5,0.03 C0.72,0.01 0.95,0.14 0.97,0.38 C0.99,0.58 0.88,0.78 0.72,0.88 C0.56,0.98 0.35,0.99 0.2,0.88 C0.05,0.77 -0.02,0.55 0.04,0.36 C0.1,0.17 0.28,0.05 0.5,0.03Z" />
       </clipPath>
-      {/* Blob 2 — from user SVG (M25,-27.6...) normalized */}
+      {/* Blob 2  from user SVG (M25,-27.6...) normalized */}
       <clipPath id="clip-blob2" clipPathUnits="objectBoundingBox">
         <path
           d="M0.75,-0.276 C0.831,-0.229 0.911,-0.158 0.921,-0.078 C0.93,0.002 0.869,0.09 0.808,0.161 C0.747,0.232 0.685,0.285 0.611,0.316 C0.538,0.347 0.453,0.356 0.389,0.324 C0.326,0.292 0.285,0.22 0.233,0.147 C0.181,0.073 0.119,-0.003 0.113,-0.086 C0.107,-0.169 0.157,-0.259 0.231,-0.307 C0.305,-0.355 0.402,-0.362 0.493,-0.353 C0.584,-0.345 0.668,-0.322 0.75,-0.276Z"
           transform="translate(0.5,0.5) scale(0.9)"
         />
       </clipPath>
-      {/* Blob 3 — rounder organic */}
+      {/* Blob 3  rounder organic */}
       <clipPath id="clip-blob3" clipPathUnits="objectBoundingBox">
         <path d="M0.5,0.05 C0.65,0.02 0.85,0.1 0.92,0.28 C0.99,0.46 0.93,0.68 0.8,0.82 C0.67,0.96 0.46,1.0 0.3,0.93 C0.14,0.86 0.02,0.68 0.01,0.5 C0.0,0.32 0.1,0.14 0.25,0.07 C0.33,0.03 0.42,0.07 0.5,0.05Z" />
       </clipPath>
-      {/* Blob 4 — wide organic */}
+      {/* Blob 4  wide organic */}
       <clipPath id="clip-blob4" clipPathUnits="objectBoundingBox">
         <path d="M0.18,0.08 C0.32,0.01 0.54,0.0 0.68,0.08 C0.82,0.16 0.96,0.32 0.97,0.5 C0.98,0.68 0.86,0.86 0.7,0.93 C0.54,1.0 0.32,0.97 0.18,0.88 C0.04,0.79 -0.04,0.62 0.02,0.45 C0.07,0.28 0.04,0.15 0.18,0.08Z" />
       </clipPath>
@@ -607,9 +607,9 @@ const PhotoClipDefs: React.FC = () => (
   </svg>
 );
 
-// ─── Photo Placeholder — shown when no image uploaded yet ─────────────────────
+//  Photo Placeholder  shown when no image uploaded yet 
 //  Renders a beautiful SVG with gradients + couple initials + botanical elements
-//  No external requests — fully self-contained
+//  No external requests  fully self-contained
 
 interface PhotoPlaceholderProps {
   aspectRatio: string;
@@ -617,7 +617,7 @@ interface PhotoPlaceholderProps {
   photoMasks: MaskEffect[];
   initial1?: string; // first letter of partner 1
   initial2?: string; // first letter of partner 2
-  variant?: number; // 0..3 — different botanical decorations
+  variant?: number; // 0..3  different botanical decorations
   editMode: boolean;
   onClick: () => void;
 }
@@ -690,7 +690,7 @@ const PhotoPlaceholder: React.FC<PhotoPlaceholderProps> = ({
           <rect width="400" height="500" fill={`url(#${gId})`} />
           <rect width="400" height="500" fill={`url(#${gId}-r)`} />
 
-          {/* Botanical — top-left stems */}
+          {/* Botanical  top-left stems */}
           <g
             opacity="0.22"
             stroke="white"
@@ -732,7 +732,7 @@ const PhotoPlaceholder: React.FC<PhotoPlaceholderProps> = ({
             />
           </g>
 
-          {/* Botanical — bottom-right stems */}
+          {/* Botanical  bottom-right stems */}
           <g
             opacity="0.22"
             stroke="white"
@@ -852,7 +852,7 @@ const PhotoPlaceholder: React.FC<PhotoPlaceholderProps> = ({
             </g>
           ))}
 
-          {/* Edit hint — only in edit mode */}
+          {/* Edit hint  only in edit mode */}
           {editMode && (
             <g>
               <rect
@@ -953,8 +953,8 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
     setUploadErr("");
     setUploading(true);
 
-    // ── Sterge poza veche INAINTE de a uploada cea noua ──
-    // (nu asteptam raspunsul — UI nu trebuie blocat)
+    //  Sterge poza veche INAINTE de a uploada cea noua 
+    // (nu asteptam raspunsul  UI nu trebuie blocat)
     deleteUploadedFile(imageData);
 
     try {
@@ -1000,7 +1000,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
   const needsPadding = photoClip === "wave-b" || photoClip === "wave-both";
   const needsPaddingT = photoClip === "wave-t" || photoClip === "wave-both";
 
-  // Resolve image src — server URL or legacy base64
+  // Resolve image src  server URL or legacy base64
   // Demo photos (picsum) are shown as-is but with a badge in edit mode
   const isDemoPhoto = !!imageData && imageData.includes("picsum.photos");
   const imgSrc = imageData || undefined;
@@ -1182,7 +1182,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
                       zIndex: 2,
                     }}
                   >
-                    📷 Fotografie demo — apasa Schimba
+                     Fotografie demo  apasa Schimba
                   </div>
                 )}
               </div>
@@ -1201,11 +1201,11 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
     );
   }
 
-  // ── No image: show placeholder (always) + dropzone (edit only) ──
+  //  No image: show placeholder (always) + dropzone (edit only) 
   return (
     <div style={{ position: "relative" }}>
       <PhotoClipDefs />
-      {/* Beautiful placeholder — visible to everyone */}
+      {/* Beautiful placeholder  visible to everyone */}
       <PhotoPlaceholder
         aspectRatio={aspectRatio}
         photoClip={photoClip}
@@ -1216,7 +1216,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
         editMode={editMode}
         onClick={() => fileRef.current?.click()}
       />
-      {/* Drag-and-drop overlay — edit mode only */}
+      {/* Drag-and-drop overlay  edit mode only */}
       {editMode && (
         <div
           style={{
@@ -1370,7 +1370,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({
   );
 };
 
-// ─── Calendar Month ────────────────────────────────────────────────────────────
+//  Calendar Month 
 const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   if (!date) return null;
   const d = new Date(date);
@@ -1422,7 +1422,7 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
           opacity: 0.85,
         }}
       >
-        EL GRAN DIA — {monthNames[month]} {year}
+        EL GRAN DIA  {monthNames[month]} {year}
       </p>
       {/* Day headers */}
       <div
@@ -1506,7 +1506,7 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ─── YouTube IFrame API types (window.YT) ────────────────────────────────────
+//  YouTube IFrame API types (window.YT) 
 declare global {
   interface Window {
     YT: any;
@@ -1537,7 +1537,7 @@ function loadYtApi(cb: () => void) {
   };
 }
 
-// ─── YouTube Audio-only player ────────────────────────────────────────────────
+//  YouTube Audio-only player 
 interface YtAudioProps {
   ytId: string;
   title: string;
@@ -1653,7 +1653,7 @@ const YoutubeAudioPlayer: React.FC<YtAudioProps> = ({
 
   return (
     <div>
-      {/* ── Hidden YT iframe container — 1px, tucked away ── */}
+      {/*  Hidden YT iframe container  1px, tucked away  */}
       <div
         style={{
           position: "absolute",
@@ -1668,7 +1668,7 @@ const YoutubeAudioPlayer: React.FC<YtAudioProps> = ({
         <div id={containerId} />
       </div>
 
-      {/* ── Thumbnail + track info ── */}
+      {/*  Thumbnail + track info  */}
       <div
         style={{
           display: "flex",
@@ -1706,7 +1706,7 @@ const YoutubeAudioPlayer: React.FC<YtAudioProps> = ({
               (e.target as HTMLImageElement).style.display = "none";
             }}
           />
-          {/* Overlay when playing — subtle pulse ring */}
+          {/* Overlay when playing  subtle pulse ring */}
           {playing && (
             <div
               style={{
@@ -1806,7 +1806,7 @@ const YoutubeAudioPlayer: React.FC<YtAudioProps> = ({
         </div>
       </div>
 
-      {/* ── Progress bar ── */}
+      {/*  Progress bar  */}
       <div
         onClick={seek}
         style={{
@@ -1846,7 +1846,7 @@ const YoutubeAudioPlayer: React.FC<YtAudioProps> = ({
         />
       </div>
 
-      {/* ── Time ── */}
+      {/*  Time  */}
       <div
         style={{
           display: "flex",
@@ -1874,7 +1874,7 @@ const YoutubeAudioPlayer: React.FC<YtAudioProps> = ({
         </span>
       </div>
 
-      {/* ── Controls ── */}
+      {/*  Controls  */}
       <div
         style={{
           display: "flex",
@@ -1955,7 +1955,7 @@ const YoutubeAudioPlayer: React.FC<YtAudioProps> = ({
   );
 };
 
-// ─── YouTube ID extractor ─────────────────────────────────────────────────────
+//  YouTube ID extractor 
 function extractYoutubeId(url: string): string | null {
   if (!url) return null;
   const patterns = [
@@ -1969,7 +1969,7 @@ function extractYoutubeId(url: string): string | null {
   return null;
 }
 
-// ─── Music player — YouTube + MP3 ─────────────────────────────────────────────
+//  Music player  YouTube + MP3 
 interface MusicPlayerProps {
   title: string;
   artist: string;
@@ -1991,7 +1991,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   onArtistChange,
   onUrlChange,
 }) => {
-  // ── MP3 state ──
+  //  MP3 state 
   const audioRef = useRef<HTMLAudioElement>(null);
   const mp3Ref = useRef<HTMLInputElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -1999,7 +1999,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   const [duration, setDuration] = useState(0);
   const [dragging, setDragging] = useState(false);
 
-  // ── YouTube state ──
+  //  YouTube state 
   const [ytUrl, setYtUrl] = useState("");
   const [showYtInput, setShowYtInput] = useState(false);
   const [ytError, setYtError] = useState("");
@@ -2054,7 +2054,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   const fmt = (s: number) =>
     `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
-  // ── MP3 file upload ──
+  //  MP3 file upload 
   const handleMp3File = (file: File) => {
     if (!file.type.startsWith("audio/")) return;
     const reader = new FileReader();
@@ -2079,7 +2079,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
     if (f) handleMp3File(f);
   };
 
-  // ── YouTube submit ──
+  //  YouTube submit 
   const submitYt = async () => {
     const rawUrl = ytUrl.trim();
     const id = extractYoutubeId(rawUrl);
@@ -2092,7 +2092,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
     setYtError("");
     setYtFetching(true);
     try {
-      // oEmbed — public, no API key needed
+      // oEmbed  public, no API key needed
       const res = await fetch(
         `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`,
       );
@@ -2104,7 +2104,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
         if (data.author_name) onArtistChange(data.author_name);
       }
     } catch (_) {
-      // silently ignore — user can edit manually
+      // silently ignore  user can edit manually
     } finally {
       setYtFetching(false);
     }
@@ -2129,7 +2129,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
     if (audioRef.current) audioRef.current.src = "";
   };
 
-  // ── Render ──
+  //  Render 
   return (
     <div style={{ background: BROWN, borderRadius: 8, padding: "16px 20px" }}>
       {/* Hidden audio element for MP3 */}
@@ -2197,7 +2197,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
         )}
       </div>
 
-      {/* ── NO SOURCE YET — edit mode upload UI ── */}
+      {/*  NO SOURCE YET  edit mode upload UI  */}
       {(musicType === "none" || !musicUrl) && editMode && (
         <div>
           {/* YouTube input */}
@@ -2262,7 +2262,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
                       Se incarca...
                     </>
                   ) : (
-                    "✓ Adauga"
+                    " Adauga"
                   )}
                 </button>
                 <button
@@ -2282,7 +2282,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
                     fontSize: 14,
                   }}
                 >
-                  ✕
+                  
                 </button>
               </div>
               {ytError && (
@@ -2445,7 +2445,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
         </div>
       )}
 
-      {/* ── NO SOURCE — view mode placeholder ── */}
+      {/*  NO SOURCE  view mode placeholder  */}
       {(musicType === "none" || !musicUrl) && !editMode && (
         <div style={{ textAlign: "center", padding: "16px 0", opacity: 0.4 }}>
           <Music
@@ -2466,7 +2466,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
         </div>
       )}
 
-      {/* ── YOUTUBE AUDIO-ONLY PLAYER ── */}
+      {/*  YOUTUBE AUDIO-ONLY PLAYER  */}
       {musicType === "youtube" && ytId && (
         <YoutubeAudioPlayer
           ytId={ytId}
@@ -2478,10 +2478,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
         />
       )}
 
-      {/* ── MP3 PLAYER ── */}
+      {/*  MP3 PLAYER  */}
       {musicType === "mp3" && musicUrl && (
         <div>
-          {/* Track info — editable */}
+          {/* Track info  editable */}
           <div
             style={{
               display: "flex",
@@ -2570,7 +2570,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
             </div>
           </div>
 
-          {/* Progress bar — clickable */}
+          {/* Progress bar  clickable */}
           <div
             onClick={seek}
             style={{
@@ -2728,7 +2728,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
         </div>
       )}
 
-      {/* ── EDIT MODE: change source button (when source exists) ── */}
+      {/*  EDIT MODE: change source button (when source exists)  */}
       {editMode && (musicType === "youtube" || musicType === "mp3") && (
         <div
           style={{
@@ -2801,7 +2801,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   );
 };
 
-// ─── Dress code block ──────────────────────────────────────────────────────────
+//  Dress code block 
 const DressCodeBlock: React.FC<{
   block: InvitationBlock;
   editMode: boolean;
@@ -2873,7 +2873,7 @@ const DressCodeBlock: React.FC<{
   </div>
 );
 
-// ─── Gift registry block ───────────────────────────────────────────────────────
+//  Gift registry block 
 const GiftBlock: React.FC<{
   block: InvitationBlock;
   editMode: boolean;
@@ -2983,7 +2983,7 @@ const GiftBlock: React.FC<{
   </div>
 );
 
-// ─── No kids block ─────────────────────────────────────────────────────────────
+//  No kids block 
 const NoKidsBlock: React.FC<{
   block: InvitationBlock;
   editMode: boolean;
@@ -3056,7 +3056,7 @@ const NoKidsBlock: React.FC<{
   </div>
 );
 
-// ─── Quote block ───────────────────────────────────────────────────────────────
+//  Quote block 
 const QuoteBlock: React.FC<{
   block: InvitationBlock;
   editMode: boolean;
@@ -3121,7 +3121,7 @@ const QuoteBlock: React.FC<{
   </div>
 );
 
-// ─── Thank you block ───────────────────────────────────────────────────────────
+//  Thank you block 
 const ThankyouBlock: React.FC<{
   block: InvitationBlock;
   editMode: boolean;
@@ -3154,7 +3154,7 @@ const ThankyouBlock: React.FC<{
     <InlineEdit
       tag="p"
       editMode={editMode}
-      value={block.content || "¡Muchas Gracias! · Multumim din suflet!"}
+      value={block.content || "Muchas Gracias!  Multumim din suflet!"}
       onChange={(v) => onUpdate({ content: v })}
       placeholder="Text multumire..."
       style={{
@@ -3191,7 +3191,7 @@ const ThankyouBlock: React.FC<{
   </div>
 );
 
-// ─── Countdown dark section ────────────────────────────────────────────────────
+//  Countdown dark section 
 function useCountdown(target: string) {
   const calc = () => {
     const diff = new Date(target).getTime() - Date.now();
@@ -3427,7 +3427,7 @@ const CountdownSection: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ─── Scroll reveal ────────────────────────────────────────────────────────────
+//  Scroll reveal 
 function useReveal(delay = 0) {
   const ref = useRef<HTMLDivElement>(null);
   const [vis, setVis] = useState(false);
@@ -3471,7 +3471,7 @@ const Reveal: React.FC<{
   );
 };
 
-// ─── Dividers ─────────────────────────────────────────────────────────────────
+//  Dividers 
 const WildDivider = () => (
   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
     <div
@@ -3505,7 +3505,7 @@ const WildDivider = () => (
   </div>
 );
 
-// ─── Block toolbar ────────────────────────────────────────────────────────────
+//  Block toolbar 
 const BlockToolbar = ({
   onUp,
   onDown,
@@ -3569,7 +3569,7 @@ const BlockToolbar = ({
   </div>
 );
 
-// ─── Location card ────────────────────────────────────────────────────────────
+//  Location card 
 const LocCard: React.FC<{
   block: InvitationBlock;
   editMode: boolean;
@@ -3673,7 +3673,7 @@ const LocCard: React.FC<{
   );
 };
 
-// ─── Intro animation ──────────────────────────────────────────────────────────
+//  Intro animation 
 const TerraIntro: React.FC<{
   name1: string;
   name2: string;
@@ -3890,8 +3890,8 @@ const TerraIntro: React.FC<{
   );
 };
 
-// ─── Main Template ─────────────────────────────────────────────────────────────
-// ─── Timeline icons imported from TimelineIcons.tsx ────────────────────────────
+//  Main Template 
+//  Timeline icons imported from TimelineIcons.tsx 
 
 export type TerraBohoProps = InvitationTemplateProps & {
   editMode?: boolean;
@@ -3947,7 +3947,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
     setBlocks((prev) => {
       const incoming: InvitationBlock[] = safeJSON(profile.customSections, []);
       // Preserve any imageData that exists locally but hasn't propagated to the saved profile yet
-      // (race condition: upload finishes → local state updated → save debounce still pending)
+      // (race condition: upload finishes  local state updated  save debounce still pending)
       return incoming.map((b) => {
         if (b.type === "photo" && !b.imageData) {
           const local = prev.find((pb) => pb.id === b.id);
@@ -3988,7 +3988,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
     [onBlocksUpdate],
   );
 
-  // For photos, save quickly — URL is just a short string, not base64 anymore
+  // For photos, save quickly  URL is just a short string, not base64 anymore
   const debBlocksPhoto = useCallback(
     (nb: InvitationBlock[]) => {
       if (_bt.current) clearTimeout(_bt.current);
@@ -4115,7 +4115,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
   const BLOCK_TYPES = [
     {
       type: "photo",
-      label: "📷 Fotografie",
+      label: " Fotografie",
       def: {
         imageData: undefined,
         altText: "Fotografie",
@@ -4125,24 +4125,24 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
     },
     {
       type: "location",
-      label: "Locatie",
+      label: 'Locatie',
       def: { label: "", time: "", locationName: "", locationAddress: "" },
     },
     {
       type: "godparents",
-      label: "Nasi",
+      label: 'Nasi',
       def: { sectionTitle: "Nasii Nostri", content: "" },
     },
     {
       type: "parents",
-      label: "Parinti",
+      label: 'Parinti',
       def: { sectionTitle: "Parintii Nostri", content: "" },
     },
-    { type: "calendar", label: "📅 Calendar", def: {} },
-    { type: "countdown", label: "⏱ Countdown", def: {} },
+    { type: "calendar", label: 'Calendar', def: {} },
+    { type: "countdown", label: 'Countdown', def: {} },
     {
       type: "music",
-      label: "🎵 Muzica",
+      label: 'Muzica',
       def: { musicTitle: "", musicArtist: "" },
     },
     {
@@ -4152,7 +4152,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
     },
     {
       type: "gift",
-      label: "🎁 Cadouri",
+      label: 'Cadouri',
       def: {
         sectionTitle: "Sugestie cadou",
         content: "",
@@ -4169,11 +4169,11 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
     {
       type: "thankyou",
       label: "Multumire",
-      def: { content: "¡Muchas Gracias! · Multumim!", label: "" },
+      def: { content: "Muchas Gracias!  Multumim!", label: "" },
     },
-    { type: "text", label: "Text", def: { content: "" } },
-    { type: "title", label: "Titlu", def: { content: "" } },
-    { type: "divider", label: "Linie", def: {} },
+    { type: "text", label: 'Text', def: { content: "" } },
+    { type: "title", label: 'Titlu', def: { content: "" } },
+    { type: "divider", label: 'Linie', def: {} },
   ];
 
   return (
@@ -4263,7 +4263,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
             />
             <span className="uppercase tracking-widest">Editare Directa</span>
             <span className="font-normal" style={{ color: MUTED }}>
-              — click pe orice text
+               click pe orice text
             </span>
           </div>
         )}
@@ -4277,14 +4277,14 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
             padding: "0 20px 56px",
           }}
         >
-          {/* ── HERO ── */}
+          {/*  HERO  */}
           <div
             style={{
               textAlign: "center",
               padding: editMode ? "24px 0 32px" : "52px 0 32px",
             }}
           >
-            {/* Envelope-style header — selectable in edit mode */}
+            {/* Envelope-style header  selectable in edit mode */}
             <div
               onClick={
                 editMode
@@ -4611,7 +4611,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
             )}
           </div>
 
-          {/* ── BLOCKS ── */}
+          {/*  BLOCKS  */}
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {displayBlocks.map((block, displayIdx) => {
               const isVisible = block.show !== false;
@@ -4740,7 +4740,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                         isLast={realIdx === blocks.length - 1}
                       />
                     )}
-                    {/* Style hint pill — only for photo blocks */}
+                    {/* Style hint pill  only for photo blocks */}
                     {editMode && block.type === "photo" && (
                       <div className="absolute bottom-1 right-1 opacity-0 group-hover/block:opacity-100 transition-opacity duration-100 pointer-events-none z-10">
                         <div
@@ -4781,12 +4781,12 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                               strokeLinecap="round"
                             />
                           </svg>
-                          {isSelected ? "Activ →" : "Stil"}
+                          {isSelected ? "Activ " : "Stil"}
                         </div>
                       </div>
                     )}
 
-                    {/* ── PHOTO BLOCK ── */}
+                    {/*  PHOTO BLOCK  */}
                     {block.type === "photo" && (
                       <Reveal>
                         <PhotoBlock
@@ -5208,7 +5208,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
             })}
           </div>
 
-          {/* ── ADD BLOCK STRIP ── */}
+          {/*  ADD BLOCK STRIP  */}
           {editMode && (
             <div
               style={{
@@ -5304,7 +5304,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                           minHeight: 64,
                         }}
                       >
-                        {/* ── Time column ── */}
+                        {/*  Time column  */}
                         <div
                           style={{
                             display: "flex",
@@ -5327,7 +5327,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                           </span>
                         </div>
 
-                        {/* ── Spine: big icon circle + connector line ── */}
+                        {/*  Spine: big icon circle + connector line  */}
                         <div
                           style={{
                             display: "flex",
@@ -5370,7 +5370,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                           )}
                         </div>
 
-                        {/* ── Content: title + notice ── */}
+                        {/*  Content: title + notice  */}
                         <div
                           style={{
                             paddingLeft: 12,
@@ -5500,7 +5500,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                 marginTop: 14,
               }}
             >
-              cu drag · WeddingPro
+              cu drag  WeddingPro
             </p>
           </Reveal>
         </div>
@@ -5510,3 +5510,4 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
 };
 
 export default TerraBohoTemplate;
+

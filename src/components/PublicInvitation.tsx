@@ -12,6 +12,7 @@ import { createComponentFromCode } from "../lib/template-utils";
 
 // Import Registry instead of individual templates
 import { getTemplateComponent } from "./invitations/registry";
+import { getSimpleTemplateComponent } from "./simple-templates/registry";
 import RsvpModal from "./invitations/RsvpModal";
 import { useToast } from "./ui/use-toast";
 
@@ -32,6 +33,13 @@ const PublicInvitation = () => {
     // Store token for specific invite, or detect public mode
     const [token, setToken] = useState<string | null>(null);
     const [isPublicMode, setIsPublicMode] = useState(false);
+
+    const getAnyTemplateComponent = (id: string) => {
+        if (id === "classic") {
+            return getSimpleTemplateComponent(id) || getTemplateComponent(id);
+        }
+        return getTemplateComponent(id) || getSimpleTemplateComponent(id);
+    };
 
     const fetchDynamicTemplate = async (id: string) => {
         setLoadingTemplate(true);
@@ -56,7 +64,7 @@ const PublicInvitation = () => {
             setData(inviteData);
             const templateId = inviteData.project.selectedTemplate || 'classic';
             // If it's not a hardcoded template, fetch it
-            if (!getTemplateComponent(templateId)) {
+            if (!getAnyTemplateComponent(templateId)) {
                 fetchDynamicTemplate(templateId);
             }
         };
@@ -221,7 +229,7 @@ const PublicInvitation = () => {
 
     // --- DYNAMIC TEMPLATE RENDERING ---
     const templateId = data.project.selectedTemplate || 'classic';
-    const TemplateComponent = getTemplateComponent(templateId);
+    const TemplateComponent = getAnyTemplateComponent(templateId);
 
     // If it's a dynamic template from DB with custom code
     if (!TemplateComponent && CustomComponent) {

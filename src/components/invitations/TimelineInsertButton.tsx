@@ -1,27 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
+﻿import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 type TimelinePreset = { icon: string; emoji: string; title: string };
 
 const TIMELINE_PRESETS: TimelinePreset[] = [
-  { icon: "diamond", emoji: "💍", title: "Pregatirea mirilor" },
-  { icon: "dress", emoji: "👗", title: "Imbracarea miresei" },
-  { icon: "ceremony", emoji: "⛪", title: "Ceremonia civila" },
-  { icon: "candles", emoji: "🕯️", title: "Ceremonia religioasa" },
-  { icon: "photo", emoji: "📷", title: "Sedinta foto" },
-  { icon: "arch", emoji: "🌸", title: "Intrarea in sala" },
-  { icon: "dance", emoji: "💃", title: "Dansul mirilor" },
-  { icon: "cocktails", emoji: "🍸", title: "Cocktail & aperitiv" },
-  { icon: "dinner", emoji: "🍽️", title: "Masa festiva" },
-  { icon: "music", emoji: "🎵", title: "Muzica live" },
-  { icon: "mic", emoji: "🎤", title: "Toast & discursuri" },
-  { icon: "cake", emoji: "🎂", title: "Taierea tortului" },
-  { icon: "bouquet", emoji: "💐", title: "Aruncarea buchetului" },
-  { icon: "champagne", emoji: "🥂", title: "Sampanie & felicitari" },
-  { icon: "car", emoji: "🚗", title: "Plecare miri" },
-  { icon: "disco", emoji: "🪩", title: "After party" },
-  { icon: "fireworks", emoji: "🎆", title: "Focuri de artificii" },
-  { icon: "moon", emoji: "🌙", title: "Finalul evenimentului" },
+  { icon: "diamond", emoji: "", title: "Pregatirea mirilor" },
+  { icon: "dress", emoji: "", title: "Imbracarea miresei" },
+  { icon: "ceremony", emoji: "", title: "Ceremonia civila" },
+  { icon: "candles", emoji: "", title: "Ceremonia religioasa" },
+  { icon: "photo", emoji: "", title: "Sedinta foto" },
+  { icon: "arch", emoji: "", title: "Intrarea in sala" },
+  { icon: "dance", emoji: "", title: "Dansul mirilor" },
+  { icon: "cocktails", emoji: "", title: "Cocktail & aperitiv" },
+  { icon: "dinner", emoji: "", title: "Masa festiva" },
+  { icon: "music", emoji: "", title: "Muzica live" },
+  { icon: "mic", emoji: "", title: "Toast & discursuri" },
+  { icon: "cake", emoji: "", title: "Taierea tortului" },
+  { icon: "bouquet", emoji: "", title: "Aruncarea buchetului" },
+  { icon: "champagne", emoji: "", title: "Sampanie & felicitari" },
+  { icon: "car", emoji: "", title: "Plecare miri" },
+  { icon: "disco", emoji: "", title: "After party" },
+  { icon: "fireworks", emoji: "", title: "Focuri de artificii" },
+  { icon: "moon", emoji: "", title: "Finalul evenimentului" },
 ];
 
 export const TimelineInsertButton: React.FC<{
@@ -104,7 +104,7 @@ export const TimelineInsertButton: React.FC<{
           fontWeight: 700,
         }}
       >
-        {open ? "×" : "+"}
+        {open ? "" : "+"}
       </button>
 
       {open && typeof document !== "undefined"
@@ -200,3 +200,4 @@ export const TimelineInsertButton: React.FC<{
     </div>
   );
 };
+

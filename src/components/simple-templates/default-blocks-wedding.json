@@ -1,0 +1,136 @@
+[
+  {
+    "id": "wd-photo-1",
+    "type": "photo",
+    "show": true,
+    "imageData": "",
+    "altText": "Fotografie cu mirii",
+    "aspectRatio": "3:4",
+    "photoClip": "arch",
+    "photoMasks": ["fade-b"]
+  },
+  {
+    "id": "wd-text-1",
+    "type": "text",
+    "show": true,
+    "content": "Cu multa bucurie va invitam sa fiti alaturi de noi intr-una dintre cele mai frumoase zile din viata noastra."
+  },
+  {
+    "id": "wd-calendar",
+    "type": "calendar",
+    "show": true
+  },
+  {
+    "id": "wd-divider-1",
+    "type": "divider",
+    "show": true
+  },
+  {
+    "id": "wd-text-2",
+    "type": "text",
+    "show": true,
+    "content": "Alaturi de noi vor fi cei dragi, care ne-au fost sprijin si inspiratie."
+  },
+  {
+    "id": "wd-family-1",
+    "type": "family",
+    "show": true,
+    "label": "Parintii Miresei",
+    "content": "Cu drag si recunostinta",
+    "members": "[{\"name1\":\"Nume Tata\",\"name2\":\"Nume Mama\"}]"
+  },
+  {
+    "id": "wd-family-2",
+    "type": "family",
+    "show": true,
+    "label": "Parintii Mirelui",
+    "content": "Cu drag si recunostinta",
+    "members": "[{\"name1\":\"Nume Tata\",\"name2\":\"Nume Mama\"}]"
+  },
+  {
+    "id": "wd-family-3",
+    "type": "family",
+    "show": true,
+    "label": "Nasii",
+    "content": "Cu drag si recunostinta",
+    "members": "[{\"name1\":\"Nume Nasa\",\"name2\":\"Nume Nas\"}]"
+  },
+  {
+    "id": "wd-divider-2",
+    "type": "divider",
+    "show": true
+  },
+  {
+    "id": "wd-text-3",
+    "type": "text",
+    "show": true,
+    "content": "Momentele speciale ale zilei se vor desfasura in urmatoarele locatii:"
+  },
+  {
+    "id": "wd-location-1",
+    "type": "location",
+    "show": true,
+    "label": "Cununia civila",
+    "time": "14:00",
+    "locationName": "Primarie",
+    "locationAddress": "Strada Exemplu nr. 1",
+    "wazeLink": "https://waze.com"
+  },
+  {
+    "id": "wd-divider-3",
+    "type": "divider",
+    "show": true
+  },
+  {
+    "id": "wd-location-2",
+    "type": "location",
+    "show": true,
+    "label": "Ceremonia religioasa",
+    "time": "16:00",
+    "locationName": "Biserica",
+    "locationAddress": "Strada Exemplu nr. 2",
+    "wazeLink": "https://waze.com"
+  },
+  {
+    "id": "wd-divider-4",
+    "type": "divider",
+    "show": true
+  },
+  {
+    "id": "wd-location-3",
+    "type": "location",
+    "show": true,
+    "label": "Petrecerea",
+    "time": "19:00",
+    "locationName": "Restaurant",
+    "locationAddress": "Strada Exemplu nr. 3",
+    "wazeLink": "https://waze.com"
+  },
+  {
+    "id": "wd-divider-5",
+    "type": "divider",
+    "show": true
+  },
+  {
+    "id": "wd-photo-2",
+    "type": "photo",
+    "show": true,
+    "imageData": "",
+    "altText": "Fotografie cu mirii",
+    "aspectRatio": "1:1",
+    "photoClip": "rounded",
+    "photoMasks": []
+  },
+  {
+    "id": "wd-text-4",
+    "type": "text",
+    "show": true,
+    "content": "Va rugam sa ne confirmati prezenta pentru o organizare cat mai buna."
+  },
+  {
+    "id": "wd-rsvp-1",
+    "type": "rsvp",
+    "show": true,
+    "label": "Confirma Prezenta"
+  }
+]

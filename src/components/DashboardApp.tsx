@@ -108,7 +108,7 @@ import HistoryView from "./HistoryView";
 import TasksView from "./TasksView";
 import BudgetView from "./BudgetView";
 import GuestListView from "./GuestListView";
-import InvitationMarketplace from "./InvitationMarketplace";
+import SimpleInvitationWizard from "./SimpleInvitationWizard";
 import ServicesMarketplace from "./ServicesMarketplace";
 import ServiceRequests from "./ServiceRequests";
 import BillingView from "./BillingView";
@@ -275,28 +275,6 @@ type AccountDraft = {
   billingCountry: string;
 };
 
-const BUCHAREST_KEYS = new Set(['bucuresti', 'bucharest', 'municipiul bucuresti', 'mun bucuresti']);
-const SECTOR_OPTIONS = ['Sector 1', 'Sector 2', 'Sector 3', 'Sector 4', 'Sector 5', 'Sector 6'];
-
-const normalizeLocationValue = (value: string) =>
-  String(value || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\./g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-const isBucharestCity = (city: string) => BUCHAREST_KEYS.has(normalizeLocationValue(city));
-
-const normalizeSector = (value: string) => {
-  const raw = String(value || '').trim();
-  if (!raw) return '';
-  const m = raw.match(/([1-6])/);
-  if (!m) return '';
-  return `Sector ${m[1]}`;
-};
-
 const formatDateTime = (value?: string | Date) => {
   if (!value) return "N/A";
   const d = new Date(value);
@@ -371,6 +349,45 @@ const buildAccountDraft = (session: UserSession | null): AccountDraft => {
     billingCounty: String(profile?.billingAddressData?.county || profile?.billingCounty || profile?.county || ""),
     billingCountry: String(profile?.billingAddressData?.country || profile?.billingCountry || profile?.country || "Romania"),
   };
+};
+
+const sanitizeProfileForProjectSave = (
+  profile: UserProfile,
+): Partial<UserProfile> => {
+  const next: Record<string, any> = { ...profile };
+  [
+    "address",
+    "city",
+    "county",
+    "country",
+    "shippingCounty",
+    "shippingCity",
+    "shippingStreet",
+    "shippingNumber",
+    "shippingBlock",
+    "shippingStaircase",
+    "shippingFloor",
+    "shippingApartment",
+    "shippingPostalCode",
+    "shippingLandmark",
+    "shippingCountry",
+    "billingType",
+    "billingName",
+    "billingCompany",
+    "billingVatCode",
+    "billingRegNo",
+    "billingEmail",
+    "billingPhone",
+    "billingAddress",
+    "billingCity",
+    "billingSector",
+    "billingCounty",
+    "billingCountry",
+    "billingAddressData",
+  ].forEach((key) => {
+    delete next[key];
+  });
+  return next as Partial<UserProfile>;
 };
 
 const GuestInput = memo(
@@ -595,6 +612,8 @@ const GuestInput = memo(
 );
 
 const DashboardApp = () => {
+  const DEFAULT_SIMPLE_TEMPLATE_ID = "castle-magic-girl-simple";
+  const DEFAULT_FREE_TEMPLATE_ID = "classic";
   const removeSuggestedTasks = (taskList: Task[] | undefined | null): Task[] =>
     Array.isArray(taskList)
       ? taskList.filter(
@@ -706,7 +725,32 @@ const DashboardApp = () => {
     INITIAL_BUDGET_CATEGORIES,
   );
   const [totalBudget, setTotalBudget] = useState<number>(0);
-  const [selectedTemplate, setSelectedTemplate] = useState<string>("classic");
+  const [selectedTemplate, setSelectedTemplate] = useState<string>(
+    DEFAULT_FREE_TEMPLATE_ID,
+  );
+  const SIMPLE_TEMPLATE_IDS = useMemo(
+    () =>
+      new Set([
+        "classic",
+        "castle-magic-girl-simple",
+        "gabbys-dollhouse-simple",
+        "spiderman-simple",
+        "adventure-road-simple",
+        "frozen-simple",
+        "jurassic-park-simple",
+        "little-mermaid-simple",
+        "unicorn-academy-simple",
+        "zootropolis-simple",
+        "royal-rose-simple",
+        "blush-bloom-simple",
+        "garden-romantic-simple",
+        "etern-botanica-simple",
+        "regal-simple",
+        "lord-effects-simple",
+        "luxury-style-simple",
+      ]),
+    [],
+  );
   const [templateVisibility, setTemplateVisibility] = useState<
     Record<string, "live" | "coming_soon">
   >({});
@@ -978,110 +1022,23 @@ const DashboardApp = () => {
     }
 
     const guestEstimateNum = Number(accountDraft.guestEstimate || 0);
-    const normalizedCountry = String(accountDraft.shippingCountry || "Romania").trim() || "Romania";
-    const shippingDraft = {
-      county: String(accountDraft.shippingCounty || "").trim(),
-      city: String(accountDraft.shippingCity || "").trim(),
-      street: String(accountDraft.shippingStreet || "").trim(),
-      number: String(accountDraft.shippingNumber || "").trim(),
-      block: String(accountDraft.shippingBlock || "").trim(),
-      staircase: String(accountDraft.shippingStaircase || "").trim(),
-      floor: String(accountDraft.shippingFloor || "").trim(),
-      apartment: String(accountDraft.shippingApartment || "").trim(),
-      postalCode: String(accountDraft.shippingPostalCode || "").trim(),
-      landmark: String(accountDraft.shippingLandmark || "").trim(),
-      country: normalizedCountry,
-    };
-    const hasAnyShippingField = [
-      shippingDraft.county,
-      shippingDraft.city,
-      shippingDraft.street,
-      shippingDraft.number,
-      shippingDraft.block,
-      shippingDraft.staircase,
-      shippingDraft.floor,
-      shippingDraft.apartment,
-      shippingDraft.postalCode,
-      shippingDraft.landmark,
-    ].some((v) => !!String(v || "").trim());
-    const hasCoreShippingFields =
-      !!shippingDraft.county &&
-      !!shippingDraft.city &&
-      !!shippingDraft.street &&
-      !!shippingDraft.number &&
-      /^\d{6}$/.test(shippingDraft.postalCode);
-    if (hasAnyShippingField && !hasCoreShippingFields) {
-      setAccountPanelMessage({
-        type: "error",
-        text: "Daca vrei sa salvezi adresa principala, completeaza judet, localitate, strada, numar si cod postal (6 cifre).",
-      });
-      return;
-    }
+    const normalizedEventType = String(accountDraft.eventType || "wedding")
+      .trim()
+      .toLowerCase();
+    const isWeddingEvent = normalizedEventType === "wedding";
     const profilePayload: Partial<UserProfile> = {
       firstName: accountDraft.firstName.trim(),
       lastName: accountDraft.lastName.trim(),
       phone: accountDraft.phone.trim(),
       eventRole: accountDraft.eventRole.trim(),
-      eventType: (accountDraft.eventType || "wedding") as any,
+      eventType: (normalizedEventType || "wedding") as any,
       eventName: accountDraft.eventName.trim(),
       weddingDate: accountDraft.weddingDate || "",
       guestEstimate: Number.isFinite(guestEstimateNum) ? guestEstimateNum : 0,
       partner1Name: accountDraft.partner1Name.trim(),
-      partner2Name: accountDraft.partner2Name.trim(),
+      partner2Name: isWeddingEvent ? accountDraft.partner2Name.trim() : "",
       inviteSlug: accountDraft.inviteSlug.trim(),
-      billingType: accountDraft.billingType.trim(),
-      billingName: accountDraft.billingName.trim(),
-      billingCompany: accountDraft.billingCompany.trim(),
-      billingVatCode: accountDraft.billingVatCode.trim(),
-      billingRegNo: accountDraft.billingRegNo.trim(),
-      billingEmail: accountDraft.billingEmail.trim(),
-      billingPhone: accountDraft.billingPhone.trim(),
-      billingAddress: accountDraft.billingAddress.trim(),
-      billingAddressData: {
-        country: accountDraft.billingCountry.trim(),
-        county: accountDraft.billingCounty.trim(),
-        city: accountDraft.billingCity.trim(),
-        streetAddress: accountDraft.billingAddress.trim(),
-        postalCode: accountDraft.shippingPostalCode.trim(),
-        addressLine2: '',
-      },
-      billingCity: accountDraft.billingCity.trim(),
-      billingSector: normalizeSector(accountDraft.billingSector),
-      billingCounty: accountDraft.billingCounty.trim(),
-      billingCountry: accountDraft.billingCountry.trim(),
     };
-    if (hasCoreShippingFields) {
-      const composedLegacyAddress = [
-        `${shippingDraft.street} ${shippingDraft.number}`.trim(),
-        shippingDraft.block ? `Bl. ${shippingDraft.block}` : "",
-        shippingDraft.staircase ? `Sc. ${shippingDraft.staircase}` : "",
-        shippingDraft.floor ? `Et. ${shippingDraft.floor}` : "",
-        shippingDraft.apartment ? `Ap. ${shippingDraft.apartment}` : "",
-        [shippingDraft.city, shippingDraft.county, shippingDraft.country]
-          .filter(Boolean)
-          .join(", "),
-        shippingDraft.postalCode ? `Cod postal ${shippingDraft.postalCode}` : "",
-        shippingDraft.landmark ? `Reper: ${shippingDraft.landmark}` : "",
-      ]
-        .filter(Boolean)
-        .join(" | ");
-
-      profilePayload.address = composedLegacyAddress;
-      profilePayload.city = shippingDraft.city;
-      profilePayload.county = shippingDraft.county;
-      profilePayload.country = shippingDraft.country;
-      profilePayload.shippingCounty = shippingDraft.county;
-      profilePayload.shippingCity = shippingDraft.city;
-      profilePayload.shippingStreet = shippingDraft.street;
-      profilePayload.shippingNumber = shippingDraft.number;
-      profilePayload.shippingBlock = shippingDraft.block;
-      profilePayload.shippingStaircase = shippingDraft.staircase;
-      profilePayload.shippingFloor = shippingDraft.floor;
-      profilePayload.shippingApartment = shippingDraft.apartment;
-      profilePayload.shippingPostalCode = shippingDraft.postalCode;
-      profilePayload.shippingLandmark = shippingDraft.landmark;
-      profilePayload.shippingCountry = shippingDraft.country;
-    }
 
     setIsSavingAccount(true);
     setAccountPanelMessage(null);
@@ -1857,7 +1814,7 @@ const DashboardApp = () => {
             updated = true;
             toast({ title: "Cont Premium activat!", variant: "success" });
             if (session?.userId && session?.token && !viewingSnapshotId)
-              loadUserData(session.userId, session.token);
+              loadUserData(session.userId, session.token, "premium");
           } else {
             await new Promise((resolve) => setTimeout(resolve, 2000));
           }
@@ -1952,6 +1909,7 @@ const DashboardApp = () => {
     const initData = async () => {
       let currentToken = session?.token;
       let currentUserId = session?.userId;
+      let currentPlan = session?.plan;
 
       // If no session in state, try localStorage
       if (!session) {
@@ -1961,12 +1919,13 @@ const DashboardApp = () => {
           setSession(parsedSession);
           currentToken = parsedSession.token;
           currentUserId = parsedSession.userId;
+          currentPlan = parsedSession.plan;
         }
       }
 
       if (currentToken && currentUserId && !viewingSnapshotId) {
         // Load project data
-        loadUserData(currentUserId, currentToken);
+        loadUserData(currentUserId, currentToken, currentPlan);
         // Load guest list
         fetchGuestList(currentUserId, currentToken);
         // Refresh session to get latest Admin Configs (Price/Limits)
@@ -2018,7 +1977,11 @@ const DashboardApp = () => {
     }
   };
 
-  const loadUserData = async (userId: string, token: string) => {
+  const loadUserData = async (
+    userId: string,
+    token: string,
+    planOverride?: string,
+  ) => {
     setIsLoadingData(true);
     try {
       const res = await fetch(`${API_URL}/project/${userId}`, {
@@ -2049,7 +2012,12 @@ const DashboardApp = () => {
 
       if (data.budget) setBudgetCategories(data.budget);
       if (data.totalBudget) setTotalBudget(data.totalBudget);
-      if (data.selectedTemplate) setSelectedTemplate(data.selectedTemplate);
+      const effectivePlan = String(planOverride || session?.plan || "free").toLowerCase();
+      const defaultTemplateForPlan =
+        effectivePlan === "basic" || effectivePlan === "premium"
+          ? DEFAULT_SIMPLE_TEMPLATE_ID
+          : DEFAULT_FREE_TEMPLATE_ID;
+      setSelectedTemplate(data.selectedTemplate || defaultTemplateForPlan);
 
       // ── Always refresh profile from server to get latest blocks ──────────
       // This ensures default blocks injected server-side are picked up
@@ -2071,7 +2039,7 @@ const DashboardApp = () => {
       window.history.replaceState({}, "", "/dashboard");
     }
     if (newSession.token) {
-      loadUserData(newSession.userId, newSession.token);
+      loadUserData(newSession.userId, newSession.token, newSession.plan);
       fetchGuestList(newSession.userId, newSession.token);
       refreshSession(newSession.token);
     }
@@ -2217,6 +2185,47 @@ const DashboardApp = () => {
     [handleActionAttempt, handleUpdateProfile, selectedTemplate, session]
   );
 
+  const handleSimpleTemplateSelect = useCallback(
+    (id: string) => {
+      if (!handleActionAttempt()) return;
+      if (id === selectedTemplate) return;
+
+      if (SIMPLE_TEMPLATE_IDS.has(id)) {
+        setSelectedTemplate(id);
+        return;
+      }
+
+      selectTemplateWithFullReset(id);
+    },
+    [
+      SIMPLE_TEMPLATE_IDS,
+      handleActionAttempt,
+      selectTemplateWithFullReset,
+      selectedTemplate,
+    ],
+  );
+
+  useEffect(() => {
+    if (!session?.profile) return;
+    if (viewingSnapshotId) return;
+    if (!isEventActive) return;
+
+    const normalizedPlan = String(session?.plan || "free").toLowerCase();
+    const isPaidPlan = normalizedPlan === "basic" || normalizedPlan === "premium";
+    if (isPaidPlan) return;
+    if (selectedTemplate === "classic") return;
+
+    // Pentru conturile fara upgrade folosim implicit ClassicTemplate.
+    selectTemplateWithFullReset("classic", { skipActionCheck: true });
+  }, [
+    isEventActive,
+    selectedTemplate,
+    selectTemplateWithFullReset,
+    session?.plan,
+    session?.profile,
+    viewingSnapshotId,
+  ]);
+
   useEffect(() => {
     if (!session?.profile) return;
     if (viewingSnapshotId) return;
@@ -2318,7 +2327,7 @@ const DashboardApp = () => {
             p.customSections = JSON.stringify(clean);
           } catch { /* leave as-is */ }
         }
-        return p;
+        return sanitizeProfileForProjectSave(p);
       })();
 
       const resProfile = await fetch(`${API_URL}/profile`, {
@@ -3515,7 +3524,14 @@ const DashboardApp = () => {
                     <label className="text-xs text-muted-foreground">Tip eveniment</label>
                     <select
                       value={accountDraft.eventType}
-                      onChange={(e) => updateAccountDraft("eventType", e.target.value)}
+                      onChange={(e) => {
+                        const nextEventType = String(e.target.value || "").toLowerCase();
+                        setAccountDraft((prev) => ({
+                          ...prev,
+                          eventType: nextEventType,
+                          partner2Name: nextEventType === "wedding" ? prev.partner2Name : "",
+                        }));
+                      }}
                       className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
                     >
                       <option value="wedding">Nunta</option>
@@ -3548,160 +3564,22 @@ const DashboardApp = () => {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Partener 1</label>
+                    <label className="text-xs text-muted-foreground">
+                      {String(accountDraft.eventType || "").toLowerCase() === "wedding"
+                        ? "Partener 1"
+                        : "Nume principal"}
+                    </label>
                     <Input value={accountDraft.partner1Name} onChange={(e: any) => updateAccountDraft("partner1Name", e.target.value)} />
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Partener 2</label>
-                    <Input value={accountDraft.partner2Name} onChange={(e: any) => updateAccountDraft("partner2Name", e.target.value)} />
-                  </div>
+                  {String(accountDraft.eventType || "").toLowerCase() === "wedding" && (
+                    <div className="space-y-1">
+                      <label className="text-xs text-muted-foreground">Partener 2</label>
+                      <Input value={accountDraft.partner2Name} onChange={(e: any) => updateAccountDraft("partner2Name", e.target.value)} />
+                    </div>
+                  )}
                   <div className="space-y-1 md:col-span-2">
                     <label className="text-xs text-muted-foreground">Slug invitatie</label>
                     <Input value={accountDraft.inviteSlug} onChange={(e: any) => updateAccountDraft("inviteSlug", e.target.value)} />
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-border bg-muted/30 p-4">
-                <div className="text-sm font-semibold mb-1">Adresele mele</div>
-                <p className="text-xs text-muted-foreground mb-3">
-                  Adresa principala de livrare/facturare. Campurile marcate optional pot ramane goale.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Judet *</label>
-                    <Input value={accountDraft.shippingCounty} onChange={(e: any) => updateAccountDraft("shippingCounty", e.target.value)} />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Localitate *</label>
-                    <Input
-                      value={accountDraft.shippingCity}
-                      onChange={(e: any) => {
-                        const city = e.target.value;
-                        updateAccountDraft("shippingCity", city);
-                        if (isBucharestCity(city)) updateAccountDraft("shippingCounty", "Bucuresti");
-                      }}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Strada *</label>
-                    <Input value={accountDraft.shippingStreet} onChange={(e: any) => updateAccountDraft("shippingStreet", e.target.value)} />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Numar *</label>
-                    <Input value={accountDraft.shippingNumber} onChange={(e: any) => updateAccountDraft("shippingNumber", e.target.value)} />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Cod postal *</label>
-                    <Input
-                      inputMode="numeric"
-                      maxLength={6}
-                      value={accountDraft.shippingPostalCode}
-                      onChange={(e: any) =>
-                        updateAccountDraft("shippingPostalCode", String(e.target.value || "").replace(/\D/g, "").slice(0, 6))
-                      }
-                    />
-                  </div>
-                  <div className="space-y-1 md:col-span-2">
-                    <label className="text-xs text-muted-foreground">Reper / detalii livrare (optional)</label>
-                    <Input value={accountDraft.shippingLandmark} onChange={(e: any) => updateAccountDraft("shippingLandmark", e.target.value)} />
-                  </div>
-                  <div className="space-y-1 md:col-span-2">
-                    <label className="text-xs text-muted-foreground">Tara</label>
-                    <Input value={accountDraft.shippingCountry} onChange={(e: any) => updateAccountDraft("shippingCountry", e.target.value)} />
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-border bg-muted/30 p-4">
-                <div className="text-sm font-semibold mb-3">Date facturare</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Tip facturare</label>
-                    <select
-                      value={accountDraft.billingType}
-                      onChange={(e) => updateAccountDraft("billingType", e.target.value)}
-                      className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
-                    >
-                      <option value="">Selecteaza</option>
-                      <option value="individual">Persoana fizica</option>
-                      <option value="company">Persoana juridica</option>
-                    </select>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Nume facturare</label>
-                    <Input value={accountDraft.billingName} onChange={(e: any) => updateAccountDraft("billingName", e.target.value)} />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Companie</label>
-                    <Input value={accountDraft.billingCompany} onChange={(e: any) => updateAccountDraft("billingCompany", e.target.value)} />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">CUI / CIF</label>
-                    <Input value={accountDraft.billingVatCode} onChange={(e: any) => updateAccountDraft("billingVatCode", e.target.value)} />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Nr. Reg. Comert</label>
-                    <Input value={accountDraft.billingRegNo} onChange={(e: any) => updateAccountDraft("billingRegNo", e.target.value)} />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Email facturare</label>
-                    <Input type="email" value={accountDraft.billingEmail} onChange={(e: any) => updateAccountDraft("billingEmail", e.target.value)} />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Telefon facturare</label>
-                    <Input value={accountDraft.billingPhone} onChange={(e: any) => updateAccountDraft("billingPhone", e.target.value)} />
-                  </div>
-                  <div className="space-y-1 md:col-span-2">
-                    <label className="text-xs text-muted-foreground">Adresa facturare</label>
-                    <Input value={accountDraft.billingAddress} onChange={(e: any) => updateAccountDraft("billingAddress", e.target.value)} />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Oras facturare</label>
-                    <Input
-                      value={accountDraft.billingCity}
-                      onChange={(e: any) => {
-                        const value = e.target.value;
-                        updateAccountDraft("billingCity", value);
-                        if (isBucharestCity(value)) {
-                          updateAccountDraft("billingCounty", "Bucuresti");
-                        } else if ((accountDraft.billingCounty || "").trim().toLowerCase() === "bucuresti") {
-                          updateAccountDraft("billingCounty", "");
-                        }
-                      }}
-                    />
-                  </div>
-                  {isBucharestCity(accountDraft.billingCity) && (
-                    <div className="space-y-1">
-                      <label className="text-xs text-muted-foreground">Sector facturare</label>
-                      <select
-                        value={normalizeSector(accountDraft.billingSector)}
-                        onChange={(e) => updateAccountDraft("billingSector", e.target.value)}
-                        className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
-                      >
-                        <option value="">Selecteaza sector</option>
-                        {SECTOR_OPTIONS.map((sector) => (
-                          <option key={sector} value={sector}>
-                            {sector}
-                          </option>
-                        ))}
-                      </select>
-                      <p className="text-[11px] text-muted-foreground">
-                        Pentru Bucuresti, sectorul este obligatoriu la facturare.
-                      </p>
-                    </div>
-                  )}
-                  <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Judet facturare</label>
-                    <Input
-                      value={isBucharestCity(accountDraft.billingCity) ? "Bucuresti" : accountDraft.billingCounty}
-                      onChange={(e: any) => updateAccountDraft("billingCounty", e.target.value)}
-                      disabled={isBucharestCity(accountDraft.billingCity)}
-                    />
-                  </div>
-                  <div className="space-y-1 md:col-span-2">
-                    <label className="text-xs text-muted-foreground">Tara facturare</label>
-                    <Input value={accountDraft.billingCountry} onChange={(e: any) => updateAccountDraft("billingCountry", e.target.value)} />
                   </div>
                 </div>
               </div>
@@ -4035,16 +3913,13 @@ const DashboardApp = () => {
           ) : view === "service-requests" ? (
             <ServiceRequests session={session} />
           ) : view === "invitations" ? (
-            <InvitationMarketplace
+            <SimpleInvitationWizard
+              session={session}
               selectedTemplate={selectedTemplate}
-              onSelectTemplate={selectTemplateWithFullReset}
-              eventType={session.profile?.eventType || 'wedding'}
-              onEditTemplate={(id) => {
-                if (id !== selectedTemplate) {
-                  setSelectedTemplate(id);
-                }
-                setView("settings");
-              }}
+              onSelectTemplate={handleSimpleTemplateSelect}
+              onUpdateProfile={handleUpdateProfile}
+              onCheckActive={handleActionAttempt}
+              onNavigateToGuests={() => setView("guests")}
             />
           ) : view === "billing" ? (
             <BillingView

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, memo } from 'react';
+﻿import React, { useEffect, useRef, useState, memo } from 'react';
 import { InlineEdit } from './InlineEdit'; // Ajusteaza path-ul daca e diferit
 
 // --- STYLES FOR FLIP ANIMATION (Injected locally to avoid global css pollution) ---
@@ -253,7 +253,7 @@ const FlipClock: React.FC<FlipClockProps> = ({
     opacity: 0.9,
     fontFamily: 'inherit',
 
-    // 🔥 IMPORTANT
+    //  IMPORTANT
     whiteSpace: 'normal',
     wordBreak: 'break-word',
     overflowWrap: 'break-word',
@@ -300,3 +300,4 @@ const FlipClock: React.FC<FlipClockProps> = ({
 };
 
 export default FlipClock;
+

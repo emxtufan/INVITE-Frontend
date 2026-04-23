@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
-  Check,
   Sparkles,
   Lock,
   Heart,
@@ -19,6 +18,16 @@ import { templates as hardcodedTemplates, getTemplateComponent } from "./invitat
 import { CASTLE_PREVIEW_DATA } from "./invitations/castleDefaults";
 import { useToast } from "./ui/use-toast";
 import { Dialog, DialogContent } from "./ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "./ui/alert-dialog";
 import { createComponentFromCode, DeviceFrame, PreviewContainer } from "../lib/template-utils";
 import { API_URL } from "../config/api";
 import { TemplateVisibilityStatus } from "./invitations/types";
@@ -96,6 +105,7 @@ export default function InvitationMarketplace({
   const [dynamicTemplates, setDynamicTemplates] = useState<any[]>([]);
   const [templateVisibility, setTemplateVisibility] = useState<Record<string, TemplateVisibilityStatus>>({});
   const [previewTemplate, setPreviewTemplate] = useState<any | null>(null);
+  const [pendingTemplateSwitch, setPendingTemplateSwitch] = useState<any | null>(null);
 
   const session = JSON.parse(localStorage.getItem("weddingPro_session") || "{}");
   const isPaidPlan = session.plan === "premium" || session.plan === "basic";
@@ -175,6 +185,15 @@ export default function InvitationMarketplace({
     onSelectTemplate(fallbackId);
   }, [allTemplates, filteredTemplates.length, hasLiveTemplates, isEventActive, onSelectTemplate, selectedTemplate]);
 
+  const applyTemplateSelection = (template: any) => {
+    onSelectTemplate(template.id);
+    toast({
+      title: "Design actualizat",
+      description: `Ai selectat tema "${template.name}".`,
+      variant: "success",
+    });
+  };
+
   const handleSelect = (template: any) => {
     if (onCheckActive && !onCheckActive()) return;
 
@@ -199,12 +218,17 @@ export default function InvitationMarketplace({
       return;
     }
 
-    onSelectTemplate(template.id);
-    toast({
-      title: "Design actualizat",
-      description: `Ai selectat tema "${template.name}".`,
-      variant: "success",
-    });
+    if (template.id === selectedTemplate) {
+      toast({
+        title: "Template activ",
+        description: "Acest template este deja selectat.",
+        variant: "default",
+      });
+      return;
+    }
+
+    // Schimbarea template-ului reseteaza configurarea template-ului curent.
+    setPendingTemplateSwitch(template);
   };
 
   return (
@@ -268,8 +292,9 @@ export default function InvitationMarketplace({
                   onClick={() => handleSelect(template)}
                 >
                   {isSelected && (
-                    <div className="absolute top-2 right-2 z-20 bg-primary text-primary-foreground rounded-full p-1 shadow-md animate-in zoom-in">
-                      <Check className="w-4 h-4" />
+                    <div className="absolute top-2 right-2 z-20 bg-primary text-primary-foreground rounded-full px-2 py-1 shadow-md animate-in zoom-in flex items-center gap-1">
+                      <Lock className="w-3.5 h-3.5" />
+                      <span className="text-[10px] font-semibold uppercase tracking-wide">Activ</span>
                     </div>
                   )}
 
@@ -321,15 +346,20 @@ export default function InvitationMarketplace({
                         className="w-full sm:w-auto flex-1 sm:flex-none h-12 sm:h-10 px-4 py-2"
                         disabled={isLocked || !isEventActive || isComingSoon}
                       >
-                        {!isEventActive
-                          ? "Blocat (Read-Only)"
-                          : isComingSoon
-                          ? "Coming Soon"
-                          : isSelected
-                          ? "Selectat"
-                          : isLocked
-                          ? "Premium"
-                          : "Alege"}
+                        {!isEventActive ? (
+                          "Blocat (Read-Only)"
+                        ) : isComingSoon ? (
+                          "Coming Soon"
+                        ) : isSelected ? (
+                          <span className="inline-flex items-center gap-1">
+                            <Lock className="w-3.5 h-3.5" />
+                            Selectat
+                          </span>
+                        ) : isLocked ? (
+                          "Premium"
+                        ) : (
+                          "Alege"
+                        )}
                       </Button>
                       <Button
                         size="sm"
@@ -373,6 +403,32 @@ export default function InvitationMarketplace({
           </div>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog
+        open={!!pendingTemplateSwitch}
+        onOpenChange={(open) => !open && setPendingTemplateSwitch(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Schimbi template-ul?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esti sigur ca vrei sa schimbi template-ul? Vei pierde toate setarile facute in Config Template pentru tema anterioara.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Renunta</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (!pendingTemplateSwitch) return;
+                applyTemplateSelection(pendingTemplateSwitch);
+                setPendingTemplateSwitch(null);
+              }}
+            >
+              Da, schimba template-ul
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

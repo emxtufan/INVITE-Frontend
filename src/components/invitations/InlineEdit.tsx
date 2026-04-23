@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
+﻿import React, { useRef, useEffect, useState, useContext } from "react";
 import { cn } from "../../lib/utils";
 import { useBlockStyle, BlockStyleCtx, TextSelectionCtx } from "../BlockStyleContext";
 
-// ─── Editable text (contentEditable) ─────────────────────────────────────────
+//  Editable text (contentEditable) 
 interface InlineEditProps {
   value: string;
   onChange: (val: string) => void;
@@ -26,7 +26,7 @@ export const InlineEdit: React.FC<InlineEditProps> = ({
   const ctx = useContext(BlockStyleCtx);
   const selection = useContext(TextSelectionCtx);
   const resolvedKey = textKey ?? ctx.getAutoKey?.();
-  // Merge block-level style overrides — context wins over hardcoded component styles
+  // Merge block-level style overrides  context wins over hardcoded component styles
   const mergedStyle = useBlockStyle(style, resolvedKey);
   const hasGradientText = (mergedStyle as any)?.WebkitTextFillColor === "transparent";
   const hasBg = !!(mergedStyle as any)?.background || !!(mergedStyle as any)?.backgroundImage;
@@ -109,6 +109,7 @@ export const InlineEdit: React.FC<InlineEditProps> = ({
         className,
         "outline-none transition-all duration-100 cursor-text",
         "empty:before:content-[attr(data-placeholder)] empty:before:text-stone-300 empty:before:italic empty:before:pointer-events-none",
+        !active && !isSelected ? "editable-hint-ring" : "",
         active
           ? suppressBg
             ? "ring-2 ring-stone-400/30 ring-offset-2 rounded"
@@ -126,7 +127,7 @@ export const InlineEdit: React.FC<InlineEditProps> = ({
   );
 };
 
-// ─── Transparent time input ───────────────────────────────────────────────────
+//  Transparent time input 
 export const InlineTime: React.FC<{
   value: string; onChange: (v: string) => void; editMode: boolean;
   className?: string; style?: React.CSSProperties;
@@ -157,13 +158,14 @@ export const InlineTime: React.FC<{
         className,
         "bg-transparent border-none outline-none cursor-pointer w-[6.5rem] text-center",
         "hover:bg-white/70 hover:ring-1 hover:ring-stone-300/60 rounded px-1 transition-all",
+        !isSelected ? "editable-hint-ring" : "",
         isSelected ? "ring-2 ring-amber-400/60 ring-offset-2 rounded bg-amber-50/60" : ""
       )}
     />
   );
 };
 
-// ─── Waze link (icon → input on edit) ────────────────────────────────────────
+//  Waze link (icon  input on edit) 
 export const InlineWaze: React.FC<{
   value: string; onChange: (v: string) => void; editMode: boolean;
 }> = ({ value, onChange, editMode }) => {
@@ -194,9 +196,10 @@ export const InlineWaze: React.FC<{
             value ? "text-stone-500 hover:bg-stone-100" : "text-stone-300 border border-dashed border-stone-200 hover:border-stone-300 hover:text-stone-400"
           )}>
           <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm0 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm-1 4v7l6 3.5-1 1.7-7-4V6h2z"/></svg>
-          {value ? "Waze · click pentru a edita link" : "+ Waze · click pentru a edita link"}
+          {value ? "Waze  click pentru a edita link" : "+ Waze  click pentru a edita link"}
         </button>
       )}
     </div>
   );
 };
+

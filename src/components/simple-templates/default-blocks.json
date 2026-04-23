@@ -1,0 +1,88 @@
+[
+  {
+    "id": "sp-photo-1",
+    "type": "photo",
+    "show": true,
+    "imageData": "",
+    "altText": "Fotografia eroului",
+    "aspectRatio": "3:4",
+    "photoClip": "arch",
+    "photoMasks": ["fade-b"]
+  },
+  {
+    "id": "sp-text-1",
+    "type": "text",
+    "show": true,
+    "content": "Cu marea putere vine marea responsabilitate... si o petrecere si mai mare! Te asteptam sa faci parte din aceasta zi de supererou."
+  },
+  { "id": "sp-calendar", "type": "calendar", "show": true },
+  { "id": "sp-divider-1", "type": "divider", "show": true },
+  {
+    "id": "sp-text-2",
+    "type": "text",
+    "show": true,
+    "content": "Alaturi de cei dragi, care ne sunt ghid si ancora in fiecare aventura a vietii."
+  },
+  {
+    "id": "sp-family-1",
+    "type": "family",
+    "show": true,
+    "label": "Parintii",
+    "content": "Cu drag si mandrie",
+    "members": "[{\"name1\":\"Mama\",\"name2\":\"Tata\"}]"
+  },
+  {
+    "id": "sp-family-2",
+    "type": "family",
+    "show": true,
+    "label": "Nasii",
+    "content": "Cu drag si recunostinta",
+    "members": "[{\"name1\":\"Nasa\",\"name2\":\"Nasul\"}]"
+  },
+  {
+    "id": "sp-text-3",
+    "type": "text",
+    "show": true,
+    "content": "Momentele speciale ale acestei zile vor avea loc in urmatoarele locatii:"
+  },
+  {
+    "id": "sp-location-1",
+    "type": "location",
+    "show": true,
+    "label": "Botezul",
+    "time": "15:00",
+    "locationName": "Biserica Sfantul Gheorghe",
+    "locationAddress": "Strada Eroilor nr. 1",
+    "wazeLink": "https://waze.com"
+  },
+  { "id": "sp-divider-2", "type": "divider", "show": true },
+  {
+    "id": "sp-location-2",
+    "type": "location",
+    "show": true,
+    "label": "Petrecerea",
+    "time": "19:00",
+    "locationName": "Restaurant Spider Lounge",
+    "locationAddress": "Strada Marvel nr. 42",
+    "wazeLink": "https://waze.com"
+  },
+  { "id": "sp-divider-3", "type": "divider", "show": true },
+  {
+    "id": "sp-photo-2",
+    "type": "photo",
+    "show": true,
+    "imageData": "",
+    "altText": "Eroul nostru",
+    "aspectRatio": "1:1",
+    "photoClip": "circle",
+    "photoMasks": []
+  },
+  { "id": "sp-divider-4", "type": "divider", "show": true },
+  {
+    "id": "sp-text-5",
+    "type": "text",
+    "show": true,
+    "content": "Ne-ar bucura sa ne confirmati prezenta pentru o buna organizare a evenimentului."
+  },
+  { "id": "sp-rsvp-1", "type": "rsvp", "show": true, "label": "Confirma Prezenta" }
+]

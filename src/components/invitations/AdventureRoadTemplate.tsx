@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import { InvitationTemplateProps, TemplateMeta } from "./types";
 import { InvitationBlock, InvitationBlockType } from "../../types";
 import { BlockStyleProvider, BlockStyle } from "../BlockStyleContext";
@@ -15,15 +15,15 @@ export const meta: TemplateMeta = {
   id: 'adventure-road',
   name: 'Adventure Road',
   category: 'baptism',
-  description: 'Masinute, avioane si trenuri — aventura vietii incepe azi! Tema baietel.',
+  description: 'Masinute, avioane si trenuri  aventura vietii incepe azi! Tema baietel.',
   colors: ['#1e3a5f', '#e8f4fd', '#f59e0b'],
   previewClass: "bg-sky-900 border-sky-500",
   elementsClass: "bg-yellow-400"
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // Helpers
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 
 function hexToRgba(hex: string, alpha: number): string {
   const h = hex.replace('#', '');
@@ -41,9 +41,9 @@ function deleteUploadedFile(url: string | undefined) {
     body: JSON.stringify({ url }) }).catch(() => {});
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // Theme color state (module level, updated at render)
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 
 let C = {
   navyDark : "#0c2340",
@@ -57,9 +57,9 @@ let C = {
   gold     : "#f59e0b",
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // SVG VEHICLE COMPONENTS
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 
 const CarSVG: React.FC<{ x:number; y:number; scale?:number; color?:string; flip?:boolean }> =
   ({ x, y, scale=1, color="#e85d04", flip }) => (
@@ -211,13 +211,13 @@ const HelicopterSVG: React.FC<{ x:number; y:number; scale?:number; color?:string
   </g>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
-// INTRO — masinuta intra din dreapta, avionul zboara, racheta decoleaza
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// INTRO  masinuta intra din dreapta, avionul zboara, racheta decoleaza
+// 
 
 const RoadIntro: React.FC<{ initial:string; name:string; onDone:()=>void }> = ({ initial, name, onDone }) => {
   const [phase, setPhase] = useState(0);
-  // 0→1 sky+road | 2 plane flies in | 3 car drives in | 4 rocket launches | 5 initial pops | 6 name | 7 hold | 8 fade
+  // 01 sky+road | 2 plane flies in | 3 car drives in | 4 rocket launches | 5 initial pops | 6 name | 7 hold | 8 fade
 
   useEffect(() => {
     const t = [
@@ -376,7 +376,7 @@ const RoadIntro: React.FC<{ initial:string; name:string; onDone:()=>void }> = ({
         </svg>
       </div>
 
-      {/* Initial badge — drops from rocket */}
+      {/* Initial badge  drops from rocket */}
       <div style={{
         position:"relative", zIndex:10,
         opacity:   phase>=5 ? 1 : 0,
@@ -432,9 +432,9 @@ const RoadIntro: React.FC<{ initial:string; name:string; onDone:()=>void }> = ({
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // COUNTDOWN
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 
 interface TimeLeft { days:number; hours:number; minutes:number; seconds:number; total:number }
 
@@ -506,7 +506,7 @@ const RoadCountdown: React.FC<{ targetDate:string|undefined }> = ({ targetDate }
     <div style={{ textAlign:"center", padding:"12px 20px", borderRadius:12,
       background:"rgba(56,189,248,0.1)", border:"2px solid rgba(56,189,248,0.3)" }}>
       <p style={{ fontFamily:display, fontSize:14, fontWeight:700,
-        color:"rgba(125,211,252,0.9)", margin:0 }}>🚀 Ziua a sosit! 🚀</p>
+        color:"rgba(125,211,252,0.9)", margin:0 }}> Ziua a sosit! </p>
     </div>
   );
 
@@ -528,7 +528,7 @@ const RoadCountdown: React.FC<{ targetDate:string|undefined }> = ({ targetDate }
           color:"rgba(125,211,252,0.8)",
           padding:"5px 16px", borderRadius:99,
           background:"rgba(56,189,248,0.1)", border:"2px solid rgba(56,189,248,0.25)" }}>
-          {isSoon ? "🎉 Maine!" : "🚗 Timp ramas"}
+          {isSoon ? " Maine!" : " Timp ramas"}
         </span>
       </div>
       <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"center", gap:6 }}>
@@ -555,9 +555,9 @@ const RoadCountdown: React.FC<{ targetDate:string|undefined }> = ({ targetDate }
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // HERO SCENE
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 
 const HeroScene: React.FC = () => (
   <svg viewBox="0 0 420 240" fill="none"
@@ -646,7 +646,7 @@ const RoadDivider: React.FC = () => (
   </div>
 );
 
-const RoadStrip: React.FC<{ icon?: string }> = ({ icon = '🚗' }) => (
+const RoadStrip: React.FC<{ icon?: string }> = ({ icon = '' }) => (
   <div style={{
     height: 10, position: 'relative', overflow: 'hidden',
     background: 'rgba(0,0,0,0.25)',
@@ -693,7 +693,7 @@ const LocCard: React.FC<{
     locationName,
     locationAddress,
     wazeLink,
-    icon = "🚩",
+    icon = "",
   } = block;
   const display = "'Baloo 2','Nunito',system-ui,sans-serif";
   const serif = "'Cormorant Garamond',Georgia,serif";
@@ -703,7 +703,7 @@ const LocCard: React.FC<{
   return (
     <GlassCard>
       <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:12 }}>
-        <span style={{ fontSize:14 }}>🚩</span>
+        <span style={{ fontSize:14 }}></span>
         <InlineEdit
           editMode={editMode}
           value={label || 'Locatie'}
@@ -751,16 +751,16 @@ const LocCard: React.FC<{
             fontSize:9, fontWeight:700, letterSpacing:"0.18em", textTransform:"uppercase",
             textDecoration:"none", fontFamily:display,
             background:hexToRgba(C.sky,.12), border:`2px solid ${hexToRgba(C.sky,.35)}`,
-            color:hexToRgba(C.sky,.95) }}>📍 Maps</a>
+            color:hexToRgba(C.sky,.95) }}> Maps</a>
         )}
       </div>
     </GlassCard>
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // EXPORTS
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 
 export const CASTLE_DEFAULTS = {
   partner1Name: "Alexandru",
@@ -814,7 +814,7 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
     id: "def-text-1",
     type: "text" as const,
     show: true,
-    content: "O aventura de neuitat incepe — te invitam sa fii parte din ea!",
+    content: "O aventura de neuitat incepe  te invitam sa fii parte din ea!",
   },
   {
     id: "def-family-1",
@@ -903,7 +903,7 @@ export const CASTLE_PREVIEW_DATA = {
   },
 };
 
-// ── Shape / Clip system ───────────────────────────────────────────────────────
+//  Shape / Clip system 
 type ClipShape = 'rect' | 'rounded' | 'rounded-lg' | 'squircle' | 'circle' | 'arch' | 'arch-b' | 'hexagon' | 'diamond' | 'triangle' | 'star' | 'heart' | 'diagonal' | 'diagonal-r' | 'wave-b' | 'wave-t' | 'wave-both' | 'blob' | 'blob2' | 'blob3' | 'blob4';
 type MaskEffect = 'fade-b' | 'fade-t' | 'fade-l' | 'fade-r' | 'vignette';
 
@@ -1027,14 +1027,29 @@ const PhotoBlock: React.FC<{
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // MAIN TEMPLATE
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: '🖼', text: '✏', location: '📍', calendar: '📅',
-  countdown: '⏱', music: '🎵', gift: '🎁', whatsapp: '💬', rsvp: '✉', divider: '—', family: '👨‍👩‍👧',
-  date: '📆', description: '📝', timeline: '🗓',
+  photo: "IMG",
+  text: "TXT",
+  location: "LOC",
+  calendar: "CAL",
+  countdown: "TMR",
+  timeline: "TIME",
+  music: "MUS",
+  gift: "GFT",
+  whatsapp: "WA",
+  rsvp: "RSVP",
+  divider: "---",
+  family: "FAM",
+  date: "DATE",
+  description: "DESC",
+  title: "Aa",
+  godparents: "NAS",
+  parents: "PAR",
+  spacer: "SP",
 };
 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: any) => {
@@ -1107,7 +1122,7 @@ const InsertBlockButton: React.FC<{
           zIndex: 2, position: 'relative',
           lineHeight: 1, fontWeight: 700,
         }}
-      >{isOpen ? '×' : '+'}</button>
+      >{isOpen ? '' : '+'}</button>
 
       {isOpen && (
         <div
@@ -1176,7 +1191,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
     gold     : theme.gold,
   };
 
-  // ── Block state management ────────────────────────────────────────────────
+  //  Block state management 
   const safeJSON = (s: string | undefined, fb: any) => { try { return s ? JSON.parse(s) : fb; } catch { return fb; } };
 
   const blocksFromDB: InvitationBlock[] | null = safeJSON((profile as any).customSections, null);
@@ -1238,21 +1253,21 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
   const heroBlock: InvitationBlock = { id:"__hero__", type:"__hero__" as any, show:true, textStyles:(profile as any).heroTextStyles||{} } as any;
 
   const BLOCK_TYPES = [
-    { type:'photo',     label:'📷 Foto',      def:{ imageData:'', aspectRatio:'1:1', photoClip:'rect', photoMasks:[] } },
-    { type:'text',      label:'Text',         def:{ content:'O aventura de neuitat...' } },
-    { type:'location',  label:'Locatie',      def:{ label:'Locatie', time:'11:00', locationName:'Locatie eveniment', locationAddress:'Strada Exemplu, Nr. 1' } },
-    { type:'calendar',  label:'📅 Calendar',  def:{} },
-    { type:'countdown', label:'⏱ Countdown',  def:{} },
-    { type:'timeline',  label:'🗓 Cronologie', def:{} },
-    { type:'music',     label:'🎵 Muzica',    def:{ musicTitle:'', musicArtist:'', musicType:'none' } },
-    { type:'gift',      label:'🎁 Cadouri',   def:{ sectionTitle:'Sugestie cadou', content:'', iban:'', ibanName:'' } },
-    { type:'whatsapp',  label:'WhatsApp',     def:{ label:'Contact WhatsApp', content:'0700000000' } },
-    { type:'rsvp',      label:'RSVP',         def:{ label:'Confirma Prezenta' } },
-    { type:'divider',   label:'Linie',        def:{} },
-    { type:'family',    label:'👨‍👩‍👧 Familie', def:{ label:'Parintii', content:'Cu drag', members:JSON.stringify([{name1:'Mama',name2:'Tata'}]) } },
+    { type:'photo',     label: 'Foto',      def:{ imageData:'', aspectRatio:'1:1', photoClip:'rect', photoMasks:[] } },
+    { type:'text',      label: 'Text',         def:{ content:'O aventura de neuitat...' } },
+    { type:'location',  label: 'Locatie',      def:{ label: 'Locatie', time:'11:00', locationName:'Locatie eveniment', locationAddress:'Strada Exemplu, Nr. 1' } },
+    { type:'calendar',  label: 'Calendar',  def:{} },
+    { type:'countdown', label: 'Countdown',  def:{} },
+    { type:'timeline',  label: 'Cronologie', def:{} },
+    { type:'music',     label: 'Muzica',    def:{ musicTitle:'', musicArtist:'', musicType:'none' } },
+    { type:'gift',      label: 'Cadouri',   def:{ sectionTitle:'Sugestie cadou', content:'', iban:'', ibanName:'' } },
+    { type:'whatsapp',  label: 'WhatsApp',     def:{ label: 'WhatsApp', content:'0700000000' } },
+    { type:'rsvp',      label: 'RSVP',         def:{ label:'Confirma Prezenta' } },
+    { type:'divider',   label: 'Linie',        def:{} },
+    { type:'family',    label: 'Familie', def:{ label:'Parintii', content:'Cu drag', members:JSON.stringify([{name1:'Mama',name2:'Tata'}]) } },
   ];
 
-  // ── Existing intro/content state ──────────────────────────────────────────
+  //  Existing intro/content state 
   const [showIntro, setShowIntro]           = useState(true);
   const [contentVisible, setContentVisible] = useState(false);
 
@@ -1293,7 +1308,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
   const getEventText = () => {
     const map: Record<string,any> = {
       baptism:     { welcome:'Va invitam sa fiti alaturi de noi',  celebration:'botezului',         eventLabel:'Sfantul Botez',   partyLabel:'Petrecerea',   civilLabel:'' },
-      kids:        { welcome:'Porneste motoarele! 🚗',             celebration:'zilei mele',         eventLabel:'Ziua de nastere', partyLabel:'Petrecerea',   civilLabel:'' },
+      kids:        { welcome:'Porneste motoarele! ',             celebration:'zilei mele',         eventLabel:'Ziua de nastere', partyLabel:'Petrecerea',   civilLabel:'' },
       wedding:     { welcome:'Impreuna cu familiile lor',           celebration:'casatoriei lor',    eventLabel:'Ceremonia',       partyLabel:'Petrecerea',   civilLabel:'Cununia Civila' },
       anniversary: { welcome:'Va invitam sa sarbatorim',           celebration:'aniversarii',        eventLabel:'Ceremonia',       partyLabel:'Receptia',     civilLabel:'' },
     };
@@ -1318,7 +1333,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
       })
     : 'Data Evenimentului';
 
-  // ── Section styles ────────────────────────────────────────────────────────
+  //  Section styles 
   const sectionStyle: React.CSSProperties = {
     background:`linear-gradient(135deg,${hexToRgba(C.navyMid,.55)},${hexToRgba(C.navyDark,.7)})`,
     border: `1.5px solid ${hexToRgba(C.sky,.18)}`,
@@ -1328,7 +1343,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
   };
 
 
-  // ── Render ────────────────────────────────────────────────────────────────
+  //  Render 
   return (
     <>
       {showIntro && (
@@ -1355,7 +1370,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
           borderRadius:"50%", pointerEvents:"none", zIndex:0,
           background:`radial-gradient(circle,${hexToRgba(C.gold,.08)} 0%,transparent 70%)` }}/>
 
-        {/* Animated bg vehicles — subtle */}
+        {/* Animated bg vehicles  subtle */}
         <div style={{ position:"fixed", top:"70%", left:0, right:0, pointerEvents:"none", zIndex:0, opacity:0.08 }}>
           <svg viewBox="0 0 420 40" style={{ width:"100%" }} fill="none">
             <rect width="420" height="4" y="18" fill="white" opacity="0.3"/>
@@ -1367,7 +1382,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
 
         <div style={{ width:"100%", maxWidth:420, position:"relative", zIndex:1 }}>
 
-          {/* ── HERO CARD ── */}
+          {/*  HERO CARD  */}
           <BlockStyleProvider value={{ blockId: heroBlock.id, textStyles: (heroBlock as any).textStyles, onTextSelect: (textKey, textLabel) => onBlockSelect?.(heroBlock, -1, textKey, textLabel) }}>
           <div style={{
             background:"rgba(255,255,255,0.05)",
@@ -1389,7 +1404,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                   editMode={editMode}
                   value={texts.welcome}
                   onChange={(v) => onProfileUpdate?.({ welcomeText: v })}
-                  textLabel="Hero · Welcome"
+                  textLabel="Hero  Welcome"
                   style={{ fontFamily:serif, fontSize:14, fontStyle:"italic",
                   color:"rgba(255,255,255,0.45)", margin:"0 0 16px", lineHeight:1.7 }}
                 />
@@ -1401,7 +1416,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                 value={profile.partner1Name || "Prenume"}
                 onChange={(v) => onProfileUpdate?.({ partner1Name: v })}
                 tag="h1"
-                textLabel="Hero · Name"
+                textLabel="Hero  Name"
                 style={{ fontFamily:display, fontSize:58, fontWeight:800,
                 color:"white", margin:"0 0 4px", lineHeight:1.05,
                 textShadow:`0 4px 20px ${hexToRgba(C.sky,.4)}, 0 2px 0 rgba(0,0,0,0.2)`,
@@ -1413,7 +1428,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                   editMode={editMode}
                   value={`va invita la ${texts.celebration}`}
                   onChange={(v) => onProfileUpdate?.({ celebrationText: v.replace('va invita la ','') })}
-                  textLabel="Hero · Celebration"
+                  textLabel="Hero  Celebration"
                   style={{ fontFamily:serif, fontSize:15, fontStyle:"italic",
                   color:hexToRgba(C.skyLight,.55), margin:"10px 0 0" }}
                 />
@@ -1424,14 +1439,14 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
               {/* Date */}
               <InlineEdit
                 editMode={editMode}
-                value={`🗓 ${formattedDate}`}
+                value={` ${formattedDate}`}
                 onChange={(v) => {
-                  const newDate = v.replace('🗓 ','');
+                  const newDate = v.replace(' ','');
                   // This is tricky, because formattedDate is 'luni, 1 ianuarie 2024'
                   // We can't easily convert it back to a date object.
                   // For now, we will not allow editing the date this way.
                 }}
-                textLabel="Hero · Date"
+                textLabel="Hero  Date"
                 style={{ fontFamily:display, fontSize:13, fontWeight:700,
                 color:"rgba(255,255,255,0.55)", textTransform:"capitalize",
                 letterSpacing:"0.03em", margin:"0 0 22px" }}
@@ -1451,13 +1466,13 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                 <p style={{ fontFamily:display, fontSize:9, fontWeight:700,
                   letterSpacing:"0.38em", textTransform:"uppercase",
                   color:hexToRgba(C.skyLight,.5), margin:"0 0 5px" }}>
-                  🎟 Invitat special
+                   Invitat special
                 </p>
                 <InlineEdit
                   editMode={false} // Guest name should not be editable in the template view
                   value={guest?.name || "Nume Invitat"}
                   onChange={()=>{}}
-                  textLabel="Hero · Guest Name"
+                  textLabel="Hero  Guest Name"
                   style={{ fontFamily:serif, fontSize:22, fontWeight:400,
                   color:"white", margin:0, letterSpacing:1 }}
                 />
@@ -1466,7 +1481,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
           </div>
           </BlockStyleProvider>
 
-          {/* ── BLOCKS ── */}
+          {/*  BLOCKS  */}
           <div style={{ display:"flex", flexDirection:"column", gap:0 }}>
             {editMode && (
               <InsertBlockButton
@@ -1510,15 +1525,15 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                     }}>
                       <InlineEdit
                         editMode={editMode}
-                        value={`🚀 ${(block as any).label || 'Confirma Prezenta'} 🚀`}
-                        onChange={(v) => updBlock(idx, { label: v.replace(/🚀/g, '').trim() })}
+                        value={` ${(block as any).label || 'Confirma Prezenta'} `}
+                        onChange={(v) => updBlock(idx, { label: v.trim() })}
                         textLabel="RSVP Button"
                       />
                     </button>
                   )}
                   {block.type === 'countdown' && (
                     <div style={{...sectionStyle}}>
-                      <RoadStrip icon="🚂"/>
+                      <RoadStrip icon=""/>
                       <div style={{ padding:'16px 22px 18px' }}>
                         <RoadCountdown targetDate={profile.weddingDate}/>
                       </div>
@@ -1541,7 +1556,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                   )}
                   {block.type === 'text' && (
                     <div style={{...sectionStyle, textAlign:'center'}}>
-                      <RoadStrip icon="✈"/>
+                      <RoadStrip icon=""/>
                       <div style={{ padding:'16px 22px 18px' }}>
                         <InlineEdit
                           editMode={editMode}
@@ -1558,7 +1573,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                     const updateMembers = (nm: { name1: string; name2: string }[]) =>
                       updBlock(idx, { members: JSON.stringify(nm) } as any);
 
-                    const vehicleIcons = ['🚗','✈','🚂','🚁','🚀'];
+                    const vehicleIcons = ['','','','',''];
                     const vehicleIcon = vehicleIcons[idx % vehicleIcons.length];
 
                     return (
@@ -1636,7 +1651,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                                       type="button"
                                       onClick={() => updateMembers(members.filter((_,i) => i !== mi))}
                                       style={{ background:'none', border:'none', cursor:'pointer', color:hexToRgba(C.sky,.4), fontSize:13, padding:'0 2px', lineHeight:1, marginLeft:4 }}
-                                    >✕</button>
+                                    ></button>
                                   )}
                                 </div>
                                 {mi < members.length - 1 && (
@@ -1676,9 +1691,9 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                     const wd = profile.weddingDate ? new Date(profile.weddingDate) : null;
                     return (
                       <div style={{...sectionStyle, textAlign:'center'}}>
-                        <RoadStrip icon="📅"/>
+                        <RoadStrip icon=""/>
                         <div style={{ padding:'16px 22px 18px' }}>
-                          <p style={{ fontFamily:display, fontSize:8, fontWeight:700, letterSpacing:'0.42em', textTransform:'uppercase', color:hexToRgba(C.sky,.7), margin:'0 0 14px' }}>📅 Data Evenimentului</p>
+                          <p style={{ fontFamily:display, fontSize:8, fontWeight:700, letterSpacing:'0.42em', textTransform:'uppercase', color:hexToRgba(C.sky,.7), margin:'0 0 14px' }}> Data Evenimentului</p>
                           {wd ? (
                             <div>
                               <p style={{ fontFamily:display, fontSize:48, fontWeight:800, color:'white', margin:0, lineHeight:1, textShadow:`0 0 20px ${hexToRgba(C.sky,.4)}` }}>{wd.getDate()}</p>
@@ -1694,7 +1709,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                     const items = getTimelineItems();
                     if (!items.length && !editMode) return null;
                     return (
-                      <GlassCard roadIcon="🗺">
+                      <GlassCard roadIcon="">
                         <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:8, marginBottom:16 }}>
                           <div style={{ flex:1, height:1, background:`linear-gradient(to right,transparent,${hexToRgba(C.sky,.25)})` }}/>
                           <p style={{ fontFamily:display, fontSize:8, fontWeight:700, letterSpacing:'0.42em', textTransform:'uppercase', color:hexToRgba(C.sky,.6), margin:0 }}>Programul Zilei</p>
@@ -1740,7 +1755,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                                   type="button"
                                   onClick={(e) => { e.stopPropagation(); removeTimelineItem(item.id); }}
                                   style={{ background:'none', border:'none', cursor:'pointer', color:hexToRgba(C.sky,.35), fontSize:12, padding:'4px 2px', alignSelf:'flex-start', lineHeight:1 }}
-                                >✕</button>
+                                ></button>
                               )}
                             </div>
                           ))}
@@ -1767,9 +1782,9 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                   })()}
                   {block.type === 'gift' && (
                     <div style={{...sectionStyle, textAlign:'center'}}>
-                      <RoadStrip icon="🎁"/>
+                      <RoadStrip icon=""/>
                       <div style={{ padding:'16px 22px 18px' }}>
-                        <InlineEdit editMode={editMode} value={(block as any).sectionTitle || '🎁 Sugestie cadou'} onChange={v => updBlock(idx, { sectionTitle: v.replace('🎁 ','') })} style={{ fontFamily:display, fontSize:8, fontWeight:700, letterSpacing:'0.42em', textTransform:'uppercase', color:hexToRgba(C.sky,.7), margin:'0 0 10px' }} />
+                        <InlineEdit editMode={editMode} value={(block as any).sectionTitle || ' Sugestie cadou'} onChange={v => updBlock(idx, { sectionTitle: v.replace(' ','') })} style={{ fontFamily:display, fontSize:8, fontWeight:700, letterSpacing:'0.42em', textTransform:'uppercase', color:hexToRgba(C.sky,.7), margin:'0 0 10px' }} />
                         <InlineEdit editMode={editMode} value={block.content || ''} onChange={v => updBlock(idx, { content: v })} style={{ fontFamily:serif, fontSize:13, color:'rgba(255,255,255,.65)', margin:'0 0 8px' }} />
                         <InlineEdit editMode={editMode} value={block.iban || ''} onChange={v => updBlock(idx, { iban: v })} style={{ fontFamily:display, fontSize:12, color:C.gold, margin:0 }} />
                       </div>
@@ -1777,19 +1792,19 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
                   )}
                   {block.type === 'whatsapp' && (
                     <div style={{...sectionStyle, textAlign:'center'}}>
-                      <RoadStrip icon="💬"/>
+                      <RoadStrip icon=""/>
                       <div style={{ padding:'16px 22px 18px' }}>
                         <a href={`https://wa.me/${(block.content||'').replace(/\D/g,'')}`} style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'10px 24px', borderRadius:99, background:hexToRgba(C.sky,.15), border:`2px solid ${hexToRgba(C.sky,.3)}`, color:hexToRgba(C.sky,.9), textDecoration:'none', fontFamily:display, fontSize:11, fontWeight:700, letterSpacing:'0.18em', textTransform:'uppercase' }}>
-                          <InlineEdit editMode={editMode} value={`💬 ${block.label || 'WhatsApp'}`} onChange={v => updBlock(idx, { label: v.replace('💬 ','') })} />
+                          <InlineEdit editMode={editMode} value={` ${block.label || 'WhatsApp'}`} onChange={v => updBlock(idx, { label: v.replace(' ','') })} />
                         </a>
                       </div>
                     </div>
                   )}
                   {block.type === 'music' && (
                     <div style={{...sectionStyle, textAlign:'center'}}>
-                      <RoadStrip icon="🎵"/>
+                      <RoadStrip icon=""/>
                       <div style={{ padding:'16px 22px 18px' }}>
-                        <p style={{ fontFamily:display, fontSize:8, fontWeight:700, letterSpacing:'0.42em', textTransform:'uppercase', color:hexToRgba(C.sky,.7), margin:'0 0 8px' }}>🎵 Muzica</p>
+                        <p style={{ fontFamily:display, fontSize:8, fontWeight:700, letterSpacing:'0.42em', textTransform:'uppercase', color:hexToRgba(C.sky,.7), margin:'0 0 8px' }}> Muzica</p>
                         <InlineEdit
                           editMode={editMode}
                           value={block.musicTitle || 'Melodia evenimentului'}
@@ -1818,7 +1833,7 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
             <RoadDivider/>
             <p style={{ fontFamily:serif, fontSize:11, fontStyle:"italic",
               color:"rgba(255,255,255,0.2)", marginTop:12 }}>
-              cu drag · WeddingPro ✈
+              cu drag  WeddingPro 
             </p>
           </div>
         </div>
@@ -1828,3 +1843,5 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
 };
 
 export default AdventureRoadTemplate;
+
+

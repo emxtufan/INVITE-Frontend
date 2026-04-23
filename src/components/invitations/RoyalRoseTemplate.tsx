@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef} from "react";
-import { Calendar, Clock, ChevronUp, ChevronDown, Eye, EyeOff, Trash2, Plus, Camera, Sparkles, Upload, Music, Play, Pause, SkipForward, SkipBack, Gift, MessageCircle } from "lucide-react";
+﻿import React, { useState, useEffect, useCallback, useRef} from "react";
+import { Calendar, Clock, ChevronUp, ChevronDown, Eye, EyeOff, Trash2, Plus, Camera, Sparkles, Upload, Music, Play, Pause, SkipForward, SkipBack, Gift, MessageCircle, Navigation, MapPin } from "lucide-react";
 import { InvitationTemplateProps, TemplateMeta } from "./types";
 import { cn } from "../../lib/utils";
 import { InvitationBlock, InvitationBlockType } from "../../types";
@@ -19,7 +19,7 @@ function deleteUploadedFile(url: string | undefined) {
   }).catch(() => {});
 }
 
-// Module-level theme — updated on each render by the main component
+// Module-level theme  updated on each render by the main component
 let T = getRoyalRoseTheme();
 
 export const meta: TemplateMeta = {
@@ -32,7 +32,7 @@ export const meta: TemplateMeta = {
   elementsClass: "bg-pink-200"
 };
 
-// ─── Countdown ────────────────────────────────────────────────────────────────
+//  Countdown 
 function useCountdown(target: string) {
   const calc = () => {
     const diff = new Date(target).getTime() - Date.now();
@@ -44,7 +44,7 @@ function useCountdown(target: string) {
   return time;
 }
 
-// ─── SVG decorations ──────────────────────────────────────────────────────────
+//  SVG decorations 
 
 const FloralCorner = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 80 80" className={className} fill="none">
@@ -75,7 +75,7 @@ const RoseDivider = () => (
   </div>
 );
 
-// ─── Opening animation — initials circle ─────────────────────────────────────
+//  Opening animation  initials circle 
 const InitialsIntro = ({ initials, onDone }: { initials: string; onDone: () => void }) => {
   const [phase, setPhase] = useState<'enter' | 'hold' | 'exit'>('enter');
 
@@ -167,7 +167,7 @@ const InitialsIntro = ({ initials, onDone }: { initials: string; onDone: () => v
   );
 };
 
-// ─── Block toolbar ────────────────────────────────────────────────────────────
+//  Block toolbar 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: {
   onUp: () => void; onDown: () => void; onToggle: () => void; onDelete: () => void;
   visible: boolean; isFirst: boolean; isLast: boolean;
@@ -183,25 +183,26 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
   </div>
 );
 
-// ─── Countdown unit ───────────────────────────────────────────────────────────
+//  Countdown unit 
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: "📷",
-  text: "T",
-  location: "📍",
-  calendar: "📅",
-  countdown: "⏱",
-  music: "🎵",
-  gift: "🎁",
-  whatsapp: "💬",
+  photo: "IMG",
+  text: "TXT",
+  location: "LOC",
+  calendar: "CAL",
+  countdown: "TMR",
+  timeline: "TIME",
+  music: "MUS",
+  gift: "GFT",
+  whatsapp: "WA",
   rsvp: "RSVP",
-  divider: "—",
-  family: "👨‍👩‍👧",
-  date: "📆",
-  description: "📝",
+  divider: "---",
+  family: "FAM",
+  date: "DATE",
+  description: "DESC",
   title: "Aa",
-  godparents: "💍",
-  parents: "👪",
-  spacer: "↕",
+  godparents: "NAS",
+  parents: "PAR",
+  spacer: "SP",
 };
 
 const InsertBlockButton: React.FC<{
@@ -320,6 +321,7 @@ export const CASTLE_DEFAULTS = {
   partner1Name: 'Maria',
   partner2Name: 'Andrei',
   welcomeText: 'Impreuna cu familiile noastre',
+  invitationText: 'Va invita cu drag la nuntii noastre',
   invitationLeadText: 'Va invita cu drag la',
   celebrationText: 'nuntii noastre',
   heroCountdownText: 'Pana la marele eveniment',
@@ -342,7 +344,7 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
   { id: 'rr-countdown', type: 'countdown', show: true, countdownTitle: 'Timp ramas pana la marele eveniment' },
   { id: 'rr-music', type: 'music', show: true, musicTitle: '', musicArtist: '', musicType: 'none' },
   { id: 'rr-gift', type: 'gift', show: true, sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' },
-  { id: 'rr-whatsapp', type: 'whatsapp', show: true, label: 'Contact WhatsApp', content: '0700000000' },
+  { id: 'rr-whatsapp', type: 'whatsapp', show: true, label: 'WhatsApp', content: '0700000000' },
   { id: 'rr-family', type: 'family', show: true, label: 'Familie', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) },
   { id: 'rr-rsvp', type: 'rsvp', show: true, label: 'Confirma Prezenta' },
   { id: 'rr-divider', type: 'divider', show: true },
@@ -450,10 +452,18 @@ const PhotoBlock: React.FC<{
       <div style={{ position: 'relative', paddingTop: pt[aspectRatio], overflow: 'hidden', ...combined }}>
         <img src={block.imageData} alt={block.altText || ''} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         {editMode && (
-          <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-            <button type="button" onClick={() => fileRef.current?.click()} className="p-2 bg-white rounded-full text-pink-600"><Camera className="w-5 h-5"/></button>
-            <button type="button" onClick={() => { deleteUploadedFile(block.imageData); onUpdate({ imageData: undefined }); }} className="p-2 bg-white rounded-full text-red-600"><Trash2 className="w-5 h-5"/></button>
-          </div>
+          <>
+            <div className="absolute top-2 left-2 z-20 pointer-events-none">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-black/60 text-white text-[10px] font-semibold px-2.5 py-1 tracking-wide">
+                <Upload className="w-3.5 h-3.5" />
+                Click pentru schimbare imagine
+              </span>
+            </div>
+            <div className="absolute inset-0 bg-black/20 hover:bg-black/35 transition-colors flex items-center justify-center gap-2">
+              <button type="button" onClick={() => fileRef.current?.click()} className="p-2 bg-white rounded-full text-pink-600 shadow-sm"><Camera className="w-5 h-5"/></button>
+              <button type="button" onClick={() => { deleteUploadedFile(block.imageData); onUpdate({ imageData: undefined }); }} className="p-2 bg-white rounded-full text-red-600 shadow-sm"><Trash2 className="w-5 h-5"/></button>
+            </div>
+          </>
         )}
       </div>
       <input ref={fileRef} type="file" accept="image/*" onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} style={{ display: 'none' }} />
@@ -471,6 +481,11 @@ const PhotoBlock: React.FC<{
             : <div style={{ textAlign: 'center' }}>
                 <Sparkles className="w-12 h-12 text-white/40 mb-2 mx-auto" />
                 <span style={{ fontFamily: 'Georgia, serif', fontSize: 48, color: 'white' }}>{(placeholderInitial1 || 'M')[0].toUpperCase()}</span>
+                {editMode && (
+                  <p className="mt-2 text-[10px] uppercase tracking-[0.18em] font-semibold text-white/90">
+                    Click pentru upload imagine
+                  </p>
+                )}
               </div>
           }
         </div>
@@ -480,7 +495,7 @@ const PhotoBlock: React.FC<{
   );
 };
 
-// ─── Main Template ────────────────────────────────────────────────────────────
+//  Main Template 
 const MusicBlock: React.FC<{
   block: InvitationBlock;
   editMode: boolean;
@@ -748,6 +763,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
   };
 
   const safeJSON = (s: string | undefined, fb: any) => { try { return s ? JSON.parse(s) : fb; } catch { return fb; } };
+  const legacyInvitationText = `${String((profile as any).invitationLeadText || '').trim()} ${String(profile.celebrationText || '').trim()}`.trim();
 
   const [blocks, setBlocks]         = useState<InvitationBlock[]>(() => {
     const fromDb = safeJSON(profile.customSections, null);
@@ -768,8 +784,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
     partner1Name: profile.partner1Name ?? CASTLE_DEFAULTS.partner1Name,
     partner2Name: profile.partner2Name ?? CASTLE_DEFAULTS.partner2Name,
     welcomeText: profile.welcomeText ?? CASTLE_DEFAULTS.welcomeText,
-    invitationLeadText: (profile as any).invitationLeadText ?? CASTLE_DEFAULTS.invitationLeadText,
-    celebrationText: profile.celebrationText ?? CASTLE_DEFAULTS.celebrationText,
+    invitationText: (profile as any).invitationText || legacyInvitationText || CASTLE_DEFAULTS.invitationText,
     heroCountdownText: (profile as any).heroCountdownText ?? CASTLE_DEFAULTS.heroCountdownText,
     showWelcomeText: profile.showWelcomeText ?? CASTLE_DEFAULTS.showWelcomeText,
     showCelebrationText: profile.showCelebrationText ?? CASTLE_DEFAULTS.showCelebrationText,
@@ -782,7 +797,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
 
   const countdown = useCountdown(p.weddingDate || '');
 
-  // Debounce profile & blocks updates — prevents API call on every keystroke
+  // Debounce profile & blocks updates  prevents API call on every keystroke
   const _profileQueue = useRef<Record<string, any>>({});
   const _profileTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const _blocksTimer  = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -842,12 +857,13 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
   const initials = `${p1} & ${p2}`;
 
   const welcomeText     = p.welcomeText?.trim()    || 'Impreuna cu familiile noastre';
-  const invitationLeadText = ((p as any).invitationLeadText || CASTLE_DEFAULTS.invitationLeadText).trim() || CASTLE_DEFAULTS.invitationLeadText;
-  const celebrationText = p.celebrationText?.trim() || 'nuntii noastre';
+  const invitationText = String((p as any).invitationText || CASTLE_DEFAULTS.invitationText).trim() || CASTLE_DEFAULTS.invitationText;
   const heroCountdownText = ((p as any).heroCountdownText || CASTLE_DEFAULTS.heroCountdownText).trim() || CASTLE_DEFAULTS.heroCountdownText;
   const rsvpText        = p.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = p.showRsvpButton !== false;
   const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';
+  const isPublicInvite  = !!data.isPublic;
+  const guestDisplayName = isPublicInvite ? 'Drag invitat' : (guest?.name || 'Invitat Exemplu');
   const displayBlocks   = editMode ? blocks : blocks.filter(b => b.show !== false);
   const hasRsvpBlock    = blocks.some(b => b.type === 'rsvp' && (editMode || b.show !== false));
   const dateStr         = p.weddingDate
@@ -861,7 +877,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
     { type: 'countdown', label: 'Countdown', def: { countdownTitle: 'Timp ramas pana la marele eveniment' } },
     { type: 'music', label: 'Muzica', def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
     { type: 'gift', label: 'Cadouri', def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
-    { type: 'whatsapp', label: 'WhatsApp', def: { label: 'Contact WhatsApp', content: '0700000000' } },
+    { type: 'whatsapp', label: 'WhatsApp', def: { label: 'WhatsApp', content: '0700000000' } },
     { type: 'rsvp', label: 'RSVP', def: { label: 'Confirma Prezenta' } },
     { type: 'divider', label: 'Linie', def: {} },
     { type: 'family', label: 'Familie', def: { label: 'Familie', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) } },
@@ -960,7 +976,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
         <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-rose-900/90 backdrop-blur text-white rounded-full px-4 py-1.5 shadow-2xl text-[10px] font-bold pointer-events-none select-none">
           <span className="w-1.5 h-1.5 bg-pink-300 rounded-full animate-pulse" />
           <span className="uppercase tracking-widest">Editare Directa</span>
-          <span className="text-rose-300 font-normal">— click pe orice text</span>
+          <span className="text-rose-300 font-normal"> click pe orice text</span>
         </div>
       )}
 
@@ -985,7 +1001,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
 
             <div className="p-8 md:p-12 text-center space-y-8">
 
-              {/* ── INITIALS MEDALLION ── */}
+              {/*  INITIALS MEDALLION  */}
               <div className="flex justify-center">
                 <div className="relative w-28 h-28">
                   <svg className="absolute inset-0 w-full h-full" viewBox="0 0 120 120">
@@ -1013,7 +1029,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                 </div>
               </div>
 
-              {/* ── HERO ── */}
+              {/*  HERO  */}
               <BlockStyleProvider value={{
                 blockId: "__hero__",
                 textStyles: (profile as any).heroTextStyles,
@@ -1056,16 +1072,11 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
 
                 {p.showCelebrationText && (
                   <p className="text-base italic text-pink-500 font-serif">
-                    <InlineEdit tag="span" editMode={editMode} value={invitationLeadText}
-                      onChange={v => upProfile('invitationLeadText', v)}
+                    <InlineEdit tag="span" editMode={editMode} value={invitationText}
+                      onChange={v => upProfile('invitationText', v)}
                       placeholder="Text invitatie..."
-                      textKey="hero:intro-invite-lead"
-                      textLabel="Intro text 1" />{' '}
-                    <InlineEdit tag="span" editMode={editMode} value={celebrationText}
-                      onChange={v => upProfile('celebrationText', v)}
-                      placeholder="descriere eveniment..."
-                      textKey="hero:intro-celebration"
-                      textLabel="Intro text 2" />
+                      textKey="hero:intro-invite-text"
+                      textLabel="Intro text invitatie" />
                   </p>
                 )}
               </div>
@@ -1073,32 +1084,23 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
 
               <RoseDivider />
 
-              {/* ── GUEST BADGE ── */}
+              {/*  GUEST BADGE  */}
               <div className="mx-auto max-w-xs rounded-2xl border border-pink-100 bg-gradient-to-br from-pink-50 to-rose-50 py-4 px-6 shadow-sm">
-                <p className="font-bold text-lg text-rose-800">{guest?.name || 'Nume Invitat'}</p>
+                <p className="font-bold text-lg text-rose-800">{guestDisplayName}</p>
                 <p className="text-[10px] text-pink-400 uppercase tracking-widest mt-1 font-sans">invitat de onoare</p>
               </div>
               
-              {/* ── DATE ── */}
+              {/*  DATE  */}
               <div className="flex flex-col items-center gap-2 font-sans">
                 <div className="w-8 h-8 rounded-full bg-pink-100 flex items-center justify-center">
                   <Calendar className="w-4 h-4 text-pink-400" />
                 </div>
-                {editMode ? (
-                  <input type="date"
-                    value={p.weddingDate ? new Date(p.weddingDate).toISOString().split('T')[0] : ''}
-                    onChange={e => upProfile('weddingDate', e.target.value)}
-                    className="font-bold uppercase tracking-widest text-rose-700 bg-transparent border-b-2 border-pink-200 hover:border-pink-400 focus:border-rose-500 text-center outline-none cursor-pointer transition-colors text-sm py-1" />
-                ) : (
-                  <p className="font-bold uppercase tracking-widest text-rose-700 text-sm">
-                    {p.weddingDate
-                      ? new Date(p.weddingDate).toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
-                      : 'Data Evenimentului'}
-                  </p>
-                )}
+                <p className="font-bold uppercase tracking-widest text-rose-700 text-sm">
+                  {dateStr}
+                </p>
               </div>
 
-              {/* ── COUNTDOWN ── */}
+              {/*  COUNTDOWN  */}
               {p.showCountdown && p.weddingDate && !countdown.expired && (
                 <div className="rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-100 py-6 px-4">
                   <InlineEdit
@@ -1120,7 +1122,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                 </div>
               )}
 
-              {/* ── BLOCURI ── */}
+              {/*  BLOCURI  */}
               {editMode && (
                 <InsertBlockButton
                   insertIdx={-1}
@@ -1169,24 +1171,59 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                           <div className="flex items-center justify-between gap-3">
                             <InlineEdit tag="p" editMode={editMode} value={block.label || ''}
                               onChange={v => updBlock(realIdx, { label: v })} placeholder="Titlu locatie..."
-                              textKey={`${block.id}:location-label`} textLabel="Locatie · Label"
+                              textKey={`${block.id}:location-label`} textLabel="Locatie  Label"
                               className="font-bold uppercase text-[10px] text-pink-400 tracking-widest" />
                             <div className="inline-flex items-center gap-1.5 bg-pink-50 border border-pink-100 rounded-full px-2.5 py-1">
                               <Clock className="w-3 h-3 text-pink-400" />
                               <InlineTime value={block.time || ''} onChange={v => updBlock(realIdx, { time: v })} editMode={editMode}
-                                textKey={`${block.id}:location-time`} textLabel="Locatie · Ora"
+                                textKey={`${block.id}:location-time`} textLabel="Locatie  Ora"
                                 className="font-bold text-[11px] text-rose-800" />
                             </div>
                           </div>
                           <InlineEdit tag="p" editMode={editMode} value={block.locationName || ''}
                             onChange={v => updBlock(realIdx, { locationName: v })} placeholder="Numele locatiei..."
-                            textKey={`${block.id}:location-name`} textLabel="Locatie · Nume"
+                            textKey={`${block.id}:location-name`} textLabel="Locatie  Nume"
                             className="text-lg font-semibold text-rose-700" />
                           <InlineEdit tag="p" editMode={editMode} value={block.locationAddress || ''}
                             onChange={v => updBlock(realIdx, { locationAddress: v })} placeholder="Adresa..."
-                            textKey={`${block.id}:location-address`} textLabel="Locatie · Adresa"
+                            textKey={`${block.id}:location-address`} textLabel="Locatie  Adresa"
                             className="text-xs text-rose-400 italic leading-snug" />
-                          <InlineWaze value={block.wazeLink || ''} onChange={v => updBlock(realIdx, { wazeLink: v })} editMode={editMode} />
+                          {(() => {
+                            const wazeHref = (block.wazeLink || '').trim();
+                            const mapsQuery = `${block.locationName || ''} ${block.locationAddress || ''}`.trim();
+                            const mapsHref = String((block as any).mapsLink || (mapsQuery ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}` : '')).trim();
+                            return (
+                              <>
+                                {(wazeHref || mapsHref) && (
+                                  <div className="flex flex-wrap items-center gap-2">
+                                    {wazeHref && (
+                                      <a
+                                        href={wazeHref}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] border border-sky-300 bg-sky-50 text-sky-700 shadow-sm hover:bg-sky-100 transition-colors"
+                                      >
+                                        <Navigation className="w-3.5 h-3.5" />
+                                        Waze
+                                      </a>
+                                    )}
+                                    {mapsHref && (
+                                      <a
+                                        href={mapsHref}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] border border-emerald-300 bg-emerald-50 text-emerald-700 shadow-sm hover:bg-emerald-100 transition-colors"
+                                      >
+                                        <MapPin className="w-3.5 h-3.5" />
+                                        Maps
+                                      </a>
+                                    )}
+                                  </div>
+                                )}
+                                <InlineWaze value={block.wazeLink || ''} onChange={v => updBlock(realIdx, { wazeLink: v })} editMode={editMode} />
+                              </>
+                            );
+                          })()}
                         </div>
                       </div>
                     )}
@@ -1198,20 +1235,20 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                         <div className="p-5 space-y-3 font-sans text-sm">
                           <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Nasii Nostri'}
                             onChange={v => updBlock(realIdx, { sectionTitle: v })} placeholder="Titlu..."
-                            textKey={`${block.id}:godparents-title`} textLabel="Nasi · Titlu"
+                            textKey={`${block.id}:godparents-title`} textLabel="Nasi  Titlu"
                             className="text-[10px] font-bold uppercase text-pink-400 tracking-widest" />
                           <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
                             onChange={v => updBlock(realIdx, { content: v })} placeholder="Text introductiv..."
-                            textKey={`${block.id}:godparents-content`} textLabel="Nasi · Text"
+                            textKey={`${block.id}:godparents-content`} textLabel="Nasi  Text"
                             className="text-sm italic text-rose-500 font-serif" multiline />
                           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
                             {godparents.map((g: any, i: number) => (
                               <div key={i} className={cn("text-sm italic text-rose-700 flex items-center gap-1.5", editMode && "group/gp relative")}>
                                 <InlineEdit tag="span" editMode={editMode} value={g.godfather || ''} onChange={v => updGodparent(i, 'godfather', v)} placeholder="Nas"
-                                  textKey={`${block.id}:godparent-${i}-godfather`} textLabel={`Nasi · Nas ${i + 1}`} />
+                                  textKey={`${block.id}:godparent-${i}-godfather`} textLabel={`Nasi  Nas ${i + 1}`} />
                                 <span className="text-pink-300">&</span>
                                 <InlineEdit tag="span" editMode={editMode} value={g.godmother || ''} onChange={v => updGodparent(i, 'godmother', v)} placeholder="Nasa"
-                                  textKey={`${block.id}:godparent-${i}-godmother`} textLabel={`Nasi · Nasa ${i + 1}`} />
+                                  textKey={`${block.id}:godparent-${i}-godmother`} textLabel={`Nasi  Nasa ${i + 1}`} />
                                 {editMode && <button type="button" onClick={() => delGodparent(i)} className="opacity-0 group-hover/gp:opacity-100 transition-opacity p-0.5 rounded hover:bg-red-50"><Trash2 className="w-3 h-3 text-red-400" /></button>}
                               </div>
                             ))}
@@ -1228,11 +1265,11 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                         <div className="p-5 space-y-3 font-sans text-sm">
                           <InlineEdit tag="p" editMode={editMode} value={block.sectionTitle || 'Parintii Nostri'}
                             onChange={v => updBlock(realIdx, { sectionTitle: v })} placeholder="Titlu..."
-                            textKey={`${block.id}:parents-title`} textLabel="Parinti · Titlu"
+                            textKey={`${block.id}:parents-title`} textLabel="Parinti  Titlu"
                             className="text-[10px] font-bold uppercase text-pink-400 tracking-widest" />
                           <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
                             onChange={v => updBlock(realIdx, { content: v })} placeholder="Text introductiv..."
-                            textKey={`${block.id}:parents-content`} textLabel="Parinti · Text"
+                            textKey={`${block.id}:parents-content`} textLabel="Parinti  Text"
                             className="text-sm italic text-rose-500 font-serif" multiline />
                           <div className="flex flex-col items-center gap-1">
                             {([
@@ -1243,7 +1280,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                               if (!val && !editMode) return null;
                               return <InlineEdit key={key} tag="p" editMode={editMode} value={val || ''}
                                 onChange={v => updParent(key, v)} placeholder={ph}
-                                textKey={`${block.id}:parent-${key}`} textLabel={`Parinti · ${ph}`}
+                                textKey={`${block.id}:parent-${key}`} textLabel={`Parinti  ${ph}`}
                                 className="text-sm italic text-rose-700" />;
                             })}
                           </div>
@@ -1264,7 +1301,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                       <div className={cn(editMode && "rounded-2xl px-3 py-2 hover:bg-pink-50/40 transition-colors")}>
                         <InlineEdit tag="p" editMode={editMode} value={block.content || ''}
                           onChange={v => updBlock(realIdx, { content: v })} placeholder="Scrieti un mesaj..."
-                          textKey={`${block.id}:text-content`} textLabel="Text · Continut"
+                          textKey={`${block.id}:text-content`} textLabel="Text  Continut"
                           className="text-sm text-rose-600 italic leading-relaxed font-serif" multiline />
                       </div>
                     )}
@@ -1287,10 +1324,9 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
 
                     {block.type === 'date' && (
                       <div style={{ textAlign: "center", padding: "4px 0" }}>
-                        <InlineEdit tag="p" editMode={editMode} value={block.content || dateStr}
-                          onChange={v => updBlock(realIdx, { content: v })}
-                          textKey={`${block.id}:date-content`} textLabel="Data bloc"
-                          className="text-[11px] font-bold uppercase tracking-[0.25em] text-rose-700 font-sans" />
+                        <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-rose-700 font-sans">
+                          {dateStr}
+                        </p>
                       </div>
                     )}
 
@@ -1312,7 +1348,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                           titleText={block.countdownTitle || "Timp ramas pana la marele eveniment"}
                           onTitleChange={text => updBlock(realIdx, { countdownTitle: text })}
                           titleTextKey={`${block.id}:countdown-title`}
-                          titleTextLabel="Countdown · Titlu"
+                          titleTextLabel="Countdown  Titlu"
                         />
                       </div>
                     )}
@@ -1326,20 +1362,20 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                         <Gift className="w-7 h-7 mx-auto mb-3" style={{ color: T.PINK_DARK, opacity: 0.75 }} />
                         <InlineEdit tag="h3" editMode={editMode} value={block.sectionTitle || "Sugestie cadou"}
                           onChange={v => updBlock(realIdx, { sectionTitle: v })}
-                          textKey={`${block.id}:gift-title`} textLabel="Cadou · Titlu"
+                          textKey={`${block.id}:gift-title`} textLabel="Cadou  Titlu"
                           className="text-xl text-rose-700 mb-2" style={{ fontFamily: "Georgia, serif" }} />
                         <InlineEdit tag="p" editMode={editMode} value={block.content || ""}
                           onChange={v => updBlock(realIdx, { content: v })}
-                          textKey={`${block.id}:gift-content`} textLabel="Cadou · Text"
+                          textKey={`${block.id}:gift-content`} textLabel="Cadou  Text"
                           className="text-sm text-rose-500 italic mb-2" multiline />
                         {(block.iban || editMode) && (
                           <InlineEdit tag="p" editMode={editMode} value={block.iban || ""} onChange={v => updBlock(realIdx, { iban: v })}
-                            textKey={`${block.id}:gift-iban`} textLabel="Cadou · IBAN"
+                            textKey={`${block.id}:gift-iban`} textLabel="Cadou  IBAN"
                             placeholder="IBAN..." className="text-xs font-bold text-rose-700 mb-1" style={{ fontFamily: "Montserrat, sans-serif" }} />
                         )}
                         {(block.ibanName || editMode) && (
                           <InlineEdit tag="p" editMode={editMode} value={block.ibanName || ""} onChange={v => updBlock(realIdx, { ibanName: v })}
-                            textKey={`${block.id}:gift-iban-name`} textLabel="Cadou · Beneficiar"
+                            textKey={`${block.id}:gift-iban-name`} textLabel="Cadou  Beneficiar"
                             placeholder="Beneficiar..." className="text-xs text-rose-500" style={{ fontFamily: "Montserrat, sans-serif" }} />
                         )}
                       </div>
@@ -1356,12 +1392,12 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                         >
                           <MessageCircle className="w-4 h-4" />
                           <InlineEdit tag="span" editMode={editMode} value={block.label || "Contact WhatsApp"} onChange={v => updBlock(realIdx, { label: v })}
-                            textKey={`${block.id}:whatsapp-label`} textLabel="WhatsApp · Label" />
+                            textKey={`${block.id}:whatsapp-label`} textLabel="WhatsApp  Label" />
                         </a>
                         {editMode && (
                           <div className="mt-2">
                             <InlineEdit tag="p" editMode={editMode} value={block.content || ""} onChange={v => updBlock(realIdx, { content: v })}
-                              textKey={`${block.id}:whatsapp-number`} textLabel="WhatsApp · Numar"
+                              textKey={`${block.id}:whatsapp-number`} textLabel="WhatsApp  Numar"
                               placeholder="Numar..." className="text-xs text-rose-600" style={{ fontFamily: "Montserrat, sans-serif" }} />
                           </div>
                         )}
@@ -1376,7 +1412,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                           style={{ background: `linear-gradient(135deg, ${T.PINK_D}, ${T.PINK_DARK})` }}
                         >
                           <InlineEdit tag="span" editMode={editMode} value={block.label || "Confirma Prezenta"} onChange={v => updBlock(realIdx, { label: v })}
-                            textKey={`${block.id}:rsvp-label`} textLabel="RSVP · Label" />
+                            textKey={`${block.id}:rsvp-label`} textLabel="RSVP  Label" />
                         </button>
                       </div>
                     )}
@@ -1392,23 +1428,23 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                         <div className="rounded-2xl border border-pink-100 bg-white/80 shadow-sm p-5 text-center">
                           <InlineEdit tag="p" editMode={editMode} value={block.label || "Familie"}
                             onChange={v => updBlock(realIdx, { label: v })}
-                            textKey={`${block.id}:family-label`} textLabel="Familie · Titlu"
+                            textKey={`${block.id}:family-label`} textLabel="Familie  Titlu"
                             className="text-[10px] font-bold uppercase text-pink-400 tracking-widest mb-2" />
                           <InlineEdit tag="p" editMode={editMode} value={block.content || ""}
                             onChange={v => updBlock(realIdx, { content: v })}
-                            textKey={`${block.id}:family-content`} textLabel="Familie · Text"
+                            textKey={`${block.id}:family-content`} textLabel="Familie  Text"
                             className="text-sm text-rose-500 italic mb-3" multiline />
                           <div className="flex flex-col items-center gap-2">
                             {members.map((m, mi) => (
                               <div key={mi} className="flex items-center justify-center gap-2 flex-wrap">
                                 <InlineEdit tag="span" editMode={editMode} value={m.name1}
                                   onChange={v => { const nm=[...members]; nm[mi] = { ...nm[mi], name1: v }; updateMembers(nm); }}
-                                  textKey={`${block.id}:family-member-${mi}-1`} textLabel={`Familie · Nume ${mi + 1}.1`}
+                                  textKey={`${block.id}:family-member-${mi}-1`} textLabel={`Familie  Nume ${mi + 1}.1`}
                                   className="text-lg text-rose-700" style={{ fontFamily: "Georgia, serif" }} />
                                 <span className="text-pink-300">&amp;</span>
                                 <InlineEdit tag="span" editMode={editMode} value={m.name2}
                                   onChange={v => { const nm=[...members]; nm[mi] = { ...nm[mi], name2: v }; updateMembers(nm); }}
-                                  textKey={`${block.id}:family-member-${mi}-2`} textLabel={`Familie · Nume ${mi + 1}.2`}
+                                  textKey={`${block.id}:family-member-${mi}-2`} textLabel={`Familie  Nume ${mi + 1}.2`}
                                   className="text-lg text-rose-700" style={{ fontFamily: "Georgia, serif" }} />
                                 {editMode && members.length > 1 && (
                                   <button type="button" onClick={() => updateMembers(members.filter((_, i) => i !== mi))}
@@ -1451,11 +1487,11 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                   <p className="text-[9px] text-pink-300 uppercase tracking-widest mb-2.5 font-sans">Adauga bloc</p>
                   <div className="flex flex-wrap justify-center gap-2">
                     {[
-                      { type:'location', label:'Locatie', def: { label:'', time:'', locationName:'', locationAddress:'', wazeLink:'' } },
-                      { type:'text',     label:'Text',    def: { content:'' } },
-                      { type:'title',    label:'Titlu',   def: { content:'' } },
-                      { type:'photo',    label:'Foto',    def: { imageData: undefined, altText: '', aspectRatio: '3:4', photoClip: 'arch', photoMasks: ['fade-b'] } },
-                      { type:'divider',  label:'Linie',   def: {} },
+                      { type:'location', label: 'Locatie', def: { label:'', time:'', locationName:'', locationAddress:'', wazeLink:'' } },
+                      { type:'text',     label: 'Text',    def: { content:'' } },
+                      { type:'title',    label: 'Titlu',   def: { content:'' } },
+                      { type:'photo',    label: 'Foto',    def: { imageData: undefined, altText: '', aspectRatio: '3:4', photoClip: 'arch', photoMasks: ['fade-b'] } },
+                      { type:'divider',  label: 'Linie',   def: {} },
                     ].map(({ type, label, def }) => (
                       <button key={type} type="button" onClick={() => addBlock(type, def)}
                         className="px-3 py-1 text-[10px] font-bold border border-pink-200 hover:border-pink-300 rounded-full text-pink-400 hover:text-rose-600 hover:bg-pink-50 transition-all font-sans">
@@ -1466,7 +1502,7 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                 </div>
               )}
 
-              {/* ── CRONOLOGIE ── */}
+              {/*  CRONOLOGIE  */}
               {p.showTimeline && timeline.length > 0 && (
                 <BlockStyleProvider value={{
                   blockId: "__timeline__",
@@ -1483,9 +1519,9 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
                   <div className="space-y-2 max-w-xs mx-auto">
                     {timeline.map((item: any) => (
                       <div key={item.id} className="flex items-center justify-between text-xs gap-3">
-                        <InlineEdit tag="span" editMode={editMode} value={item.time || ''} onChange={v => updateTimelineItem(item.id, { time: v })} textKey={`timeline:${item.id}:time`} textLabel="Timeline · Ora" className="font-bold tabular-nums shrink-0" style={{ color: T.PINK_D }} />
+                        <InlineEdit tag="span" editMode={editMode} value={item.time || ''} onChange={v => updateTimelineItem(item.id, { time: v })} textKey={`timeline:${item.id}:time`} textLabel="Timeline  Ora" className="font-bold tabular-nums shrink-0" style={{ color: T.PINK_D }} />
                         <div className="flex-1 h-px" style={{ background: T.PINK_L }} />
-                        <InlineEdit tag="span" editMode={editMode} value={item.title || ''} onChange={v => updateTimelineItem(item.id, { title: v })} textKey={`timeline:${item.id}:title`} textLabel="Timeline · Titlu" className="font-medium text-right" style={{ color: T.PINK_DARK }} />
+                        <InlineEdit tag="span" editMode={editMode} value={item.title || ''} onChange={v => updateTimelineItem(item.id, { title: v })} textKey={`timeline:${item.id}:title`} textLabel="Timeline  Titlu" className="font-medium text-right" style={{ color: T.PINK_DARK }} />
                       </div>
                     ))}
                   </div>
@@ -1527,3 +1563,4 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
 };
 
 export default RoyalRoseTemplate;
+

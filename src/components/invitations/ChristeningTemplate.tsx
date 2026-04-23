@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { WeddingIcon } from "../TimelineIcons";
@@ -48,7 +48,7 @@ const SERIF     = "'Playfair Display', serif";
 const SCRIPT    = "'Great Vibes', cursive";
 const SANS      = "'Montserrat', sans-serif";
 
-// ── Music player ──────────────────────────────────────────────────────────────
+//  Music player 
 declare global { interface Window { YT: any; onYouTubeIframeAPIReady: () => void; } }
 let ytApiLoaded_cm  = false;
 let ytApiLoading_cm = false;
@@ -191,13 +191,13 @@ const MusicBlock: React.FC<{
   useEffect(() => {
     if (!imperativeRef) return;
     imperativeRef.current = {
-      // Called on user gesture (modal button click) — unlocks browser autoplay restriction
+      // Called on user gesture (modal button click)  unlocks browser autoplay restriction
       unlock: () => {
         if (block.musicType === 'mp3' && audioRef.current && block.musicUrl) {
           audioRef.current.play().then(() => { audioRef.current!.pause(); audioRef.current!.currentTime = 0; }).catch(() => {});
         }
       },
-      // Called when doors open — starts playback (already unlocked)
+      // Called when doors open  starts playback (already unlocked)
       play: () => {
         if (block.musicType === 'mp3' && audioRef.current && block.musicUrl) {
           audioRef.current.play().catch(() => {});
@@ -238,7 +238,7 @@ const MusicBlock: React.FC<{
         </span>
       </div>
 
-      {/* No source yet — edit mode */}
+      {/* No source yet  edit mode */}
       {!isActive && editMode && (
         <div>
           {showYt ? (
@@ -250,9 +250,9 @@ const MusicBlock: React.FC<{
                 style={{ flex: 1, background: PINK_XL, border: `1px solid ${PINK_L}`, borderRadius: 8, padding: '9px 12px', fontFamily: SANS, fontSize: 11, color: TEXT, outline: 'none' }}
               />
               <button type="button" onClick={submitYt}
-                style={{ background: PINK_DARK, border: 'none', borderRadius: 8, padding: '0 14px', cursor: 'pointer', fontFamily: SANS, fontSize: 11, fontWeight: 700, color: 'white' }}>✓</button>
+                style={{ background: PINK_DARK, border: 'none', borderRadius: 8, padding: '0 14px', cursor: 'pointer', fontFamily: SANS, fontSize: 11, fontWeight: 700, color: 'white' }}></button>
               <button type="button" onClick={() => { setShowYt(false); setYtUrl(''); }}
-                style={{ background: PINK_XL, border: 'none', borderRadius: 8, padding: '0 10px', cursor: 'pointer', color: MUTED, fontSize: 14 }}>✕</button>
+                style={{ background: PINK_XL, border: 'none', borderRadius: 8, padding: '0 10px', cursor: 'pointer', color: MUTED, fontSize: 14 }}></button>
             </div>
           ) : (
             <div style={{ display: 'flex', gap: 8 }}>
@@ -277,7 +277,7 @@ const MusicBlock: React.FC<{
         </div>
       )}
 
-      {/* No source — view mode */}
+      {/* No source  view mode */}
       {!isActive && !editMode && (
         <div style={{ textAlign: 'center', padding: '16px 0', opacity: 0.4 }}>
           <Music className="w-8 h-8" style={{ color: PINK_DARK, display: 'block', margin: '0 auto 6px' }} />
@@ -357,7 +357,7 @@ const MusicBlock: React.FC<{
   );
 };
 
-// ── Decorative ────────────────────────────────────────────────────────────────
+//  Decorative 
 const CastleSparkles: React.FC<{ flip?: boolean; scale?: number; style?: React.CSSProperties }> = ({ flip, scale = 1, style }) => (
   <svg viewBox="0 0 200 200" fill="none" style={{ width: 200 * scale, height: 200 * scale, pointerEvents: 'none', transform: flip ? 'scaleX(-1)' : undefined, ...style }}>
     <g opacity="0.6">
@@ -370,7 +370,7 @@ const CastleSparkles: React.FC<{ flip?: boolean; scale?: number; style?: React.C
   </svg>
 );
 
-// ── Shape / Clip system ───────────────────────────────────────────────────────
+//  Shape / Clip system 
 type ClipShape = 'rect' | 'rounded' | 'rounded-lg' | 'squircle' | 'circle' | 'arch' | 'arch-b' | 'hexagon' | 'diamond' | 'triangle' | 'star' | 'heart' | 'diagonal' | 'diagonal-r' | 'wave-b' | 'wave-t' | 'wave-both' | 'blob' | 'blob2' | 'blob3' | 'blob4';
 type MaskEffect = 'fade-b' | 'fade-t' | 'fade-l' | 'fade-r' | 'vignette';
 
@@ -423,7 +423,7 @@ const PhotoClipDefs: React.FC = () => (
   </svg>
 );
 
-// ── Photo block ───────────────────────────────────────────────────────────────
+//  Photo block 
 const PhotoBlock: React.FC<{
   imageData?: string; altText?: string; editMode: boolean;
   onUpload: (url: string) => void; onRemove: () => void;
@@ -486,7 +486,7 @@ const PhotoBlock: React.FC<{
   );
 };
 
-// ── Calendar ──────────────────────────────────────────────────────────────────
+//  Calendar 
 const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   if (!date) return null;
   const d = new Date(date);
@@ -513,7 +513,7 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ── Countdown ─────────────────────────────────────────────────────────────────
+//  Countdown 
 function useCountdown(target: string) {
   const calc = () => {
     const diff = new Date(target).getTime() - Date.now();
@@ -542,7 +542,7 @@ const CountdownSection: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ── Reveal ────────────────────────────────────────────────────────────────────
+//  Reveal 
 const Reveal: React.FC<{ children: React.ReactNode; delay?: number; style?: React.CSSProperties }> = ({ children, delay = 0, style }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [vis, setVis] = useState(false);
@@ -558,7 +558,7 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; style?: Reac
   );
 };
 
-// ── Misc UI ───────────────────────────────────────────────────────────────────
+//  Misc UI 
 const WildDivider = () => (
   <div className="flex items-center gap-4 my-8">
     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-pink-300 to-transparent" />
@@ -586,7 +586,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
   </div>
 );
 
-// ── Profile Image Upload ───────────────────────────────────────────────────────
+//  Profile Image Upload 
 const ProfileImageUpload: React.FC<{ url?: string; onUpload: (url: string) => void; onRemove: () => void; label: string; editMode: boolean; className?: string; aspectRatio?: string }> =
   ({ url, onUpload, onRemove, label, editMode, className, aspectRatio = "aspect-video" }) => {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -624,7 +624,7 @@ const ProfileImageUpload: React.FC<{ url?: string; onUpload: (url: string) => vo
   );
 };
 
-// ── Door hint & welcome ───────────────────────────────────────────────────────
+//  Door hint & welcome 
 const DoorHint: React.FC = () => (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
     <style>{`
@@ -632,13 +632,13 @@ const DoorHint: React.FC = () => (
     `}</style>
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, marginTop: 2, opacity: 0.9 }}>
       <span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 8, letterSpacing: '0.35em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>Scroll down</span>
-      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', animation: 'dh-down 1.6s ease-in-out infinite' }}>↓</span>
+      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', animation: 'dh-down 1.6s ease-in-out infinite' }}></span>
     </div>
   </div>
 );
 
-// ── Seam Particles — montate pe marginea usii, urmaresc automat prin GSAP ─────
-// Generat static — niciodata nu se recalculeaza
+//  Seam Particles  montate pe marginea usii, urmaresc automat prin GSAP 
+// Generat static  niciodata nu se recalculeaza
 const _SEAM_PX = Array.from({ length: 240 }, (_, i) => {
   const a = (Math.imul(i * 2654435761 + 1013904223, 1) >>> 0);
   const b = (Math.imul((a ^ (a >> 16)) * 2246822519, 1) >>> 0);
@@ -647,7 +647,7 @@ const _SEAM_PX = Array.from({ length: 240 }, (_, i) => {
   const spreadDeg = ((d % 120) - 60);
   const angleRad  = (spreadDeg * Math.PI) / 180;
   const dist = 80 + (b % 300);
-  const size = 1 + (c % 15);  // 1px → 14px — mix de mici si mari
+  const size = 1 + (c % 15);  // 1px  14px  mix de mici si mari
   return {
     top:    (i / 160) * 98 + 1,
     ex:     Math.round(Math.cos(angleRad) * dist),
@@ -767,7 +767,7 @@ const DoorSeam: React.FC<{ side: 'left' | 'right' }> = ({ side }) => (
   </div>
 )
 
-// ── Castle overlay ────────────────────────────────────────────────────────────
+//  Castle overlay 
 const CastleOverlayText: React.FC<{ childName: string; subtitle: string; welcomeText: string; editMode?: boolean; overlayRef?: React.RefObject<HTMLDivElement>; onChildNameChange?: (v: string) => void; onSubtitleChange?: (v: string) => void; onWelcomeChange?: (v: string) => void; previewMode?: 'doors' | 'static' }> =
   ({ childName, subtitle, welcomeText, editMode, overlayRef, onChildNameChange, onSubtitleChange, onWelcomeChange, previewMode }) => {
   const isStaticPreview = previewMode === 'static';
@@ -802,7 +802,7 @@ const CastleOverlayText: React.FC<{ childName: string; subtitle: string; welcome
   );
 };
 
-// ── Castle Intro ──────────────────────────────────────────────────────────────
+//  Castle Intro 
 const CastleIntro: React.FC<{
   onDone: () => void; castleUrl?: string; castleUrlMobile?: string;
   editMode?: boolean; contentEl?: HTMLElement | null;
@@ -825,7 +825,7 @@ const CastleIntro: React.FC<{
   useEffect(() => {
     if (editMode || !leftDoorRef.current || !rightDoorRef.current || !contentEl) return;
 
-    // Pure GPU transforms only — zero repaints, zero lag
+    // Pure GPU transforms only  zero repaints, zero lag
     gsap.set(contentEl, { opacity: 0 });
     gsap.set(seamRef.current,  { opacity: 0 });
     gsap.set(seamRef2.current, { opacity: 0 });
@@ -939,14 +939,14 @@ const CastleIntro: React.FC<{
   );
 };
 
-// ── Audio Permission Modal ────────────────────────────────────────────────────
+//  Audio Permission Modal 
 const AudioPermissionModal: React.FC<{
   childName: string;
   onAllow: () => void;
   onDeny: () => void;
 }> = ({ childName, onAllow, onDeny }) => (
   <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-    {/* Backdrop — pink blur */}
+    {/* Backdrop  pink blur */}
     <div style={{ position: 'absolute', inset: 0, background: 'rgba(157,23,77,0.65)', backdropFilter: 'blur(8px)' }} />
     {/* Card */}
     <div style={{ position: 'relative', background: 'white', borderRadius: 24, padding: '36px 32px 28px', maxWidth: 320, width: '90%', textAlign: 'center', boxShadow: '0 24px 80px rgba(157,23,77,0.35)', border: `1px solid ${PINK_L}` }}>
@@ -960,7 +960,7 @@ const AudioPermissionModal: React.FC<{
         {childName}
       </p>
       <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: TEXT, margin: '0 0 8px' }}>
-        Te invita la o poveste magica 🌟
+        Te invita la o poveste magica 
       </p>
       <p style={{ fontFamily: SANS, fontSize: 11, color: MUTED, margin: '0 0 28px', lineHeight: 1.6 }}>
         Aceasta invitatie are o melodie speciala.<br/>
@@ -971,7 +971,7 @@ const AudioPermissionModal: React.FC<{
         style={{ width: '100%', padding: '14px 0', background: `linear-gradient(135deg,${PINK_DARK},${PINK_D})`, border: 'none', borderRadius: 50, cursor: 'pointer', fontFamily: SANS, fontSize: 12, fontWeight: 700, color: 'white', letterSpacing: '0.1em', marginBottom: 10,  transition: 'transform 0.15s' }}
         onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.03)'}
         onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'}>
-        🎵 Da, activeaza muzica
+         Da, activeaza muzica
       </button>
       <button type="button" onClick={onDeny}
         style={{ width: '100%', padding: '10px 0', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: SANS, fontSize: 11, color: MUTED }}>
@@ -981,7 +981,7 @@ const AudioPermissionModal: React.FC<{
   </div>
 );
 
-// ── Main Template ─────────────────────────────────────────────────────────────
+//  Main Template 
 const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
   editMode?: boolean;
   introPreview?: boolean;
@@ -995,7 +995,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentEl, setContentEl] = useState<HTMLElement | null>(null);
 
-  // ── Audio permission ──────────────────────────────────────────────────────
+  //  Audio permission 
   const hasMusicBlock = useCallback(() => {
     try { return (JSON.parse(profile.customSections || '[]') as InvitationBlock[]).some(b => b.type === 'music' && b.musicType !== 'none' && b.musicUrl); }
     catch { return false; }
@@ -1046,15 +1046,15 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
   const rsvpText = profile.rsvpButtonText?.trim() || 'Confirma Prezenta';
 
   const BLOCK_TYPES = [
-    { type: 'photo',     label: '📷 Foto',      def: { imageData: undefined, aspectRatio: '1:1', photoClip: 'rect', photoMasks: [] } },
+    { type: 'photo',     label: 'Foto',      def: { imageData: undefined, aspectRatio: '1:1', photoClip: 'rect', photoMasks: [] } },
     { type: 'text',      label: 'Text',          def: { content: 'O poveste magica incepe...' } },
     { type: 'location',  label: 'Locatie',       def: { locationName: 'Castelul Magic', locationAddress: 'Strada Basmului nr. 1' } },
-    { type: 'calendar',  label: '📅 Calendar',  def: {} },
-    { type: 'countdown', label: '⏱ Countdown', def: {} },
-    { type: 'music',     label: '🎵 Muzica',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
-    { type: 'gift',      label: '🎁 Cadouri',   def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
+    { type: 'calendar',  label: 'Calendar',  def: {} },
+    { type: 'countdown', label: 'Countdown', def: {} },
+    { type: 'music',     label: 'Muzica',    def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
+    { type: 'gift',      label: 'Cadouri',   def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
     { type: 'quote',     label: 'Citat',         def: { content: '' } },
-    { type: 'whatsapp',  label: 'WhatsApp',      def: { label: 'Contact WhatsApp', content: '0700000000' } },
+    { type: 'whatsapp',  label: 'WhatsApp',      def: { label: 'WhatsApp', content: '0700000000' } },
     { type: 'rsvp',      label: 'RSVP',          def: { label: 'Confirma Prezenta' } },
     { type: 'divider',   label: 'Linie',         def: {} },
   ];
@@ -1068,7 +1068,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
           onAllow={() => {
             audioAllowedRef.current = true;
             setAudioAllowed(true);
-            // THIS is the user gesture — call unlock() which does play+pause on the audio element
+            // THIS is the user gesture  call unlock() which does play+pause on the audio element
             // This removes browser autoplay restriction; future .play() from scroll will work
             musicPlayRef.current?.unlock();
             setShowAudioModal(false);
@@ -1085,7 +1085,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
           contentEl={contentEl} scrollContainer={scrollContainer} childName={profile.partner1Name || 'Numele Copilului'}
           subtitle={castleSubtitle} welcomeText={castleWelcome}
           onDoorsOpen={() => {
-            // Fire immediately at onLeave (doors fully apart) — zero delay
+            // Fire immediately at onLeave (doors fully apart)  zero delay
             if (audioAllowedRef.current && musicPlayRef.current) {
               musicPlayRef.current.play();
             }
@@ -1106,7 +1106,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
               </h3>
               {introPreview && (
                 <div className="mb-6">
-                <p className="text-[10px] text-muted uppercase font-bold mb-2">Previzualizare Usi — click pe text pentru editare:</p>
+                <p className="text-[10px] text-muted uppercase font-bold mb-2">Previzualizare Usi  click pe text pentru editare:</p>
                 <div className="border border-pink-100 rounded-xl shadow-inner bg-pink-50/20" style={{ position: 'relative' }}>
                   <BlockStyleProvider
                     value={{
@@ -1196,7 +1196,7 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
                     <Reveal><CountdownSection date={profile.weddingDate} /></Reveal>
                   )}
 
-                  {/* ✅ MUSIC BLOCK — was missing! */}
+                  {/*  MUSIC BLOCK  was missing! */}
                   {block.type === 'music' && (
                     <Reveal>
                       <MusicBlock block={block} editMode={editMode} onUpdate={p => updBlock(idx, p)}
@@ -1320,3 +1320,4 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
 };
 
 export default CastleMagicTemplate;
+

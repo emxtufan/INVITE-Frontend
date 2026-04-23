@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import { InvitationTemplateProps, TemplateMeta } from "./types";
 import { InlineEdit, InlineTime, InlineWaze } from "./InlineEdit";
 import { getUnicornTheme } from "./castleDefaults";
@@ -23,19 +23,19 @@ export const meta: TemplateMeta = {
   id: 'unicorn-academy',
   name: 'Unicorn Academy',
   category: 'kids',
-  description: 'Magie purpurie — Sophia & Wildstar te invita la petrecere, cu lumini de stele si corn de unicorn.',
+  description: 'Magie purpurie  Sophia & Wildstar te invita la petrecere, cu lumini de stele si corn de unicorn.',
   colors: ['#3a006f', '#F5A623', '#DDB6F8'],
   previewClass: "bg-purple-950 border-yellow-500",
   elementsClass: "bg-yellow-500",
 };
 
-// ─── IMAGE DATA (base64 embedded) ────────────────────────────────────────────
+//  IMAGE DATA (base64 embedded) 
 const IMG_SOPHIA = "/unicornacademy/sophia.jpg";
 const IMG_WILDSTAR = "/unicornacademy/wildstar.jpg";
 const IMG_BG = "/unicornacademy/bg.jpg";
 const IMG_MEDALLION = "/unicornacademy/medallion.jpg";
 
-// ─── DESIGN TOKENS ───────────────────────────────────────────────────────────
+//  DESIGN TOKENS 
 const F = {
   display : "'Cinzel','Trajan Pro','Times New Roman',serif",
   body    : "'Nunito','Quicksand',sans-serif",
@@ -69,7 +69,7 @@ const hexToRgba = (hex: string, alpha: number) => {
   return `rgba(${r},${g},${b},${alpha})`;
 };
 
-// ─── GLOBAL CSS ───────────────────────────────────────────────────────────────
+//  GLOBAL CSS 
 const UA_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Nunito:wght@400;600;700;800;900&display=swap');
 
@@ -95,7 +95,7 @@ const UA_CSS = `
   @keyframes ua-countIn     { 0%{transform:scale(0.5);opacity:0}100%{transform:scale(1);opacity:1} }
 `;
 
-// ─── SCROLL-REVEAL HOOK ───────────────────────────────────────────────────────
+//  SCROLL-REVEAL HOOK 
 function useReveal<T extends HTMLElement>(threshold = 0.1): [React.RefObject<T>, boolean] {
   const ref  = useRef<T>(null);
   const [vis, setVis] = useState(false);
@@ -120,7 +120,7 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; from?: 'bott
   );
 };
 
-// ─── ANIMATED STAR PARTICLES ──────────────────────────────────────────────────
+//  ANIMATED STAR PARTICLES 
 const StarField: React.FC<{ count?: number; dark?: boolean }> = ({ count = 32, dark = false }) => {
   const stars = useRef(Array.from({ length: count }, (_, i) => ({
     x: (i * 137.5) % 100, y: (i * 97.3) % 100,
@@ -138,13 +138,13 @@ const StarField: React.FC<{ count?: number; dark?: boolean }> = ({ count = 32, d
           opacity: s.bright ? 0.7 : 0.3,
           animation: `ua-twinkle ${s.dur}s ${s.delay}s ease-in-out infinite`,
           pointerEvents: 'none', userSelect: 'none', zIndex: 1,
-        }}>{s.bright ? '✦' : '·'}</div>
+        }}>{s.bright ? '' : ''}</div>
       ))}
     </>
   );
 };
 
-// ─── GOLD FRAME (circular, like in the show) ─────────────────────────────────
+//  GOLD FRAME (circular, like in the show) 
 const GoldFrame: React.FC<{ src: string; size: number; float?: boolean; floatDelay?: number }> =
   ({ src, size, float = false, floatDelay = 0 }) => (
   <div style={{
@@ -190,17 +190,17 @@ const GoldFrame: React.FC<{ src: string; size: number; float?: boolean; floatDel
   </div>
 );
 
-// ─── GOLD STAR MEDALLION ──────────────────────────────────────────────────────
+//  GOLD STAR MEDALLION 
 const StarMedallion: React.FC<{ size?: number; style?: React.CSSProperties }> =
   ({ size = 56, style }) => (
   <div style={{ width: size, height: size, borderRadius: '50%', position: 'relative',
     animation: 'ua-hornGlow 2.5s ease-in-out infinite', flexShrink: 0, ...style }}>
-    <img src={IMG_MEDALLION} alt="★" style={{ width:'100%', height:'100%',
+    <img src={IMG_MEDALLION} alt="" style={{ width:'100%', height:'100%',
       borderRadius:'50%', objectFit:'cover', display:'block' }}/>
   </div>
 );
 
-// ─── UNICORN HORN SVG ─────────────────────────────────────────────────────────
+//  UNICORN HORN SVG 
 const UnicornHorn: React.FC<{ size?: number }> = ({ size = 36 }) => (
   <svg width={size} height={size * 1.8} viewBox="0 0 36 65" fill="none"
     style={{ animation: 'ua-hornGlow 2.5s ease-in-out infinite', filter:`drop-shadow(0 0 8px ${C.goldGlow})` }}>
@@ -219,7 +219,7 @@ const UnicornHorn: React.FC<{ size?: number }> = ({ size = 36 }) => (
   </svg>
 );
 
-// ─── GOLD DIVIDER ─────────────────────────────────────────────────────────────
+//  GOLD DIVIDER 
 const GoldDivider: React.FC<{ medallion?: boolean }> = ({ medallion = false }) => (
   <div style={{ display:'flex', alignItems:'center', gap:12, margin:'4px 0' }}>
     <div style={{ flex:1, height:'1px', background:`linear-gradient(to right,transparent,${C.gold})`, opacity:.5 }}/>
@@ -233,7 +233,7 @@ const GoldDivider: React.FC<{ medallion?: boolean }> = ({ medallion = false }) =
   </div>
 );
 
-// ─── LOCATION CARD ────────────────────────────────────────────────────────────
+//  LOCATION CARD 
 const LocCard: React.FC<{
   label: string; time?: string; name?: string; address?: string; wazeLink?: string;
   editMode?: boolean;
@@ -305,7 +305,7 @@ const LocCard: React.FC<{
                 borderRadius:50, background:C.gold, color:C.purple,
                 fontFamily:F.label, fontSize:9, letterSpacing:'.3em', textTransform:'uppercase',
                 textDecoration:'none', fontWeight:700, boxShadow:`0 3px 12px ${C.goldGlow}`,
-              }}>✦ Waze</a>
+              }}> Waze</a>
             )}
             {address && (
               <a href={`https://maps.google.com/?q=${enc}`} target="_blank" rel="noopener noreferrer" style={{
@@ -314,7 +314,7 @@ const LocCard: React.FC<{
                 border:`1.5px solid ${hexToRgba(C.gold,.5)}`,
                 fontFamily:F.label, fontSize:9, letterSpacing:'.3em', textTransform:'uppercase',
                 textDecoration:'none',
-              }}>◉ Maps</a>
+              }}> Maps</a>
             )}
           </div>
         )}
@@ -323,7 +323,7 @@ const LocCard: React.FC<{
   );
 };
 
-// ─── COUNTDOWN ────────────────────────────────────────────────────────────────
+//  COUNTDOWN 
 interface TimeLeft { days:number; hours:number; minutes:number; seconds:number; total:number }
 function calcTimeLeft(date: string): TimeLeft {
   const diff = new Date(date).getTime() - Date.now();
@@ -388,7 +388,7 @@ const Countdown: React.FC<{ targetDate: string | undefined }> = ({ targetDate })
       border:`1.5px solid ${hexToRgba(C.gold,.25)}`, borderRadius:12,
       background:hexToRgba(C.purpleMid,.3) }}>
       <p style={{ fontFamily:F.label, fontSize:9, letterSpacing:'.45em',
-        textTransform:'uppercase', color:C.gold, margin:0 }}>✦ Evenimentul a avut loc ✦</p>
+        textTransform:'uppercase', color:C.gold, margin:0 }}> Evenimentul a avut loc </p>
     </div>
   );
   const isSoon = (tl?.total ?? 0) < 86400000;
@@ -400,7 +400,7 @@ const Countdown: React.FC<{ targetDate: string | undefined }> = ({ targetDate })
         <span style={{ fontFamily:F.label, fontSize:8, letterSpacing:'.48em',
           textTransform:'uppercase', color:C.gold, opacity:.75,
           padding:'4px 16px', border:`1px solid ${hexToRgba(C.gold,.2)}`, borderRadius:50 }}>
-          {isSoon ? '✦ Maine ✦' : 'Timp ramas'}
+          {isSoon ? ' Maine ' : 'Timp ramas'}
         </span>
       </div>
       <div style={{ display:'flex', justifyContent:'center', alignItems:'flex-start', gap:8 }}>
@@ -422,7 +422,7 @@ const Countdown: React.FC<{ targetDate: string | undefined }> = ({ targetDate })
   );
 };
 
-// ─── INTRO — MAGIC PORTAL OPENING ────────────────────────────────────────────
+//  INTRO  MAGIC PORTAL OPENING 
 interface IntroProps { l1: string; l2: string; onDone: () => void }
 
 const UnicornIntro: React.FC<IntroProps> = ({ l1, l2, onDone }) => {
@@ -481,7 +481,7 @@ const UnicornIntro: React.FC<IntroProps> = ({ l1, l2, onDone }) => {
         animation: phase >= 2 ? 'ua-bgPulse 3s ease-in-out infinite' : 'none',
       }}/>
 
-      {/* Star Medallion — spins in */}
+      {/* Star Medallion  spins in */}
       <div style={{
         position:'relative', zIndex:10, marginBottom:8,
         opacity: phase >= 2 ? 1 : 0,
@@ -501,7 +501,7 @@ const UnicornIntro: React.FC<IntroProps> = ({ l1, l2, onDone }) => {
       }}>
         <p style={{ fontFamily:F.label, fontSize:9, letterSpacing:'.65em',
           textTransform:'uppercase', color:C.gold, margin:'0 0 4px', opacity:.85 }}>
-          ✦ UNICORN ACADEMY ✦
+           UNICORN ACADEMY 
         </p>
         <h1 style={{
           fontFamily:F.display, fontWeight:900,
@@ -513,7 +513,7 @@ const UnicornIntro: React.FC<IntroProps> = ({ l1, l2, onDone }) => {
         </h1>
         <p style={{ fontFamily:F.label, fontSize:8, letterSpacing:'.5em',
           textTransform:'uppercase', color:hexToRgba(C.lavender,.6), margin:0 }}>
-          — te invita la petrecere —
+           te invita la petrecere 
         </p>
       </div>
 
@@ -558,12 +558,12 @@ const UnicornIntro: React.FC<IntroProps> = ({ l1, l2, onDone }) => {
         marginTop:20, zIndex:10,
         opacity: phase >= 5 ? 1 : 0,
         transition:'opacity .5s',
-      }}>✦ Light Magic ✦</p>
+      }}> Light Magic </p>
     </div>
   );
 };
 
-// ─── NAV BUTTONS ─────────────────────────────────────────────────────────────
+//  NAV BUTTONS 
 const NavBtns: React.FC<{ address?:string; wazeLink?:string }> = ({ address, wazeLink }) => {
   if (!address && !wazeLink) return null;
   const enc = address ? encodeURIComponent(address) : '';
@@ -576,7 +576,7 @@ const NavBtns: React.FC<{ address?:string; wazeLink?:string }> = ({ address, waz
           textDecoration:'none', color:C.purple,
           background:C.gold, borderRadius:50,
           boxShadow:`0 3px 10px ${C.goldGlow}`,
-        }}>✦ Waze</a>
+        }}> Waze</a>
       )}
       {address && (
         <a href={`https://maps.google.com/?q=${enc}`} target="_blank" rel="noopener noreferrer" style={{
@@ -585,17 +585,32 @@ const NavBtns: React.FC<{ address?:string; wazeLink?:string }> = ({ address, waz
           textDecoration:'none', color:C.gold,
           border:`1.5px solid ${hexToRgba(C.gold,.4)}`, borderRadius:50,
           background:'transparent',
-        }}>◉ Maps</a>
+        }}> Maps</a>
       )}
     </div>
   );
 };
 
-// ─── BLOCK TOOLBAR & INSERT ───────────────────────────────────────────────────
+//  BLOCK TOOLBAR & INSERT 
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: "🖼", text: "✏", location: "📍", calendar: "📅", countdown: "⏱",
-  timeline: "🕒", music: "🎵", gift: "🎁", whatsapp: "💬", rsvp: "✉",
-  divider: "—", family: "👨‍👩‍👧", date: "📆", description: "📝",
+  photo: "IMG",
+  text: "TXT",
+  location: "LOC",
+  calendar: "CAL",
+  countdown: "TMR",
+  timeline: "TIME",
+  music: "MUS",
+  gift: "GFT",
+  whatsapp: "WA",
+  rsvp: "RSVP",
+  divider: "---",
+  family: "FAM",
+  date: "DATE",
+  description: "DESC",
+  title: "Aa",
+  godparents: "NAS",
+  parents: "PAR",
+  spacer: "SP",
 };
 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: any) => (
@@ -682,7 +697,7 @@ const TimelineInsertButton: React.FC<{ editMode: boolean; onAdd: () => void }> =
   );
 };
 
-// ─── PHOTO BLOCK ──────────────────────────────────────────────────────────────
+//  PHOTO BLOCK 
 const PhotoBlock: React.FC<{
   imageData?: string; altText?: string; editMode: boolean;
   onUpload: (url: string) => void; onAltChange: (v: string) => void; onRemove: () => void;
@@ -736,14 +751,14 @@ const PhotoBlock: React.FC<{
       {editMode && (
         <div style={{ marginTop:8 }}>
           <InlineEdit tag="p" editMode={editMode} value={altText||""} onChange={v => onAltChange(v)} placeholder="Text alternativ..."
-            textLabel="Foto · alt" style={{ fontFamily:F.body, fontSize:11, color:C.lavender, margin:0, textAlign:"center" }}/>
+            textLabel="Foto  alt" style={{ fontFamily:F.body, fontSize:11, color:C.lavender, margin:0, textAlign:"center" }}/>
         </div>
       )}
     </div>
   );
 };
 
-// ─── MUSIC BLOCK ──────────────────────────────────────────────────────────────
+//  MUSIC BLOCK 
 const MusicBlock: React.FC<{
   block: InvitationBlock; editMode: boolean;
   onUpdate: (p: Partial<InvitationBlock>) => void;
@@ -842,10 +857,10 @@ const MusicBlock: React.FC<{
             </div>
             <div style={{ flex:1, minWidth:0 }}>
               <InlineEdit tag="p" editMode={editMode} value={block.musicTitle||""} onChange={v => onUpdate({musicTitle:v})}
-                placeholder="Titlul melodiei..." textLabel="Muzica · titlu"
+                placeholder="Titlul melodiei..." textLabel="Muzica  titlu"
                 style={{ fontFamily:F.display, fontSize:14, fontStyle:"italic", color:C.purple, margin:0, lineHeight:1.3 }}/>
               <InlineEdit tag="p" editMode={editMode} value={block.musicArtist||""} onChange={v => onUpdate({musicArtist:v})}
-                placeholder="Artist..." textLabel="Muzica · artist"
+                placeholder="Artist..." textLabel="Muzica  artist"
                 style={{ fontFamily:F.body, fontSize:10, color:C.purpleMid, margin:"2px 0 0" }}/>
             </div>
           </div>
@@ -895,7 +910,7 @@ const MusicBlock: React.FC<{
   );
 };
 
-// ─── AUDIO PERMISSION MODAL ───────────────────────────────────────────────────
+//  AUDIO PERMISSION MODAL 
 const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; onDeny: () => void }> = ({ childName, onAllow, onDeny }) => (
   <div style={{ position:"fixed", inset:0, zIndex:10020, display:"flex", alignItems:"center", justifyContent:"center" }}>
     <div style={{ position:"absolute", inset:0, background:hexToRgba(C.purple,0.65), backdropFilter:"blur(8px)" }}/>
@@ -924,7 +939,7 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
   </div>
 );
 
-// ─── CALENDAR MONTH ───────────────────────────────────────────────────────────
+//  CALENDAR MONTH 
 const CalendarMonth: React.FC<{ date: string|undefined }> = ({ date }) => {
   if (!date) return null;
   const d = new Date(date);
@@ -954,7 +969,7 @@ const CalendarMonth: React.FC<{ date: string|undefined }> = ({ date }) => {
   );
 };
 
-// ─── MAIN TEMPLATE ────────────────────────────────────────────────────────────
+//  MAIN TEMPLATE 
 export type UnicornAcademyTemplateProps = InvitationTemplateProps & {
   editMode?: boolean;
   introPreview?: boolean;
@@ -1119,20 +1134,20 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
   const heroBlock: InvitationBlock = { id:"__hero__", type:"__hero__" as any, show:true, textStyles:heroTextStyles } as any;
 
   const BLOCK_TYPES = [
-    { type:"photo",       label:"Foto",       def:{ imageData:"", altText:"", aspectRatio:"1:1", photoClip:"rect", photoMasks:[] } },
-    { type:"text",        label:"Text",       def:{ content:"O poveste magica incepe..." } },
-    { type:"location",    label:"Locatie",    def:{ label:"Locatie", time:"11:00", locationName:"Locatie eveniment", locationAddress:"Strada Exemplu, Nr. 1", wazeLink:"" } },
-    { type:"calendar",    label:"Calendar",   def:{} },
-    { type:"countdown",   label:"Countdown",  def:{ countdownTitle:"Timp ramas pana la eveniment" } },
-    { type:"timeline",    label:"Cronologie", def:{} },
-    { type:"music",       label:"Muzica",     def:{ musicTitle:"", musicArtist:"", musicType:"none" } },
-    { type:"gift",        label:"Cadouri",    def:{ sectionTitle:"Sugestie cadou", content:"", iban:"", ibanName:"" } },
-    { type:"whatsapp",    label:"WhatsApp",   def:{ label:"Contact WhatsApp", content:"0700000000" } },
-    { type:"rsvp",        label:"RSVP",       def:{ label:"Confirma Prezenta" } },
-    { type:"divider",     label:"Linie",      def:{} },
-    { type:"family",      label:"Familie",    def:{ label:"Parintii copilului", content:"Cu drag si recunostinta", members:JSON.stringify([{name1:"Mama",name2:"Tata"}]) } },
-    { type:"date",        label:"Data",       def:{} },
-    { type:"description", label:"Descriere",  def:{ content:"O scurta descriere..." } },
+    { type:"photo",       label: 'Foto',       def:{ imageData:"", altText:"", aspectRatio:"1:1", photoClip:"rect", photoMasks:[] } },
+    { type:"text",        label: 'Text',       def:{ content:"O poveste magica incepe..." } },
+    { type:"location",    label: 'Locatie',    def:{ label: 'Locatie', time:"11:00", locationName:"Locatie eveniment", locationAddress:"Strada Exemplu, Nr. 1", wazeLink:"" } },
+    { type:"calendar",    label: 'Calendar',   def:{} },
+    { type:"countdown",   label: 'Countdown',  def:{ countdownTitle:"Timp ramas pana la eveniment" } },
+    { type:"timeline",    label: 'Cronologie', def:{} },
+    { type:"music",       label: 'Muzica',     def:{ musicTitle:"", musicArtist:"", musicType:"none" } },
+    { type:"gift",        label: 'Cadouri',    def:{ sectionTitle:"Sugestie cadou", content:"", iban:"", ibanName:"" } },
+    { type:"whatsapp",    label: 'WhatsApp',   def:{ label: 'WhatsApp', content:"0700000000" } },
+    { type:"rsvp",        label: 'RSVP',       def:{ label:"Confirma Prezenta" } },
+    { type:"divider",     label: 'Linie',      def:{} },
+    { type:"family",      label: 'Familie',    def:{ label:"Parintii copilului", content:"Cu drag si recunostinta", members:JSON.stringify([{name1:"Mama",name2:"Tata"}]) } },
+    { type:"date",        label: 'Data',       def:{} },
+    { type:"description", label: 'Descriere',  def:{ content:"O scurta descriere..." } },
   ];
 
   return (
@@ -1165,7 +1180,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
 
         <div style={{ position:'relative', zIndex:2, maxWidth:440, margin:'0 auto', padding:'28px 16px 0' }}>
 
-          {/* ── HERO CARD ── */}
+          {/*  HERO CARD  */}
           <Reveal from="fade">
             <BlockStyleProvider value={{
               blockId: heroBlock.id, textStyles: heroBlock.textStyles,
@@ -1190,7 +1205,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
                   </div>
                   <p style={{ fontFamily:F.label, fontSize:8, letterSpacing:'.62em', textTransform:'uppercase',
                     color:C.gold, margin:'0 0 14px', opacity:.85 }}>
-                    Unicorn Academy · Invitatie
+                    Unicorn Academy  Invitatie
                   </p>
                 </Reveal>
 
@@ -1290,7 +1305,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
             </BlockStyleProvider>
           </Reveal>
 
-          {/* ── BLOCKS ── */}
+          {/*  BLOCKS  */}
           <div style={{ display:'flex', flexDirection:'column', gap:6, marginTop:6 }}>
             {editMode && (
               <InsertBlockButton insertIdx={-1} openInsertAt={openInsertAt} setOpenInsertAt={setOpenInsertAt}
@@ -1543,7 +1558,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
             })}
           </div>
 
-          {/* ── FOOTER ── */}
+          {/*  FOOTER  */}
           <Reveal from="fade" delay={0.1}>
             <div style={{ marginTop:28, textAlign:'center' }}>
               <GoldDivider/>
@@ -1554,7 +1569,7 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
               </div>
               <p style={{ fontFamily:F.label, fontSize:9, letterSpacing:'.45em', textTransform:'uppercase',
                 color:hexToRgba(C.gold,.3), margin:0 }}>
-                Unicorn Academy · {displayYear}
+                Unicorn Academy  {displayYear}
               </p>
             </div>
           </Reveal>
@@ -1712,3 +1727,4 @@ export const CASTLE_PREVIEW_DATA = {
 };
 
 export default UnicornAcademyTemplate;
+

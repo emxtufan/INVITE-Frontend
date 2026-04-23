@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -9,27 +9,28 @@ import { InvitationBlock, InvitationBlockType } from "../../types";
 import { InlineEdit, InlineTime, InlineWaze } from "./InlineEdit";
 import { getJurassicTheme } from "./castleDefaults";
 import { API_URL } from "../../config/api";
+import ScrollDownHint from "./ScrollDownHint";
 import {
   ChevronUp, ChevronDown, Eye, EyeOff, Trash2, Upload, Camera,
   Play, Pause, SkipForward, SkipBack, Gift, Music, MessageCircle, MapPin,
 } from "lucide-react";
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // META
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 export const meta: TemplateMeta = {
   id: 'jurassic-park',
   name: 'Jurassic Park',
   category: 'kids',
-  description: 'Aventura Jurassica — usi de jungla care se deschid pe scroll, dinozauri din carton, torte si magie preistorica!',
+  description: 'Aventura Jurassica  usi de jungla care se deschid pe scroll, dinozauri din carton, torte si magie preistorica!',
   colors: ['#0d1a08', '#c87820', '#2a3a18', '#f0e8c8'],
   previewClass: "bg-green-950 border-amber-600",
   elementsClass: "bg-amber-600",
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // API
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 function deleteUploadedFile(url: string | undefined) {
   if (!url || !url.startsWith('/uploads/')) return;
   const _s = JSON.parse(localStorage.getItem('weddingPro_session') || '{}');
@@ -40,9 +41,9 @@ function deleteUploadedFile(url: string | undefined) {
   }).catch(() => {});
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // HELPERS
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 function hexToRgba(hex: string, alpha: number): string {
   const h = hex.replace('#', '');
   const r = parseInt(h.substring(0, 2), 16);
@@ -51,9 +52,9 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// COLORS — module level, fixed palette
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// COLORS  module level, fixed palette
+// 
 let C = {
   darkJungle : "#0b1508",
   midJungle  : "#152510",
@@ -66,16 +67,16 @@ let C = {
   text       : "#e8dfc0",
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // FONTS
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const display = "'Cinzel','Georgia',serif";
 const serif   = "'Lora','Georgia',serif";
 const sans    = "'Oswald','system-ui',sans-serif";
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // IMAGE PATHS
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const IMG_LOGO      = "/jurasik/logo.png";
 const IMG_RAPTOR1   = "/jurasik/raptor1.png";
 const IMG_RAPTOR2   = "/jurasik/raptor2.png";
@@ -91,9 +92,9 @@ const IMG_DINO1     = "/jurasik/dino1.png";
 const IMG_DINO2     = "/jurasik/dino2.png";
 const IMG_HERO      = "/jurasik/hero.png";
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // CSS GLOBAL
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const JR_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;500;600;700&display=swap');
   @keyframes jr-float   { 0%,100%{transform:translateY(0) rotate(-.5deg)} 50%{transform:translateY(-10px) rotate(.5deg)} }
@@ -109,9 +110,9 @@ const JR_CSS = `
   @keyframes apm-pulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
 `;
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // SCROLL REVEAL
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 function useReveal<T extends HTMLElement>(threshold = 0.1): [React.RefObject<T>, boolean] {
   const ref = useRef<T>(null);
   const [vis, setVis] = useState(false);
@@ -138,9 +139,9 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; style?: Reac
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DOOR SEAM — lumina ambra care emana din cusatura
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// DOOR SEAM  lumina ambra care emana din cusatura
+// 
 const DoorSeam: React.FC<{ side: 'left' | 'right' }> = ({ side }) => (
   <div style={{
     position: 'absolute', top: 0,
@@ -149,7 +150,7 @@ const DoorSeam: React.FC<{ side: 'left' | 'right' }> = ({ side }) => (
     width: 2, height: '100%',
     pointerEvents: 'none', overflow: 'visible', zIndex: 20,
   }}>
-    {/* Linia centrala — amber, 100% opacitate */}
+    {/* Linia centrala  amber, 100% opacitate */}
     <div style={{
       position: 'absolute',
       top: 0,
@@ -191,19 +192,14 @@ const DoorSeam: React.FC<{ side: 'left' | 'right' }> = ({ side }) => (
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DOOR HINT — scroll down indicator
-// ─────────────────────────────────────────────────────────────────────────────
-const DoorHint: React.FC = () => (
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-    <span style={{ fontFamily: sans, fontSize: 8, letterSpacing: '.35em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>Scroll down</span>
-    <span style={{ fontSize: 12, color: 'rgba(255,255,255,.85)', animation: 'dh-down 1.6s ease-in-out infinite' }}>↓</span>
-  </div>
-);
+// 
+// DOOR HINT  scroll down indicator
+// 
+const DoorHint: React.FC = () => <ScrollDownHint label="Scroll down" />;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// JURASSIC OVERLAY TEXT — pe usi (faza 1 + faza 2)
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// JURASSIC OVERLAY TEXT  pe usi (faza 1 + faza 2)
+// 
 const JurassicOverlayText: React.FC<{
   childName: string; subtitle: string; isWedding?: boolean;
   partner2Name?: string;
@@ -253,7 +249,7 @@ const JurassicOverlayText: React.FC<{
         }}/>
       </div> */}
 
-      {/* FAZA 1 — Nume pe usi */}
+      {/* FAZA 1  Nume pe usi */}
       <div style={{ position: 'absolute', top: nameTop, left: 0, right: 0, transform: nameTransform, textAlign: 'center', zIndex: 1, padding: '0 28px', opacity: nameOpacity }}>
         <div ref={nameRef} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, width: '100%' }}>
           {isWedding ? (
@@ -281,26 +277,26 @@ const JurassicOverlayText: React.FC<{
         </div>
       </div>
 
-      {/* FAZA 2 — Textul invitatiei */}
+      {/* FAZA 2  Textul invitatiei */}
       <div style={{ position: 'absolute', top: inviteTopPos, left: 0, right: 0, transform: inviteTransform, textAlign: 'center', zIndex: 1, padding: '0 36px', pointerEvents: editMode ? 'auto' : 'none' }}>
         <div ref={inviteRef} style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', opacity: inviteOpacity }}>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteTop || 'Cu bucurie va anuntam'} onChange={v => onInviteTopChange?.(v)}
-            style={{ fontFamily: display, fontSize: '.65rem', fontWeight: 700, letterSpacing: '.5em', textTransform: 'uppercase', color: '#ffffff', textShadow: S, margin: 0 }}/>
+            style={{ fontFamily: display, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '.42em', textTransform: 'uppercase', color: '#ffffff', textShadow: `${S}, 0 0 10px rgba(255,255,255,0.24)`, margin: 0 }}/>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteMiddle || dateStr || 'Data Evenimentului'} onChange={v => onInviteMiddleChange?.(v)}
             style={{ fontFamily: display, fontSize: '1.8rem', fontWeight: 700, lineHeight: 1.2, color: hexToRgba(C.amber,.95), textShadow: S, margin: 0 }}/>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteBottom || 'va fi botezat'} onChange={v => onInviteBottomChange?.(v)}
-            style={{ fontFamily: display, fontSize: '.68rem', fontWeight: 400, letterSpacing: '.35em', textTransform: 'uppercase', color: '#ffffff', textShadow: S, margin: 0, lineHeight: 2 }}/>
-          <InlineEdit tag="p" editMode={!!editMode} value={inviteTag || '✦ deschide portile ✦'} onChange={v => onInviteTagChange?.(v)}
-            style={{ fontFamily: display, fontSize: '.55rem', fontWeight: 700, letterSpacing: '.6em', textTransform: 'uppercase', color: hexToRgba(C.amber,.75), textShadow: S, margin: '2px 0 0' }}/>
+            style={{ fontFamily: display, fontSize: '0.74rem', fontWeight: 600, letterSpacing: '.28em', textTransform: 'uppercase', color: '#ffffff', textShadow: `${S}, 0 0 8px rgba(255,255,255,0.2)`, margin: 0, lineHeight: 1.85 }}/>
+          <InlineEdit tag="p" editMode={!!editMode} value={inviteTag || ' deschide portile '} onChange={v => onInviteTagChange?.(v)}
+            style={{ fontFamily: display, fontSize: '0.58rem', fontWeight: 700, letterSpacing: '.5em', textTransform: 'uppercase', color: '#ffffff', textShadow: `${S}, 0 0 8px rgba(255,255,255,0.24)`, margin: '2px 0 0' }}/>
         </div>
       </div>
     </div>
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// JURASSIC DOOR INTRO — GSAP ScrollTrigger, identic cu LordEffects
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// JURASSIC DOOR INTRO  GSAP ScrollTrigger, identic cu LordEffects
+// 
 const JurassicDoorIntro: React.FC<{
   onDone?: () => void;
   editMode?: boolean;
@@ -423,7 +419,7 @@ const JurassicDoorIntro: React.FC<{
     </div>
   );
 
-  // ── Static preview (editMode preview panel) ──────────────────────────────
+  //  Static preview (editMode preview panel) 
   if (editMode && previewMode === 'static') {
     return (
       <div style={{ position: 'relative', height: 800, borderRadius: 12, marginBottom: 32, overflow: 'hidden' }}>
@@ -442,7 +438,7 @@ const JurassicDoorIntro: React.FC<{
     );
   }
 
-  // ── Edit mode split doors preview ────────────────────────────────────────
+  //  Edit mode split doors preview 
   if (editMode) {
     return (
       <div style={{ position: 'relative', height: 800, borderRadius: 12, marginBottom: 32 }}>
@@ -474,7 +470,7 @@ const JurassicDoorIntro: React.FC<{
     );
   }
 
-  // ── Live mode — fixed overlay cu GSAP ────────────────────────────────────
+  //  Live mode  fixed overlay cu GSAP 
   return (
     <div ref={wrapRef} style={{ position: 'fixed', inset: 0, height: '100dvh', zIndex: 9999, overflow: 'hidden', pointerEvents: 'none' }}>
       {/* Left door */}
@@ -509,9 +505,9 @@ const JurassicDoorIntro: React.FC<{
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// AUDIO PERMISSION MODAL — jungle themed
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// AUDIO PERMISSION MODAL  jungle themed
+// 
 const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; onDeny: () => void; i: any; }> = ({ childName, onAllow, onDeny, i }) => (
   <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
     <div style={{ position: 'absolute', inset: 0, background: `${hexToRgba(C.darkJungle,.85)}`, backdropFilter: 'blur(10px)' }} />
@@ -521,13 +517,13 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
         <img src={i.logo} alt="" style={{ width: 120, objectFit: 'contain', filter: `drop-shadow(0 0 12px ${hexToRgba(C.amber,.5)})`, animation: 'apm-pulse 2s ease-in-out infinite' }}/>
       </div>
       <p style={{ fontFamily: display, fontSize: 22, color: C.cream, margin: '0 0 6px', lineHeight: 1.2, fontWeight: 700, textShadow: `0 0 14px ${hexToRgba(C.amber,.4)}` }}>{childName}</p>
-      <p style={{ fontFamily: sans, fontSize: 12, fontWeight: 700, color: C.text, margin: '0 0 8px' }}>Te invita in Jurassic Park 🦕</p>
+      <p style={{ fontFamily: sans, fontSize: 12, fontWeight: 700, color: C.text, margin: '0 0 8px' }}>Te invita in Jurassic Park </p>
       <p style={{ fontFamily: serif, fontSize: 11, fontStyle: 'italic', color: C.muted, margin: '0 0 28px', lineHeight: 1.65 }}>Aceasta invitatie are o melodie speciala.<br/>Vrei sa activezi muzica?</p>
       <button type="button" onClick={onAllow}
         style={{ width: '100%', padding: '14px 0', background: `linear-gradient(135deg,${C.amber},${C.amberLight})`, border: 'none', borderRadius: 50, cursor: 'pointer', fontFamily: display, fontSize: 11, fontWeight: 700, color: C.darkJungle, letterSpacing: '.15em', marginBottom: 10, boxShadow: `0 6px 20px ${hexToRgba(C.amber,.5)}`, transition: 'transform .15s' }}
         onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.03)'}
         onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'}>
-        🎵 Da, activeaza muzica
+         Da, activeaza muzica
       </button>
       <button type="button" onClick={onDeny}
         style={{ width: '100%', padding: '10px 0', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 11, color: C.muted }}>
@@ -537,9 +533,9 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
-// WILD DIVIDER — jungle version
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// WILD DIVIDER  jungle version
+// 
 const JungleDivider: React.FC<{ i: any }> = ({ i }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
     <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, transparent, ${hexToRgba(C.amber,.4)})`, borderRadius: 99 }}/>
@@ -548,10 +544,10 @@ const JungleDivider: React.FC<{ i: any }> = ({ i }) => (
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
-// STONE STRIP — card header band
-// ─────────────────────────────────────────────────────────────────────────────
-const StoneStrip: React.FC<{ icon?: string }> = ({ icon = '🦖' }) => (
+// 
+// STONE STRIP  card header band
+// 
+const StoneStrip: React.FC<{ icon?: string }> = ({ icon = '' }) => (
   <div style={{
     height: 3,
     background: `linear-gradient(to right, ${hexToRgba(C.amber,.15)}, ${C.amber}, ${hexToRgba(C.amber,.15)})`,
@@ -563,9 +559,9 @@ const StoneStrip: React.FC<{ icon?: string }> = ({ icon = '🦖' }) => (
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
-// BLOCK CARD — base card wrapper (like LordEffects white card)
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// BLOCK CARD  base card wrapper (like LordEffects white card)
+// 
 const BlockCard: React.FC<{ children: React.ReactNode; style?: React.CSSProperties; accentIcon?: string; imgDeco?: { src: string; side?: 'left'|'right'; top?: number; size?: number } }> = ({ children, style, accentIcon, imgDeco }) => (
   <div style={{ position: 'relative' }}>
     {/* imgDeco OUTSIDE card so it's never clipped by overflow */}
@@ -599,9 +595,9 @@ const BlockCard: React.FC<{ children: React.ReactNode; style?: React.CSSProperti
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // COUNTDOWN
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 interface TimeLeft { days:number; hours:number; minutes:number; seconds:number; total:number }
 function calcTimeLeft(date: string): TimeLeft {
   const diff = new Date(date).getTime() - Date.now();
@@ -634,7 +630,7 @@ const JurassicCountdown: React.FC<{ targetDate: string|undefined }> = ({ targetD
     return () => clearInterval(id);
   }, [targetDate]);
   if (!ready || !targetDate) return null;
-  if (tl?.total === 0) return <p style={{ fontFamily:display,fontSize:13,fontWeight:700,color:C.amber,textAlign:'center',margin:0 }}>🦕 Aventura a inceput!</p>;
+  if (tl?.total === 0) return <p style={{ fontFamily:display,fontSize:13,fontWeight:700,color:C.amber,textAlign:'center',margin:0 }}> Aventura a inceput!</p>;
   const vals = [tl?.days??0,tl?.hours??0,tl?.minutes??0,tl?.seconds??0];
   const labs = ['Zile','Ore','Min','Sec'];
   const sep = <div style={{ display:'flex',flexDirection:'column',gap:5,alignItems:'center',paddingBottom:20,flexShrink:0 }}><div style={{ width:4,height:4,borderRadius:'50%',background:hexToRgba(C.amber,.55) }}/><div style={{ width:4,height:4,borderRadius:'50%',background:hexToRgba(C.amber,.55) }}/></div>;
@@ -647,9 +643,9 @@ const JurassicCountdown: React.FC<{ targetDate: string|undefined }> = ({ targetD
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // CALENDAR
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const CalendarMonth: React.FC<{ date: string|undefined }> = ({ date }) => {
   if (!date) return null;
   const d = new Date(date), year=d.getFullYear(), month=d.getMonth(), day=d.getDate();
@@ -675,13 +671,13 @@ const CalendarMonth: React.FC<{ date: string|undefined }> = ({ date }) => {
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // LOCATION CARD
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (p: Partial<InvitationBlock>) => void; imgDeco?: string }> = ({ block, editMode, onUpdate, imgDeco }) => {
   const addr = block.locationAddress || block.locationName || '';
   return (
-    <BlockCard accentIcon="📍" imgDeco={imgDeco ? { src: imgDeco, side: 'right' } : undefined}>
+    <BlockCard accentIcon="" imgDeco={imgDeco ? { src: imgDeco, side: 'right' } : undefined}>
       <div style={{ display:'flex',alignItems:'center',gap:6,marginBottom:14 }}>
         <div style={{ width:36,height:36,borderRadius:10,background:`linear-gradient(145deg,${hexToRgba(C.amber,.2)},${hexToRgba(C.amber,.08)})`,border:`1.5px solid ${hexToRgba(C.amber,.3)}`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>
           <MapPin style={{ width:16,height:16,color:C.amber }}/>
@@ -704,7 +700,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
         <InlineWaze value={block.wazeLink||''} onChange={v=>onUpdate({wazeLink:v})} editMode={editMode}/>
         {addr && (
           <a href={`https://maps.google.com/?q=${encodeURIComponent(addr)}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex',alignItems:'center',gap:4,padding:'5px 14px',borderRadius:99,fontSize:9,fontWeight:700,letterSpacing:'.18em',textTransform:'uppercase',textDecoration:'none',fontFamily:sans,background:hexToRgba(C.amber,.12),border:`1.5px solid ${hexToRgba(C.amber,.35)}`,color:hexToRgba(C.amber,.95) }}>
-            📍 Maps
+             Maps
           </a>
         )}
       </div>
@@ -712,9 +708,9 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // PHOTO BLOCK
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 type ClipShape='rect'|'rounded'|'rounded-lg'|'squircle'|'circle'|'arch'|'arch-b'|'hexagon'|'diamond'|'triangle'|'star'|'heart'|'diagonal'|'diagonal-r'|'wave-b'|'wave-t'|'wave-both'|'blob'|'blob2'|'blob3'|'blob4';
 type MaskEffect='fade-b'|'fade-t'|'fade-l'|'fade-r'|'vignette';
 function getClipStyle(clip: ClipShape): React.CSSProperties {
@@ -819,9 +815,9 @@ const PhotoBlock: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // MUSIC BLOCK
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const MusicBlock: React.FC<{
   block: InvitationBlock; editMode: boolean;
   onUpdate: (p: Partial<InvitationBlock>) => void;
@@ -910,12 +906,12 @@ const MusicBlock: React.FC<{
               <input value={ytUrl} onChange={e=>{setYtUrl(e.target.value);setYtError('');}} onKeyDown={e=>e.key==='Enter'&&!ytDownloading&&submitYt()} placeholder="https://youtu.be/..." autoFocus disabled={ytDownloading}
                 style={{flex:1,background:hexToRgba(C.stone,.5),border:`1px solid ${ytError?'#ef4444':hexToRgba(C.amber,.3)}`,borderRadius:8,padding:'9px 12px',fontFamily:sans,fontSize:11,color:C.cream,outline:'none'}}/>
               <button type="button" onClick={submitYt} disabled={ytDownloading} style={{background:C.amber,border:'none',borderRadius:8,padding:'0 14px',cursor:ytDownloading?'not-allowed':'pointer',color:C.darkJungle,fontWeight:700}}>
-                {ytDownloading?<div style={{width:14,height:14,border:'2px solid white',borderTopColor:'transparent',borderRadius:'50%',animation:'spin .7s linear infinite'}}/>:'✓'}
+                {ytDownloading?<div style={{width:14,height:14,border:'2px solid white',borderTopColor:'transparent',borderRadius:'50%',animation:'spin .7s linear infinite'}}/>:''}
               </button>
-              <button type="button" onClick={()=>{setShowYt(false);setYtUrl('');setYtError('');}} style={{background:hexToRgba(C.stone,.4),border:'none',borderRadius:8,padding:'0 10px',cursor:'pointer',color:C.cream}}>✕</button>
+              <button type="button" onClick={()=>{setShowYt(false);setYtUrl('');setYtError('');}} style={{background:hexToRgba(C.stone,.4),border:'none',borderRadius:8,padding:'0 10px',cursor:'pointer',color:C.cream}}></button>
             </div>
-            {ytDownloading&&<p style={{fontFamily:sans,fontSize:9,color:C.amber,margin:0,textAlign:'center'}}>⏳ Se descarca...</p>}
-            {ytError&&<p style={{fontFamily:sans,fontSize:9,color:'#ef4444',margin:0}}>⚠ {ytError}</p>}
+            {ytDownloading&&<p style={{fontFamily:sans,fontSize:9,color:C.amber,margin:0,textAlign:'center'}}> Se descarca...</p>}
+            {ytError&&<p style={{fontFamily:sans,fontSize:9,color:'#ef4444',margin:0}}> {ytError}</p>}
           </div>
         )
       )}
@@ -958,16 +954,16 @@ const MusicBlock: React.FC<{
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // BLOCK TOOLBAR
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: any) => {
   const btn: React.CSSProperties = { background:'none',border:'none',padding:5,borderRadius:99,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',lineHeight:1 };
   const stop = (e: React.MouseEvent) => e.stopPropagation();
   return (
     <div onClick={stop} style={{ position:'absolute',top:-18,right:6,zIndex:9999,display:'flex',alignItems:'center',gap:2,borderRadius:99,border:`1.5px solid ${hexToRgba(C.amber,.35)}`,backgroundColor:hexToRgba(C.darkJungle,.95),backdropFilter:'blur(8px)',padding:'3px 5px',pointerEvents:'auto',boxShadow:'0 4px 16px rgba(0,0,0,.6)' }}>
-      <button type="button" onClick={e=>{stop(e);onUp();}} disabled={isFirst} style={{...btn,opacity:isFirst?.2:1}}><ChevronUp style={{width:13,height:13,color:hexToRgba(C.amber,.9)}}/></button>
-      <button type="button" onClick={e=>{stop(e);onDown();}} disabled={isLast} style={{...btn,opacity:isLast?.2:1}}><ChevronDown style={{width:13,height:13,color:hexToRgba(C.amber,.9)}}/></button>
+      <button type="button" onClick={e=>{stop(e);onUp();}} disabled={isFirst} style={{...btn,opacity:isFirst ? .2 : 1}}><ChevronUp style={{width:13,height:13,color:hexToRgba(C.amber,.9)}}/></button>
+      <button type="button" onClick={e=>{stop(e);onDown();}} disabled={isLast} style={{...btn,opacity:isLast ? .2 : 1}}><ChevronDown style={{width:13,height:13,color:hexToRgba(C.amber,.9)}}/></button>
       <div style={{width:1,height:12,backgroundColor:hexToRgba(C.amber,.3),margin:'0 1px'}}/>
       <button type="button" onClick={e=>{stop(e);onToggle();}} style={btn}>
         {visible?<Eye style={{width:13,height:13,color:hexToRgba(C.amber,.9)}}/>:<EyeOff style={{width:13,height:13,color:hexToRgba(C.amber,.4)}}/>}
@@ -977,17 +973,36 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // INSERT BLOCK BUTTON
-// ─────────────────────────────────────────────────────────────────────────────
-const BLOCK_TYPE_ICONS: Record<string,string> = { photo:'🖼',text:'✏',location:'📍',calendar:'📅',countdown:'⏱',music:'🎵',gift:'🎁',whatsapp:'💬',rsvp:'✉',divider:'—',family:'👨‍👩‍👧',date:'📆',description:'📝',timeline:'🗓' };
+// 
+const BLOCK_TYPE_ICONS: Record<string, string> = {
+  photo: "IMG",
+  text: "TXT",
+  location: "LOC",
+  calendar: "CAL",
+  countdown: "TMR",
+  timeline: "TIME",
+  music: "MUS",
+  gift: "GFT",
+  whatsapp: "WA",
+  rsvp: "RSVP",
+  divider: "---",
+  family: "FAM",
+  date: "DATE",
+  description: "DESC",
+  title: "Aa",
+  godparents: "NAS",
+  parents: "PAR",
+  spacer: "SP",
+};
 const InsertBlockButton: React.FC<{ insertIdx:number; openInsertAt:number|null; setOpenInsertAt:(v:number|null)=>void; BLOCK_TYPES:{type:string;label:string;def:any}[]; onInsert:(type:string,def:any)=>void }> = ({ insertIdx, openInsertAt, setOpenInsertAt, BLOCK_TYPES, onInsert }) => {
   const isOpen = openInsertAt===insertIdx;
   const [hov, setHov] = React.useState(false);
   return (
     <div style={{position:'relative',display:'flex',alignItems:'center',justifyContent:'center',height:32,zIndex:20}} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}>
       <div style={{position:'absolute',left:0,right:0,height:1,background:`repeating-linear-gradient(to right,${hexToRgba(C.amber,.4)} 0,${hexToRgba(C.amber,.4)} 6px,transparent 6px,transparent 12px)`,zIndex:1}}/>
-      <button type="button" onClick={()=>setOpenInsertAt(isOpen?null:insertIdx)} style={{width:26,height:26,borderRadius:'50%',background:isOpen?C.amber:'rgba(15,25,10,.92)',border:`1.5px solid ${hexToRgba(C.amber,.5)}`,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:isOpen?C.darkJungle:C.amber,boxShadow:`0 2px 10px ${hexToRgba(C.amber,.3)}`,opacity:1,transition:'opacity .15s,transform .15s,background .15s',transform:(hov||isOpen)?'scale(1)':'scale(.7)',zIndex:2,position:'relative',lineHeight:1,fontWeight:700}}>{isOpen?'×':'+'}</button>
+      <button type="button" onClick={()=>setOpenInsertAt(isOpen?null:insertIdx)} style={{width:26,height:26,borderRadius:'50%',background:isOpen?C.amber:'rgba(15,25,10,.92)',border:`1.5px solid ${hexToRgba(C.amber,.5)}`,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:isOpen?C.darkJungle:C.amber,boxShadow:`0 2px 10px ${hexToRgba(C.amber,.3)}`,opacity:1,transition:'opacity .15s,transform .15s,background .15s',transform:(hov||isOpen)?'scale(1)':'scale(.7)',zIndex:2,position:'relative',lineHeight:1,fontWeight:700}}>{isOpen?'':'+'}</button>
       {isOpen&&(
         <div style={{position:'absolute',bottom:34,left:'50%',transform:'translateX(-50%)',background:hexToRgba(C.darkJungle,.97),borderRadius:16,border:`1px solid ${hexToRgba(C.amber,.35)}`,boxShadow:`0 16px 48px rgba(0,0,0,.5)`,padding:16,zIndex:100,width:260}} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}>
           <p style={{fontFamily:sans,fontSize:'.5rem',fontWeight:700,letterSpacing:'.3em',textTransform:'uppercase',color:hexToRgba(C.amber,.6),margin:'0 0 10px',textAlign:'center'}}>Adauga bloc</p>
@@ -1008,9 +1023,9 @@ const InsertBlockButton: React.FC<{ insertIdx:number; openInsertAt:number|null; 
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // DEFAULTS
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 export const CASTLE_DEFAULTS = {
   partner1Name:         'Rex',
   partner2Name:         '',
@@ -1025,7 +1040,7 @@ export const CASTLE_DEFAULTS = {
   castleInviteTop:      'Cu multa bucurie va anuntam',
   castleInviteMiddle:   '',
   castleInviteBottom:   'va fi botezat',
-  castleInviteTag:      '✦ deschide portile ✦',
+  castleInviteTag:      ' deschide portile ',
   colorTheme:           'default',
 };
 
@@ -1053,9 +1068,9 @@ export const CASTLE_PREVIEW_DATA = {
   profile:{...CASTLE_DEFAULTS,weddingDate:new Date(Date.now()+60*24*60*60*1000).toISOString().split('T')[0],customSections:JSON.stringify(CASTLE_DEFAULT_BLOCKS)},
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // MAIN TEMPLATE
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const JurassicTemplate: React.FC<InvitationTemplateProps & {
   editMode?: boolean; introPreview?: boolean;
   onProfileUpdate?: (patch: Record<string,any>) => void;
@@ -1069,7 +1084,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
   const _t = getJurassicTheme((profile as any).colorTheme);
   C = { darkJungle:_t.darkJungle, midJungle:_t.midJungle, stone:_t.stone, amber:_t.amber, amberLight:_t.amberLight, cream:_t.cream, muted:_t.muted, moss:_t.moss, text:_t.text };
 
-  // ── Config global template (imagini usi) — vin din admin ──────────────────
+  //  Config global template (imagini usi)  vin din admin 
   const [globalConfig, setGlobalConfig] = useState<Record<string, any>>({});
   useEffect(() => {
     fetch(`${API_URL}/config/template-defaults/${meta.id}`)
@@ -1128,7 +1143,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
   const heroBlock: InvitationBlock = { id:'__hero__', type:'__hero__' as any, show:true, textStyles: heroTextStyles } as any;
   const introBlock: InvitationBlock = { id:'__intro__', type:'intro' as any, show:true, textStyles: introTextStyles } as any;
 
-  // ── Blocks ────────────────────────────────────────────────────────────────
+  //  Blocks 
   const blocksFromDB: InvitationBlock[]|null = safeJSON(pr.customSections, null);
   const hasDB = Array.isArray(blocksFromDB) && blocksFromDB.length > 0;
   const [blocks, setBlocks] = useState<InvitationBlock[]>(()=> hasDB ? blocksFromDB! : CASTLE_DEFAULT_BLOCKS as unknown as InvitationBlock[]);
@@ -1147,19 +1162,19 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
   const addBlockAt = useCallback((afterIdx:number,type:string,def:any)=>{setBlocks(prev=>{const nb=[...prev];nb.splice(afterIdx+1,0,{id:Date.now().toString(),type:type as InvitationBlockType,show:true,...def});onBlocksUpdate?.(nb);return nb;});},[onBlocksUpdate]);
   const handleInsertAt=(afterIdx:number,type:string,def:any)=>{addBlockAt(afterIdx,type,def);setOpenInsertAt(null);};
 
-  // ── Profile update ────────────────────────────────────────────────────────
+  //  Profile update 
   const _pq = useRef<Record<string,any>>({});
   const _pt = useRef<ReturnType<typeof setTimeout>|null>(null);
   const upProfile = useCallback((field:string,value:any)=>{_pq.current={..._pq.current,[field]:value};if(_pt.current)clearTimeout(_pt.current);_pt.current=setTimeout(()=>{onProfileUpdate?.(_pq.current);_pq.current={};},400);},[onProfileUpdate]);
 
-  // ── Timeline ──────────────────────────────────────────────────────────────
+  //  Timeline 
   const getTimelineItems=()=>safeJSON(pr.timeline,[]);
   const updateTimeline=(next:any[])=>onProfileUpdate?.({timeline:JSON.stringify(next),showTimeline:true});
   const addTimelineItem=(preset:{icon?:string;title?:string}|null)=>{const c=getTimelineItems();updateTimeline([...c,{id:Date.now().toString(),title:preset?.title||'',time:'',icon:preset?.icon||'party'}]);};
   const updateTimelineItem=(id:string,patch:any)=>updateTimeline(getTimelineItems().map((t:any)=>t.id===id?{...t,...patch}:t));
   const removeTimelineItem=(id:string)=>updateTimeline(getTimelineItems().filter((t:any)=>t.id!==id));
 
-  // ── Intro + audio ─────────────────────────────────────────────────────────
+  //  Intro + audio 
   const hasMusicBlock = useCallback(()=>blocks.some(b=>b.type==='music'&&b.musicType!=='none'&&b.musicUrl),[blocks]);
   const [showAudioModal,setShowAudioModal]   = useState(false);
   const [audioAllowed,setAudioAllowed]       = useState(false);
@@ -1171,7 +1186,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
   useEffect(()=>{if(!editMode)setShowAudioModal(hasMusicBlock());},[]);
   useEffect(()=>{setShowIntro(!editMode);},[editMode]);
 
-  // ── Reset ─────────────────────────────────────────────────────────────────
+  //  Reset 
   const resetToDefaults = useCallback(()=>{
     if(!window.confirm('Resetezi templateul la valorile implicite? Toate modificarile vor fi pierdute.'))return;
     onProfileUpdate?.({...CASTLE_DEFAULTS,weddingDate:pr.weddingDate??''});
@@ -1181,24 +1196,24 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
   },[onProfileUpdate,onBlocksUpdate,pr.weddingDate]);
 
   const BLOCK_TYPES = [
-    {type:'photo',      label:'📷 Foto',     def:{imageData:'',aspectRatio:'1:1',photoClip:'rect',photoMasks:[]}},
-    {type:'text',       label:'Text',         def:{content:'O aventura de neuitat...'}},
-    {type:'location',   label:'Locatie',      def:{label:'Locatie',time:'11:00',locationName:'Locatie',locationAddress:'Adresa'}},
-    {type:'calendar',   label:'📅 Calendar', def:{}},
-    {type:'countdown',  label:'⏱ Countdown', def:{}},
-    {type:'timeline',   label:'🗓 Cronologie',def:{}},
-    {type:'music',      label:'🎵 Muzica',   def:{musicTitle:'',musicArtist:'',musicType:'none'}},
-    {type:'gift',       label:'🎁 Cadouri',  def:{sectionTitle:'Sugestie cadou',content:'',iban:'',ibanName:''}},
-    {type:'whatsapp',   label:'WhatsApp',     def:{label:'Contact WhatsApp',content:'0700000000'}},
-    {type:'rsvp',       label:'RSVP',         def:{label:'Confirma Prezenta'}},
-    {type:'divider',    label:'Linie',        def:{}},
-    {type:'family',     label:'👨‍👩‍👧 Familie',def:{label:'Parintii',content:'Cu drag',members:JSON.stringify([{name1:'Mama',name2:'Tata'}])}},
-    {type:'date',       label:'📆 Data',      def:{}},
-    {type:'description',label:'Descriere',    def:{content:'O scurta descriere...'}},
+    {type:'photo',      label: 'Foto',     def:{imageData:'',aspectRatio:'1:1',photoClip:'rect',photoMasks:[]}},
+    {type:'text',       label: 'Text',         def:{content:'O aventura de neuitat...'}},
+    {type:'location',   label: 'Locatie',      def:{label: 'Locatie',time:'11:00',locationName:'Locatie',locationAddress:'Adresa'}},
+    {type:'calendar',   label: 'Calendar', def:{}},
+    {type:'countdown',  label: 'Countdown', def:{}},
+    {type:'timeline',   label: 'Cronologie',def:{}},
+    {type:'music',      label: 'Muzica',   def:{musicTitle:'',musicArtist:'',musicType:'none'}},
+    {type:'gift',       label: 'Cadouri',  def:{sectionTitle:'Sugestie cadou',content:'',iban:'',ibanName:''}},
+    {type:'whatsapp',   label: 'WhatsApp',     def:{label: 'WhatsApp',content:'0700000000'}},
+    {type:'rsvp',       label: 'RSVP',         def:{label:'Confirma Prezenta'}},
+    {type:'divider',    label: 'Linie',        def:{}},
+    {type:'family',     label: 'Familie',def:{label:'Parintii',content:'Cu drag',members:JSON.stringify([{name1:'Mama',name2:'Tata'}])}},
+    {type:'date',       label: 'Data',      def:{}},
+    {type:'description',label: 'Descriere',    def:{content:'O scurta descriere...'}},
   ];
 
   const decoImages = [i.leaf1, i.fern, i.leaf2, i.dino1, i.dino2, i.egg];
-  const dinoIcons  = ['🦕','🦖','🐊','🥚','🌿'];
+  const dinoIcons  = ['','','','',''];
 
   return (
     <>
@@ -1276,7 +1291,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
 
         <div style={{ position:'relative', zIndex:1, maxWidth:440, margin:'0 auto', padding:'0 16px' }}>
 
-          {/* ── HERO CARD ────────────────────────────────────────────────── */}
+          {/*  HERO CARD  */}
           <BlockStyleProvider value={{blockId:'__hero__',textStyles:heroTextStyles,onTextSelect:(k,l)=>onBlockSelect?.(heroBlock,-1,k,l)}}>
             <div style={{ background:`linear-gradient(160deg,${hexToRgba(C.midJungle,.94)} 0%,${C.darkJungle} 100%)`, borderRadius:22, border:`1.5px solid ${hexToRgba(C.amber,.2)}`, overflow:'hidden', position:'relative', boxShadow:`0 24px 80px rgba(0,0,0,.65)` }}>
               {/* Hero bg */}
@@ -1287,7 +1302,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
               {/* Top accent line */}
               <div style={{height:3,background:`linear-gradient(to right,${hexToRgba(C.amber,.15)},${C.amber},${hexToRgba(C.amber,.15)})`,position:'relative',zIndex:1}}/>
 
-              {/* Corner ferns — on card root so they show inside hero bg */}
+              {/* Corner ferns  on card root so they show inside hero bg */}
               <img src={IMG_FERN} alt="" style={{position:'absolute',top:14,left:-4,width:70,opacity:.4,pointerEvents:'none',zIndex:2}}/>
               <img src={IMG_FERN} alt="" style={{position:'absolute',top:14,right:-4,width:70,opacity:.4,transform:'scaleX(-1)',pointerEvents:'none',zIndex:2}}/>
               <div style={{ position:'relative', zIndex:1, textAlign:'center', padding:'28px 28px 36px' }}>
@@ -1300,14 +1315,14 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                 {/* Badge */}
                 <Reveal delay={0.15}>
                   <div style={{display:'inline-block',background:`linear-gradient(135deg,${C.amber},${C.amberLight})`,color:C.darkJungle,fontFamily:display,fontSize:8,padding:'4px 18px',borderRadius:20,letterSpacing:2,marginBottom:14,fontWeight:700}}>
-                    ✦ ESTI INVITAT ✦
+                     ESTI INVITAT 
                   </div>
                 </Reveal>
 
                 {/* Welcome */}
                 {p.showWelcomeText !== false && (
                   <Reveal delay={0.2}>
-                    <InlineEdit tag="p" editMode={editMode} value={p.welcomeText} onChange={v=>upProfile('welcomeText',v)} textLabel="Hero · Welcome"
+                    <InlineEdit tag="p" editMode={editMode} value={p.welcomeText} onChange={v=>upProfile('welcomeText',v)} textLabel="Hero  Welcome"
                       style={{fontFamily:serif,fontSize:13,fontStyle:'italic',color:hexToRgba(C.cream,.5),margin:'0 0 10px',lineHeight:1.7}}/>
                   </Reveal>
                 )}
@@ -1317,14 +1332,14 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                   <InlineEdit tag="h1" editMode={editMode}
                     value={heroTitle}
                     onChange={v=>{if(!isWedding){upProfile('partner1Name',v);return;}const parts=v.split('&');upProfile('partner1Name',parts[0]?.trim()||'');upProfile('partner2Name',parts.slice(1).join('&').trim()||'');}}
-                    textLabel="Hero · Name"
+                    textLabel="Hero  Name"
                     style={{fontFamily:display,fontSize:'clamp(34px,8vw,54px)',fontWeight:700,color:C.cream,margin:'0 0 4px',lineHeight:1.05,textShadow:`0 0 24px ${hexToRgba(C.amber,.5)}, 0 2px 0 rgba(0,0,0,.4)`,letterSpacing:'.02em'}}/>
                 </Reveal>
 
                 {/* Celebration */}
                 {p.showCelebrationText !== false && (
                   <Reveal delay={0.3}>
-                    <InlineEdit tag="p" editMode={editMode} value={p.celebrationText} onChange={v=>upProfile('celebrationText',v)} textLabel="Hero · Celebration"
+                    <InlineEdit tag="p" editMode={editMode} value={p.celebrationText} onChange={v=>upProfile('celebrationText',v)} textLabel="Hero  Celebration"
                       style={{fontFamily:serif,fontSize:14,fontStyle:'italic',color:hexToRgba(C.amber,.7),margin:'8px 0 0'}}/>
                   </Reveal>
                 )}
@@ -1372,7 +1387,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                 <Reveal delay={0.48}>
                   <div style={{background:hexToRgba(C.amber,.08),border:`2px solid ${hexToRgba(C.amber,.22)}`,borderRadius:14,padding:'14px 20px',position:'relative'}}>
                     <img src={i.egg} alt="" style={{position:'absolute',bottom:-14,right:-6,width:52,objectFit:'contain',filter:'drop-shadow(0 4px 8px rgba(0,0,0,.5))',pointerEvents:'none'}}/>
-                    <p style={{fontFamily:sans,fontSize:9,fontWeight:700,letterSpacing:'.38em',textTransform:'uppercase',color:hexToRgba(C.amber,.6),margin:'0 0 5px'}}>🎟 Invitat special</p>
+                    <p style={{fontFamily:sans,fontSize:9,fontWeight:700,letterSpacing:'.38em',textTransform:'uppercase',color:hexToRgba(C.amber,.6),margin:'0 0 5px'}}> Invitat special</p>
                     <p style={{fontFamily:display,fontSize:20,color:C.cream,margin:0,letterSpacing:.5,textShadow:`0 0 10px ${hexToRgba(C.amber,.3)}`}}>{guest?.name||'Invitatul Special'}</p>
                   </div>
                 </Reveal>
@@ -1380,7 +1395,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
             </div>
           </BlockStyleProvider>
 
-          {/* ── BLOCKS ───────────────────────────────────────────────────── */}
+          {/*  BLOCKS  */}
           <div style={{display:'flex',flexDirection:'column',gap:0}}>
             {editMode && (
               <InsertBlockButton insertIdx={-1} openInsertAt={openInsertAt} setOpenInsertAt={setOpenInsertAt} BLOCK_TYPES={BLOCK_TYPES} onInsert={(t,d)=>handleInsertAt(-1,t,d)}/>
@@ -1392,7 +1407,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                   <BlockToolbar onUp={()=>movBlock(idx,-1)} onDown={()=>movBlock(idx,1)} onToggle={()=>updBlock(idx,{show:!block.show})} onDelete={()=>delBlock(idx)} visible={block.show!==false} isFirst={idx===0} isLast={idx===blocks.length-1}/>
                 )}
 
-                <div style={{position:'relative',padding:'10px 0',opacity:block.show===false?.4:1}} onClick={editMode?()=>onBlockSelect?.(block,idx):undefined}>
+                <div style={{position:'relative',padding:'10px 0',opacity:block.show===false ? .4 : 1}} onClick={editMode?()=>onBlockSelect?.(block,idx):undefined}>
                   <BlockStyleProvider value={{blockId:block.id,textStyles:(block as any).textStyles,onTextSelect:(k,l)=>onBlockSelect?.(block,idx,k,l)}}>
 
                     {/* Hidden overlay */}
@@ -1403,10 +1418,10 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                       </div>
                     )}
 
-                    {/* ── divider ── */}
+                    {/*  divider  */}
                     {block.type==='divider' && <JungleDivider i={i} />}
 
-                    {/* ── rsvp ── */}
+                    {/*  rsvp  */}
                     {block.type==='rsvp' && (
                       <div style={{textAlign:'center'}}>
                         <div style={{animation:'jr-float 3s ease-in-out infinite',display:'inline-block',marginBottom:10}}>
@@ -1415,13 +1430,13 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                         <button type="button" onClick={()=>!editMode&&onOpenRSVP?.()} style={{width:'100%',padding:'18px 24px',background:`linear-gradient(135deg,${C.amber} 0%,${C.amberLight} 50%,${C.amber} 100%)`,border:'none',borderRadius:18,cursor:'pointer',fontFamily:display,fontWeight:700,fontSize:12,letterSpacing:'.25em',textTransform:'uppercase',color:C.darkJungle,boxShadow:`0 8px 28px ${hexToRgba(C.amber,.55)},inset 0 1px 0 rgba(255,255,255,.2)`,animation:'jr-pulse 2.5s ease-in-out infinite',position:'relative',overflow:'hidden'}}>
                           <div style={{position:'absolute',inset:0,background:'linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent)',backgroundSize:'200% 100%',animation:'jr-shimmer 2s linear infinite',borderRadius:18}}/>
                           <span style={{position:'relative'}}>
-                            <InlineEdit editMode={editMode} value={`🦖 ${block.label||'Confirma Prezenta'} 🦖`} onChange={v=>updBlock(idx,{label:v.replace(/🦖/g,'').trim()})}/>
+                            <InlineEdit editMode={editMode} value={` ${block.label||'Confirma Prezenta'} `} onChange={v=>updBlock(idx,{label:v.trim()})}/>
                           </span>
                         </button>
                       </div>
                     )}
 
-                    {/* ── photo ── */}
+                    {/*  photo  */}
                     {block.type==='photo' && (
                       <Reveal>
                         <div onClick={editMode?()=>onBlockSelect?.(block,idx):undefined} style={editMode?{cursor:'pointer',outline:selectedBlockId===block.id?`2px solid ${C.amber}`:'none',outlineOffset:4,borderRadius:16}:undefined}>
@@ -1430,39 +1445,39 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── text ── */}
+                    {/*  text  */}
                     {block.type==='text' && (
                       <Reveal>
-                        <BlockCard accentIcon="📜">
+                        <BlockCard accentIcon="">
                           <InlineEdit editMode={editMode} value={block.content||''} onChange={v=>updBlock(idx,{content:v})} multiline
                             style={{fontFamily:serif,fontSize:15,fontStyle:'italic',color:hexToRgba(C.cream,.78),margin:0,lineHeight:1.8,textAlign:'center'}}/>
                         </BlockCard>
                       </Reveal>
                     )}
 
-                    {/* ── location ── */}
+                    {/*  location  */}
                     {block.type==='location' && (
                       <Reveal>
                         <LocCard block={block} editMode={editMode} onUpdate={p=>updBlock(idx,p)} imgDeco={i.dino2}/>
                       </Reveal>
                     )}
 
-                    {/* ── calendar ── */}
+                    {/*  calendar  */}
                     {block.type==='calendar' && (
                       <Reveal>
-                        <BlockCard accentIcon="📅" imgDeco={{src:i.raptor1,side:'left',top:-18,size:68}}>
+                        <BlockCard accentIcon="" imgDeco={{src:i.raptor1,side:'left',top:-18,size:68}}>
                           <CalendarMonth date={p.weddingDate}/>
                         </BlockCard>
                       </Reveal>
                     )}
 
-                    {/* ── countdown ── */}
+                    {/*  countdown  */}
                     {block.type==='countdown' && (
                       <Reveal>
-                        <BlockCard accentIcon="⏳" imgDeco={{src:i.raptor2,side:'right',top:-18,size:68}}>
+                        <BlockCard accentIcon="" imgDeco={{src:i.raptor2,side:'right',top:-18,size:68}}>
                           <div style={{display:'flex',justifyContent:'center',marginBottom:14}}>
                             <span style={{fontFamily:sans,fontSize:9,fontWeight:700,letterSpacing:'.4em',textTransform:'uppercase',color:hexToRgba(C.amber,.75),padding:'4px 16px',borderRadius:50,background:hexToRgba(C.amber,.1),border:`1.5px solid ${hexToRgba(C.amber,.3)}`}}>
-                              ⏳ Timp ramas
+                               Timp ramas
                             </span>
                           </div>
                           <JurassicCountdown targetDate={p.weddingDate}/>
@@ -1470,13 +1485,13 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── timeline ── */}
+                    {/*  timeline  */}
                     {block.type==='timeline' && (()=>{
                       const items=getTimelineItems();
                       if(!items.length&&!editMode)return null;
                       return (
                         <Reveal>
-                          <BlockCard accentIcon="🗺" imgDeco={{src:i.dino1,side:'right',top:-18,size:68}}>
+                          <BlockCard accentIcon="" imgDeco={{src:i.dino1,side:'right',top:-18,size:68}}>
                             <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,marginBottom:16}}>
                               <div style={{flex:1,height:1,background:`linear-gradient(to right,transparent,${hexToRgba(C.amber,.25)})`}}/>
                               <p style={{fontFamily:sans,fontSize:8,fontWeight:700,letterSpacing:'.42em',textTransform:'uppercase',color:hexToRgba(C.amber,.65),margin:0}}>Programul Zilei</p>
@@ -1496,7 +1511,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                                   <div style={{paddingLeft:10,paddingTop:2,paddingBottom:i<items.length-1?18:0}}>
                                     <InlineEdit editMode={editMode} value={item.title||''} onChange={v=>updateTimelineItem(item.id,{title:v})} placeholder="Moment..." style={{fontFamily:display,fontSize:13,fontWeight:600,color:hexToRgba(C.cream,.85),lineHeight:1.3}}/>
                                   </div>
-                                  {editMode&&<button type="button" onClick={e=>{e.stopPropagation();removeTimelineItem(item.id);}} style={{background:'none',border:'none',cursor:'pointer',color:hexToRgba(C.amber,.4),fontSize:12,padding:'4px 2px',alignSelf:'flex-start',lineHeight:1}}>✕</button>}
+                                  {editMode&&<button type="button" onClick={e=>{e.stopPropagation();removeTimelineItem(item.id);}} style={{background:'none',border:'none',cursor:'pointer',color:hexToRgba(C.amber,.4),fontSize:12,padding:'4px 2px',alignSelf:'flex-start',lineHeight:1}}></button>}
                                 </div>
                               ))}
                             </div>
@@ -1506,17 +1521,17 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                       );
                     })()}
 
-                    {/* ── music ── */}
+                    {/*  music  */}
                     {block.type==='music' && (
                       <Reveal>
                         <MusicBlock block={block} editMode={editMode} onUpdate={p=>updBlock(idx,p)} imperativeRef={musicPlayRef}/>
                       </Reveal>
                     )}
 
-                    {/* ── gift ── */}
+                    {/*  gift  */}
                     {block.type==='gift' && (
                       <Reveal>
-                        <BlockCard accentIcon="🎁" imgDeco={{src:i.egg,side:'right',top:-18,size:68}}>
+                        <BlockCard accentIcon="" imgDeco={{src:i.egg,side:'right',top:-18,size:68}}>
                           <div style={{textAlign:'center'}}>
                             <Gift style={{width:30,height:30,color:C.amber,display:'block',margin:'0 auto 12px',opacity:.8}}/>
                             <InlineEdit tag="h3" editMode={editMode} value={block.sectionTitle||'Sugestie de cadou'} onChange={v=>updBlock(idx,{sectionTitle:v})} style={{fontFamily:display,fontSize:18,color:C.cream,marginBottom:8,fontWeight:700}}/>
@@ -1531,7 +1546,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── whatsapp ── */}
+                    {/*  whatsapp  */}
                     {block.type==='whatsapp' && (
                       <Reveal>
                         <div style={{textAlign:'center'}}>
@@ -1554,7 +1569,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── family ── */}
+                    {/*  family  */}
                     {block.type==='family' && (()=>{
                       const members:{name1:string;name2:string}[]=safeJSON(block.members,[]);
                       const updateMembers=(nm:{name1:string;name2:string}[])=>updBlock(idx,{members:JSON.stringify(nm)} as any);
@@ -1575,7 +1590,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                                     <InlineEdit tag="span" editMode={editMode} value={m.name1} onChange={v=>{const nm=[...members];nm[mi]={...nm[mi],name1:v};updateMembers(nm);}} style={{fontFamily:display,fontSize:17,fontWeight:700,color:C.cream,letterSpacing:.5}}/>
                                     <span style={{fontSize:14,filter:`drop-shadow(0 0 4px ${hexToRgba(C.amber,.5)})`}}>{dIcon}</span>
                                     <InlineEdit tag="span" editMode={editMode} value={m.name2} onChange={v=>{const nm=[...members];nm[mi]={...nm[mi],name2:v};updateMembers(nm);}} style={{fontFamily:display,fontSize:17,fontWeight:700,color:C.cream,letterSpacing:.5}}/>
-                                    {editMode&&members.length>1&&<button type="button" onClick={()=>updateMembers(members.filter((_,i)=>i!==mi))} style={{background:'none',border:'none',cursor:'pointer',color:hexToRgba(C.amber,.4),fontSize:13,padding:'0 2px',lineHeight:1}}>✕</button>}
+                                    {editMode&&members.length>1&&<button type="button" onClick={()=>updateMembers(members.filter((_,i)=>i!==mi))} style={{background:'none',border:'none',cursor:'pointer',color:hexToRgba(C.amber,.4),fontSize:13,padding:'0 2px',lineHeight:1}}></button>}
                                   </div>
                                   {mi<members.length-1&&<div style={{height:1,margin:'2px 28px 0',background:`linear-gradient(to right,transparent,${hexToRgba(C.amber,.15)},transparent)`}}/>}
                                 </div>
@@ -1591,7 +1606,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                       );
                     })()}
 
-                    {/* ── date ── */}
+                    {/*  date  */}
                     {block.type==='date' && (
                       <Reveal>
                         <div style={{textAlign:'center',padding:'4px 0'}}>
@@ -1602,7 +1617,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── description ── */}
+                    {/*  description  */}
                     {block.type==='description' && (
                       <Reveal>
                         <div style={{textAlign:'center',padding:'0 16px'}}>
@@ -1643,7 +1658,7 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
                 <img src={IMG_RAPTOR2} alt="" style={{height:46,objectFit:'contain',filter:'drop-shadow(0 4px 8px rgba(0,0,0,.5))',opacity:.6,transform:'scaleX(-1)'}}/>
               </div>
             </div>
-            <p style={{fontFamily:serif,fontSize:11,fontStyle:'italic',color:hexToRgba(C.cream,.2),marginTop:8}}>cu drag · WeddingPro 🦕</p>
+            <p style={{fontFamily:serif,fontSize:11,fontStyle:'italic',color:hexToRgba(C.cream,.2),marginTop:8}}>cu drag  WeddingPro </p>
           </div>
 
         </div>
@@ -1653,3 +1668,5 @@ const JurassicTemplate: React.FC<InvitationTemplateProps & {
 };
 
 export default JurassicTemplate;
+
+

@@ -185,7 +185,101 @@ export const LORD_MONO_THEMES: CastleColorTheme[] = [
   TEXT: '#4a3f45',
   MUTED: '#9c8f95',
   GOLD: '#e6d8c9',
-}
+  }
+];
+
+export const LUXURY_NEUTRAL_THEMES: CastleColorTheme[] = [
+  {
+    id: 'default',
+    emoji: 'AW',
+    name: 'Alb Negru (Default)',
+    PINK_DARK: '#000000',
+    PINK_D: '#000000',
+    PINK_L: '#000000',
+    PINK_XL: '#ffffff',
+    CREAM: '#ffffff',
+    TEXT: '#000000',
+    MUTED: '#000000',
+    GOLD: '#000000',
+  },
+  {
+    id: 'alb-negru',
+    emoji: 'AW',
+    name: 'Alb Negru',
+    PINK_DARK: '#000000',
+    PINK_D: '#000000',
+    PINK_L: '#000000',
+    PINK_XL: '#ffffff',
+    CREAM: '#ffffff',
+    TEXT: '#000000',
+    MUTED: '#000000',
+    GOLD: '#000000',
+  },
+  {
+    id: 'negru-alb',
+    emoji: 'NA',
+    name: 'Negru Alb',
+    PINK_DARK: '#ffffff',
+    PINK_D: '#ffffff',
+    PINK_L: '#ffffff',
+    PINK_XL: '#000000',
+    CREAM: '#000000',
+    TEXT: '#ffffff',
+    MUTED: '#ffffff',
+    GOLD: '#ffffff',
+  },
+  {
+    id: 'noir_gold',
+    emoji: '🖤',
+    name: 'Noir Gold',
+    PINK_DARK: '#0b0b0b',
+    PINK_D: '#171717',
+    PINK_L: '#b8a26a',
+    PINK_XL: '#f8f6f1',
+    CREAM: '#fdfbf6',
+    TEXT: '#111111',
+    MUTED: '#6f6758',
+    GOLD: '#d4af37',
+  },
+  {
+    id: 'ivory_gold',
+    emoji: '🤍',
+    name: 'Ivory Gold',
+    PINK_DARK: '#3b342b',
+    PINK_D: '#6b5c48',
+    PINK_L: '#e6d8bf',
+    PINK_XL: '#fdf9f2',
+    CREAM: '#fffdf8',
+    TEXT: '#2f2a23',
+    MUTED: '#847a6a',
+    GOLD: '#c9a227',
+  },
+  {
+    id: 'champagne_pearl',
+    emoji: '🥂',
+    name: 'Champagne Pearl',
+    PINK_DARK: '#5f4b32',
+    PINK_D: '#8a7355',
+    PINK_L: '#e9dcc4',
+    PINK_XL: '#fef9ef',
+    CREAM: '#fffdf7',
+    TEXT: '#3f3428',
+    MUTED: '#94836e',
+    GOLD: '#d8b66a',
+  },
+  {
+    id: 'graphite_silver',
+    emoji: '✨',
+    name: 'Graphite Silver',
+    PINK_DARK: '#1b1f24',
+    PINK_D: '#303842',
+    PINK_L: '#c9ced6',
+    PINK_XL: '#f4f6f8',
+    CREAM: '#fbfcfd',
+    TEXT: '#171a1f',
+    MUTED: '#6f7680',
+    GOLD: '#b7a46a',
+  },
 ];
 export const getCastleTheme = (id?: string): CastleColorTheme =>
   [...CASTLE_THEMES, ...GIRL_THEMES, ...ROMANTIC_THEMES, ...BOY_THEMES, ...LORD_MONO_THEMES, ...UNICORN_THEMES, ...ETERN_BOTANICA_THEMES]
@@ -202,6 +296,9 @@ export const getRomanticTheme = (id?: string): CastleColorTheme =>
 
 export const getLordTheme = (id?: string): CastleColorTheme =>
   LORD_MONO_THEMES.find(t => t.id === id) ?? LORD_MONO_THEMES[0];
+
+export const getLuxuryTheme = (id?: string): CastleColorTheme =>
+  LUXURY_NEUTRAL_THEMES.find(t => t.id === id) ?? LUXURY_NEUTRAL_THEMES[0];
 
 export const getGabbyTheme = (id?: string): CastleColorTheme =>
   GABBY_THEMES.find(t => t.id === id) ?? GABBY_THEMES[0];
@@ -250,6 +347,15 @@ export const ROYAL_ROSE_THEMES: CastleColorTheme[] = [
   { id: 'forest', emoji: '🌲', name: 'Forest Elegance', PINK_DARK: '#022c22', PINK_D: '#166534', PINK_L: '#86efac', PINK_XL: '#ecfdf5', CREAM: '#f0fdf4', TEXT: '#022c22', MUTED: '#4d7c6f', GOLD: '#dcfce7' },
 
   { id: 'charcoal', emoji: '🖤', name: 'Charcoal Luxe', PINK_DARK: '#111827', PINK_D: '#374151', PINK_L: '#d1d5db', PINK_XL: '#f9fafb', CREAM: '#ffffff', TEXT: '#111827', MUTED: '#6b7280', GOLD: '#e5e7eb' },
+  { id: 'obsidian_gold', emoji: '🖤', name: 'Obsidian Gold', PINK_DARK: '#050505', PINK_D: '#161616', PINK_L: '#d4af37', PINK_XL: '#fef9e8', CREAM: '#fffdf5', TEXT: '#0b0b0b', MUTED: '#7a6b46', GOLD: '#f2c94c' },
+
+  { id: 'noir_gold_intense', emoji: '✨', name: 'Noir Gold Intense', PINK_DARK: '#0a0a0a', PINK_D: '#1f1f1f', PINK_L: '#f5d46b', PINK_XL: '#fff5d6', CREAM: '#fff9ea', TEXT: '#121212', MUTED: '#8a7a52', GOLD: '#ffcc33' },
+
+  { id: 'ivory_gold_luxe', emoji: '🤍', name: 'Ivory Gold Luxe', PINK_DARK: '#2f2618', PINK_D: '#5a472a', PINK_L: '#e8cf93', PINK_XL: '#fff9ee', CREAM: '#fffdf8', TEXT: '#2f2618', MUTED: '#8f7b58', GOLD: '#d4af37' },
+
+  { id: 'pearl_noir', emoji: '⚫', name: 'Pearl Noir', PINK_DARK: '#0f172a', PINK_D: '#1e293b', PINK_L: '#f8fafc', PINK_XL: '#ffffff', CREAM: '#f8fafc', TEXT: '#0f172a', MUTED: '#64748b', GOLD: '#c9ced6' },
+
+  { id: 'platinum_noir', emoji: '◻', name: 'Platinum Noir', PINK_DARK: '#111111', PINK_D: '#2a2a2a', PINK_L: '#e5e7eb', PINK_XL: '#f9fafb', CREAM: '#ffffff', TEXT: '#111111', MUTED: '#6b7280', GOLD: '#d1d5db' },
 ];
 export const getRoyalRoseTheme = (id?: string): CastleColorTheme =>
   ROYAL_ROSE_THEMES.find(t => t.id === id) ?? ROYAL_ROSE_THEMES[0];

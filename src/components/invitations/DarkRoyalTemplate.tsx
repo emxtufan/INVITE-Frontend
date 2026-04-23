@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Calendar, Clock, ChevronUp, ChevronDown, Eye, EyeOff, Trash2, Plus, Navigation } from "lucide-react";
 import { InvitationTemplateProps, TemplateMeta } from "./types";
 import { cn } from "../../lib/utils";
@@ -16,7 +16,7 @@ export const meta: TemplateMeta = {
   elementsClass: "bg-yellow-600"
 };
 
-// ─── Countdown ────────────────────────────────────────────────────────────────
+//  Countdown 
 function useCountdown(target: string) {
   const calc = () => {
     const diff = new Date(target).getTime() - Date.now();
@@ -28,7 +28,7 @@ function useCountdown(target: string) {
   return t;
 }
 
-// ─── Scroll-reveal hook ───────────────────────────────────────────────────────
+//  Scroll-reveal hook 
 function useScrollReveal(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -42,7 +42,7 @@ function useScrollReveal(threshold = 0.15) {
   return { ref, visible };
 }
 
-// ─── Animated timeline line ───────────────────────────────────────────────────
+//  Animated timeline line 
 function useTimelineProgress(containerRef: React.RefObject<HTMLDivElement>) {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
@@ -62,7 +62,7 @@ function useTimelineProgress(containerRef: React.RefObject<HTMLDivElement>) {
   return progress;
 }
 
-// ─── Opening animation ────────────────────────────────────────────────────────
+//  Opening animation 
 const DarkIntro = ({ p1, p2, date, onDone }: { p1: string; p2: string; date: string; onDone: () => void }) => {
   const [phase, setPhase] = useState<'in' | 'hold' | 'out'>('in');
   const d = date ? new Date(date) : null;
@@ -117,7 +117,7 @@ const DarkIntro = ({ p1, p2, date, onDone }: { p1: string; p2: string; date: str
           {/* Date */}
           <div className={cn("font-sans text-xs tracking-[0.5em] uppercase transition-all duration-700", phase === 'in' ? "opacity-0" : "opacity-100")}
             style={{ color: '#c9a84c', transitionDelay: '0.8s' }}>
-            {d ? d.toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : '— — —'}
+            {d ? d.toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : '  '}
           </div>
         </div>
       </div>
@@ -129,7 +129,7 @@ const DarkIntro = ({ p1, p2, date, onDone }: { p1: string; p2: string; date: str
   );
 };
 
-// ─── Scroll-reveal location card ──────────────────────────────────────────────
+//  Scroll-reveal location card 
 const LocationCard = ({ block, idx, total, editMode, onUpdate, onUp, onDown, onToggle, onDelete }: {
   block: InvitationBlock; idx: number; total: number;
   editMode: boolean;
@@ -216,7 +216,7 @@ const CardContent = ({ block, editMode, onUpdate, isLeft }: {
   </div>
 );
 
-// ─── Countdown unit ───────────────────────────────────────────────────────────
+//  Countdown unit 
 const CUnit = ({ value, label }: { value: number; label: string }) => (
   <div className="flex flex-col items-center gap-1.5">
     <div className="w-16 h-16 rounded-xl flex items-center justify-center relative"
@@ -227,7 +227,7 @@ const CUnit = ({ value, label }: { value: number; label: string }) => (
   </div>
 );
 
-// ─── Block toolbar (non-location blocks) ─────────────────────────────────────
+//  Block toolbar (non-location blocks) 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: {
   onUp: () => void; onDown: () => void; onToggle: () => void; onDelete: () => void;
   visible: boolean; isFirst: boolean; isLast: boolean;
@@ -244,7 +244,7 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
   </div>
 );
 
-// ─── Gold divider ─────────────────────────────────────────────────────────────
+//  Gold divider 
 const GoldDivider = () => (
   <div className="flex items-center gap-3">
     <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.4))' }} />
@@ -253,7 +253,7 @@ const GoldDivider = () => (
   </div>
 );
 
-// ─── Main Template ────────────────────────────────────────────────────────────
+//  Main Template 
 export type DarkRoyalProps = InvitationTemplateProps & {
   editMode?: boolean;
   onProfileUpdate?: (patch: Record<string, any>) => void;
@@ -292,6 +292,10 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
   useEffect(() => { setParentsData(safeJSON(profile.parents, {})); }, [profile.parents]);
 
   const countdown = useCountdown(profile.weddingDate || '');
+  const isPublicInvite = !!data.isPublic;
+  const guestDisplayName = isPublicInvite
+    ? 'Drag invitat'
+    : ((guest?.name && guest.name !== 'Nume Invitat') ? guest.name : '');
 
   // Debounced updates
   const _profileQueue = useRef<Record<string, any>>({});
@@ -364,13 +368,13 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
           style={{ background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.3)', color: '#c9a84c' }}>
           <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#c9a84c' }} />
           <span className="uppercase tracking-widest">Editare Directa</span>
-          <span style={{ color: 'rgba(201,168,76,0.5)' }} className="font-normal">— click pe orice text</span>
+          <span style={{ color: 'rgba(201,168,76,0.5)' }} className="font-normal"> click pe orice text</span>
         </div>
       )}
 
       <div className={cn("transition-all duration-1000 min-h-screen", contentVisible ? "opacity-100" : "opacity-0", editMode && "pt-12")}>
 
-        {/* ── HERO ── */}
+        {/*  HERO  */}
         <div className="relative overflow-hidden min-h-screen flex items-center">
 
           {/* Giant background date */}
@@ -444,16 +448,16 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
             </div>
 
             {/* Guest badge */}
-            {guest?.name && guest.name !== 'Nume Invitat' && (
+            {guestDisplayName && (
               <div className="mt-8 inline-block rounded-lg px-5 py-3" style={{ background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.2)' }}>
-                <p className="font-bold text-white text-base">{guest.name}</p>
+                <p className="font-bold text-white text-base">{guestDisplayName}</p>
                 <p className="text-[10px] uppercase tracking-widest mt-0.5" style={{ color: 'rgba(201,168,76,0.6)' }}>invitat de onoare</p>
               </div>
             )}
           </div>
         </div>
 
-        {/* ── COUNTDOWN ── */}
+        {/*  COUNTDOWN  */}
         {profile.showCountdown && profile.weddingDate && !countdown.expired && (
           <div className="py-12 px-8 text-center" style={{ borderTop: '1px solid rgba(201,168,76,0.1)', borderBottom: '1px solid rgba(201,168,76,0.1)' }}>
             <p className="text-[10px] uppercase tracking-[0.4em] mb-8 font-bold" style={{ color: 'rgba(201,168,76,0.5)' }}>Pana la marele eveniment</p>
@@ -466,7 +470,7 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
           </div>
         )}
 
-        {/* ── TIMELINE — Location blocks ── */}
+        {/*  TIMELINE  Location blocks  */}
         {locationBlocks.length > 0 && (
           <div ref={timelineRef} className="relative py-16 px-4">
             <p className="text-center text-[10px] uppercase tracking-[0.4em] mb-12 font-bold" style={{ color: 'rgba(201,168,76,0.5)' }}>
@@ -523,7 +527,7 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
           </div>
         )}
 
-        {/* ── OTHER BLOCKS (nasi, parinti, text, title, divider) ── */}
+        {/*  OTHER BLOCKS (nasi, parinti, text, title, divider)  */}
         <div className="max-w-xl mx-auto px-8 pb-16 space-y-8">
 
           {otherBlocks.map((block) => {
@@ -625,11 +629,11 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
               <p className="text-[9px] uppercase tracking-widest mb-3 font-bold" style={{ color: 'rgba(201,168,76,0.4)' }}>Adauga bloc</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {[
-                  { type:'godparents', label:'Nasi',    def:{ sectionTitle:'Nasii Nostri', content:'' } },
-                  { type:'parents',    label:'Parinti',  def:{ sectionTitle:'Parintii Nostri', content:'' } },
-                  { type:'text',       label:'Text',     def:{ content:'' } },
-                  { type:'title',      label:'Titlu',    def:{ content:'' } },
-                  { type:'divider',    label:'Linie',    def:{} },
+                  { type:'godparents', label: 'Nasi',    def:{ sectionTitle:'Nasii Nostri', content:'' } },
+                  { type:'parents',    label: 'Parinti',  def:{ sectionTitle:'Parintii Nostri', content:'' } },
+                  { type:'text',       label: 'Text',     def:{ content:'' } },
+                  { type:'title',      label: 'Titlu',    def:{ content:'' } },
+                  { type:'divider',    label: 'Linie',    def:{} },
                 ].map(({ type, label, def }) => (
                   <button key={type} onClick={() => addBlock(type, def)}
                     className="px-3 py-1 text-[10px] font-bold rounded-full transition-all uppercase tracking-wider"
@@ -673,3 +677,4 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
 };
 
 export default DarkRoyalTemplate;
+

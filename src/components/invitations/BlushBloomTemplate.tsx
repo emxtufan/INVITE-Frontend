@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronUp, ChevronDown, Eye, EyeOff, Trash2, Plus, Camera, Upload, Calendar, Music, Play, Pause, SkipForward, SkipBack, Gift, MessageCircle } from "lucide-react";
 import { InvitationTemplateProps, TemplateMeta } from "./types";
 import { cn } from "../../lib/utils";
@@ -15,18 +15,18 @@ export const meta: TemplateMeta = {
   id: 'blush-bloom',
   name: 'Blush Bloom',
   category: 'wedding',
-  description: 'Romantic airy — botanical branches, flip countdown, animatie botanica de deschidere.',
+  description: 'Romantic airy  botanical branches, flip countdown, animatie botanica de deschidere.',
   colors: ['#fdf8f5', '#e8b4b8', '#8b5e6b'],
   previewClass: "bg-rose-50 border-rose-200",
   elementsClass: "bg-rose-300",
 };
 
-// ─── Fonts ─────────────────────────────────────────────────────────────────────
+//  Fonts 
 const SERIF   = "'Cormorant Garamond','Playfair Display',Georgia,serif";
 const DISPLAY = "'Bodoni Moda','Didot','Playfair Display',Georgia,serif";
 const SANS    = "'DM Sans','Helvetica Neue',system-ui,sans-serif";
 
-// ─── Design tokens ──────────────────────────────────────────────────────────
+//  Design tokens 
 let BLUSH     = '#e8a0ac';
 let BLUSH_D   = '#c97090';
 let BLUSH_L   = '#f2c8cf';
@@ -34,7 +34,7 @@ let BLUSH_XL  = '#fdf0f2';
 let PLUM      = '#5a3a44';
 let MUTED     = '#8b5e6b';
 
-// ─── API helpers ─────────────────────────────────────────────────────────────
+//  API helpers 
 function deleteUploadedFile(url: string | undefined) {
   if (!url || !url.startsWith('/uploads/')) return;
   const _s = JSON.parse(localStorage.getItem('weddingPro_session') || '{}');
@@ -45,11 +45,12 @@ function deleteUploadedFile(url: string | undefined) {
   }).catch(() => {});
 }
 
-// ─── Template defaults ───────────────────────────────────────────────────────
+//  Template defaults 
 export const CASTLE_DEFAULTS = {
   partner1Name: 'Sofia',
   partner2Name: 'Alexandru',
   welcomeText: 'Impreuna cu familiile noastre',
+  invitationText: 'Va invita cu drag la nuntii noastre',
   invitationLeadText: 'Va invita cu drag la',
   celebrationText: 'nuntii noastre',
   showWelcomeText: true,
@@ -71,7 +72,7 @@ export const CASTLE_DEFAULT_BLOCKS: InvitationBlock[] = [
   { id: 'bb-timeline', type: 'timeline', show: true },
   { id: 'bb-music', type: 'music', show: true, musicTitle: '', musicArtist: '', musicType: 'none' },
   { id: 'bb-gift', type: 'gift', show: true, sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' },
-  { id: 'bb-whatsapp', type: 'whatsapp', show: true, label: 'Contact WhatsApp', content: '0700000000' },
+  { id: 'bb-whatsapp', type: 'whatsapp', show: true, label: 'WhatsApp', content: '0700000000' },
   { id: 'bb-family', type: 'family', show: true, label: 'Familie', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) },
   { id: 'bb-rsvp', type: 'rsvp', show: true, label: 'Confirma Prezenta' },
   { id: 'bb-divider', type: 'divider', show: true },
@@ -90,7 +91,7 @@ export const CASTLE_PREVIEW_DATA = {
   },
 };
 
-// ─── Photo shape system ───────────────────────────────────────────────────────
+//  Photo shape system 
 type ClipShape = 'rect'|'rounded'|'rounded-lg'|'squircle'|'circle'|'arch'|'arch-b'|'hexagon'|'diamond'|'triangle'|'star'|'heart'|'diagonal'|'diagonal-r'|'wave-b'|'wave-t'|'wave-both'|'blob'|'blob2'|'blob3'|'blob4';
 type MaskEffect = 'fade-b'|'fade-t'|'fade-l'|'fade-r'|'vignette';
 
@@ -127,7 +128,7 @@ const PhotoClipDefs: React.FC = () => (
   </svg>
 );
 
-// ─── Photo Placeholder ────────────────────────────────────────────────────────
+//  Photo Placeholder 
 interface PhotoPlaceholderProps {
   aspectRatio: string; photoClip: ClipShape; photoMasks: MaskEffect[];
   initial1?: string; initial2?: string; variant?: number; editMode: boolean; onClick: () => void;
@@ -161,7 +162,7 @@ const PhotoPlaceholder: React.FC<PhotoPlaceholderProps> = ({aspectRatio,photoCli
   );
 };
 
-// ─── Photo Block ──────────────────────────────────────────────────────────────
+//  Photo Block 
 interface PhotoBlockProps {
   imageData: string|undefined; altText?: string; editMode: boolean;
   onUpload:(data:string)=>void; onRemove:()=>void;
@@ -212,7 +213,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
                 <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0.42)'}}/>
                 <button type="button" onClick={()=>fileRef.current?.click()} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'white',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:PLUM}}><Camera className="w-3.5 h-3.5"/> Schimba</button>
                 <button type="button" onClick={handleRemove} style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',gap:5,padding:'7px 14px',borderRadius:99,background:'rgba(220,40,40,0.88)',border:'none',cursor:'pointer',fontFamily:SANS,fontSize:11,fontWeight:700,color:'white'}}><Trash2 className="w-3.5 h-3.5"/> Sterge</button>
-                {isDemoPhoto && <div style={{position:'absolute',bottom:10,left:'50%',transform:'translateX(-50%)',background:'rgba(0,0,0,0.7)',color:'white',borderRadius:99,padding:'4px 14px',fontFamily:SANS,fontSize:9,fontWeight:700,whiteSpace:'nowrap',zIndex:2}}>📷 Fotografie demo</div>}
+                {isDemoPhoto && <div style={{position:'absolute',bottom:10,left:'50%',transform:'translateX(-50%)',background:'rgba(0,0,0,0.7)',color:'white',borderRadius:99,padding:'4px 14px',fontFamily:SANS,fontSize:9,fontWeight:700,whiteSpace:'nowrap',zIndex:2}}> Fotografie demo</div>}
               </div>
             )}
           </div>
@@ -242,7 +243,7 @@ const PhotoBlock: React.FC<PhotoBlockProps> = ({imageData,altText,editMode,onUpl
   );
 };
 
-// ─── INTRO ANIMATION ──────────────────────────────────────────────────────────
+//  INTRO ANIMATION 
 const BlushIntro: React.FC<{ l1: string; l2: string; onDone: () => void }> = ({ l1, l2, onDone }) => {
   const [phase, setPhase] = useState(0);
   const showSecond = !!l2 && l2 !== l1;
@@ -473,7 +474,7 @@ const BlushIntro: React.FC<{ l1: string; l2: string; onDone: () => void }> = ({ 
   );
 };
 
-// ─── Decorative SVG components ────────────────────────────────────────────────
+//  Decorative SVG components 
 const RoseDividerIcon = () => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     {[0, 72, 144, 216, 288].map((a, i) => {
@@ -571,7 +572,7 @@ const Sprig = () => (
   </svg>
 );
 
-// ─── Flip countdown digit ──────────────────────────────────────────────────────
+//  Flip countdown digit 
 const FlipDigit: React.FC<{ value: number }> = ({ value }) => {
   const prev  = useRef(value);
   const [flash, setFlash] = useState(false);
@@ -602,7 +603,7 @@ const FlipDigit: React.FC<{ value: number }> = ({ value }) => {
   );
 };
 
-// ─── Countdown ────────────────────────────────────────────────────────────────
+//  Countdown 
 function useCountdown(target: string) {
   const calc = () => {
     const diff = new Date(target).getTime() - Date.now();
@@ -614,7 +615,7 @@ function useCountdown(target: string) {
   return t;
 }
 
-// ─── Block toolbar ────────────────────────────────────────────────────────────
+//  Block toolbar 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: any) => (
   <div className="absolute -top-3.5 right-2 flex items-center gap-0.5 bg-white rounded-full shadow-lg px-1.5 py-1 opacity-0 group-hover/block:opacity-100 transition-all z-30 pointer-events-none group-hover/block:pointer-events-auto" style={{ border: `1px solid ${BLUSH_L}` }}>
     <button type="button" onClick={e => { e.stopPropagation(); onUp(); }} disabled={isFirst} className="p-0.5 rounded-full disabled:opacity-25 transition-colors"><ChevronUp className="w-3 h-3" style={{ color: BLUSH_D }}/></button>
@@ -628,24 +629,24 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
 );
 
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: "📷",
-  text: "T",
-  location: "📍",
-  calendar: "📅",
-  countdown: "⏱",
-  timeline: "🕒",
-  music: "🎵",
-  gift: "🎁",
-  whatsapp: "💬",
+  photo: "IMG",
+  text: "TXT",
+  location: "LOC",
+  calendar: "CAL",
+  countdown: "TMR",
+  timeline: "TIME",
+  music: "MUS",
+  gift: "GFT",
+  whatsapp: "WA",
   rsvp: "RSVP",
-  divider: "—",
-  family: "👨‍👩‍👧",
-  date: "📆",
-  description: "📝",
+  divider: "---",
+  family: "FAM",
+  date: "DATE",
+  description: "DESC",
   title: "Aa",
-  godparents: "💍",
-  parents: "👪",
-  spacer: "↕",
+  godparents: "NAS",
+  parents: "PAR",
+  spacer: "SP",
 };
 
 const InsertBlockButton: React.FC<{
@@ -744,7 +745,7 @@ const InsertBlockButton: React.FC<{
   );
 };
 
-// ─── Scroll reveal ────────────────────────────────────────────────────────────
+//  Scroll reveal 
 function useReveal() {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -756,9 +757,13 @@ function useReveal() {
   return { ref, visible };
 }
 
-// ─── Location card ────────────────────────────────────────────────────────────
+//  Location card 
 const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (p: Partial<InvitationBlock>) => void }> = ({ block, editMode, onUpdate }) => {
   const { ref, visible } = useReveal();
+  const hasWaze = !!String(block.wazeLink || "").trim();
+  const mapsUrl = String(block.locationAddress || "").trim()
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(String(block.locationAddress || "").trim())}`
+    : "";
   return (
     <div ref={ref} style={{
       background: "rgba(255,255,255,0.82)", backdropFilter: "blur(8px)",
@@ -784,9 +789,63 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
             style={{ fontFamily: SANS, fontSize: 11, color: MUTED, opacity: 0.8, margin: 0, lineHeight: 1.5, fontStyle: "italic" }} multiline/>
         </div>
       </div>
-      {(block.wazeLink || editMode) && (
-        <div style={{ marginTop: 10 }}>
+      {(block.wazeLink || block.locationAddress || editMode) && (
+        <div style={{ marginTop: 10, display: "grid", gap: 8 }}>
           <InlineWaze value={block.wazeLink || ''} onChange={v => onUpdate({ wazeLink: v })} editMode={editMode}/>
+          <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 8 }}>
+            <a
+              href={hasWaze ? String(block.wazeLink) : "#"}
+              target={hasWaze ? "_blank" : undefined}
+              rel={hasWaze ? "noopener noreferrer" : undefined}
+              onClick={(e) => { if (!hasWaze) e.preventDefault(); }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "7px 12px",
+                borderRadius: 999,
+                fontFamily: SANS,
+                fontSize: 10,
+                fontWeight: 800,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                background: hasWaze ? `linear-gradient(135deg, ${BLUSH_D}, ${PLUM})` : "rgba(255,255,255,0.7)",
+                color: hasWaze ? "white" : `${MUTED}`,
+                border: hasWaze ? `1px solid ${BLUSH_D}` : `1px solid ${BLUSH_L}`,
+                boxShadow: hasWaze ? "0 6px 18px rgba(184,120,140,0.28)" : "none",
+                cursor: hasWaze ? "pointer" : "not-allowed",
+              }}
+            >
+              Waze
+            </a>
+            <a
+              href={mapsUrl || "#"}
+              target={mapsUrl ? "_blank" : undefined}
+              rel={mapsUrl ? "noopener noreferrer" : undefined}
+              onClick={(e) => { if (!mapsUrl) e.preventDefault(); }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "7px 12px",
+                borderRadius: 999,
+                fontFamily: SANS,
+                fontSize: 10,
+                fontWeight: 800,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                background: mapsUrl ? `linear-gradient(135deg, ${PLUM}, ${BLUSH_D})` : "rgba(255,255,255,0.7)",
+                color: mapsUrl ? "white" : `${MUTED}`,
+                border: mapsUrl ? `1px solid ${PLUM}` : `1px solid ${BLUSH_L}`,
+                boxShadow: mapsUrl ? "0 6px 18px rgba(35,26,40,0.25)" : "none",
+                cursor: mapsUrl ? "pointer" : "not-allowed",
+              }}
+            >
+              Maps
+            </a>
+          </div>
         </div>
       )}
     </div>
@@ -977,7 +1036,7 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ─── Main Template ─────────────────────────────────────────────────────────────
+//  Main Template 
 export type BlushBloomProps = InvitationTemplateProps & {
   editMode?: boolean;
   onProfileUpdate?: (patch: Record<string, any>) => void;
@@ -1031,6 +1090,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
   }, [showIntro, editMode]);
 
   const safeJSON = (s: string | undefined, fb: any) => { try { return s ? JSON.parse(s) : fb; } catch { return fb; } };
+  const legacyInvitationText = `${String((profile as any).invitationLeadText || '').trim()} ${String(profile.celebrationText || '').trim()}`.trim();
 
   const [blocks, setBlocks]           = useState<InvitationBlock[]>(() => {
     const fromDb = safeJSON(profile.customSections, null);
@@ -1123,8 +1183,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
   const updParent = (field: string, val: string) => setParentsData((prev: any) => { const np = { ...prev, [field]: val }; upProfile('parents', JSON.stringify(np)); return np; });
 
   const welcomeText     = profile.welcomeText?.trim()     || CASTLE_DEFAULTS.welcomeText;
-  const invitationLeadText = ((profile as any).invitationLeadText || CASTLE_DEFAULTS.invitationLeadText).trim() || CASTLE_DEFAULTS.invitationLeadText;
-  const celebrationText = profile.celebrationText?.trim() || CASTLE_DEFAULTS.celebrationText;
+  const invitationText = (String((profile as any).invitationText || legacyInvitationText || CASTLE_DEFAULTS.invitationText)).trim() || CASTLE_DEFAULTS.invitationText;
   const rsvpText        = profile.rsvpButtonText?.trim()  || CASTLE_DEFAULTS.rsvpButtonText;
   const showRsvp        = profile.showRsvpButton !== false;
   const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';
@@ -1143,7 +1202,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
     { type: 'timeline', label: 'Cronologie', def: {} },
     { type: 'music', label: 'Muzica', def: { musicTitle: '', musicArtist: '', musicType: 'none' } },
     { type: 'gift', label: 'Cadouri', def: { sectionTitle: 'Sugestie cadou', content: '', iban: '', ibanName: '' } },
-    { type: 'whatsapp', label: 'WhatsApp', def: { label: 'Contact WhatsApp', content: '0700000000' } },
+    { type: 'whatsapp', label: 'WhatsApp', def: { label: 'WhatsApp', content: '0700000000' } },
     { type: 'rsvp', label: 'RSVP', def: { label: 'Confirma Prezenta' } },
     { type: 'divider', label: 'Linie', def: {} },
     { type: 'family', label: 'Familie', def: { label: 'Familie', content: 'Cu drag si recunostinta', members: JSON.stringify([{ name1: 'Mama', name2: 'Tata' }]) } },
@@ -1197,7 +1256,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
           style={{ background: "rgba(255,255,255,0.9)", border: `1px solid ${BLUSH_L}`, color: PLUM, backdropFilter: "blur(8px)" }}>
           <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: BLUSH }}/>
           <span className="uppercase tracking-widest">Editare Directa</span>
-          <span style={{ color: MUTED }} className="font-normal">— click pe orice text</span>
+          <span style={{ color: MUTED }} className="font-normal"> click pe orice text</span>
         </div>
       )}
 
@@ -1220,7 +1279,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
 
         <div style={{ width: "100%", maxWidth: 440, position: "relative", zIndex: 1, padding: "20px 16px" }}>
 
-          {/* ── HERO CARD ── */}
+          {/*  HERO CARD  */}
           <div style={{ background: "rgba(255,255,255,0.88)", borderRadius: 4,
             border: `1px solid ${BLUSH_L}`,
             boxShadow: "0 8px 60px rgba(184,120,140,0.12), 0 2px 12px rgba(184,120,140,0.07)",
@@ -1281,14 +1340,10 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
               )}
               {profile.showCelebrationText && (
                 <p style={{ fontFamily: SERIF, fontSize: 15, fontStyle: "italic", color: MUTED, margin: "12px 0 0", display: "block" }}>
-                  <InlineEdit tag="span" editMode={editMode} value={invitationLeadText} onChange={v => upProfile('invitationLeadText', v)}
+                  <InlineEdit tag="span" editMode={editMode} value={invitationText} onChange={v => upProfile('invitationText', v)}
                     placeholder="Text invitatie..."
-                    textKey="hero:intro-invite-lead"
-                    textLabel="Intro text 1" />{" "}
-                  <InlineEdit tag="span" editMode={editMode} value={celebrationText} onChange={v => upProfile('celebrationText', v)}
-                    placeholder="descriere eveniment..."
-                    textKey="hero:intro-celebration"
-                    textLabel="Intro text 2" />
+                    textKey="hero:intro-invite-text"
+                    textLabel="Intro text invitatie" />
                 </p>
               )}
               </BlockStyleProvider>
@@ -1296,16 +1351,8 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
               <div style={{ margin: "24px 0 16px" }}><RoseDivider/></div>
 
               {/* Date */}
-              {editMode ? (
-                <input type="date" value={profile.weddingDate ? new Date(profile.weddingDate).toISOString().split('T')[0] : ''}
-                  onChange={e => upProfile('weddingDate', e.target.value)}
-                  style={{ fontFamily: SERIF, fontSize: 15, color: PLUM, letterSpacing: "0.06em",
-                    background: "transparent", border: "none", borderBottom: `1px solid ${BLUSH_L}`,
-                    outline: "none", textAlign: "center", cursor: "pointer", padding: "2px 0", margin: "0 0 22px", display: "block", width: "100%" }}/>
-              ) : (
-                <p style={{ fontFamily: SERIF, fontSize: 15, color: PLUM, letterSpacing: "0.06em",
-                  textTransform: "capitalize", margin: "0 0 22px" }}>{formattedDate}</p>
-              )}
+              <p style={{ fontFamily: SERIF, fontSize: 15, color: PLUM, letterSpacing: "0.06em",
+                textTransform: "capitalize", margin: "0 0 22px" }}>{formattedDate}</p>
 
               {/* Flip countdown */}
               {profile.showCountdown && profile.weddingDate && !countdown.expired && (
@@ -1353,7 +1400,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
 
           <div style={{ display: "flex", justifyContent: "center", marginTop: 4 }}><Sprig/></div>
 
-          {/* ── BLOCURI ── */}
+          {/*  BLOCURI  */}
           <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 4 }}>
             {editMode && (
               <InsertBlockButton
@@ -1452,7 +1499,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
                     <div style={{ textAlign: "center", padding: "8px 4px" }}>
                       <InlineEdit tag="p" editMode={editMode} value={block.content || ''} onChange={v => updBlock(realIdx, { content: v })} placeholder="Scrieti un mesaj..." multiline
                         textKey={`${block.id}:text-content`}
-                        textLabel="Text · Continut"
+                        textLabel="Text  Continut"
                         style={{ fontFamily: SERIF, fontSize: 14, fontStyle: "italic", color: MUTED, lineHeight: 1.8 }}/>
                     </div>
                   )}
@@ -1478,10 +1525,9 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
 
                   {block.type === 'date' && (
                     <div style={{ textAlign: "center", padding: "4px 0" }}>
-                      <InlineEdit tag="p" editMode={editMode} value={block.content || dateStr} onChange={v => updBlock(realIdx, { content: v })}
-                        textKey={`${block.id}:date-content`}
-                        textLabel="Data bloc"
-                        style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase", color: PLUM }}/>
+                      <p style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase", color: PLUM }}>
+                        {dateStr}
+                      </p>
                     </div>
                   )}
 
@@ -1503,7 +1549,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
                         titleText={block.countdownTitle || "Timp ramas pana la marele eveniment"}
                         onTitleChange={text => updBlock(realIdx, { countdownTitle: text })}
                         titleTextKey={`${block.id}:countdown-title`}
-                        titleTextLabel="Countdown · Titlu"
+                        titleTextLabel="Countdown  Titlu"
                       />
                     </div>
                   )}
@@ -1559,7 +1605,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
                                     onClick={() => removeTimelineItem(item.id)}
                                     style={{ background: "none", border: "none", cursor: "pointer", color: MUTED, fontSize: 14, padding: "0 4px", opacity: 0.6, lineHeight: 1 }}
                                   >
-                                    ✕
+                                    
                                   </button>
                                 )}
                               </div>
@@ -1714,7 +1760,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
           </div>
 
           {/* Add block strip */}
-          {editMode && (
+          {false && editMode && (
             <div className="text-center mt-4 py-4 border-2 border-dashed rounded transition-colors" style={{ borderColor: BLUSH_L }}>
               <p className="text-[9px] uppercase tracking-widest mb-2.5 font-bold" style={{ color: MUTED, opacity: 0.65, fontFamily: SANS }}>Adauga bloc</p>
               <div className="flex flex-wrap justify-center gap-2">
@@ -1763,7 +1809,7 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
           <div style={{ marginTop: 24, textAlign: "center" }}>
             <RoseDivider/>
             <p style={{ fontFamily: SERIF, fontSize: 11, fontStyle: "italic", color: "rgba(139,94,107,0.38)", marginTop: 12 }}>
-              cu drag · WeddingPro
+              cu drag  WeddingPro
             </p>
           </div>
 
@@ -1774,3 +1820,4 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
 };
 
 export default BlushBloomTemplate;
+

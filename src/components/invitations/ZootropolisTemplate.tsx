@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -9,27 +9,28 @@ import { InvitationBlock, InvitationBlockType } from "../../types";
 import { InlineEdit, InlineTime, InlineWaze } from "./InlineEdit";
 import { getZootropolisTheme } from "./castleDefaults";
 import { API_URL } from "../../config/api";
+import ScrollDownHint from "./ScrollDownHint";
 import {
   ChevronUp, ChevronDown, Eye, EyeOff, Trash2, Upload, Camera,
   Play, Pause, SkipForward, SkipBack, Gift, Music, MessageCircle, MapPin,
 } from "lucide-react";
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // META
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 export const meta: TemplateMeta = {
   id: 'zootropolis',
   name: 'Zootropolis',
   category: 'kids',
-  description: 'Metropola animala — urban colorat, personaje pline de viata, energie de poveste Disney!',
+  description: 'Metropola animala  urban colorat, personaje pline de viata, energie de poveste Disney!',
   colors: ['#ff7b2e', '#7c3aed', '#fbbf24', '#f0f4ff'],
   previewClass: "bg-violet-50 border-orange-400",
   elementsClass: "bg-orange-400",
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // API
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 function deleteUploadedFile(url: string | undefined) {
   if (!url || !url.startsWith('/uploads/')) return;
   const _s = JSON.parse(localStorage.getItem('weddingPro_session') || '{}');
@@ -40,9 +41,9 @@ function deleteUploadedFile(url: string | undefined) {
   }).catch(() => {});
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // HELPERS
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 function hexToRgba(hex: string, alpha: number): string {
   const h = hex.replace('#', '');
   const r = parseInt(h.substring(0, 2), 16);
@@ -51,9 +52,9 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// COLORS & FONTS — exact from reference
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// COLORS & FONTS  exact from reference
+// 
 let C = {
   city      : "#0D1B2A",
   cityMid   : "#1B2838",
@@ -74,7 +75,7 @@ const F = {
   badge  : "'Bebas Neue','Impact','Arial Black',sans-serif",
 } as const;
 
-// Card style — computed from theme C at render time
+// Card style  computed from theme C at render time
 const getSectionStyle = (): React.CSSProperties => ({
   background: `linear-gradient(135deg,${hexToRgba(C.cityMid,.85)},${hexToRgba(C.city,.9)})`,
   border: `1.5px solid ${hexToRgba(C.steelLight,.22)}`,
@@ -90,12 +91,12 @@ const scanlines: React.CSSProperties = {
   background: "repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px)",
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// IMAGE PATHS — /public/zootropolis/
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// IMAGE PATHS  /public/zootropolis/
+// 
 const IMG_LOGO    = "/zootropolis/logo.png";     // Zootropolis logo
-const IMG_NICK    = "/zootropolis/nick.png";     // Nick Wilde — vulpea
-const IMG_JUDY    = "/zootropolis/judy.png";     // Judy Hopps — iepurasa
+const IMG_NICK    = "/zootropolis/nick.png";     // Nick Wilde  vulpea
+const IMG_JUDY    = "/zootropolis/judy.png";     // Judy Hopps  iepurasa
 const IMG_BG      = "/zootropolis/bg.png";       // Fundal oras (pentru usi)
 const IMG_BADGE   = "/zootropolis/badge.png";    // Insigna ZPD
 const IMG_PAW     = "/zootropolis/paw.png";      // Amprenta labuta
@@ -108,9 +109,9 @@ const IMG_CLOUD   = "/zootropolis/cloud.png";    // Nor decorativ
 const IMG_SCENE   = "/zootropolis/scene.png";    // City scene banner
 const IMG_DUO     = "/zootropolis/duo.png";      // Nick & Judy duo
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CSS — reference keyframes + door extras
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// CSS  reference keyframes + door extras
+// 
 const ZT_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800;900&family=Bebas+Neue&display=swap');
   @keyframes zt-float   { 0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)} }
@@ -129,9 +130,9 @@ const ZT_CSS = `
   @keyframes dh-down    { 0%{opacity:0;transform:translateY(-2px)}50%{opacity:1;transform:translateY(2px)}100%{opacity:0;transform:translateY(6px)} }
 `;
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // SCROLL REVEAL
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 function useReveal<T extends HTMLElement>(threshold = 0.1): [React.RefObject<T>, boolean] {
   const ref = useRef<T>(null);
   const [vis, setVis] = useState(false);
@@ -154,9 +155,9 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; style?: Reac
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DISTRICT COLORS — palette per photo/card slot
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// DISTRICT COLORS  palette per photo/card slot
+// 
 const DISTRICT_COLORS: { from: string; to: string }[] = [
   { from: '#ff7b2e', to: '#fbbf24' },
   { from: '#7c3aed', to: '#a78bfa' },
@@ -165,9 +166,9 @@ const DISTRICT_COLORS: { from: string; to: string }[] = [
   { from: '#4361EE', to: '#90E0EF' },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DISTRICT CARD — styled card wrapper
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// DISTRICT CARD  styled card wrapper
+// 
 const DistrictCard: React.FC<{ children: React.ReactNode; colorIdx?: number }> = ({ children, colorIdx = 0 }) => {
   const c = DISTRICT_COLORS[colorIdx % DISTRICT_COLORS.length];
   return (
@@ -178,17 +179,17 @@ const DistrictCard: React.FC<{ children: React.ReactNode; colorIdx?: number }> =
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// MUTABLE PALETTE — reset at component mount
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// MUTABLE PALETTE  reset at component mount
+// 
 let Z: Record<string, string> = {};
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CITY DOOR SEAM — colorful rainbow burst (vs. amber in Jurassic)
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// CITY DOOR SEAM  colorful rainbow burst (vs. amber in Jurassic)
+// 
 const CityDoorSeam: React.FC<{ side: 'left' | 'right' }> = ({ side }) => (
   <div style={{ position: 'absolute', top: 0, right: side === 'left' ? '0px' : 'auto', left: side === 'right' ? '-2px' : 'auto', width: 2, height: '100%', pointerEvents: 'none', overflow: 'visible', zIndex: 20 }}>
-    {/* Core line — white with orange glow */}
+    {/* Core line  white with orange glow */}
     <div style={{
       position: 'absolute', top: 0,
       left: side === 'left' ? '100%' : 0,
@@ -218,19 +219,14 @@ const CityDoorSeam: React.FC<{ side: 'left' | 'right' }> = ({ side }) => (
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // DOOR HINT
-// ─────────────────────────────────────────────────────────────────────────────
-const DoorHint: React.FC = () => (
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-    <span style={{ fontFamily: F.badge, fontSize: 9, fontWeight: 800, letterSpacing: '.35em', textTransform: 'uppercase', color: 'rgba(255,255,255,.9)' }}>Scroll down</span>
-    <span style={{ fontSize: 14, color: 'rgba(255,255,255,.9)', animation: 'dh-down 1.6s ease-in-out infinite' }}>↓</span>
-  </div>
-);
+// 
+const DoorHint: React.FC = () => <ScrollDownHint label="Scroll down" />;
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // ZOOTROPOLIS OVERLAY TEXT
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const ZootropolisOverlayText: React.FC<{
   childName: string; subtitle: string; isWedding?: boolean; partner2Name?: string;
   editMode?: boolean;
@@ -267,7 +263,7 @@ const ZootropolisOverlayText: React.FC<{
         <img src={IMG_LOGO} alt="Zootropolis" style={{ width: 'min(200px,52vw)', objectFit: 'contain', display: 'block', margin: '0 auto', filter: 'drop-shadow(0 4px 16px rgba(0,0,0,.9)) brightness(0) invert(1)' }}/>
       </div>
 
-      {/* Phase 1 — name */}
+      {/* Phase 1  name */}
       <div style={{ position: 'absolute', top: nameTop, left: 0, right: 0, transform: nameTransform, textAlign: 'center', zIndex: 1, padding: '0 28px', opacity: nameOpacity }}>
         <div ref={nameRef} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, width: '100%' }}>
           {isWedding ? (
@@ -295,26 +291,26 @@ const ZootropolisOverlayText: React.FC<{
         </div>
       </div>
 
-      {/* Phase 2 — invite text */}
+      {/* Phase 2  invite text */}
       <div style={{ position: 'absolute', top: inviteTopPos, left: 0, right: 0, transform: inviteTransform, textAlign: 'center', zIndex: 1, padding: '0 36px', pointerEvents: editMode ? 'auto' : 'none' }}>
         <div ref={inviteRef} style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', opacity: inviteOpacity }}>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteTop || 'Cu drag va anuntam'} onChange={v => onInviteTopChange?.(v)}
-            style={{ fontFamily: F.badge, fontSize: '.65rem', fontWeight: 800, letterSpacing: '.5em', textTransform: 'uppercase', color: '#ffffff', textShadow: S, margin: 0 }}/>
+            style={{ fontFamily: F.badge, fontSize: '0.72rem', fontWeight: 900, letterSpacing: '.42em', textTransform: 'uppercase', color: '#ffffff', textShadow: `${S}, 0 0 10px rgba(255,255,255,0.24)`, margin: 0 }}/>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteMiddle || dateStr || 'Data Evenimentului'} onChange={v => onInviteMiddleChange?.(v)}
             style={{ fontFamily: F.display, fontSize: '2rem', fontWeight: 900, lineHeight: 1.2, color: C.orangePale, textShadow: S, margin: 0 }}/>
           <InlineEdit tag="p" editMode={!!editMode} value={inviteBottom || 'va fi botezat'} onChange={v => onInviteBottomChange?.(v)}
-            style={{ fontFamily: F.badge, fontSize: '.7rem', fontWeight: 700, letterSpacing: '.3em', textTransform: 'uppercase', color: '#ffffff', textShadow: S, margin: 0, lineHeight: 2 }}/>
-          <InlineEdit tag="p" editMode={!!editMode} value={inviteTag || '★ deschide orasul ★'} onChange={v => onInviteTagChange?.(v)}
-            style={{ fontFamily: F.badge, fontSize: '.55rem', fontWeight: 800, letterSpacing: '.6em', textTransform: 'uppercase', color: C.orangePale, textShadow: S, margin: '2px 0 0', opacity: .85 }}/>
+            style={{ fontFamily: F.badge, fontSize: '0.76rem', fontWeight: 800, letterSpacing: '.24em', textTransform: 'uppercase', color: '#ffffff', textShadow: `${S}, 0 0 8px rgba(255,255,255,0.2)`, margin: 0, lineHeight: 1.85 }}/>
+          <InlineEdit tag="p" editMode={!!editMode} value={inviteTag || ' deschide orasul '} onChange={v => onInviteTagChange?.(v)}
+            style={{ fontFamily: F.badge, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '.48em', textTransform: 'uppercase', color: '#ffffff', textShadow: `${S}, 0 0 8px rgba(255,255,255,0.2)`, margin: '2px 0 0', opacity: .95 }}/>
         </div>
       </div>
     </div>
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CITY DOOR INTRO — GSAP ScrollTrigger identical mechanic
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// CITY DOOR INTRO  GSAP ScrollTrigger identical mechanic
+// 
 const CityDoorIntro: React.FC<{
   editMode?: boolean; previewMode?: 'doors' | 'static';
   contentEl?: HTMLElement | null; scrollContainer?: HTMLElement | null;
@@ -460,9 +456,9 @@ const CityDoorIntro: React.FC<{
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // AUDIO PERMISSION MODAL
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; onDeny: () => void }> = ({ childName, onAllow, onDeny }) => (
   <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
     <div style={{ position: 'absolute', inset: 0, background: hexToRgba("#0D1B2A", .7), backdropFilter: 'blur(12px)' }}/>
@@ -473,13 +469,13 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
       <div style={{ marginTop: 20 }}>
         <img src={IMG_LOGO} alt="Zootropolis" style={{ width: 110, objectFit: 'contain', display: 'block', margin: '0 auto 14px', filter: `drop-shadow(0 2px 6px ${hexToRgba("#4361EE", .25)})` }}/>
         <p style={{ fontFamily: F.display, fontSize: 20, fontWeight: 800, color: "#0D1B2A", margin: '0 0 4px' }}>{childName}</p>
-        <p style={{ fontFamily: F.badge, fontSize: 12, fontWeight: 700, color: "#FFFFFF", margin: '0 0 8px' }}>te invita in Zootropolis 🦊</p>
+        <p style={{ fontFamily: F.badge, fontSize: 12, fontWeight: 700, color: "#FFFFFF", margin: '0 0 8px' }}>te invita in Zootropolis </p>
         <p style={{ fontFamily: F.badge, fontSize: 11, color: "rgba(144,224,239,.5)", margin: '0 0 24px', lineHeight: 1.65 }}>Aceasta invitatie are o melodie speciala.<br/>Vrei sa activezi muzica?</p>
         <button type="button" onClick={onAllow}
           style={{ width: '100%', padding: '14px 0', background: `linear-gradient(135deg,${C.orange},${C.orangePale})`, border: 'none', borderRadius: 50, cursor: 'pointer', fontFamily: F.display, fontSize: 12, fontWeight: 800, color: "#0D1B2A", letterSpacing: '.08em', marginBottom: 10, boxShadow: `0 6px 20px ${hexToRgba(C.orange, .45)}`, transition: 'transform .15s' }}
           onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.03)'}
           onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'}>
-          🎵 Da, activeaza muzica
+           Da, activeaza muzica
         </button>
         <button type="button" onClick={onDeny}
           style={{ width: '100%', padding: '10px 0', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: F.badge, fontSize: 11, color: "rgba(144,224,239,.5)" }}>
@@ -490,9 +486,9 @@ const AudioPermissionModal: React.FC<{ childName: string; onAllow: () => void; o
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ZPD BADGE + PAW SCATTER + POLICE TICKER + CITY SKYLINE — exact from reference
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// ZPD BADGE + PAW SCATTER + POLICE TICKER + CITY SKYLINE  exact from reference
+// 
 const ZPDBadge: React.FC<{ size?: number; style?: React.CSSProperties }> = ({ size=56, style }) => (
   <svg width={size} height={size*1.1} viewBox="0 0 60 66" fill="none" style={style}>
     <defs>
@@ -521,7 +517,7 @@ const PawScatter: React.FC = () => {
   return (
     <>
       {paws.map((p,i)=>(
-        <div key={i} style={{position:"absolute",left:`${p.x}%`,top:`${p.y}%`,fontSize:p.s,transform:`rotate(${p.r}deg)`,animation:`zt-twinkle ${3+i*.4}s ${p.d}s ease-in-out infinite`,pointerEvents:"none",userSelect:"none",zIndex:1,opacity:.3}}>🐾</div>
+        <div key={i} style={{position:"absolute",left:`${p.x}%`,top:`${p.y}%`,fontSize:p.s,transform:`rotate(${p.r}deg)`,animation:`zt-twinkle ${3+i*.4}s ${p.d}s ease-in-out infinite`,pointerEvents:"none",userSelect:"none",zIndex:1,opacity:.3}}></div>
       ))}
     </>
   );
@@ -530,7 +526,7 @@ const PawScatter: React.FC = () => {
 const PoliceTicker: React.FC = () => (
   <div style={{background:`linear-gradient(90deg,${C.steel},${C.cityMid},${C.steel})`,borderBottom:"1px solid rgba(67,97,238,.4)",overflow:"hidden",height:24,display:"flex",alignItems:"center",position:"relative"}}>
     <div style={{display:"inline-flex",gap:40,whiteSpace:"nowrap",animation:"zt-ticker 22s linear infinite"}}>
-      {["🐭 Bun venit in Zootropolis!","🦊 Nick & Judy va invita!","🐇 Toata lumea e binevenita!","🐘 Petrecerea anului!","🦁 ZPD - Departamentul Petrecerilor","🐾 Pregatiti-va!","🐭 Bun venit in Zootropolis!","🦊 Nick & Judy va invita!"].map((t,i)=>(
+      {[" Bun venit in Zootropolis!"," Nick & Judy va invita!"," Toata lumea e binevenita!"," Petrecerea anului!"," ZPD - Departamentul Petrecerilor"," Pregatiti-va!"," Bun venit in Zootropolis!"," Nick & Judy va invita!"].map((t,i)=>(
         <span key={i} style={{fontFamily:F.badge,fontSize:10,color:C.orangePale,letterSpacing:2}}>{t}</span>
       ))}
     </div>
@@ -571,9 +567,9 @@ const CitySkyline: React.FC<{ dark?: boolean }> = ({ dark = false }) => {
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// COUNTDOWN — exact from reference
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// COUNTDOWN  exact from reference
+// 
 interface TimeLeft { days:number; hours:number; minutes:number; seconds:number; total:number }
 function calcTimeLeft(date:string):TimeLeft {
   const diff=new Date(date).getTime()-Date.now();
@@ -599,14 +595,14 @@ const Countdown: React.FC<{targetDate:string|undefined}> = ({targetDate}) => {
   const [ready,setReady]=useState(false);
   useEffect(()=>{setReady(true);if(!targetDate)return;setTl(calcTimeLeft(targetDate));const id=setInterval(()=>setTl(calcTimeLeft(targetDate!)),1000);return()=>clearInterval(id);},[targetDate]);
   if(!ready||!targetDate)return null;
-  if(tl?.total===0)return<div style={{textAlign:"center",padding:"12px 20px",border:"1.5px solid rgba(67,97,238,.3)",borderRadius:10,background:"rgba(27,40,56,.4)"}}><p style={{fontFamily:F.badge,fontSize:10,letterSpacing:".45em",textTransform:"uppercase",color:C.orange,margin:0}}>🎉 Evenimentul a avut loc!</p></div>;
+  if(tl?.total===0)return<div style={{textAlign:"center",padding:"12px 20px",border:"1.5px solid rgba(67,97,238,.3)",borderRadius:10,background:"rgba(27,40,56,.4)"}}><p style={{fontFamily:F.badge,fontSize:10,letterSpacing:".45em",textTransform:"uppercase",color:C.orange,margin:0}}> Evenimentul a avut loc!</p></div>;
   const isSoon=(tl?.total??0)<86400000;
   const vals=[tl?.days??0,tl?.hours??0,tl?.minutes??0,tl?.seconds??0];
   const lbls=["Zile","Ore","Min","Sec"];
   return (
     <div>
       <div style={{display:"flex",justifyContent:"center",marginBottom:14}}>
-        <span style={{fontFamily:F.badge,fontSize:10,letterSpacing:".48em",textTransform:"uppercase",color:C.orange,opacity:.8,padding:"4px 16px",border:"1px solid rgba(232,93,4,.3)",borderRadius:50}}>{isSoon?"🚨 Maine!":"⏱ Timp ramas"}</span>
+        <span style={{fontFamily:F.badge,fontSize:10,letterSpacing:".48em",textTransform:"uppercase",color:C.orange,opacity:.8,padding:"4px 16px",border:"1px solid rgba(232,93,4,.3)",borderRadius:50}}>{isSoon?" Maine!":" Timp ramas"}</span>
       </div>
       <div style={{display:"flex",justifyContent:"center",alignItems:"flex-start",gap:8}}>
         {vals.map((v,i)=>(
@@ -624,9 +620,9 @@ const Countdown: React.FC<{targetDate:string|undefined}> = ({targetDate}) => {
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CALENDAR — reference style
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// CALENDAR  reference style
+// 
 const CalendarMonth: React.FC<{date:string|undefined}> = ({date}) => {
   if(!date)return null;
   const d=new Date(date),year=d.getFullYear(),month=d.getMonth(),day=d.getDate();
@@ -652,9 +648,9 @@ const CalendarMonth: React.FC<{date:string|undefined}> = ({date}) => {
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// LOCATION CARD — exact from reference
-// ─────────────────────────────────────────────────────────────────────────────
+// 
+// LOCATION CARD  exact from reference
+// 
 const LocCard: React.FC<{block:InvitationBlock;editMode:boolean;onUpdate:(p:Partial<InvitationBlock>)=>void}> = ({block,editMode,onUpdate}) => {
   const addr=block.locationAddress||block.locationName||"";
   return (
@@ -690,16 +686,16 @@ const LocCard: React.FC<{block:InvitationBlock;editMode:boolean;onUpdate:(p:Part
         )}
         <div style={{display:"flex",gap:8,justifyContent:"center",marginTop:12}}>
           <InlineWaze value={block.wazeLink||""} onChange={v=>onUpdate({wazeLink:v})} editMode={editMode}/>
-          {addr&&<a href={`https://maps.google.com/?q=${encodeURIComponent(addr)}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:5,padding:"6px 16px",borderRadius:50,background:"transparent",color:C.sky,border:"1.5px solid rgba(67,97,238,.5)",fontFamily:F.badge,fontSize:10,letterSpacing:".3em",textTransform:"uppercase",textDecoration:"none"}}>◉ Maps</a>}
+          {addr&&<a href={`https://maps.google.com/?q=${encodeURIComponent(addr)}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:5,padding:"6px 16px",borderRadius:50,background:"transparent",color:C.sky,border:"1.5px solid rgba(67,97,238,.5)",fontFamily:F.badge,fontSize:10,letterSpacing:".3em",textTransform:"uppercase",textDecoration:"none"}}> Maps</a>}
         </div>
       </div>
     </div>
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // PHOTO BLOCK
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 type ClipShape = 'rect'|'rounded'|'rounded-lg'|'squircle'|'circle'|'arch'|'arch-b'|'hexagon'|'diamond'|'triangle'|'star'|'heart'|'diagonal'|'diagonal-r'|'wave-b'|'wave-t'|'wave-both'|'blob'|'blob2'|'blob3'|'blob4';
 type MaskEffect = 'fade-b'|'fade-t'|'fade-l'|'fade-r'|'vignette';
 function getClipStyle(clip: ClipShape): React.CSSProperties {
@@ -786,9 +782,9 @@ const PhotoBlock: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // MUSIC BLOCK
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const MusicBlock: React.FC<{
   block: InvitationBlock; editMode: boolean;
   onUpdate: (p: Partial<InvitationBlock>) => void;
@@ -863,12 +859,12 @@ const MusicBlock: React.FC<{
             <input value={ytUrl} onChange={e=>{setYtUrl(e.target.value);setYtError('');}} onKeyDown={e=>e.key==='Enter'&&!ytDownloading&&submitYt()} placeholder="https://youtu.be/..." autoFocus disabled={ytDownloading}
               style={{flex:1,background:"rgba(13,27,42,.8)",border:`1.5px solid ${ytError?'#ef4444':hexToRgba("#4361EE",.3)}`,borderRadius:10,padding:'9px 12px',fontFamily:F.badge,fontSize:11,color:C.white,outline:'none'}}/>
             <button type="button" onClick={submitYt} disabled={ytDownloading} style={{background:`linear-gradient(135deg,${C.orange},${C.orangePale})`,border:'none',borderRadius:10,padding:'0 14px',cursor:ytDownloading?'not-allowed':'pointer',color:C.city,fontWeight:800}}>
-              {ytDownloading?<div style={{width:14,height:14,border:'2px solid white',borderTopColor:'transparent',borderRadius:'50%',animation:'spin .7s linear infinite'}}/>:'✓'}
+              {ytDownloading?<div style={{width:14,height:14,border:'2px solid white',borderTopColor:'transparent',borderRadius:'50%',animation:'spin .7s linear infinite'}}/>:''}
             </button>
-            <button type="button" onClick={()=>{setShowYt(false);setYtUrl('');setYtError('');}} style={{background:"rgba(13,27,42,.8)",border:'none',borderRadius:10,padding:'0 10px',cursor:'pointer',color:"rgba(144,224,239,.5)"}}>✕</button>
+            <button type="button" onClick={()=>{setShowYt(false);setYtUrl('');setYtError('');}} style={{background:"rgba(13,27,42,.8)",border:'none',borderRadius:10,padding:'0 10px',cursor:'pointer',color:"rgba(144,224,239,.5)"}}></button>
           </div>
-          {ytDownloading&&<p style={{fontFamily:F.badge,fontSize:9,color:C.orange,margin:0,textAlign:'center',fontWeight:700}}>⏳ Se descarca...</p>}
-          {ytError&&<p style={{fontFamily:F.badge,fontSize:9,color:'#ef4444',margin:0}}>⚠ {ytError}</p>}
+          {ytDownloading&&<p style={{fontFamily:F.badge,fontSize:9,color:C.orange,margin:0,textAlign:'center',fontWeight:700}}> Se descarca...</p>}
+          {ytError&&<p style={{fontFamily:F.badge,fontSize:9,color:'#ef4444',margin:0}}> {ytError}</p>}
         </div>
       ))}
       {!isActive&&!editMode&&(
@@ -910,16 +906,16 @@ const MusicBlock: React.FC<{
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // BLOCK TOOLBAR
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: any) => {
   const btn: React.CSSProperties = { background:'none',border:'none',padding:5,borderRadius:99,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center' };
   const stop=(e:React.MouseEvent)=>e.stopPropagation();
   return (
     <div onClick={stop} style={{ position:'absolute',top:-18,right:6,zIndex:9999,display:'flex',alignItems:'center',gap:2,borderRadius:99,border:`2px solid ${hexToRgba(C.orange,.25)}`,backgroundColor:"rgba(27,40,56,.85)",boxShadow:'0 4px 16px rgba(0,0,0,.12)',padding:'3px 5px',pointerEvents:'auto' }}>
-      <button type="button" onClick={e=>{stop(e);onUp();}} disabled={isFirst} style={{...btn,opacity:isFirst?.2:1}}><ChevronUp style={{width:13,height:13,color:C.orange}}/></button>
-      <button type="button" onClick={e=>{stop(e);onDown();}} disabled={isLast} style={{...btn,opacity:isLast?.2:1}}><ChevronDown style={{width:13,height:13,color:C.orange}}/></button>
+      <button type="button" onClick={e=>{stop(e);onUp();}} disabled={isFirst} style={{...btn,opacity:isFirst ? .2 : 1}}><ChevronUp style={{width:13,height:13,color:C.orange}}/></button>
+      <button type="button" onClick={e=>{stop(e);onDown();}} disabled={isLast} style={{...btn,opacity:isLast ? .2 : 1}}><ChevronDown style={{width:13,height:13,color:C.orange}}/></button>
       <div style={{width:1,height:12,backgroundColor:hexToRgba(C.orange,.2),margin:'0 1px'}}/>
       <button type="button" onClick={e=>{stop(e);onToggle();}} style={btn}>
         {visible?<Eye style={{width:13,height:13,color:"#4361EE"}}/>:<EyeOff style={{width:13,height:13,color:"rgba(144,224,239,.5)"}}/>}
@@ -929,17 +925,36 @@ const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLa
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // INSERT BLOCK BUTTON
-// ─────────────────────────────────────────────────────────────────────────────
-const BLOCK_TYPE_ICONS: Record<string,string> = { photo:'🖼',text:'✏',location:'📍',calendar:'📅',countdown:'⏱',music:'🎵',gift:'🎁',whatsapp:'💬',rsvp:'✉',divider:'—',family:'👨‍👩‍👧',date:'📆',description:'📝',timeline:'🗓' };
+// 
+const BLOCK_TYPE_ICONS: Record<string, string> = {
+  photo: "IMG",
+  text: "TXT",
+  location: "LOC",
+  calendar: "CAL",
+  countdown: "TMR",
+  timeline: "TIME",
+  music: "MUS",
+  gift: "GFT",
+  whatsapp: "WA",
+  rsvp: "RSVP",
+  divider: "---",
+  family: "FAM",
+  date: "DATE",
+  description: "DESC",
+  title: "Aa",
+  godparents: "NAS",
+  parents: "PAR",
+  spacer: "SP",
+};
 const InsertBlockButton: React.FC<{ insertIdx:number; openInsertAt:number|null; setOpenInsertAt:(v:number|null)=>void; BLOCK_TYPES:{type:string;label:string;def:any}[]; onInsert:(type:string,def:any)=>void }> = ({ insertIdx, openInsertAt, setOpenInsertAt, BLOCK_TYPES, onInsert }) => {
   const isOpen=openInsertAt===insertIdx;
   const [hov,setHov]=React.useState(false);
   return (
     <div style={{position:'relative',display:'flex',alignItems:'center',justifyContent:'center',height:32,zIndex:20}} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}>
       <div style={{position:'absolute',left:0,right:0,height:2,background:`repeating-linear-gradient(to right,${hexToRgba(C.orange,.35)} 0,${hexToRgba(C.orange,.35)} 8px,transparent 8px,transparent 16px)`,borderRadius:99,zIndex:1}}/>
-      <button type="button" onClick={()=>setOpenInsertAt(isOpen?null:insertIdx)} style={{width:28,height:28,borderRadius:'50%',background:isOpen?`linear-gradient(135deg,${C.orange},${C.orangePale})`:"rgba(27,40,56,.85)",border:`2px solid ${hexToRgba(C.orange,.5)}`,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:isOpen?C.city:C.orange,boxShadow:`0 2px 10px ${hexToRgba(C.orange,.25)}`,opacity:1,transition:'transform .15s,background .15s',transform:(hov||isOpen)?'scale(1)':'scale(.7)',zIndex:2,position:'relative',lineHeight:1,fontWeight:800}}>{isOpen?'×':'+'}</button>
+      <button type="button" onClick={()=>setOpenInsertAt(isOpen?null:insertIdx)} style={{width:28,height:28,borderRadius:'50%',background:isOpen?`linear-gradient(135deg,${C.orange},${C.orangePale})`:"rgba(27,40,56,.85)",border:`2px solid ${hexToRgba(C.orange,.5)}`,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:isOpen?C.city:C.orange,boxShadow:`0 2px 10px ${hexToRgba(C.orange,.25)}`,opacity:1,transition:'transform .15s,background .15s',transform:(hov||isOpen)?'scale(1)':'scale(.7)',zIndex:2,position:'relative',lineHeight:1,fontWeight:800}}>{isOpen?'':'+'}</button>
       {isOpen&&(
         <div style={{position:'absolute',bottom:36,left:'50%',transform:'translateX(-50%)',background:"rgba(27,40,56,.85)",borderRadius:20,border:`2px solid ${hexToRgba(C.orange,.15)}`,boxShadow:`0 16px 48px rgba(0,0,0,.12)`,padding:16,zIndex:100,width:260}} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}>
           <p style={{fontFamily:F.badge,fontSize:'.5rem',fontWeight:800,letterSpacing:'.3em',textTransform:'uppercase',color:"rgba(144,224,239,.5)",margin:'0 0 10px',textAlign:'center'}}>Adauga bloc</p>
@@ -960,9 +975,9 @@ const InsertBlockButton: React.FC<{ insertIdx:number; openInsertAt:number|null; 
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // DEFAULTS
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 export const CASTLE_DEFAULTS = {
   partner1Name:         'Rex',
   partner2Name:         '',
@@ -977,7 +992,7 @@ export const CASTLE_DEFAULTS = {
   castleInviteTop:      'Cu multa bucurie va anuntam',
   castleInviteMiddle:   '',
   castleInviteBottom:   'va fi botezat',
-  castleInviteTag:      '★ deschide orasul ★',
+  castleInviteTag:      ' deschide orasul ',
   colorTheme:           'default',
 };
 
@@ -1005,9 +1020,9 @@ export const CASTLE_PREVIEW_DATA = {
   profile:{...CASTLE_DEFAULTS,weddingDate:new Date(Date.now()+60*24*60*60*1000).toISOString().split('T')[0],customSections:JSON.stringify(CASTLE_DEFAULT_BLOCKS)},
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 // MAIN TEMPLATE
-// ─────────────────────────────────────────────────────────────────────────────
+// 
 const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
   editMode?: boolean; introPreview?: boolean;
   onProfileUpdate?: (patch: Record<string,any>) => void;
@@ -1086,7 +1101,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
   const updateTimelineItem=(id:string,patch:any)=>updateTimeline(getTimelineItems().map((t:any)=>t.id===id?{...t,...patch}:t));
   const removeTimelineItem=(id:string)=>updateTimeline(getTimelineItems().filter((t:any)=>t.id!==id));
 
-  // Global config — door images per theme
+  // Global config  door images per theme
   const [globalConfig, setGlobalConfig] = useState<Record<string, any>>({});
   useEffect(() => {
     fetch(`${API_URL}/config/template-defaults/${meta.id}`)
@@ -1119,25 +1134,25 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
   },[onProfileUpdate,onBlocksUpdate,pr.weddingDate]);
 
   const BLOCK_TYPES = [
-    {type:'photo',      label:'📷 Foto',     def:{imageData:'',aspectRatio:'1:1',photoClip:'rect',photoMasks:[]}},
-    {type:'text',       label:'Text',         def:{content:'Orice animal poate fi orice vrea...'}},
-    {type:'location',   label:'Locatie',      def:{label:'Locatie',time:'11:00',locationName:'Zootropolis',locationAddress:'Adresa'}},
-    {type:'calendar',   label:'📅 Calendar', def:{}},
-    {type:'countdown',  label:'⏱ Countdown', def:{}},
-    {type:'timeline',   label:'🗓 Cronologie',def:{}},
-    {type:'music',      label:'🎵 Muzica',   def:{musicTitle:'',musicArtist:'',musicType:'none'}},
-    {type:'gift',       label:'🎁 Cadouri',  def:{sectionTitle:'Sugestie cadou',content:'',iban:'',ibanName:''}},
-    {type:'whatsapp',   label:'WhatsApp',     def:{label:'Contact WhatsApp',content:'0700000000'}},
-    {type:'rsvp',       label:'RSVP',         def:{label:'Confirma Prezenta'}},
-    {type:'divider',    label:'Linie',        def:{}},
-    {type:'family',     label:'👨‍👩‍👧 Familie',def:{label:'Parintii',content:'Cu drag',members:JSON.stringify([{name1:'Mama',name2:'Tata'}])}},
-    {type:'date',       label:'📆 Data',      def:{}},
-    {type:'description',label:'Descriere',    def:{content:'O scurta descriere...'}},
+    {type:'photo',      label: 'Foto',     def:{imageData:'',aspectRatio:'1:1',photoClip:'rect',photoMasks:[]}},
+    {type:'text',       label: 'Text',         def:{content:'Orice animal poate fi orice vrea...'}},
+    {type:'location',   label: 'Locatie',      def:{label: 'Locatie',time:'11:00',locationName:'Zootropolis',locationAddress:'Adresa'}},
+    {type:'calendar',   label: 'Calendar', def:{}},
+    {type:'countdown',  label: 'Countdown', def:{}},
+    {type:'timeline',   label: 'Cronologie',def:{}},
+    {type:'music',      label: 'Muzica',   def:{musicTitle:'',musicArtist:'',musicType:'none'}},
+    {type:'gift',       label: 'Cadouri',  def:{sectionTitle:'Sugestie cadou',content:'',iban:'',ibanName:''}},
+    {type:'whatsapp',   label: 'WhatsApp',     def:{label: 'WhatsApp',content:'0700000000'}},
+    {type:'rsvp',       label: 'RSVP',         def:{label:'Confirma Prezenta'}},
+    {type:'divider',    label: 'Linie',        def:{}},
+    {type:'family',     label: 'Familie',def:{label:'Parintii',content:'Cu drag',members:JSON.stringify([{name1:'Mama',name2:'Tata'}])}},
+    {type:'date',       label: 'Data',      def:{}},
+    {type:'description',label: 'Descriere',    def:{content:'O scurta descriere...'}},
   ];
 
   // Deco images cycling per block
   const decoImages = [IMG_NICK, IMG_JUDY, IMG_BADGE, IMG_CARROT, IMG_FLOWER, IMG_STARS];
-  const familyIcons = ['🦊','🐰','🐘','🦁','🐻','🐼'];
+  const familyIcons = ['','','','','',''];
 
   const fullCSS = ZT_CSS + ' html,body{background:' + C.city + '!important;}';
 
@@ -1190,21 +1205,21 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
         </div>
       )}
 
-      {/* ── MAIN CONTENT ── */}
+      {/*  MAIN CONTENT  */}
       <div
         ref={el=>{contentRef.current=el;setContentEl(el);}}
         style={{ minHeight:'100vh', fontFamily:F.badge, position:'relative', paddingBottom:80 }}>
 
-        {/* Background decoration — floating shapes */}
+        {/* Background decoration  floating shapes */}
         <div style={{position:'fixed',top:'5%',right:'-5%',width:280,height:280,borderRadius:'50%',background:`radial-gradient(circle,${hexToRgba(C.orange,.08)} 0%,transparent 70%)`,pointerEvents:'none',zIndex:0}}/>
         <div style={{position:'fixed',bottom:'15%',left:'-5%',width:240,height:240,borderRadius:'50%',background:`radial-gradient(circle,${hexToRgba(C.steelLight,.08)} 0%,transparent 70%)`,pointerEvents:'none',zIndex:0}}/>
         <div style={{position:'fixed',top:'45%',left:'50%',transform:'translateX(-50%)',width:400,height:200,borderRadius:'50%',background:`radial-gradient(ellipse,${hexToRgba(C.orangePale,.05)} 0%,transparent 70%)`,pointerEvents:'none',zIndex:0}}/>
-        {/* Decorative city buildings — fixed */}
+        {/* Decorative city buildings  fixed */}
         <img src={IMG_CITY1} alt="" style={{position:'fixed',bottom:0,left:0,width:100,opacity:.12,pointerEvents:'none',zIndex:0}}/>
         <img src={IMG_CITY2} alt="" style={{position:'fixed',bottom:0,right:0,width:100,opacity:.12,pointerEvents:'none',zIndex:0}}/>
         <div style={{position:"relative",zIndex:2,maxWidth:440,margin:"0 auto",padding:"36px 16px 0"}}>
 
-          {/* ── HERO CARD — exact from reference ── */}
+          {/*  HERO CARD  exact from reference  */}
           <BlockStyleProvider value={{blockId:"__hero__",textStyles:pr.heroTextStyles||{},onTextSelect:(k,l)=>onBlockSelect?.({id:"__hero__",type:"__hero__" as any,show:true} as any,-1,k,l)}}>
             <Reveal from="fade">
               <div style={{...getSectionStyle(),textAlign:"center",padding:"0 0 28px",borderTop:`3px solid ${C.orange}`,overflow:"hidden"}}>
@@ -1226,7 +1241,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
                       <ZPDBadge size={40}/>
                       <div style={{flex:1,height:".7px",background:`linear-gradient(to left,transparent,${C.orange})`,opacity:.4}}/>
                     </div>
-                    <p style={{fontFamily:F.badge,fontSize:9,letterSpacing:".62em",textTransform:"uppercase",color:C.orange,margin:"0 0 12px",opacity:.9}}>Zootropolis · Invitatie Oficiala</p>
+                    <p style={{fontFamily:F.badge,fontSize:9,letterSpacing:".62em",textTransform:"uppercase",color:C.orange,margin:"0 0 12px",opacity:.9}}>Zootropolis  Invitatie Oficiala</p>
                   </Reveal>
 
                   {p.showWelcomeText&&(
@@ -1264,11 +1279,11 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
 
                   <div style={{margin:"22px 0",display:"flex",alignItems:"center",gap:12}}>
                     <div style={{flex:1,height:".7px",background:`linear-gradient(to right,transparent,${C.steelLight})`,opacity:.45}}/>
-                    <span style={{color:"rgba(67,97,238,.55)",fontSize:12}}>✦</span>
+                    <span style={{color:"rgba(67,97,238,.55)",fontSize:12}}></span>
                     <div style={{flex:1,height:".7px",background:`linear-gradient(to left,transparent,${C.steelLight})`,opacity:.45}}/>
                   </div>
 
-                  {/* DATE — exact reference */}
+                  {/* DATE  exact reference */}
                   <Reveal from="bottom" delay={0.35}>
                     <div style={{display:"grid",gridTemplateColumns:"1fr auto 1fr",alignItems:"center",gap:14,marginBottom:24}}>
                       <div style={{textAlign:"right"}}>
@@ -1298,7 +1313,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
                   {/* GUEST */}
                   <Reveal from="bottom" delay={0.45}>
                     <div style={{padding:"16px 20px",background:"rgba(27,40,56,.4)",border:"1.5px solid rgba(232,93,4,.22)",borderLeft:`4px solid ${C.orange}`,borderRadius:10,position:"relative"}}>
-                      <p style={{fontFamily:F.badge,fontSize:8,letterSpacing:".55em",textTransform:"uppercase",color:"rgba(232,93,4,.55)",margin:"0 0 6px"}}>🐾 Invitatie pentru</p>
+                      <p style={{fontFamily:F.badge,fontSize:8,letterSpacing:".55em",textTransform:"uppercase",color:"rgba(232,93,4,.55)",margin:"0 0 6px"}}> Invitatie pentru</p>
                       <p style={{fontFamily:F.display,fontWeight:900,fontSize:19,color:C.white,margin:0,letterSpacing:1.5,textShadow:"0 0 16px rgba(232,93,4,.3)"}}>{guest?.name||"Invitatul Special"}</p>
                     </div>
                   </Reveal>
@@ -1307,7 +1322,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
             </Reveal>
           </BlockStyleProvider>
 
-          {/* ── BLOCKS ── */}
+          {/*  BLOCKS  */}
           <div style={{display:"flex",flexDirection:"column",gap:0}}>
             {editMode&&<InsertBlockButton insertIdx={-1} openInsertAt={openInsertAt} setOpenInsertAt={setOpenInsertAt} BLOCK_TYPES={BLOCK_TYPES} onInsert={(t,d)=>handleInsertAt(-1,t,d)}/>}
 
@@ -1315,7 +1330,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
               <div key={block.id} style={{position:"relative"}}>
                 {editMode&&<BlockToolbar onUp={()=>movBlock(idx,-1)} onDown={()=>movBlock(idx,1)} onToggle={()=>updBlock(idx,{show:!block.show})} onDelete={()=>delBlock(idx)} visible={block.show!==false} isFirst={idx===0} isLast={idx===blocks.length-1}/>}
 
-                <div style={{position:"relative",padding:"6px 0",opacity:block.show===false?.4:1}} onClick={editMode?()=>onBlockSelect?.(block,idx):undefined}>
+                <div style={{position:"relative",padding:"6px 0",opacity:block.show===false ? .4 : 1}} onClick={editMode?()=>onBlockSelect?.(block,idx):undefined}>
                   <BlockStyleProvider value={{blockId:block.id,textStyles:(block as any).textStyles,onTextSelect:(k,l)=>onBlockSelect?.(block,idx,k,l)}}>
 
                     {editMode&&block.show===false&&(
@@ -1342,7 +1357,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
                         onMouseLeave={e=>{const b=e.currentTarget as HTMLButtonElement;b.style.transform="scale(1)";b.style.boxShadow="0 6px 28px rgba(232,93,4,.55),0 0 0 3px rgba(232,93,4,.2)";}}>
                         <div style={{position:"absolute",inset:0,background:"linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)",backgroundSize:"200% 100%",animation:"zt-shimmer 2s linear infinite",borderRadius:50}}/>
                         <span style={{position:"relative"}}>
-                          <InlineEdit editMode={editMode} value={`🐾 ${block.label||"Confirma Prezenta"} 🐾`} onChange={v=>updBlock(idx,{label:v.replace(/🐾/g,"").trim()})}/>
+                          <InlineEdit editMode={editMode} value={` ${block.label||"Confirma Prezenta"} `} onChange={v=>updBlock(idx,{label:v.trim()})}/>
                         </span>
                       </button>
                     )}
@@ -1405,7 +1420,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
                           <div style={{...getSectionStyle()}}>
                             <div style={scanlines}/>
                             <div style={{position:"relative",zIndex:1}}>
-                              <p style={{fontFamily:F.badge,fontSize:9,letterSpacing:".55em",textTransform:"uppercase",color:C.orange,textAlign:"center",margin:"0 0 18px",opacity:.9}}>🐾 Programul Zilei</p>
+                              <p style={{fontFamily:F.badge,fontSize:9,letterSpacing:".55em",textTransform:"uppercase",color:C.orange,textAlign:"center",margin:"0 0 18px",opacity:.9}}> Programul Zilei</p>
                               {!items.length&&editMode&&<p style={{fontFamily:F.body,fontSize:12,fontStyle:"italic",color:"rgba(144,224,239,.4)",textAlign:"center",margin:"0 0 14px"}}>Adauga primul moment al zilei</p>}
                               <div style={{display:"flex",flexDirection:"column"}}>
                                 {items.map((item:any,i:number)=>(
@@ -1420,7 +1435,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
                                     <div style={{paddingLeft:12,paddingTop:2,paddingBottom:i<items.length-1?18:0}}>
                                       <InlineEdit editMode={editMode} value={item.title||""} onChange={v=>updateTimelineItem(item.id,{title:v})} placeholder="Moment..." style={{fontFamily:F.body,fontSize:13,fontWeight:700,fontStyle:"italic",color:"rgba(144,224,239,.7)"}}/>
                                     </div>
-                                    {editMode&&<button type="button" onClick={e=>{e.stopPropagation();removeTimelineItem(item.id);}} style={{background:"none",border:"none",cursor:"pointer",color:"rgba(144,224,239,.35)",fontSize:12,padding:"4px 2px",alignSelf:"flex-start",lineHeight:1}}>✕</button>}
+                                    {editMode&&<button type="button" onClick={e=>{e.stopPropagation();removeTimelineItem(item.id);}} style={{background:"none",border:"none",cursor:"pointer",color:"rgba(144,224,239,.35)",fontSize:12,padding:"4px 2px",alignSelf:"flex-start",lineHeight:1}}></button>}
                                   </div>
                                 ))}
                               </div>
@@ -1464,7 +1479,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
                             </div>
                             <div style={{textAlign:"left"}}>
                               <InlineEdit tag="p" editMode={editMode} value={block.label||"Contact WhatsApp"} onChange={v=>updBlock(idx,{label:v})} style={{fontFamily:F.display,fontWeight:900,fontSize:13,color:C.white,margin:0,letterSpacing:1}}/>
-                              <p style={{fontFamily:F.body,fontSize:10,color:"rgba(144,224,239,.45)",margin:0}}>Raspundem rapid 🐰</p>
+                              <p style={{fontFamily:F.body,fontSize:10,color:"rgba(144,224,239,.45)",margin:0}}>Raspundem rapid </p>
                             </div>
                           </a>
                           {editMode&&(
@@ -1495,7 +1510,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
                                       <InlineEdit tag="span" editMode={editMode} value={m.name1} onChange={v=>{const nm=[...members];nm[mi]={...nm[mi],name1:v};updateMembers(nm);}} style={{fontFamily:F.body,fontSize:17,fontWeight:800,color:"rgba(144,224,239,.85)",letterSpacing:1.5}}/>
                                       <span style={{color:C.orange,margin:"0 10px",fontSize:16}}>&amp;</span>
                                       <InlineEdit tag="span" editMode={editMode} value={m.name2} onChange={v=>{const nm=[...members];nm[mi]={...nm[mi],name2:v};updateMembers(nm);}} style={{fontFamily:F.body,fontSize:17,fontWeight:800,color:"rgba(144,224,239,.85)",letterSpacing:1.5}}/>
-                                      {editMode&&members.length>1&&<button type="button" onClick={()=>updateMembers(members.filter((_,i)=>i!==mi))} style={{background:"none",border:"none",cursor:"pointer",color:"rgba(144,224,239,.35)",fontSize:13,lineHeight:1}}>✕</button>}
+                                      {editMode&&members.length>1&&<button type="button" onClick={()=>updateMembers(members.filter((_,i)=>i!==mi))} style={{background:"none",border:"none",cursor:"pointer",color:"rgba(144,224,239,.35)",fontSize:13,lineHeight:1}}></button>}
                                     </div>
                                     {mi<members.length-1&&<div style={{height:".7px",margin:"8px 32px",background:"linear-gradient(to right,transparent,rgba(67,97,238,.3),transparent)"}}/>}
                                   </div>
@@ -1545,7 +1560,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
             </div>
           )}
 
-          {/* FOOTER — exact reference */}
+          {/* FOOTER  exact reference */}
           <Reveal from="fade" delay={0.1}>
             <div style={{marginTop:28,textAlign:"center"}}>
               <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}>
@@ -1561,7 +1576,7 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
                   <img src={IMG_JUDY} alt="Judy" style={{height:70,objectFit:"contain",filter:"drop-shadow(0 4px 14px rgba(67,97,238,.35)) brightness(.9)"}}/>
                 </div>
               </div>
-              <p style={{fontFamily:F.badge,fontSize:9,letterSpacing:".45em",textTransform:"uppercase",color:"rgba(232,93,4,.3)",margin:0}}>Zootropolis · Departamentul Petrecerilor · {displayYear}</p>
+              <p style={{fontFamily:F.badge,fontSize:9,letterSpacing:".45em",textTransform:"uppercase",color:"rgba(232,93,4,.3)",margin:0}}>Zootropolis  Departamentul Petrecerilor  {displayYear}</p>
             </div>
           </Reveal>
 
@@ -1573,3 +1588,5 @@ const ZootropolisTemplate: React.FC<InvitationTemplateProps & {
 };
 
 export default ZootropolisTemplate;
+
+
