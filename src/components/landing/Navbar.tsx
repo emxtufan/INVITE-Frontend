@@ -135,8 +135,8 @@ export default function Navbar() {
                 <a href="/" className="wp-nav-logo" aria-label="ESA home">
                   <span className="wp-nav-logo-icon">ESA</span>
                   <span className="wp-nav-brand-copy">
-                    <strong>Esa Events</strong>
-                    <span>Invitatii digitale premium</span>
+                    <strong>Event Smart Assistant</strong>
+                    {/* <span>Invitatii digitale premium</span> */}
                   </span>
                 </a>
               </div>
