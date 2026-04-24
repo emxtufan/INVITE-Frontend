@@ -36,6 +36,9 @@ import {
 import {
   CASTLE_DEFAULTS as LUXURY_STYLE_DEFAULTS,
 } from "./luxury-style-simple-full";
+import {
+  CASTLE_DEFAULTS as LILO_AND_STITCH_DEFAULTS,
+} from "./LiloAndStitchTemplate";
 import { getSharedDefaultBlocks } from "./shared-default-blocks";
 
 type DefaultsEntry = {
@@ -334,6 +337,11 @@ const SIMPLE_DEFAULTS_REGISTRY: Record<string, DefaultsEntry> = {
       "mickey-mouse-invitation",
       "mickey-mouse",
     ],
+  },
+  "lilo-and-stitch-simple": {
+    profileDefaults: LILO_AND_STITCH_DEFAULTS as Partial<UserProfile>,
+    blocks: getSharedDefaultBlocks("lilo-and-stitch-simple"),
+    configTemplateIds: ["lilo-and-stitch-simple", "lilo-and-stitch"],
   },
   "adventure-road-simple": {
     profileDefaults: ADVENTURE_DEFAULTS as Partial<UserProfile>,

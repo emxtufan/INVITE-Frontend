@@ -2,6 +2,7 @@ import { InvitationBlock } from "../../types";
 import SIMPLE_UNIFIED_DEFAULT_BLOCKS_JSON from "./default-blocks.json";
 import SIMPLE_WEDDING_DEFAULT_BLOCKS_JSON from "./default-blocks-wedding.json";
 import SIMPLE_MICKEY_DEFAULT_BLOCKS_JSON from "./default-blocks-mickey.json";
+import { LILO_DEFAULT_BLOCKS } from "./LiloAndStitchTemplate";
 
 const BASE_DEFAULT_BLOCKS =
   SIMPLE_UNIFIED_DEFAULT_BLOCKS_JSON as unknown as InvitationBlock[];
@@ -12,6 +13,8 @@ const MICKEY_SHARED_BLOCKS =
 
 const TEMPLATE_SPECIFIC_DEFAULT_BLOCKS: Record<string, InvitationBlock[]> = {
   "mickey-mouse-simple": MICKEY_SHARED_BLOCKS,
+  "lilo-and-stitch-simple":
+    LILO_DEFAULT_BLOCKS as unknown as InvitationBlock[],
 };
 
 const WEDDING_TEMPLATE_IDS = new Set([

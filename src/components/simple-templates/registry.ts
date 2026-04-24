@@ -54,6 +54,9 @@ import OfficeSimpleTemplate, {
 import MickeyMouseSimpleTemplate, {
   MICKEY_MOUSE_SIMPLE_PALETTES,
 } from "./mickey-mouse-simple";
+import LiloAndStitchSimpleTemplate, {
+  LILO_AND_STITCH_SIMPLE_PALETTES,
+} from "./lilo-and-stitch-simple";
 
 export const SIMPLE_TEMPLATE_DEFINITIONS: SimpleTemplateDefinition[] = [
   {
@@ -162,6 +165,15 @@ export const SIMPLE_TEMPLATE_DEFINITIONS: SimpleTemplateDefinition[] = [
     showPaletteImagePreview: false,
     palettes: MICKEY_MOUSE_SIMPLE_PALETTES,
     component: MickeyMouseSimpleTemplate,
+  },
+  {
+    id: "lilo-and-stitch-simple",
+    name: "Lilo & Stitch",
+    description: "Template tropical inspirat din Lilo & Stitch, cu look oceanic si accente hawaiiene.",
+    supportsIntroEditor: false,
+    showPaletteImagePreview: false,
+    palettes: LILO_AND_STITCH_SIMPLE_PALETTES,
+    component: LiloAndStitchSimpleTemplate,
   },
   {
     id: "adventure-road-simple",

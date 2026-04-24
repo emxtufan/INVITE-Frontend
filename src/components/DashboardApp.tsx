@@ -732,6 +732,7 @@ const DashboardApp = () => {
         "castle-magic-girl-simple",
         "gabbys-dollhouse-simple",
         "spiderman-simple",
+        "lilo-and-stitch-simple",
         "adventure-road-simple",
         "frozen-simple",
         "jurassic-park-simple",

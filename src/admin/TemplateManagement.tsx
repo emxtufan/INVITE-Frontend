@@ -6,6 +6,13 @@ import { TemplateVisibilityStatus } from '../components/invitations/types';
 import { TEMPLATEURI_SAMPLE } from '../components/templateuri_sample';
 import { API_URL } from '../config/api';
 import {
+  GLOBAL_TUTORIAL_VIDEO_CONFIG_ID,
+  getTutorialVideoUrlsFromConfig,
+  resolveTutorialVideoMedia,
+  type TutorialVideoStepId,
+  type TutorialVideoUrls,
+} from '../lib/tutorial-video';
+import {
   getSimpleTemplateConfigLookupIds,
   getSimpleTemplateDefaultBlocks,
 } from '../components/simple-templates/defaults-registry';
@@ -186,6 +193,33 @@ const CASTEL_REGAL_THEMES: CastleColorTheme[] = Array.from(
 
 const emptyConfig = (): VariantConfig => ({ colorTheme: 'default', themeImages: {}, introVariants: {} });
 
+interface GlobalTutorialVideoConfig {
+  videoUrl?: string | null;
+  tutorialVideos?: TutorialVideoUrls;
+}
+
+const TUTORIAL_VIDEO_FIELDS: Array<{
+  id: TutorialVideoStepId;
+  title: string;
+  description: string;
+}> = [
+  {
+    id: 'design',
+    title: 'Design & Configurare',
+    description: 'Primul card din frontend. Acest video ramane si fallback pentru popup-ul din Step 4.',
+  },
+  {
+    id: 'guests',
+    title: 'Guest Management',
+    description: 'Al doilea card din frontend, pentru lista de invitati si RSVP-uri.',
+  },
+  {
+    id: 'advanced',
+    title: 'Functii Avansate',
+    description: 'Al treilea card din frontend, pentru automatizari si functii extra.',
+  },
+];
+
 // ── Component ─────────────────────────────────────────────────────────────────
 const TemplateManagement: React.FC = () => {
   const [configs,  setConfigs]  = useState<AllConfigs>({});
@@ -211,6 +245,10 @@ const TemplateManagement: React.FC = () => {
   const [demoEditorLoading, setDemoEditorLoading] = useState(false);
   const [demoEditorSaving, setDemoEditorSaving] = useState(false);
   const [demoEditorData, setDemoEditorData] = useState<DemoEditorState | null>(null);
+  const [tutorialVideoConfig, setTutorialVideoConfig] = useState<GlobalTutorialVideoConfig>({});
+  const [tutorialVideoLoading, setTutorialVideoLoading] = useState(false);
+  const [tutorialVideoSaving, setTutorialVideoSaving] = useState(false);
+  const [tutorialVideoSaved, setTutorialVideoSaved] = useState(false);
 
   const sampleEventTypesByTemplateId = useMemo(
     () =>
@@ -258,11 +296,104 @@ const TemplateManagement: React.FC = () => {
     [eventFilter, marketplaceTemplates, sourceFilter, templateEventFiltersById],
   );
 
+  const tutorialVideoPreview = useMemo(
+    () =>
+      Object.fromEntries(
+        TUTORIAL_VIDEO_FIELDS.map((field) => [
+          field.id,
+          resolveTutorialVideoMedia(
+            field.id === 'design'
+              ? tutorialVideoConfig.tutorialVideos?.design || tutorialVideoConfig.videoUrl
+              : tutorialVideoConfig.tutorialVideos?.[field.id],
+          ),
+        ]),
+      ) as Record<TutorialVideoStepId, ReturnType<typeof resolveTutorialVideoMedia>>,
+    [tutorialVideoConfig.tutorialVideos, tutorialVideoConfig.videoUrl],
+  );
+
   // ── Load all variants on mount ─────────────────────────────────────────────
   useEffect(() => {
     VARIANTS.forEach(v => loadVariant(v.id));
     loadTemplateVisibility();
+    void loadGlobalTutorialVideoConfig();
   }, []);
+
+  const loadGlobalTutorialVideoConfig = async () => {
+    setTutorialVideoLoading(true);
+    try {
+      const res = await fetch(
+        `${API_URL}/admin/config/template-defaults/${encodeURIComponent(GLOBAL_TUTORIAL_VIDEO_CONFIG_ID)}`,
+        {
+          headers: { Authorization: `Bearer ${tok()}` },
+          cache: 'no-store',
+        },
+      );
+      if (!res.ok) {
+        setTutorialVideoConfig({});
+        return;
+      }
+      const cfg = await res.json().catch(() => null);
+      setTutorialVideoConfig({
+        videoUrl: typeof cfg?.videoUrl === 'string' ? cfg.videoUrl : '',
+        tutorialVideos: getTutorialVideoUrlsFromConfig(cfg),
+      });
+    } catch (e) {
+      console.error('Nu am putut incarca configurarea video demo.', e);
+      setTutorialVideoConfig({});
+    } finally {
+      setTutorialVideoLoading(false);
+    }
+  };
+
+  const saveGlobalTutorialVideoConfig = async () => {
+    setTutorialVideoSaving(true);
+    setTutorialVideoSaved(false);
+    try {
+      const currentRes = await fetch(
+        `${API_URL}/admin/config/template-defaults/${encodeURIComponent(GLOBAL_TUTORIAL_VIDEO_CONFIG_ID)}`,
+        {
+          headers: { Authorization: `Bearer ${tok()}` },
+          cache: 'no-store',
+        },
+      );
+      const current =
+        currentRes.ok ? await currentRes.json().catch(() => ({})) : {};
+      const payload = {
+        ...(current && typeof current === 'object' ? current : {}),
+        videoUrl: String(tutorialVideoConfig.videoUrl || '').trim() || null,
+        tutorialVideos: {
+          design: String(
+            tutorialVideoConfig.tutorialVideos?.design ||
+              tutorialVideoConfig.videoUrl ||
+              '',
+          ).trim(),
+          guests: String(tutorialVideoConfig.tutorialVideos?.guests || '').trim(),
+          advanced: String(tutorialVideoConfig.tutorialVideos?.advanced || '').trim(),
+        },
+      };
+      const res = await fetch(
+        `${API_URL}/admin/config/template-defaults/${encodeURIComponent(GLOBAL_TUTORIAL_VIDEO_CONFIG_ID)}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${tok()}`,
+          },
+          body: JSON.stringify(payload),
+        },
+      );
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.error || 'Nu am putut salva video-ul demo.');
+      }
+      setTutorialVideoSaved(true);
+      setTimeout(() => setTutorialVideoSaved(false), 2200);
+    } catch (e: any) {
+      alert(e?.message || 'Nu am putut salva video-ul demo.');
+    } finally {
+      setTutorialVideoSaving(false);
+    }
+  };
 
   const normalizeTemplateStatus = (value: any): TemplateVisibilityStatus =>
     value === 'coming_soon' ? 'coming_soon' : 'live';
@@ -1126,6 +1257,158 @@ Fisierele vor fi sterse permanent.`)) return;
         </p>
       </div>
 
+      <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e5e7eb', padding: '18px 18px 20px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'flex-start', justifyContent: 'space-between' }}>
+          <div style={{ minWidth: 260, flex: '1 1 320px' }}>
+            <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: '#111' }}>Video demo global</h3>
+            <p style={{ margin: '4px 0 0', fontSize: 12, color: '#6b7280', lineHeight: 1.5 }}>
+              Acest video apare in frontend la <strong>Design &amp; Configurare</strong> si in popup-ul de ajutor din <strong>Step 4</strong> din wizard.
+            </p>
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <button
+              type="button"
+              onClick={() => void loadGlobalTutorialVideoConfig()}
+              disabled={tutorialVideoLoading || tutorialVideoSaving}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 12px', borderRadius: 9, border: '1px solid #e5e7eb', background: 'white', color: '#374151', fontSize: 11, fontWeight: 700, cursor: tutorialVideoLoading || tutorialVideoSaving ? 'not-allowed' : 'pointer', opacity: tutorialVideoLoading || tutorialVideoSaving ? 0.7 : 1 }}
+            >
+              <RefreshCw size={12} style={{ animation: tutorialVideoLoading ? 'spin 0.7s linear infinite' : 'none' }} />
+              Reincarca
+            </button>
+            <button
+              type="button"
+              onClick={() => void saveGlobalTutorialVideoConfig()}
+              disabled={tutorialVideoSaving}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 9, border: 'none', background: tutorialVideoSaved ? '#10b981' : '#111827', color: 'white', fontSize: 11, fontWeight: 700, cursor: tutorialVideoSaving ? 'not-allowed' : 'pointer', opacity: tutorialVideoSaving ? 0.7 : 1 }}
+            >
+              {tutorialVideoSaving ? <Loader2 size={12} style={{ animation: 'spin 0.7s linear infinite' }} /> : tutorialVideoSaved ? <Check size={12} /> : <Save size={12} />}
+              {tutorialVideoSaving ? 'Se salveaza...' : tutorialVideoSaved ? 'Salvat!' : 'Salveaza video'}
+            </button>
+          </div>
+        </div>
+
+        <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, alignItems: 'start' }}>
+          {TUTORIAL_VIDEO_FIELDS.map((field) => {
+            const currentUrl =
+              field.id === 'design'
+                ? String(
+                    tutorialVideoConfig.tutorialVideos?.design ||
+                      tutorialVideoConfig.videoUrl ||
+                      '',
+                  )
+                : String(tutorialVideoConfig.tutorialVideos?.[field.id] || '');
+            const preview = tutorialVideoPreview[field.id];
+
+            return (
+              <div key={field.id} style={{ border: '1px solid #e5e7eb', borderRadius: 14, padding: 14, background: '#fff', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 800, color: '#111' }}>{field.title}</p>
+                  <p style={{ margin: '4px 0 0', fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>
+                    {field.description}
+                  </p>
+                </div>
+
+                <label style={{ display: 'flex', flexDirection: 'column', gap: 5, fontSize: 11, color: '#6b7280', fontWeight: 700 }}>
+                  URL video
+                  <input
+                    value={currentUrl}
+                    onChange={(e) =>
+                      setTutorialVideoConfig((prev) => {
+                        const nextTutorialVideos = {
+                          ...(prev.tutorialVideos || {}),
+                          [field.id]: e.target.value,
+                        };
+                        return {
+                          ...prev,
+                          videoUrl: field.id === 'design' ? e.target.value : prev.videoUrl,
+                          tutorialVideos: nextTutorialVideos,
+                        };
+                      })
+                    }
+                    placeholder="https://youtube.com/... sau /uploads/demo.mp4"
+                    style={{ borderRadius: 10, border: '1px solid #e5e7eb', background: '#fff', color: '#111', fontSize: 12, fontWeight: 600, padding: '10px 12px' }}
+                  />
+                </label>
+
+                <MiniVideoField
+                  label={`Upload video ${field.title}`}
+                  helperText={
+                    field.id === 'design'
+                      ? 'Acest video apare si in popup-ul de ajutor din Step 4.'
+                      : 'Video dedicat pentru acest card din frontend.'
+                  }
+                  url={currentUrl}
+                  accentColor="#111827"
+                  onUpload={(url) =>
+                    setTutorialVideoConfig((prev) => {
+                      const nextTutorialVideos = {
+                        ...(prev.tutorialVideos || {}),
+                        [field.id]: url,
+                      };
+                      return {
+                        ...prev,
+                        videoUrl: field.id === 'design' ? url : prev.videoUrl,
+                        tutorialVideos: nextTutorialVideos,
+                      };
+                    })
+                  }
+                  onRemove={() =>
+                    setTutorialVideoConfig((prev) => {
+                      const nextTutorialVideos = {
+                        ...(prev.tutorialVideos || {}),
+                        [field.id]: '',
+                      };
+                      return {
+                        ...prev,
+                        videoUrl: field.id === 'design' ? '' : prev.videoUrl,
+                        tutorialVideos: nextTutorialVideos,
+                      };
+                    })
+                  }
+                />
+
+                <div style={{ border: '1px solid #e5e7eb', borderRadius: 14, overflow: 'hidden', background: '#0b1120', minHeight: 220 }}>
+                  <div style={{ padding: '10px 12px', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                    <div>
+                      <p style={{ margin: 0, fontSize: 12, fontWeight: 800, color: 'white' }}>Preview</p>
+                      <p style={{ margin: '3px 0 0', fontSize: 10, color: 'rgba(255,255,255,0.55)' }}>
+                        Asa va aparea pe cardul {field.title.toLowerCase()}.
+                      </p>
+                    </div>
+                    {preview ? (
+                      <span style={{ fontSize: 9, fontWeight: 700, color: '#fde68a', background: 'rgba(250,204,21,0.12)', border: '1px solid rgba(250,204,21,0.35)', borderRadius: 999, padding: '3px 7px' }}>
+                        Activ
+                      </span>
+                    ) : null}
+                  </div>
+
+                  <div style={{ padding: 12 }}>
+                    <div style={{ borderRadius: 12, overflow: 'hidden', background: '#000', aspectRatio: '16 / 9', border: '1px solid rgba(255,255,255,0.08)' }}>
+                      {preview ? (
+                        preview.type === 'video' ? (
+                          <video src={preview.src} controls preload="metadata" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        ) : (
+                          <iframe
+                            src={preview.src}
+                            title={`Preview ${field.title}`}
+                            style={{ width: '100%', height: '100%', border: 'none' }}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          />
+                        )
+                      ) : (
+                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, textAlign: 'center', color: 'rgba(255,255,255,0.52)', fontSize: 12, lineHeight: 1.5 }}>
+                          Inca nu ai setat un video pentru acest card.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
       {/* ── Un card per varianta ────────────────────────────────────────────── */}
       <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e5e7eb', padding: '16px 18px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
         <div style={{ marginBottom: 12 }}>
@@ -2278,13 +2561,23 @@ const MiniImageField: React.FC<{
 
 // ── Mini Video Field ──────────────────────────────────────────────────────────
 const MiniVideoField: React.FC<{
+  label?: string;
+  helperText?: string;
   url?: string;
   accentColor: string;
   onUpload: (url: string) => void;
   onRemove: () => void;
-}> = ({ url, accentColor, onUpload, onRemove }) => {
+}> = ({
+  label = 'Video Intro',
+  helperText = 'apare in locul imaginii de fundal',
+  url,
+  accentColor,
+  onUpload,
+  onRemove,
+}) => {
   const ref = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+  const mediaPreview = useMemo(() => resolveTutorialVideoMedia(url), [url]);
 
   const handleFile = async (file: File) => {
     if (!file.type.startsWith('video/')) return;
@@ -2306,7 +2599,7 @@ const MiniVideoField: React.FC<{
   return (
     <div>
       <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#6b7280' }}>
-        🎬 Video Intro — apare in locul imaginii de fundal
+        🎬 {label} — {helperText}
       </p>
       <div
         className="img-field-hover"
@@ -2315,10 +2608,24 @@ const MiniVideoField: React.FC<{
       >
         {url ? (
           <>
-            <video
-              src={url} autoPlay muted loop playsInline
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+            {mediaPreview?.type === 'iframe' ? (
+              <iframe
+                src={mediaPreview.src}
+                title={label}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video
+                src={mediaPreview?.src || url}
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            )}
             <div className="img-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0)', opacity: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'all 0.15s' }}>
               <button type="button" onClick={e => { e.stopPropagation(); ref.current?.click(); }}
                 style={{ opacity: 0, background: 'white', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 11, fontWeight: 700, transition: 'opacity 0.15s' }}>
@@ -2349,6 +2656,8 @@ const MiniVideoField: React.FC<{
 };
 
 export default TemplateManagement;
+
+
 
 
 

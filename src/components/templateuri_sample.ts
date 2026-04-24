@@ -4,6 +4,7 @@ export type SimpleThemeSet =
   | "gabby"
   | "spiderman"
   | "mickey"
+  | "lilo"
   | "adventure"
   | "frozen"
   | "jurassic"
@@ -145,6 +146,15 @@ export const TEMPLATEURI_SAMPLE: SimpleTemplateSample[] = [
     description: "Template Mickey Mouse in fluxul simplu.",
     supportsIntroEditor: false,
     themeSet: "mickey",
+    eventTypes: ["baptism", "anniversary"],
+    status: "active",
+  },
+  {
+    id: "lilo-and-stitch-simple",
+    name: "Lilo & Stitch",
+    description: "Template tropical cu vibe hawaiian, ocean, hibiscus si personaje Lilo & Stitch.",
+    supportsIntroEditor: false,
+    themeSet: "lilo",
     eventTypes: ["baptism", "anniversary"],
     status: "active",
   },

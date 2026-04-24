@@ -25,6 +25,11 @@ import {
 } from "./ui/dialog";
 import { useToast } from "./ui/use-toast";
 import { cn } from "../lib/utils";
+import {
+  GLOBAL_TUTORIAL_VIDEO_CONFIG_ID,
+  getTutorialVideoUrlsFromConfig,
+  resolveTutorialVideoMedia,
+} from "../lib/tutorial-video";
 import { UserProfile, UserSession } from "../types";
 import { API_URL } from "../config/api";
 import {
@@ -87,6 +92,9 @@ type SimpleTemplatePreviewPayload = {
 };
 
 const SIMPLE_TEMPLATE_PREVIEW_STORAGE_PREFIX = "simple_template_preview:";
+const EDIT_HELP_VIDEO_BY_TEMPLATE: Record<string, string> = {
+  __default: "",
+};
 
 const humanizeIdLabel = (value: string): string => {
   const raw = String(value || "").trim();
@@ -196,11 +204,6 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
     () => `weddingPro_simple_wizard_finalized_${session.userId || "anon"}`,
     [session.userId],
   );
-  const editHelpStorageKey = useMemo(
-    () => `weddingPro_simple_wizard_edit_help_seen_${session.userId || "anon"}`,
-    [session.userId],
-  );
-
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const loadedStepKeyRef = useRef<string | null>(null);
   const loadedTemplateKeyRef = useRef<string | null>(null);
@@ -251,6 +254,16 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
   const [hasFinalizedInvite, setHasFinalizedInvite] = useState(false);
   const [hasPendingPublishChanges, setHasPendingPublishChanges] = useState(false);
   const [editHelpOpen, setEditHelpOpen] = useState(false);
+  const [globalEditHelpVideoUrl, setGlobalEditHelpVideoUrl] = useState("");
+  const editHelpVideo = useMemo(
+    () =>
+      resolveTutorialVideoMedia(
+        EDIT_HELP_VIDEO_BY_TEMPLATE[selectedTemplate || ""] ||
+          EDIT_HELP_VIDEO_BY_TEMPLATE.__default ||
+          globalEditHelpVideoUrl,
+      ),
+    [globalEditHelpVideoUrl, selectedTemplate],
+  );
 
   useEffect(() => {
     setWorkingProfile(normalizeProfile(session.profile));
@@ -283,6 +296,37 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadGlobalEditHelpVideo = async () => {
+      try {
+        const res = await fetch(
+          `${API_URL}/config/template-defaults/${GLOBAL_TUTORIAL_VIDEO_CONFIG_ID}`,
+          {
+            headers: session?.token
+              ? { Authorization: `Bearer ${session.token}` }
+              : undefined,
+          },
+        );
+        if (!res.ok) return;
+        const cfg = await res.json().catch(() => null);
+        if (cancelled) return;
+        const tutorialVideos = getTutorialVideoUrlsFromConfig(cfg);
+        setGlobalEditHelpVideoUrl(
+          String(tutorialVideos.design || cfg?.videoUrl || "").trim(),
+        );
+      } catch {
+        if (!cancelled) setGlobalEditHelpVideoUrl("");
+      }
+    };
+
+    loadGlobalEditHelpVideo();
+    return () => {
+      cancelled = true;
+    };
+  }, [session?.token]);
 
   const staticTemplateStatusById = useMemo(
     () =>
@@ -401,6 +445,8 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
   }, [selectedPalettes]);
   const showPaletteImagePreview = selectedDefinition?.showPaletteImagePreview !== false;
   const hasIntroEditor = !!selectedDefinition?.supportsIntroEditor;
+  const editHelpStep = hasIntroEditor ? 2 : 3;
+  const editHelpIsIntroStep = hasIntroEditor && step === 2;
   const isGirlIntroTemplate = selectedTemplate === "castle-magic-girl-simple";
   const isLordIntroTemplate = selectedTemplate === "lord-effects-simple";
   const isJurassicIntroTemplate = selectedTemplate === "jurassic-park-simple";
@@ -1087,10 +1133,9 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
   };
 
   useEffect(() => {
-    if (step !== 3) return;
-    if (localStorage.getItem(editHelpStorageKey) === "1") return;
+    if (step !== editHelpStep) return;
     setEditHelpOpen(true);
-  }, [editHelpStorageKey, step]);
+  }, [editHelpStep, step]);
 
   useEffect(() => {
     const raw = String(workingProfile.jungleOverlayText || "").trim();
@@ -1942,6 +1987,14 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
         accent: "#cc0000",
         soft: "#fff7ed",
         mid: "#facc15",
+      };
+    }
+    if (themeSet === "lilo") {
+      return {
+        previewBg: "bg-cyan-50 border-cyan-200",
+        accent: "#0891b2",
+        soft: "#ecfeff",
+        mid: "#fb7185",
       };
     }
     if (themeSet === "unicorn") {
@@ -2935,9 +2988,13 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
         <DialogContent className="max-w-lg">
           <div className="space-y-4 py-1">
             <DialogHeader>
-              <DialogTitle>Cum editezi invitatia</DialogTitle>
+              <DialogTitle>
+                {editHelpIsIntroStep ? "Cum editezi intro-ul" : "Cum editezi invitatia"}
+              </DialogTitle>
               <DialogDescription>
-                In acest pas configurezi direct varianta finala a invitatiei.
+                {editHelpIsIntroStep
+                  ? "In acest pas configurezi intro-ul invitatiei si vezi modificarile direct in preview."
+                  : "In acest pas configurezi direct varianta finala a invitatiei."}
               </DialogDescription>
             </DialogHeader>
 
@@ -2947,7 +3004,9 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
                 <div>
                   <div className="font-medium text-foreground">Schimba imaginile</div>
                   <div className="text-xs text-muted-foreground">
-                    Da click pe formele de imagine din preview pentru a incarca sau inlocui pozele.
+                    {editHelpIsIntroStep
+                      ? "Da click pe zonele editabile din preview-ul intro pentru a ajusta rapid continutul vizual."
+                      : "Da click pe formele de imagine din preview pentru a incarca sau inlocui pozele."}
                   </div>
                 </div>
               </div>
@@ -2956,7 +3015,9 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
                 <div>
                   <div className="font-medium text-foreground">Editeaza textele</div>
                   <div className="text-xs text-muted-foreground">
-                    Da click direct pe orice text din preview pentru a-l modifica.
+                    {editHelpIsIntroStep
+                      ? "Poti completa textele intro si urmari imediat cum apar in preview."
+                      : "Da click direct pe orice text din preview pentru a-l modifica."}
                   </div>
                 </div>
               </div>
@@ -2980,13 +3041,39 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
               </div>
             </div>
 
+            {editHelpVideo ? (
+              <div className="rounded-lg border bg-background p-3 space-y-2">
+                <div className="text-sm font-medium text-foreground">
+                  Video explicativ
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Poti folosi acest tutorial pentru a vedea exact cum se editeaza invitatia.
+                </div>
+                <div className="overflow-hidden rounded-lg border bg-black aspect-video">
+                  {editHelpVideo.type === "video" ? (
+                    <video
+                      src={editHelpVideo.src}
+                      controls
+                      preload="metadata"
+                      className="w-full h-full"
+                    />
+                  ) : (
+                    <iframe
+                      src={editHelpVideo.src}
+                      title="Tutorial editare invitatie"
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  )}
+                </div>
+              </div>
+            ) : null}
+
             <Button
               type="button"
               className="w-full"
-              onClick={() => {
-                localStorage.setItem(editHelpStorageKey, "1");
-                setEditHelpOpen(false);
-              }}
+              onClick={() => setEditHelpOpen(false)}
             >
               Am inteles
             </Button>
