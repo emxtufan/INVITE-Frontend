@@ -8,6 +8,7 @@ import {
   Eye,
   ImagePlus,
   Loader2,
+  Navigation,
   RotateCcw,
   Save,
   Type,
@@ -96,6 +97,32 @@ const EDIT_HELP_VIDEO_BY_TEMPLATE: Record<string, string> = {
   __default: "",
 };
 
+const WAZE_HELP_STEPS = [
+  "Deschide Waze Live Map sau aplicatia Waze.",
+  "Cauta locatia dorita in bara de search sau selecteaza direct punctul de pe harta.",
+  "Apasa iconita Share din partea de jos dreapta.",
+  "Copiaza linkul complet generat de Waze.",
+  "Revino in invitatie si lipeste linkul in campul Waze al locatiei.",
+];
+
+const WAZE_HELP_SCREENSHOTS = [
+  {
+    src: "/tutorials/waze/step-1-open-map.png",
+    title: "Pasul 1",
+    caption: "Deschide Waze Live Map sau aplicatia Waze.",
+  },
+  {
+    src: "/tutorials/waze/step-2-share.png",
+    title: "Pasul 2",
+    caption: "Apasa butonul Share din coltul din dreapta jos.",
+  },
+  {
+    src: "/tutorials/waze/step-3-copy-link.png",
+    title: "Pasul 3",
+    caption: "Copiaza linkul si lipeste-l in campul Waze din invitatie.",
+  },
+];
+
 const humanizeIdLabel = (value: string): string => {
   const raw = String(value || "").trim();
   if (!raw) return "Default";
@@ -104,6 +131,42 @@ const humanizeIdLabel = (value: string): string => {
     .replace(/\s+/g, " ")
     .trim()
     .replace(/\b\w/g, (ch) => ch.toUpperCase());
+};
+
+const HelpScreenshotCard: React.FC<{
+  src: string;
+  title: string;
+  caption: string;
+}> = ({ src, title, caption }) => {
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <div className="rounded-xl border bg-card overflow-hidden">
+      {!failed ? (
+        <img
+          src={src}
+          alt={title}
+          className="w-full h-auto max-h-44 object-contain bg-muted sm:h-36 sm:max-h-none sm:object-cover"
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        <div className="min-h-[140px] sm:h-36 bg-muted/40 border-b border-dashed flex items-center justify-center px-4 text-center">
+          <div className="space-y-1">
+            <div className="text-xs font-semibold text-foreground">{title}</div>
+            <div className="text-[11px] text-muted-foreground">
+              Adauga imaginea in <code className="font-mono">{src}</code>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="p-3 space-y-1">
+        <div className="text-xs font-semibold text-foreground">{title}</div>
+        <div className="text-[11px] leading-relaxed text-muted-foreground">
+          {caption}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const normalizeProfile = (profile?: UserProfile): UserProfile => {
@@ -2110,7 +2173,7 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
 
   return (
     <div className="flex-1 overflow-y-auto bg-zinc-50 dark:bg-zinc-950/50 px-4 md:px-8 pt-0 pb-6 md:pb-8">
-      <div className="sticky top-0 z-50 -mx-4 md:-mx-8 px-4 md:px-8 py-2 border-b border-border bg-zinc-50/95 dark:bg-zinc-950/90 backdrop-blur">
+      <div className="sticky top-0 z-20 -mx-4 md:-mx-8 px-4 md:px-8 py-2 border-b border-border bg-zinc-50/95 dark:bg-zinc-950/90 backdrop-blur">
         <div className="max-w-5xl mx-auto space-y-1.5">
           <div className="flex items-center justify-between text-[11px] text-muted-foreground">
             <span className="font-medium text-foreground">Progres configurare</span>
@@ -2234,6 +2297,20 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
                     }
                     placeholder="ex: emma-2026"
                   />
+                  <div className="space-y-1 pt-1">
+                    <p className="text-[11px] leading-relaxed text-muted-foreground">
+                      Slug-ul este partea unica din linkul public al invitatiei.
+                      Se foloseste pentru adresa finala pe care o trimiti invitatilor.
+                    </p>
+                    <p className="text-[11px] leading-relaxed text-muted-foreground">
+                      Exemplu: daca scrii <span className="font-medium text-foreground">emma-2026</span>,
+                      linkul va fi de forma <span className="font-medium text-foreground">/events/emma-2026/public</span>.
+                    </p>
+                    <p className="text-[11px] leading-relaxed text-muted-foreground">
+                      Recomandare: foloseste doar litere mici, cifre si liniuta, ca
+                      sa ramana usor de distribuit si memorat.
+                    </p>
+                  </div>
                 </div>
                 <div className="space-y-1">
                   <label className="text-xs text-muted-foreground">Data eveniment *</label>
@@ -2993,8 +3070,8 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
       </div>
 
       <Dialog open={editHelpOpen} onOpenChange={setEditHelpOpen}>
-        <DialogContent className="max-w-lg">
-          <div className="space-y-4 py-1">
+        <DialogContent className="w-[calc(100vw-1rem)] sm:w-full sm:max-w-3xl h-[85dvh] max-h-[85dvh] sm:h-auto sm:max-h-[500px] overflow-hidden p-0">
+          <div className="space-y-4 h-full max-h-[85dvh] overflow-y-auto px-4 py-4 sm:max-h-[500px] sm:px-6 sm:py-5">
             <DialogHeader>
               <DialogTitle>
                 {editHelpIsIntroStep ? "Cum editezi intro-ul" : "Cum editezi invitatia"}
@@ -3048,6 +3125,73 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
                 </div>
               </div>
             </div>
+
+            {!editHelpIsIntroStep ? (
+              <div className="rounded-xl border bg-background p-4 space-y-4">
+                <div className="flex items-start gap-3">
+                  <Navigation className="w-4 h-4 mt-0.5 text-primary shrink-0" />
+                  <div className="space-y-1">
+                    <div className="text-sm font-medium text-foreground">
+                      Cum copiezi linkul pentru Waze
+                    </div>
+                    <div className="text-xs leading-relaxed text-muted-foreground">
+                      Google Maps se genereaza automat din adresa. Pentru Waze trebuie
+                      sa copiezi manual linkul din Waze Live Map sau din aplicatia
+                      Waze, apoi sa il lipesti in campul dedicat din locatie.
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid gap-2">
+                  {WAZE_HELP_STEPS.map((stepText, index) => (
+                    <div
+                      key={`waze-help-${index}`}
+                      className="rounded-lg border bg-card px-3 py-2 flex items-start gap-3"
+                    >
+                      <div className="h-5 w-5 rounded-full bg-primary/10 text-primary text-[11px] font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                        {index + 1}
+                      </div>
+                      <div className="text-xs leading-relaxed text-muted-foreground">
+                        {stepText}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* <div className="rounded-lg border border-amber-200 bg-amber-50/80 px-3 py-2">
+                  <div className="text-xs font-medium text-amber-900">
+                    Pont util
+                  </div>
+                  <div className="mt-1 text-[11px] leading-relaxed text-amber-800">
+                    Daca vrei sa afisezi si printscreen-uri in acest popup, pune
+                    imaginile in <code className="font-mono">/public/tutorials/waze</code>
+                    {" "}cu numele:
+                    {" "}
+                    <code className="font-mono">step-1-open-map.png</code>,
+                    {" "}
+                    <code className="font-mono">step-2-share.png</code>,
+                    {" "}
+                    <code className="font-mono">step-3-copy-link.png</code>.
+                  </div>
+                </div> */}
+
+                <div className="space-y-2">
+                  <div className="text-sm font-medium text-foreground">
+                    Printscreen-uri ghid Waze
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-3">
+                    {WAZE_HELP_SCREENSHOTS.map((item) => (
+                      <HelpScreenshotCard
+                        key={item.src}
+                        src={item.src}
+                        title={item.title}
+                        caption={item.caption}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : null}
 
             {editHelpVideo ? (
               <div className="rounded-lg border bg-background p-3 space-y-2">
