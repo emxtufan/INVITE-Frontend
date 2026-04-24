@@ -318,6 +318,10 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
   const [hasPendingPublishChanges, setHasPendingPublishChanges] = useState(false);
   const [editHelpOpen, setEditHelpOpen] = useState(false);
   const [globalEditHelpVideoUrl, setGlobalEditHelpVideoUrl] = useState("");
+  const [slugStatus, setSlugStatus] = useState<
+    "idle" | "checking" | "available" | "taken"
+  >("idle");
+  const [slugStatusMessage, setSlugStatusMessage] = useState("");
   const editHelpVideo = useMemo(
     () =>
       resolveTutorialVideoMedia(
@@ -1150,6 +1154,10 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
     if (typeof window === "undefined") return `/events/${slug}/public`;
     return `${window.location.origin}/events/${slug}/public`;
   }, [workingProfile.inviteSlug]);
+  const normalizedInviteSlug = useMemo(
+    () => normalizeSlug(workingProfile.inviteSlug || ""),
+    [workingProfile.inviteSlug],
+  );
   const markDraftChanged = useCallback(() => {
     if (!hasFinalizedInvite) return;
     setHasPendingPublishChanges(true);
@@ -1199,6 +1207,65 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
     if (step !== editHelpStep) return;
     setEditHelpOpen(true);
   }, [editHelpStep, step]);
+
+  useEffect(() => {
+    const slug = normalizedInviteSlug;
+
+    if (!slug) {
+      setSlugStatus("idle");
+      setSlugStatusMessage("Alege un nume unic pentru linkul public.");
+      return;
+    }
+
+    if (slug.length < 3) {
+      setSlugStatus("taken");
+      setSlugStatusMessage("Slug-ul trebuie sa aiba cel putin 3 caractere.");
+      return;
+    }
+
+    let cancelled = false;
+    setSlugStatus("checking");
+    setSlugStatusMessage("Verificam disponibilitatea...");
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`${API_URL}/slug-availability/${slug}`, {
+          headers: session?.token
+            ? { Authorization: `Bearer ${session.token}` }
+            : undefined,
+        });
+        if (cancelled) return;
+
+        if (res.ok) {
+          const data = await res.json().catch(() => null);
+          if (data?.available) {
+            setSlugStatus("available");
+            setSlugStatusMessage(
+              data?.isOwn
+                ? "Acest slug este deja alocat invitatiei tale."
+                : "Slug disponibil.",
+            );
+            return;
+          }
+          setSlugStatus("taken");
+          setSlugStatusMessage("Already used. Alege un alt slug.");
+          return;
+        }
+
+        setSlugStatus("idle");
+        setSlugStatusMessage("Nu am putut verifica slug-ul acum.");
+      } catch {
+        if (cancelled) return;
+        setSlugStatus("idle");
+        setSlugStatusMessage("Nu am putut verifica slug-ul acum.");
+      }
+    }, 350);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [normalizedInviteSlug, session?.token]);
 
   useEffect(() => {
     const raw = String(workingProfile.jungleOverlayText || "").trim();
@@ -1867,6 +1934,22 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
         });
         return;
       }
+      if (slugStatus === "checking") {
+        toast({
+          title: "Verificam slug-ul",
+          description: "Mai asteapta putin pana terminam verificarea slug-ului.",
+          variant: "warning",
+        });
+        return;
+      }
+      if (slugStatus === "taken") {
+        toast({
+          title: "Slug indisponibil",
+          description: "Alege un alt slug. Acesta este deja folosit.",
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     if (step === 1) {
@@ -2288,7 +2371,25 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs text-muted-foreground">Slug invitatie *</label>
+                  <div className="flex items-center justify-between gap-2">
+                    <label className="text-xs text-muted-foreground">Slug invitatie *</label>
+                    {slugStatus === "checking" ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        Verificare
+                      </span>
+                    ) : slugStatus === "available" ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        Disponibil
+                      </span>
+                    ) : slugStatus === "taken" ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] text-destructive">
+                        <AlertTriangle className="w-3.5 h-3.5" />
+                        Indisponibil
+                      </span>
+                    ) : null}
+                  </div>
                   <Input
                     required
                     value={String(workingProfile.inviteSlug || "")}
@@ -2296,7 +2397,25 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
                       patchProfile({ inviteSlug: normalizeSlug(e.target.value) })
                     }
                     placeholder="ex: emma-2026"
+                    className={
+                      slugStatus === "available"
+                        ? "border-emerald-500 focus-visible:ring-emerald-500"
+                        : slugStatus === "taken"
+                          ? "border-destructive focus-visible:ring-destructive"
+                          : undefined
+                    }
                   />
+                  <p
+                    className={
+                      slugStatus === "available"
+                        ? "text-[11px] leading-relaxed text-emerald-600"
+                        : slugStatus === "taken"
+                          ? "text-[11px] leading-relaxed text-destructive"
+                          : "text-[11px] leading-relaxed text-muted-foreground"
+                    }
+                  >
+                    {slugStatusMessage}
+                  </p>
                   <div className="space-y-1 pt-1">
                     <p className="text-[11px] leading-relaxed text-muted-foreground">
                       Slug-ul este partea unica din linkul public al invitatiei.
