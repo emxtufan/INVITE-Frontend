@@ -19,6 +19,7 @@ export type SimpleThemeSet =
   | "regal"
   | "lord"
   | "luxury"
+  | "maison"
   | "none";
 
 export type SimpleEventType = "wedding" | "baptism" | "anniversary" | "office";
@@ -119,6 +120,15 @@ export const TEMPLATEURI_SAMPLE: SimpleTemplateSample[] = [
     description: "Template premium cu intro cinematic si stil elegant in fluxul simplu.",
     supportsIntroEditor: true,
     themeSet: "luxury",
+    eventTypes: ["wedding"],
+    status: "active",
+  },
+  {
+    id: "maison-wedding-simple",
+    name: "Eiffel Romance",
+    description: "Template inspirat de Paris si Turnul Eiffel, cu stil editorial elegant pentru nunti.",
+    supportsIntroEditor: false,
+    themeSet: "maison",
     eventTypes: ["wedding"],
     status: "active",
   },

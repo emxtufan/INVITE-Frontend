@@ -1933,6 +1933,14 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
         mid: "#d6d3d1",
       };
     }
+    if (themeSet === "maison") {
+      return {
+        previewBg: "bg-amber-50 border-amber-200",
+        accent: "#9a6b2f",
+        soft: "#fffaf0",
+        mid: "#e7c58a",
+      };
+    }
     if (themeSet === "adventure") {
       return {
         previewBg: "bg-sky-50 border-sky-200",

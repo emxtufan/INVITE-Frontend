@@ -37,6 +37,9 @@ import {
   CASTLE_DEFAULTS as LUXURY_STYLE_DEFAULTS,
 } from "./luxury-style-simple-full";
 import {
+  CASTLE_DEFAULTS as MAISON_WEDDING_DEFAULTS,
+} from "./MaisonWeddingTemplate";
+import {
   CASTLE_DEFAULTS as LILO_AND_STITCH_DEFAULTS,
 } from "./LiloAndStitchTemplate";
 import { getSharedDefaultBlocks } from "./shared-default-blocks";
@@ -318,6 +321,11 @@ const SIMPLE_DEFAULTS_REGISTRY: Record<string, DefaultsEntry> = {
     profileDefaults: LUXURY_STYLE_DEFAULTS as Partial<UserProfile>,
     blocks: getSharedDefaultBlocks("luxury-style-simple"),
     configTemplateIds: ["luxury-style-simple", "regal", "jungle-magic-effect"],
+  },
+  "maison-wedding-simple": {
+    profileDefaults: MAISON_WEDDING_DEFAULTS as Partial<UserProfile>,
+    blocks: getSharedDefaultBlocks("maison-wedding-simple"),
+    configTemplateIds: ["maison-wedding-simple", "maison-wedding"],
   },
   "gabbys-dollhouse-simple": {
     profileDefaults: {},

@@ -3,6 +3,7 @@ import SIMPLE_UNIFIED_DEFAULT_BLOCKS_JSON from "./default-blocks.json";
 import SIMPLE_WEDDING_DEFAULT_BLOCKS_JSON from "./default-blocks-wedding.json";
 import SIMPLE_MICKEY_DEFAULT_BLOCKS_JSON from "./default-blocks-mickey.json";
 import { LILO_DEFAULT_BLOCKS } from "./LiloAndStitchTemplate";
+import { MAISON_DEFAULT_BLOCKS } from "./MaisonWeddingTemplate";
 
 const BASE_DEFAULT_BLOCKS =
   SIMPLE_UNIFIED_DEFAULT_BLOCKS_JSON as unknown as InvitationBlock[];
@@ -15,6 +16,8 @@ const TEMPLATE_SPECIFIC_DEFAULT_BLOCKS: Record<string, InvitationBlock[]> = {
   "mickey-mouse-simple": MICKEY_SHARED_BLOCKS,
   "lilo-and-stitch-simple":
     LILO_DEFAULT_BLOCKS as unknown as InvitationBlock[],
+  "maison-wedding-simple":
+    MAISON_DEFAULT_BLOCKS as unknown as InvitationBlock[],
 };
 
 const WEDDING_TEMPLATE_IDS = new Set([
@@ -33,6 +36,8 @@ const WEDDING_TEMPLATE_IDS = new Set([
   "lord-effects-simple",
   "jungle-magic-effect",
   "luxury-style-simple",
+  "maison-wedding",
+  "maison-wedding-simple",
 ]);
 
 const TEMPLATE_BLOCK_IMAGE_PRESETS: Record<string, Record<string, string>> = {

@@ -48,6 +48,9 @@ import LordEffectsSimpleTemplate, {
 import LuxuryStyleSimpleTemplate, {
   LUXURY_STYLE_SIMPLE_PALETTES,
 } from "./luxury-style-simple";
+import MaisonWeddingSimpleTemplate, {
+  MAISON_WEDDING_SIMPLE_PALETTES,
+} from "./maison-wedding-simple";
 import OfficeSimpleTemplate, {
   OFFICE_SIMPLE_PALETTES,
 } from "./office-simple";
@@ -138,6 +141,15 @@ export const SIMPLE_TEMPLATE_DEFINITIONS: SimpleTemplateDefinition[] = [
     showPaletteImagePreview: true,
     palettes: LUXURY_STYLE_SIMPLE_PALETTES,
     component: LuxuryStyleSimpleTemplate,
+  },
+  {
+    id: "maison-wedding-simple",
+    name: "Eiffel Romance",
+    description: "Template inspirat de Paris si Turnul Eiffel, cu stil editorial elegant pentru nunti.",
+    supportsIntroEditor: false,
+    showPaletteImagePreview: false,
+    palettes: MAISON_WEDDING_SIMPLE_PALETTES,
+    component: MaisonWeddingSimpleTemplate,
   },
   {
     id: "gabbys-dollhouse-simple",
