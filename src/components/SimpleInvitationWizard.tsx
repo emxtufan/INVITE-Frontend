@@ -3126,72 +3126,87 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
               </div>
             </div>
 
-            {!editHelpIsIntroStep ? (
-              <div className="rounded-xl border bg-background p-4 space-y-4">
-                <div className="flex items-start gap-3">
-                  <Navigation className="w-4 h-4 mt-0.5 text-primary shrink-0" />
-                  <div className="space-y-1">
-                    <div className="text-sm font-medium text-foreground">
-                      Cum copiezi linkul pentru Waze
+            <div className="rounded-xl border bg-background p-4 space-y-4">
+              <div className="text-sm font-medium text-foreground">
+                Structura invitatiei
+              </div>
+              <div className="grid gap-2 md:grid-cols-2">
+                <div className="rounded-lg border bg-card px-3 py-2 text-sm flex items-start gap-3">
+                  <CheckCircle2 className="w-4 h-4 mt-0.5 text-primary shrink-0" />
+                  <div>
+                    <div className="font-medium text-foreground">
+                      Adauga sectiuni noi
                     </div>
-                    <div className="text-xs leading-relaxed text-muted-foreground">
-                      Google Maps se genereaza automat din adresa. Pentru Waze trebuie
-                      sa copiezi manual linkul din Waze Live Map sau din aplicatia
-                      Waze, apoi sa il lipesti in campul dedicat din locatie.
+                    <div className="text-xs text-muted-foreground leading-relaxed">
+                      Din butonul cu plus poti adauga sectiuni noi in invitatie, cum
+                      ar fi divider, text, familie, cronologie, locatie, poze sau alte
+                      blocuri disponibile pentru template.
                     </div>
                   </div>
                 </div>
-
-                <div className="grid gap-2">
-                  {WAZE_HELP_STEPS.map((stepText, index) => (
-                    <div
-                      key={`waze-help-${index}`}
-                      className="rounded-lg border bg-card px-3 py-2 flex items-start gap-3"
-                    >
-                      <div className="h-5 w-5 rounded-full bg-primary/10 text-primary text-[11px] font-semibold flex items-center justify-center shrink-0 mt-0.5">
-                        {index + 1}
-                      </div>
-                      <div className="text-xs leading-relaxed text-muted-foreground">
-                        {stepText}
-                      </div>
+                <div className="rounded-lg border bg-card px-3 py-2 text-sm flex items-start gap-3">
+                  <AlertTriangle className="w-4 h-4 mt-0.5 text-amber-600 shrink-0" />
+                  <div>
+                    <div className="font-medium text-foreground">
+                      Intro + invitatie finala
                     </div>
-                  ))}
-                </div>
-
-                {/* <div className="rounded-lg border border-amber-200 bg-amber-50/80 px-3 py-2">
-                  <div className="text-xs font-medium text-amber-900">
-                    Pont util
-                  </div>
-                  <div className="mt-1 text-[11px] leading-relaxed text-amber-800">
-                    Daca vrei sa afisezi si printscreen-uri in acest popup, pune
-                    imaginile in <code className="font-mono">/public/tutorials/waze</code>
-                    {" "}cu numele:
-                    {" "}
-                    <code className="font-mono">step-1-open-map.png</code>,
-                    {" "}
-                    <code className="font-mono">step-2-share.png</code>,
-                    {" "}
-                    <code className="font-mono">step-3-copy-link.png</code>.
-                  </div>
-                </div> */}
-
-                <div className="space-y-2">
-                  <div className="text-sm font-medium text-foreground">
-                    Printscreen-uri ghid Waze
-                  </div>
-                  <div className="grid gap-3 md:grid-cols-3">
-                    {WAZE_HELP_SCREENSHOTS.map((item) => (
-                      <HelpScreenshotCard
-                        key={item.src}
-                        src={item.src}
-                        title={item.title}
-                        caption={item.caption}
-                      />
-                    ))}
+                    <div className="text-xs text-muted-foreground leading-relaxed">
+                      Modificarile facute aici influenteaza configurarea finala. Poti
+                      incepe cu intro-ul, apoi continui cu blocurile invitatiei, iar la
+                      final publici totul din ultimul pas.
+                    </div>
                   </div>
                 </div>
               </div>
-            ) : null}
+            </div>
+
+            <div className="rounded-xl border bg-background p-4 space-y-4">
+              <div className="flex items-start gap-3">
+                <Navigation className="w-4 h-4 mt-0.5 text-primary shrink-0" />
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-foreground">
+                    Locatii, Google Maps si Waze
+                  </div>
+                  <div className="text-xs leading-relaxed text-muted-foreground">
+                    {editHelpIsIntroStep
+                      ? "Dupa ce finalizezi intro-ul, in pasul urmator poti edita locatiile invitatiei. Google Maps se genereaza automat din adresa, iar pentru Waze trebuie sa copiezi manual linkul din Waze Live Map sau din aplicatia Waze."
+                      : "Google Maps se genereaza automat din adresa. Pentru Waze trebuie sa copiezi manual linkul din Waze Live Map sau din aplicatia Waze, apoi sa il lipesti in campul dedicat din locatie."}
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid gap-2">
+                {WAZE_HELP_STEPS.map((stepText, index) => (
+                  <div
+                    key={`waze-help-${index}`}
+                    className="rounded-lg border bg-card px-3 py-2 flex items-start gap-3"
+                  >
+                    <div className="h-5 w-5 rounded-full bg-primary/10 text-primary text-[11px] font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                      {index + 1}
+                    </div>
+                    <div className="text-xs leading-relaxed text-muted-foreground">
+                      {stepText}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="space-y-2">
+                <div className="text-sm font-medium text-foreground">
+                  Printscreen-uri ghid Waze
+                </div>
+                <div className="grid gap-3 md:grid-cols-3">
+                  {WAZE_HELP_SCREENSHOTS.map((item) => (
+                    <HelpScreenshotCard
+                      key={item.src}
+                      src={item.src}
+                      title={item.title}
+                      caption={item.caption}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
 
             {editHelpVideo ? (
               <div className="rounded-lg border bg-background p-3 space-y-2">
