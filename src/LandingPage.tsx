@@ -64,27 +64,53 @@ export default function LandingPage() {
 
 
         <Navbar />
-        <Hero />
+        <div id="hero">
+          <Hero />
+        </div>
         {/* <Logos /> */}
         <Features />
-        <TasksSection />
-        <CalendarSection />
+        <div id="tasks">
+          <TasksSection />
+        </div>
+        <div id="calendar">
+          <CalendarSection />
+        </div>
         {/* <CustomizationSection /> */}
-        <InviteSection />
-        <BudgetSection />
-        <LinkDistributionSection />
-        <LivePreviewSection />
-        <TutorialSection />
-        <PartnersSection/>
-        <Stats />
-        <SmartFeaturesSection/>
+        <div id="invites">
+          <InviteSection />
+        </div>
+        <div id="budget">
+          <BudgetSection />
+        </div>
+        <div id="links">
+          <LinkDistributionSection />
+        </div>
+        <div id="preview">
+          <LivePreviewSection />
+        </div>
+        <div id="tutorial">
+          <TutorialSection />
+        </div>
+        <div id="partners">
+          <PartnersSection/>
+        </div>
+        <div id="stats">
+          <Stats />
+        </div>
+        <div id="smart">
+          <SmartFeaturesSection/>
+        </div>
         <ProcessSection/>
         <Pricing />
-        <TestimonialsSection />
+        <div id="testimonials">
+          <TestimonialsSection />
+        </div>
         <InfiniteFeatureSection />
         <FAQ />
         <CTA />
-        <AboutMeSection />
+        <div id="about">
+          <AboutMeSection />
+        </div>
         <Footer />
       </div>
     </>
