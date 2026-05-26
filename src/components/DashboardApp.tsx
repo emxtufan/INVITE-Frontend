@@ -86,6 +86,7 @@ import {
   INITIAL_BUDGET_CATEGORIES,
   PLAN_LIMITS,
 } from "../constants";
+import { normalizeMediaFieldsDeep } from "../config/api";
 import {
   CanvasConfig,
   CanvasElement,
@@ -626,7 +627,7 @@ const DashboardApp = () => {
     const saved = localStorage.getItem("weddingPro_session");
     if (!saved) return null;
     try {
-      return JSON.parse(saved);
+      return normalizeMediaFieldsDeep(JSON.parse(saved));
     } catch {
       localStorage.removeItem("weddingPro_session");
       return null;
@@ -980,7 +981,7 @@ const DashboardApp = () => {
           headers: { Authorization: `Bearer ${session.token}` },
         });
         if (res.ok) {
-          const fresh = await res.json();
+          const fresh = normalizeMediaFieldsDeep(await res.json());
           draftSource = {
             ...(session as any),
             user: fresh?.user ?? session?.user,
@@ -1096,7 +1097,7 @@ const DashboardApp = () => {
 
       setSession((prev) => {
         if (!prev) return prev;
-        const updated = {
+        const updated = normalizeMediaFieldsDeep({
           ...prev,
           user: nextUserEmail,
           profile: {
@@ -1104,7 +1105,7 @@ const DashboardApp = () => {
             ...profilePayload,
             email: prev.profile?.email || prev.user,
           },
-        } as any;
+        } as any);
         localStorage.setItem("weddingPro_session", JSON.stringify(updated));
         return updated;
       });
@@ -1159,14 +1160,14 @@ const DashboardApp = () => {
       const confirmedEmail = String(data?.email || pendingEmailChange).trim().toLowerCase();
       setSession((prev) => {
         if (!prev) return prev;
-        const updated = {
+        const updated = normalizeMediaFieldsDeep({
           ...prev,
           user: confirmedEmail,
           profile: {
             ...(prev.profile || {}),
             email: confirmedEmail,
           },
-        } as any;
+        } as any);
         localStorage.setItem("weddingPro_session", JSON.stringify(updated));
         return updated;
       });
@@ -1366,7 +1367,7 @@ const DashboardApp = () => {
 
       if (res.ok) {
         const data = await res.json();
-        const updatedSession = {
+        const updatedSession = normalizeMediaFieldsDeep({
           ...session,
           profile: {
             ...session?.profile,
@@ -1380,7 +1381,7 @@ const DashboardApp = () => {
             phone: setupPhone.trim(),
             ...(data?.profile || {}),
           },
-        };
+        });
         setSession(updatedSession as any);
         localStorage.setItem(
           "weddingPro_session",
@@ -1712,7 +1713,7 @@ const DashboardApp = () => {
         return null;
       }
       if (res.ok) {
-        const data = await res.json();
+        const data = normalizeMediaFieldsDeep(await res.json());
         // If user hasn't customized blocks yet, ignore server-injected defaults
         try {
           const uid = data?.userId || session?.userId;
@@ -1775,7 +1776,7 @@ const DashboardApp = () => {
         setSession((prev) => {
           // Only update if NOT viewing snapshot to prevent overwriting read-only view
           if (viewingSnapshotId) return prev;
-          const newSession = { ...prev, ...data };
+          const newSession = normalizeMediaFieldsDeep({ ...prev, ...data });
           localStorage.setItem(
             "weddingPro_session",
             JSON.stringify(newSession),
@@ -2047,15 +2048,16 @@ const DashboardApp = () => {
   };
 
   const handleLogin = (newSession: UserSession) => {
-    setSession(newSession);
-    localStorage.setItem("weddingPro_session", JSON.stringify(newSession));
+    const normalizedSession = normalizeMediaFieldsDeep(newSession);
+    setSession(normalizedSession);
+    localStorage.setItem("weddingPro_session", JSON.stringify(normalizedSession));
     if (window.location.pathname !== "/dashboard") {
       window.history.replaceState({}, "", "/dashboard");
     }
-    if (newSession.token) {
-      loadUserData(newSession.userId, newSession.token, newSession.plan);
-      fetchGuestList(newSession.userId, newSession.token);
-      refreshSession(newSession.token);
+    if (normalizedSession.token) {
+      loadUserData(normalizedSession.userId, normalizedSession.token, normalizedSession.plan);
+      fetchGuestList(normalizedSession.userId, normalizedSession.token);
+      refreshSession(normalizedSession.token);
     }
   };
 
@@ -2083,7 +2085,7 @@ const DashboardApp = () => {
     })();
 
     // Optimistic UI Update (IMPORTANT: SettingsView relies on this to not lag)
-    const updatedSession = { ...session, profile: profileForStorage };
+    const updatedSession = normalizeMediaFieldsDeep({ ...session, profile: profileForStorage });
     setSession(updatedSession);
     localStorage.setItem("weddingPro_session", JSON.stringify(updatedSession));
     if (session?.userId) {
@@ -2268,12 +2270,12 @@ const DashboardApp = () => {
 
   const handleUpgradeSuccess = (payments?: any[]) => {
     if (!session) return;
-    const newSession = {
+    const newSession = normalizeMediaFieldsDeep({
       ...session,
       plan: "premium",
       limits: PLAN_LIMITS.premium,
       payments: payments || session.payments,
-    } as UserSession;
+    } as UserSession);
     setSession(newSession);
     localStorage.setItem("weddingPro_session", JSON.stringify(newSession));
     toast({ title: "Felicitari! Esti Premium!", variant: "success" });

@@ -10,6 +10,7 @@ import LandingPage from "./LandingPage"; // Import the new LandingPage
 import { ToastProvider } from "./components/ui/use-toast";
 import { Toaster } from "./components/ui/toaster";
 import { GOOGLE_FONTS_URL } from "./config/fonts";
+import { normalizeMediaFieldsDeep } from "./config/api";
 
 const App = () => {
     const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -38,7 +39,7 @@ const App = () => {
         let hasActiveSession = false;
         if (storedSessionRaw) {
             try {
-                const parsed = JSON.parse(storedSessionRaw);
+                const parsed = normalizeMediaFieldsDeep(JSON.parse(storedSessionRaw));
                 hasActiveSession = !!parsed?.token && !!parsed?.userId;
             } catch {
                 hasActiveSession = false;
@@ -80,7 +81,7 @@ const App = () => {
                 <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center">
                     <AuthForm 
                         onLogin={(s) => {
-                            localStorage.setItem('weddingPro_session', JSON.stringify(s));
+                            localStorage.setItem('weddingPro_session', JSON.stringify(normalizeMediaFieldsDeep(s)));
                             window.location.href = '/dashboard';
                         }} 
                         initialView="login"
@@ -94,7 +95,7 @@ const App = () => {
                 <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center">
                     <AuthForm 
                         onLogin={(s) => {
-                            localStorage.setItem('weddingPro_session', JSON.stringify(s));
+                            localStorage.setItem('weddingPro_session', JSON.stringify(normalizeMediaFieldsDeep(s)));
                             window.location.href = '/dashboard';
                         }} 
                         initialView="register"

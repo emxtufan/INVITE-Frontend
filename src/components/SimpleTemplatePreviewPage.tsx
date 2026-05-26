@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
 import Button from "./ui/button";
 import { getSimpleTemplateComponent } from "./simple-templates/registry";
+import { normalizeMediaFieldsDeep } from "../config/api";
 
 type SimpleTemplatePreviewPayload = {
   templateId: string;
@@ -37,7 +38,9 @@ const SimpleTemplatePreviewPage: React.FC = () => {
     }
 
     try {
-      const parsed = JSON.parse(raw) as SimpleTemplatePreviewPayload;
+      const parsed = normalizeMediaFieldsDeep(
+        JSON.parse(raw),
+      ) as SimpleTemplatePreviewPayload;
       if (!parsed?.templateId || !parsed?.data) {
         throw new Error("Payload invalid");
       }

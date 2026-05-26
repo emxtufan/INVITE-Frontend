@@ -8,6 +8,7 @@ import { cn } from "../lib/utils";
 import { useToast } from "./ui/use-toast";
 import { API_URL } from "../constants";
 import { Dialog, DialogContent } from "./ui/dialog";
+import { API_ORIGIN } from "../config/api";
 
 interface BillingViewProps {
   session: UserSession;
@@ -57,7 +58,7 @@ const BillingView: React.FC<BillingViewProps> = ({ session, onUpgrade }) => {
         .replace(/^\/api\/uploads\//, '/uploads/');
 
       if (normalizedPath.startsWith('/uploads/')) {
-        return `${window.location.origin}${normalizedPath}`;
+        return `${API_ORIGIN}${normalizedPath}`;
       }
 
       if (normalizedPath.startsWith('/')) {

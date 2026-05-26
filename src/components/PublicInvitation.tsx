@@ -6,6 +6,7 @@ import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { API_URL } from "../constants";
+import { normalizeMediaFieldsDeep } from "../config/api";
 import { InvitationData } from "./invitations/types";
 import { cn } from "../lib/utils";
 import { createComponentFromCode } from "../lib/template-utils";
@@ -61,8 +62,9 @@ const PublicInvitation = () => {
         const path = window.location.pathname;
         
         const handleInviteData = (inviteData: InvitationData) => {
-            setData(inviteData);
-            const templateId = inviteData.project.selectedTemplate || 'classic';
+            const normalizedInviteData = normalizeMediaFieldsDeep(inviteData);
+            setData(normalizedInviteData);
+            const templateId = normalizedInviteData.project.selectedTemplate || 'classic';
             // If it's not a hardcoded template, fetch it
             if (!getAnyTemplateComponent(templateId)) {
                 fetchDynamicTemplate(templateId);
