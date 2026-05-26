@@ -24,6 +24,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "./ui/alert-dialog";
 import { useToast } from "./ui/use-toast";
 import { cn } from "../lib/utils";
 import {
@@ -316,6 +326,7 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
     useState<HTMLDivElement | null>(null);
   const [hasFinalizedInvite, setHasFinalizedInvite] = useState(false);
   const [hasPendingPublishChanges, setHasPendingPublishChanges] = useState(false);
+  const [backConfirmOpen, setBackConfirmOpen] = useState(false);
   const [editHelpOpen, setEditHelpOpen] = useState(false);
   const [globalEditHelpVideoUrl, setGlobalEditHelpVideoUrl] = useState("");
   const [slugStatus, setSlugStatus] = useState<
@@ -1979,11 +1990,21 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
     setStep(nextStep);
   };
 
-  const handlePrev = () =>
+  const goToPreviousStep = useCallback(() => {
     setStep((prev) => {
       if (prev === 3 && !hasIntroEditor) return 1;
       return Math.max(0, prev - 1);
     });
+  }, [hasIntroEditor]);
+
+  const handlePrev = () => {
+    if (step === 0) return;
+    if (hasFinalizedInvite) {
+      setBackConfirmOpen(true);
+      return;
+    }
+    goToPreviousStep();
+  };
 
   useEffect(() => {
     if (step === 2 && !hasIntroEditor) {
@@ -3366,6 +3387,31 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
           </div>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={backConfirmOpen} onOpenChange={setBackConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Esti sigur ca vrei sa mergi inapoi?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Linkul public al invitatiei nu se modifica imediat daca te intorci la un pas anterior.
+              Totusi, daca faci alte editari si apoi apesi
+              {hasPendingPublishChanges ? " Salveaza modificarile" : " Finalizeaza"}
+              , versiunea din link poate fi actualizata cu noile schimbari.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Ramai aici</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                setBackConfirmOpen(false);
+                goToPreviousStep();
+              }}
+            >
+              Da, mergi inapoi
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Dialog
         open={finalizeModalOpen}

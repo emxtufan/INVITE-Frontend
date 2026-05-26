@@ -201,7 +201,6 @@ const navGroupsForUi = [
   [
     { id: "guests", label: "Generare Linkuri", icon: Users },
     { id: "invitations", label: "Template-urile", icon: Mail },
-    { id: "settings", label: "Config Template", icon: Settings },
   ],
   [
     { id: "services", label: "Servicii", icon: ShoppingBag },
@@ -750,17 +749,14 @@ const DashboardApp = () => {
       ]),
     [],
   );
-  const showTemplateConfigNav = !SIMPLE_TEMPLATE_IDS.has(selectedTemplate);
   const visibleNavGroupsForUi = useMemo(
     () =>
       navGroupsForUi
         .map((group) =>
-          group.filter(
-            (item) => item.id !== "settings" || showTemplateConfigNav,
-          ),
+          group.filter((item) => item.id !== "settings"),
         )
         .filter((group) => group.length > 0),
-    [showTemplateConfigNav],
+    [],
   );
   const allNavItems = useMemo(
     () => visibleNavGroupsForUi.flat(),
@@ -2263,10 +2259,9 @@ const DashboardApp = () => {
   ]);
 
   useEffect(() => {
-    if (showTemplateConfigNav) return;
     if (view !== "settings") return;
     setView("invitations");
-  }, [showTemplateConfigNav, view]);
+  }, [view]);
 
   const handleUpgradeSuccess = (payments?: any[]) => {
     if (!session) return;
@@ -3925,7 +3920,7 @@ const DashboardApp = () => {
               session={session}
               isPremium={isPremium}
               onShowUpgrade={() => setShowUpgradeModal(true)}
-              onNavigateToSettings={() => setView("settings")}
+              onNavigateToSettings={() => setView("invitations")}
               onCheckActive={handleActionAttempt}
               isEventActive={isEventActive}
               snapshotGuests={!isEventActive ? allGuests : undefined}
