@@ -781,7 +781,7 @@ const DashboardApp = () => {
   const [setupEventType, setSetupEventType] = useState("wedding");
   const [setupDate, setSetupDate] = useState("");
   const [setupName, setSetupName] = useState("");
-  const [setupRole, setSetupRole] = useState("organizer");
+  const [setupRole, setSetupRole] = useState("bride");
   const [setupContactName, setSetupContactName] = useState("");
   const [setupPhone, setSetupPhone] = useState("");
   const [isSettingUp, setIsSettingUp] = useState(false);
@@ -865,7 +865,12 @@ const DashboardApp = () => {
         : "",
     );
     setSetupName(profile.eventName || "");
-    setSetupRole((profile as any).eventRole || "organizer");
+    const savedRole = String((profile as any).eventRole || "").trim();
+    const normalizedRole =
+      savedRole === "bride" || savedRole === "groom" || savedRole === "other"
+        ? savedRole
+        : "bride";
+    setSetupRole(normalizedRole);
     setSetupContactName(defaultContactName);
     setSetupPhone(profile.phone || "");
   }, [needsSetup, session?.profile]);
@@ -2819,11 +2824,9 @@ const DashboardApp = () => {
                   value={setupRole}
                   onChange={(e) => setSetupRole(e.target.value)}
                 >
-                  <option value="organizer">Organizator</option>
-                  <option value="planner">Event Planner</option>
                   <option value="bride">Mireasa</option>
                   <option value="groom">Mire</option>
-                  <option value="parent">Parinte</option>
+                  <option value="other">Other</option>
                 </select>
               </div>
               <div className="space-y-2">
@@ -2883,6 +2886,14 @@ const DashboardApp = () => {
                   "Creeaza Evenimentul"
                 )}
               </Button>
+              <p className="text-xs leading-relaxed text-muted-foreground text-center">
+                Prin continuare, confirmi ca esti de acord cu prelucrarea
+                datelor cu caracter personal furnizate in acest formular pentru
+                administrarea contului, configurarea evenimentului si
+                transmiterea de informari, actualizari si comunicari
+                promotionale relevante legate de acest eveniment si de
+                serviciile asociate platformei.
+              </p>
             </CardContent>
           </Card>
         </div>

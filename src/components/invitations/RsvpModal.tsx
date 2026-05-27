@@ -74,7 +74,7 @@ const RsvpModal: React.FC<RsvpModalProps> = ({ isOpen, onClose, onSubmit, guestN
                        type="text"
                        required
                        placeholder="Ex: Popescu Ion sau Familia Ionescu"
-                       className="w-full h-10 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-3 focus:ring-2 focus:ring-black focus:outline-none"
+                      className="w-full h-10 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-3 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:ring-2 focus:ring-black focus:outline-none"
                        value={publicName}
                        onChange={(e) => setPublicName(e.target.value)}
                    />
@@ -151,7 +151,7 @@ const RsvpModal: React.FC<RsvpModalProps> = ({ isOpen, onClose, onSubmit, guestN
                   <MessageSquare className="w-4 h-4" /> Mesaj pentru miri (optional)
               </label>
               <textarea 
-                className="w-full min-h-[80px] rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:ring-2 focus:ring-black focus:outline-none"
+                className="w-full min-h-[80px] rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:ring-2 focus:ring-black focus:outline-none"
                 placeholder={status === 'declined' ? "Ne pare rau, dar..." : "Abia asteptam sa va vedem!"}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
