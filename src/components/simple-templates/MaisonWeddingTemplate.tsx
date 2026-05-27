@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+﻿import React, { useState, useEffect, useRef, useCallback } from "react";
 import { InvitationTemplateProps, TemplateMeta } from "../invitations/types";
 import { InvitationBlock, InvitationBlockType } from "../../types";
 import { InlineEdit, InlineTime } from "../invitations/InlineEdit";
@@ -11,22 +11,22 @@ import {
 } from "lucide-react";
 import { API_URL } from "../../config/api";
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // META
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const meta: TemplateMeta = {
   id: "maison-wedding",
   name: "Eiffel Romance",
   category: "wedding",
-  description: "Eleganță modernă — tipografie rafinată, paletă de crem și aur, design curat pentru cupluri cu gust impecabil.",
+  description: "Eleganta moderna - tipografie rafinata, paleta de crem si aur, design curat pentru cupluri cu gust impecabil.",
   colors: ["#1a1a1a", "#c9a96e", "#f5f0e8", "#ffffff"],
   previewClass: "bg-stone-100 border-amber-600",
   elementsClass: "bg-amber-700",
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // HELPERS
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function deleteUploadedFile(url: string | undefined) {
   if (!url || !url.startsWith("/uploads/")) return;
   const _s = JSON.parse(localStorage.getItem("weddingPro_session") || "{}");
@@ -37,9 +37,9 @@ function deleteUploadedFile(url: string | undefined) {
   }).catch(() => {});
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // PALETTE
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 type MaisonTheme = {
   id: string;
   name: string;
@@ -64,7 +64,7 @@ export const MAISON_WEDDING_THEMES: MaisonTheme[] = [
   {
     id: "default",
     name: "Ivory Gold",
-    emoji: "🥂",
+    emoji: "ðŸ¥‚",
     ink: "#1c1c1c",
     inkLight: "#3d3d3d",
     gold: "#c9a96e",
@@ -83,7 +83,7 @@ export const MAISON_WEDDING_THEMES: MaisonTheme[] = [
   {
     id: "powder-rose",
     name: "Powder Rose",
-    emoji: "🌷",
+    emoji: "ðŸŒ·",
     ink: "#241c22",
     inkLight: "#4a3f47",
     gold: "#bb7c8c",
@@ -102,7 +102,7 @@ export const MAISON_WEDDING_THEMES: MaisonTheme[] = [
   {
     id: "sage-pearl",
     name: "Sage Pearl",
-    emoji: "🌿",
+    emoji: "ðŸŒ¿",
     ink: "#1d2620",
     inkLight: "#425248",
     gold: "#7f9c88",
@@ -121,7 +121,7 @@ export const MAISON_WEDDING_THEMES: MaisonTheme[] = [
   {
     id: "noir-champagne",
     name: "Noir Champagne",
-    emoji: "🖤",
+    emoji: "ðŸ–¤",
     ink: "#121013",
     inkLight: "#342d36",
     gold: "#d5b16c",
@@ -140,7 +140,7 @@ export const MAISON_WEDDING_THEMES: MaisonTheme[] = [
   {
     id: "velvet-plum",
     name: "Velvet Plum",
-    emoji: "🍷",
+    emoji: "ðŸ·",
     ink: "#21151d",
     inkLight: "#4c3240",
     gold: "#b25a77",
@@ -159,7 +159,7 @@ export const MAISON_WEDDING_THEMES: MaisonTheme[] = [
   {
     id: "terracotta-sunset",
     name: "Terracotta Sunset",
-    emoji: "🌅",
+    emoji: "ðŸŒ…",
     ink: "#2a1c18",
     inkLight: "#5b4138",
     gold: "#c76f4f",
@@ -190,9 +190,9 @@ const rgba = (hex: string, a: number) => {
   return `rgba(${r},${g},${b},${a})`;
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // FONTS
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const F = {
   serif   : "'Cormorant Garamond','Garamond',serif",
   display : "'Playfair Display','Georgia',serif",
@@ -200,9 +200,9 @@ const F = {
   script  : "'Cormorant Garamond','Garamond',serif",
 } as const;
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // IMAGE PATHS
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const IMG = {
   // Backgrounds
   heroBg      : "/maison/hero-bg.jpg",         // Imagine subtila florar / texture
@@ -225,9 +225,9 @@ const IMG = {
   venue       : "/maison/venue-icon.png",      // Iconita restaurant
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // GLOBAL CSS
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const W_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');
 
@@ -243,9 +243,9 @@ const W_CSS = `
   @keyframes w-confetti { 0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(540deg);opacity:0} }
 `;
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // SCROLL REVEAL
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function useReveal<T extends HTMLElement>(threshold = 0.08): [React.RefObject<T>, boolean] {
   const ref = useRef<T>(null);
   const [vis, setVis] = useState(false);
@@ -270,10 +270,10 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; from?: "bott
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ORNAMENTAL DIVIDER  — thin gold line with central ornament
-// ─────────────────────────────────────────────────────────────────────────────
-const GoldDivider: React.FC<{ ornament?: string; thin?: boolean; style?: React.CSSProperties }> = ({ ornament = "◆", thin = false, style }) => (
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ORNAMENTAL DIVIDER  â€” thin gold line with central ornament
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const GoldDivider: React.FC<{ ornament?: string; thin?: boolean; style?: React.CSSProperties }> = ({ ornament = "*", thin = false, style }) => (
   <div style={{ display: "flex", alignItems: "center", gap: 14, ...style }}>
     <div style={{ flex: 1, height: thin ? .5 : 1, background: `linear-gradient(to right, transparent, ${rgba(C.gold, .45)})` }} />
     {!thin && (
@@ -286,9 +286,9 @@ const GoldDivider: React.FC<{ ornament?: string; thin?: boolean; style?: React.C
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ELEGANT CARD  — white card with thin gold border
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ELEGANT CARD  â€” white card with thin gold border
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const ElegantCard: React.FC<{
   children: React.ReactNode;
   style?: React.CSSProperties;
@@ -330,16 +330,16 @@ const ElegantCard: React.FC<{
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // CONFETTI (champagne colored)
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const Confetto: React.FC<{ x: number; color: string; delay: number; size: number }> = ({ x, color, delay, size }) => (
   <div style={{ position: "fixed", left: `${x}%`, top: "-10px", width: size, height: size * 2.5, background: color, borderRadius: 1, animation: `w-confetti ${2.5 + Math.random() * 2}s ${delay}s linear forwards`, pointerEvents: "none", zIndex: 999, opacity: .8 }} />
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // CLIP SYSTEM
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 type ClipShape = "rect" | "rounded" | "rounded-lg" | "squircle" | "circle" | "arch" | "arch-b" | "hexagon" | "diamond" | "triangle" | "star" | "heart" | "diagonal" | "diagonal-r" | "wave-b" | "wave-t" | "wave-both" | "blob" | "blob2" | "blob3" | "blob4";
 type MaskEffect = "fade-b" | "fade-t" | "fade-l" | "fade-r" | "vignette";
 
@@ -455,9 +455,9 @@ const PhotoBlock: React.FC<{
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // CALENDAR
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   if (!date) return null;
   const d = new Date(date), year = d.getFullYear(), month = d.getMonth(), day = d.getDate();
@@ -487,9 +487,9 @@ const CalendarMonth: React.FC<{ date: string | undefined }> = ({ date }) => {
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // LOCATION CARD
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (p: Partial<InvitationBlock>) => void; icon?: string }> = ({ block, editMode, onUpdate, icon }) => {
   const [editWaze, setEditWaze] = useState(false);
   const name = block.locationName || "";
@@ -518,7 +518,7 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
           style={{ fontFamily: F.sans, fontSize: 9, fontWeight: 600, letterSpacing: ".45em", textTransform: "uppercase", color: C.gold, margin: "0 0 8px" }} />
         <GoldDivider thin />
         {(editMode || time) && (
-          <InlineTime value={time} onChange={v => onUpdate({ time: v })} editMode={editMode} textLabel="Locatie · ora"
+          <InlineTime value={time} onChange={v => onUpdate({ time: v })} editMode={editMode} textLabel="Locatie Â· ora"
             style={{ fontFamily: F.display, fontSize: 32, fontStyle: "italic", color: C.ink, margin: "10px 0 4px", display: "block", letterSpacing: "-.02em" }} />
         )}
         <InlineEdit tag="h3" editMode={editMode} value={name} onChange={v => onUpdate({ locationName: v })}
@@ -565,9 +565,9 @@ const LocCard: React.FC<{ block: InvitationBlock; editMode: boolean; onUpdate: (
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // MUSIC BLOCK
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const MusicBlock: React.FC<{
   block: InvitationBlock; editMode: boolean;
   onUpdate: (p: Partial<InvitationBlock>) => void;
@@ -642,7 +642,7 @@ const MusicBlock: React.FC<{
         </div>
         <div>
           <p style={{ fontFamily: F.sans, fontSize: 9, fontWeight: 600, letterSpacing: ".4em", textTransform: "uppercase", color: playing ? C.gold : C.muted, margin: 0, transition: "color .3s" }}>
-            {playing ? "În redare" : "Melodia Noastră"}
+            {playing ? "In redare" : "Melodia Noastra"}
           </p>
         </div>
         {playing && (
@@ -662,7 +662,7 @@ const MusicBlock: React.FC<{
             </button>
             <button type="button" onClick={() => setShowYt(true)}
               style={{ flex: 1, background: "transparent", border: `1px dashed ${rgba(C.gold, .4)}`, borderRadius: 2, padding: "16px 0", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: 16 }}>▶</span>
+              <span style={{ fontSize: 16 }}>{">"}</span>
               <span style={{ fontFamily: F.sans, fontSize: 9, color: C.muted, fontWeight: 600, letterSpacing: ".2em", textTransform: "uppercase" }}>YouTube</span>
             </button>
             <input ref={mp3Ref} type="file" accept="audio/*,.mp3" onChange={e => { const f = e.target.files?.[0]; if (f) handleMp3(f); }} style={{ display: "none" }} />
@@ -673,9 +673,9 @@ const MusicBlock: React.FC<{
               <input value={ytUrl} onChange={e => { setYtUrl(e.target.value); setYtError(""); }} onKeyDown={e => e.key === "Enter" && !ytDownloading && submitYt()} placeholder="https://youtu.be/..." autoFocus disabled={ytDownloading}
                 style={{ flex: 1, background: C.cream, border: `1px solid ${rgba(C.gold, .35)}`, borderRadius: 2, padding: "8px 12px", fontFamily: F.sans, fontSize: 11, color: C.ink, outline: "none" }} />
               <button type="button" onClick={submitYt} disabled={ytDownloading} style={{ background: C.gold, border: "none", borderRadius: 2, padding: "0 14px", cursor: "pointer", color: "white", fontFamily: F.sans, fontWeight: 600, minWidth: 40 }}>
-                {ytDownloading ? <div style={{ width: 12, height: 12, border: "2px solid white", borderTopColor: "transparent", borderRadius: "50%", animation: "spin .7s linear infinite" }} /> : "✓"}
+                {ytDownloading ? <div style={{ width: 12, height: 12, border: "2px solid white", borderTopColor: "transparent", borderRadius: "50%", animation: "spin .7s linear infinite" }} /> : "OK"}
               </button>
-              <button type="button" onClick={() => { setShowYt(false); setYtUrl(""); setYtError(""); }} style={{ background: "transparent", border: `1px solid ${rgba(C.ink, .15)}`, borderRadius: 2, padding: "0 10px", cursor: "pointer", color: C.muted, fontSize: 13 }}>✕</button>
+              <button type="button" onClick={() => { setShowYt(false); setYtUrl(""); setYtError(""); }} style={{ background: "transparent", border: `1px solid ${rgba(C.ink, .15)}`, borderRadius: 2, padding: "0 10px", cursor: "pointer", color: C.muted, fontSize: 13 }}>X</button>
             </div>
             {ytError && <p style={{ fontFamily: F.sans, fontSize: 10, color: "#dc2626", margin: 0 }}>{ytError}</p>}
           </div>
@@ -728,9 +728,9 @@ const MusicBlock: React.FC<{
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // COUNTDOWN
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 interface TimeLeft { days: number; hours: number; minutes: number; seconds: number; total: number }
 function calcTimeLeft(date: string): TimeLeft {
   const diff = new Date(date).getTime() - Date.now();
@@ -771,42 +771,42 @@ const Countdown: React.FC<{ targetDate: string | undefined }> = ({ targetDate })
       {vals.map((v, i) => (
         <React.Fragment key={i}>
           <CleanCell value={v} label={lbls[i]} />
-          {i < 3 && <span style={{ fontFamily: F.serif, fontSize: 20, color: rgba(C.gold, .35), paddingTop: 14, flexShrink: 0 }}>·</span>}
+          {i < 3 && <span style={{ fontFamily: F.serif, fontSize: 20, color: rgba(C.gold, .35), paddingTop: 14, flexShrink: 0 }}>Â·</span>}
         </React.Fragment>
       ))}
     </div>
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // DEFAULT BLOCKS
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const MAISON_DEFAULT_BLOCKS: InvitationBlock[] = [
   { id: "w-photo-1", type: "photo" as const, show: true, imageData: "/maison/175140437c82741b2167bfb8c40c098e.jpg", altText: "Fotografia cuplului", aspectRatio: "4:3" as const, photoClip: "rect" as const, photoMasks: ["fade-b"] as any },
-  { id: "w-text-1", type: "text", show: true, content: "Cu inimile pline de bucurie și recunoștință, vă invităm să fiți alături de noi în ziua în care doi oameni devin una." },
+  { id: "w-text-1", type: "text", show: true, content: "Cu inimile pline de bucurie si recunostinta, va invitam sa fiti alaturi de noi in ziua in care doi oameni devin unul." },
   { id: "w-calendar", type: "calendar", show: true },
   { id: "w-divider-1", type: "divider", show: true },
-  { id: "w-text-2", type: "text", show: true, content: "Această zi nu ar fi la fel de specială fără cei care ne-au ghidat pașii și ne-au înconjurat cu dragoste." },
-  { id: "w-family-1", type: "family", show: true, label: "Părinții Miresei", content: "Cu drag și recunoștință", members: JSON.stringify([{ name1: "Mama Miresei", name2: "Tata Miresei" }]) },
-  { id: "w-family-2", type: "family", show: true, label: "Părinții Mirelui", content: "Cu drag și recunoștință", members: JSON.stringify([{ name1: "Mama Mirelui", name2: "Tata Mirelui" }]) },
-  { id: "w-family-3", type: "family", show: true, label: "Nașii", content: "Cu drag și binecuvântare", members: JSON.stringify([{ name1: "Nașa", name2: "Nașul" }]) },
+  { id: "w-text-2", type: "text", show: true, content: "Aceasta zi nu ar fi la fel de speciala fara cei care ne-au ghidat pasii si ne-au inconjurat cu dragoste." },
+  { id: "w-family-1", type: "family", show: true, label: "Parintii Miresei", content: "Cu drag si recunostinta", members: JSON.stringify([{ name1: "Mama Miresei", name2: "Tata Miresei" }]) },
+  { id: "w-family-2", type: "family", show: true, label: "Parintii Mirelui", content: "Cu drag si recunostinta", members: JSON.stringify([{ name1: "Mama Mirelui", name2: "Tata Mirelui" }]) },
+  { id: "w-family-3", type: "family", show: true, label: "Nasii", content: "Cu drag si binecuvantare", members: JSON.stringify([{ name1: "Nasa", name2: "Nasul" }]) },
   { id: "w-divider-2", type: "divider", show: true },
-  { id: "w-text-3", type: "text", show: true, content: "Momentele de neuitat ale acestei zile vor avea loc în următoarele locații:" },
-  { id: "w-location-1", type: "location", show: true, label: "Cununia Religioasă", time: "13:00", locationName: "Catedrala Sf. Maria", locationAddress: "Str. Catedralei nr. 1, București", wazeLink: "https://waze.com" },
+  { id: "w-text-3", type: "text", show: true, content: "Momentele de neuitat ale acestei zile vor avea loc in urmatoarele locatii:" },
+  { id: "w-location-1", type: "location", show: true, label: "Cununia Religioasa", time: "13:00", locationName: "Catedrala Sf. Maria", locationAddress: "Str. Catedralei nr. 1, Bucuresti", wazeLink: "https://waze.com" },
   { id: "w-divider-3", type: "divider", show: true },
-  { id: "w-location-2", type: "location", show: true, label: "Recepția & Petrecerea", time: "19:00", locationName: "Grand Palace Ballroom", locationAddress: "Bd. Unirii nr. 42, București", wazeLink: "https://waze.com" },
+  { id: "w-location-2", type: "location", show: true, label: "Receptia & Petrecerea", time: "19:00", locationName: "Grand Palace Ballroom", locationAddress: "Bd. Unirii nr. 42, Bucuresti", wazeLink: "https://waze.com" },
   { id: "w-divider-4", type: "divider", show: true },
   { id: "w-photo-2", type: "photo" as const, show: true, imageData: "/maison/a5d51dd50cc3f51657a8ca13ad8c9b8e.jpg", altText: "Portretul cuplului", aspectRatio: "3:4" as const, photoClip: "arch" as const, photoMasks: ["fade-b"] as any },
-  // { id: "w-text-4", type: "text", show: true, content: "O melodie aleasă cu sufletul, care va acompania fiecare moment al acestei zile de neuitat." },
+  // { id: "w-text-4", type: "text", show: true, content: "O melodie aleasÄƒ cu sufletul, care va acompania fiecare moment al acestei zile de neuitat." },
   // { id: "w-music-1", type: "music", show: true, musicTitle: "", musicArtist: "", musicUrl: "", musicType: "none" },
   { id: "w-divider-5", type: "divider", show: true },
-  { id: "w-text-5", type: "text", show: true, content: "Prezența voastră este cel mai de preț cadou. Vă rugăm să ne confirmați participarea până la data de —." },
-  { id: "w-rsvp-1", type: "rsvp", show: true, label: "Confirmați Prezența" },
+  { id: "w-text-5", type: "text", show: true, content: "Prezenta voastra este cel mai de pret cadou. Va rugam sa ne confirmati participarea pana la data stabilita." },
+  { id: "w-rsvp-1", type: "rsvp", show: true, label: "Confirmati Prezenta" },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // WEDDING INTRO
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const WeddingIntro: React.FC<{ name1: string; name2: string; date: string; onDone: () => void }> = ({ name1, name2, date, onDone }) => {
   const [phase, setPhase] = useState(0);
   const [fade,  setFade]  = useState(false);
@@ -860,7 +860,7 @@ const WeddingIntro: React.FC<{ name1: string; name2: string; date: string; onDon
 
           {/* Small label */}
           <p style={{ fontFamily: F.sans, fontSize: 9, fontWeight: 500, letterSpacing: ".55em", textTransform: "uppercase", color: C.gold, margin: "0 0 24px" }}>
-            Invitație de nuntă
+            Invitatie de nunta
           </p>
 
           {/* Names */}
@@ -886,7 +886,7 @@ const WeddingIntro: React.FC<{ name1: string; name2: string; date: string; onDon
             <svg width="80" height="12" viewBox="0 0 80 12"><line x1="0" y1="6" x2="30" y2="6" stroke={C.gold} strokeWidth=".6"/><polygon points="40,1 43,6 40,11 37,6" fill="none" stroke={C.gold} strokeWidth=".6"/><line x1="50" y1="6" x2="80" y2="6" stroke={C.gold} strokeWidth=".6"/></svg>
           </div>
 
-          {/* Open button — minimal */}
+          {/* Open button â€” minimal */}
           <button onClick={handleOpen} style={{
             fontFamily: F.sans, fontSize: 10, fontWeight: 500, letterSpacing: ".42em", textTransform: "uppercase",
             color: C.ivory, background: C.ink, border: "none",
@@ -895,7 +895,7 @@ const WeddingIntro: React.FC<{ name1: string; name2: string; date: string; onDon
           }}
             onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = C.gold; }}
             onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = C.ink; }}>
-            Deschide Invitația
+            Deschide Invitatia
           </button>
         </div>
       )}
@@ -909,7 +909,7 @@ const WeddingIntro: React.FC<{ name1: string; name2: string; date: string; onDon
             </svg>
           </div>
           <p style={{ fontFamily: F.sans, fontSize: 9, letterSpacing: ".55em", textTransform: "uppercase", color: C.gold, margin: 0 }}>
-            Vă așteptăm cu drag
+            Va asteptam cu drag
           </p>
           <h1 style={{ fontFamily: F.display, fontSize: "clamp(32px,8vw,48px)", fontStyle: "italic", fontWeight: 400, color: C.ink, margin: 0, lineHeight: 1.2 }}>
             {name1} &amp; {name2}
@@ -921,9 +921,9 @@ const WeddingIntro: React.FC<{ name1: string; name2: string; date: string; onDon
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // AUDIO MODAL
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const AudioPermissionModal: React.FC<{ name1: string; name2: string; onAllow: () => void; onDeny: () => void }> = ({ name1, name2, onAllow, onDeny }) => (
   <div style={{ position: "fixed", inset: 0, zIndex: 10020, display: "flex", alignItems: "center", justifyContent: "center" }}>
     <div style={{ position: "absolute", inset: 0, background: rgba(C.cream, .92), backdropFilter: "blur(12px)" }} />
@@ -935,28 +935,28 @@ const AudioPermissionModal: React.FC<{ name1: string; name2: string; onAllow: ()
         </svg>
       </div>
       <p style={{ fontFamily: F.display, fontSize: 22, fontStyle: "italic", fontWeight: 400, color: C.ink, margin: "0 0 4px" }}>{name1} &amp; {name2}</p>
-      <p style={{ fontFamily: F.sans, fontSize: 10, fontWeight: 500, letterSpacing: ".25em", textTransform: "uppercase", color: C.gold, margin: "0 0 16px" }}>Invitație de Nuntă</p>
+      <p style={{ fontFamily: F.sans, fontSize: 10, fontWeight: 500, letterSpacing: ".25em", textTransform: "uppercase", color: C.gold, margin: "0 0 16px" }}>Invitatie de Nunta</p>
       <GoldDivider style={{ marginBottom: 16 }} />
-      <p style={{ fontFamily: F.serif, fontSize: 13, fontStyle: "italic", color: C.muted, margin: "0 0 24px", lineHeight: 1.7 }}>Această invitație este însoțită de o melodie aleasă cu drag. Doriți să activați muzica?</p>
+      <p style={{ fontFamily: F.serif, fontSize: 13, fontStyle: "italic", color: C.muted, margin: "0 0 24px", lineHeight: 1.7 }}>Aceasta invitatie este insotita de o melodie aleasa cu drag. Doriti sa activati muzica?</p>
       <button type="button" onClick={onAllow}
         style={{ width: "100%", padding: "12px 0", background: C.ink, border: "none", cursor: "pointer", fontFamily: F.sans, fontSize: 9, fontWeight: 600, color: "white", letterSpacing: ".4em", textTransform: "uppercase", marginBottom: 10, transition: "background .2s" }}
         onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = C.gold; }}
         onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = C.ink; }}>
-        Activați Muzica
+        Activati Muzica
       </button>
       <button type="button" onClick={onDeny}
         style={{ width: "100%", padding: "10px 0", background: "transparent", border: "none", cursor: "pointer", fontFamily: F.sans, fontSize: 10, color: C.muted, letterSpacing: ".2em" }}>
-        Continuați fără muzică
+        Continuati fara muzica
       </button>
     </div>
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // BLOCK TOOLBAR & INSERT
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const BLOCK_TYPE_ICONS: Record<string, string> = {
-  photo: "🖼", text: "✏️", location: "📍", calendar: "📅", countdown: "⏱", music: "🎵", gift: "🎁", whatsapp: "💬", rsvp: "✉️", divider: "—", family: "👨‍👩‍👧", date: "📆", description: "📝", timeline: "🗓",
+  photo: "IMG", text: "TXT", location: "PIN", calendar: "CAL", countdown: "CD", music: "MUS", gift: "GIFT", whatsapp: "WA", rsvp: "RSVP", divider: "-", family: "FAM", date: "DATE", description: "DESC", timeline: "TL",
 };
 
 const BlockToolbar = ({ onUp, onDown, onToggle, onDelete, visible, isFirst, isLast }: any) => (
@@ -990,12 +990,12 @@ const InsertBlockButton: React.FC<{
       <div style={{ position: "absolute", left: 0, right: 0, height: .5, background: `repeating-linear-gradient(to right, ${rgba(C.gold, .35)} 0, ${rgba(C.gold, .35)} 6px, transparent 6px, transparent 12px)`, zIndex: 1 }} />
       <button type="button" onClick={() => setOpenInsertAt(isOpen ? null : insertIdx)}
         style={{ width: 22, height: 22, borderRadius: "50%", background: isOpen ? C.gold : C.ivory, border: `.5px solid ${rgba(C.gold, .5)}`, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, color: isOpen ? "white" : C.gold, opacity: 1, transition: "opacity .15s, transform .15s, background .15s", transform: (hov || isOpen) ? "scale(1)" : "scale(.6)", zIndex: 2, position: "relative", fontWeight: 500, boxShadow: `0 1px 6px ${rgba(C.ink, .08)}` }}>
-        {isOpen ? "×" : "+"}
+        {isOpen ? "X" : "+"}
       </button>
       {isOpen && (
         <div style={{ position: "absolute", bottom: 30, left: "50%", transform: "translateX(-50%)", background: C.ivory, border: `.5px solid ${rgba(C.gold, .3)}`, boxShadow: `0 8px 32px ${rgba(C.ink, .1)}`, padding: 16, zIndex: 100, width: 260 }}
           onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>
-          <p style={{ fontFamily: F.sans, fontSize: ".5rem", fontWeight: 600, letterSpacing: ".35em", textTransform: "uppercase", color: C.muted, margin: "0 0 10px", textAlign: "center" }}>Adaugă Bloc</p>
+          <p style={{ fontFamily: F.sans, fontSize: ".5rem", fontWeight: 600, letterSpacing: ".35em", textTransform: "uppercase", color: C.muted, margin: "0 0 10px", textAlign: "center" }}>Adauga Bloc</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6 }}>
             {BLOCK_TYPES.map(bt => (
               <button key={bt.type} type="button" onClick={() => onInsert(bt.type, bt.def)}
@@ -1013,9 +1013,9 @@ const InsertBlockButton: React.FC<{
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // MAIN TEMPLATE
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
   editMode?: boolean;
   onProfileUpdate?: (patch: Record<string, any>) => void;
@@ -1107,20 +1107,20 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
   const dateStrFull    = wd ? wd.toLocaleDateString("ro-RO", { day: "numeric", month: "long", year: "numeric" }) : "";
 
   const BLOCK_TYPES = [
-    { type: "photo",     label: "📷 Foto",       def: { imageData: undefined, aspectRatio: "4:3", photoClip: "rect", photoMasks: [] } },
-    { type: "text",      label: "Text",           def: { content: "Cu drag vă invităm..." } },
-    { type: "location",  label: "Locație",        def: { label: "Locație", time: "13:00", locationName: "Locația evenimentului", locationAddress: "Adresa completă" } },
-    { type: "calendar",  label: "📅 Calendar",    def: {} },
-    { type: "countdown", label: "⏱ Countdown",    def: {} },
-    { type: "timeline",  label: "🗓 Cronologie",  def: {} },
-    { type: "music",     label: "🎵 Muzică",      def: { musicTitle: "", musicArtist: "", musicType: "none" } },
-    { type: "gift",      label: "🎁 Cadouri",     def: { sectionTitle: "Sugestie cadou", content: "", iban: "" } },
+    { type: "photo",     label: "ðŸ“· Foto",       def: { imageData: undefined, aspectRatio: "4:3", photoClip: "rect", photoMasks: [] } },
+    { type: "text",      label: "Text",           def: { content: "Cu drag va invitam..." } },
+    { type: "location",  label: "Locatie",        def: { label: "Locatie", time: "13:00", locationName: "Locatia evenimentului", locationAddress: "Adresa completa" } },
+    { type: "calendar",  label: "Calendar",       def: {} },
+    { type: "countdown", label: "Countdown",      def: {} },
+    { type: "timeline",  label: "Cronologie",     def: {} },
+    { type: "music",     label: "Muzica",         def: { musicTitle: "", musicArtist: "", musicType: "none" } },
+    { type: "gift",      label: "Cadouri",        def: { sectionTitle: "Sugestie cadou", content: "", iban: "" } },
     { type: "whatsapp",  label: "WhatsApp",       def: { label: "Contact WhatsApp", content: "0700000000" } },
-    { type: "rsvp",      label: "RSVP",           def: { label: "Confirmați Prezența" } },
+    { type: "rsvp",      label: "RSVP",           def: { label: "Confirmati Prezenta" } },
     { type: "divider",   label: "Linie",          def: {} },
-    { type: "family",    label: "👨‍👩‍👧 Familie",   def: { label: "Părinții", content: "Cu drag și recunoștință", members: JSON.stringify([{ name1: "Mama", name2: "Tata" }]) } },
-    { type: "date",      label: "📆 Data",        def: {} },
-    { type: "description", label: "Descriere",    def: { content: "O scurtă descriere..." } },
+    { type: "family",    label: "Familie",        def: { label: "Parintii", content: "Cu drag si recunostinta", members: JSON.stringify([{ name1: "Mama", name2: "Tata" }]) } },
+    { type: "date",      label: "Data",           def: {} },
+    { type: "description", label: "Descriere",    def: { content: "O scurta descriere..." } },
   ];
 
   return (
@@ -1141,7 +1141,7 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
         paddingBottom: 80,
       }}>
 
-        {/* ── BACKGROUND ── */}
+        {/* â”€â”€ BACKGROUND â”€â”€ */}
         <div style={{ position: "fixed", inset: 0, zIndex: 0, background: `linear-gradient(180deg, ${C.cream} 0%, ${C.ivory} 52%, ${C.creamD} 100%)` }}>
           {/* Stronger cinematic gradients */}
           <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 80% 60% at 50% 0%, ${rgba(C.gold, .12)}, transparent 62%)` }} />
@@ -1167,12 +1167,12 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
 
         <div style={{ position: "relative", zIndex: 2, maxWidth: 440, margin: "0 auto", padding: "32px 20px 0" }}>
 
-          {/* ── HERO SECTION ── */}
+          {/* â”€â”€ HERO SECTION â”€â”€ */}
           <Reveal from="fade">
             <BlockStyleProvider value={{ blockId: "__hero__", textStyles: undefined, onTextSelect: () => {} }}>
               <div style={{ textAlign: "center", marginBottom: 16 }}>
 
-                {/* Hero photo — full bleed optional */}
+                {/* Hero photo â€” full bleed optional */}
                 <div style={{ position: "relative", marginBottom: 40, overflow: "hidden" }}>
                   <img src={IMG.heroBg} alt="" style={{ width: "100%", height: 280, objectFit: "cover", objectPosition: "center", display: "block", filter: "brightness(.9) saturate(1.04) contrast(1.08)" }} />
                   {/* <img src={IMG.heroBgAlt} alt="" style={{ position: "absolute", top: 16, right: 16, width: 112, height: 142, objectFit: "cover", border: `.5px solid ${rgba(C.gold, .36)}`, boxShadow: `0 14px 28px ${rgba(C.ink, .16)}`, transform: "rotate(7deg)", opacity: .96 }} /> */}
@@ -1183,10 +1183,10 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                   <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, textAlign: "center", padding: "0 24px 24px", textShadow: `0 3px 18px ${rgba(C.white, .45)}` }}>
                     <p style={{ fontFamily: F.sans, fontSize: 15, fontWeight: 700, letterSpacing: ".42em", textTransform: "uppercase", color: C.gold, margin: "0 0 10px", textShadow: `0 2px 12px ${rgba(C.ivory, .9)}, 0 0 1px ${rgba(C.ink, .2)}` }}>Invitatie la nunta</p>
                     <h1 style={{ fontFamily: F.display, fontSize: "clamp(34px,8vw,52px)", fontStyle: "italic", fontWeight: 500, color: C.ink, margin: 0, lineHeight: 1.08, letterSpacing: "-.02em", textShadow: `0 4px 22px ${rgba(C.ivory, .92)}, 0 1px 0 ${rgba(C.white, .6)}` }}>
-                      <InlineEdit tag="span" editMode={editMode} value={name1} onChange={v => upProfile("partner1Name", v)} textLabel="Hero · Mireasă"
+                      <InlineEdit tag="span" editMode={editMode} value={name1} onChange={v => upProfile("partner1Name", v)} textLabel="Hero · Mireasa"
                         style={{ fontFamily: F.display, fontSize: "inherit", fontStyle: "italic", color: "inherit" }} />
                       <span style={{ fontFamily: F.serif, fontSize: "clamp(22px,4.8vw,32px)", color: rgba(C.gold, .92), margin: "0 14px", fontStyle: "italic", fontWeight: 400, textShadow: `0 2px 14px ${rgba(C.ivory, .85)}` }}>&amp;</span>
-                      <InlineEdit tag="span" editMode={editMode} value={name2} onChange={v => upProfile("partner2Name", v)} textLabel="Hero · Mire"
+                      <InlineEdit tag="span" editMode={editMode} value={name2} onChange={v => upProfile("partner2Name", v)} textLabel="Hero Â· Mire"
                         style={{ fontFamily: F.display, fontSize: "inherit", fontStyle: "italic", color: "inherit" }} />
                     </h1>
                   </div>
@@ -1195,13 +1195,13 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                 {/* Top label */}
                 <Reveal delay={0.1}>
                   <p style={{ fontFamily: F.sans, fontSize: 8, fontWeight: 500, letterSpacing: ".55em", textTransform: "uppercase", color: C.gold, margin: "0 0 20px" }}>
-                    Vă invită cu drag
+                    Va invita cu drag
                   </p>
                 </Reveal>
 
                 {/* Welcome text */}
                 <Reveal delay={0.15}>
-                  <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText || "la celebrarea căsătoriei lor"} onChange={v => upProfile("welcomeText", v)} textLabel="Hero · welcome"
+                  <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText || "la celebrarea casatoriei lor"} onChange={v => upProfile("welcomeText", v)} textLabel="Hero Â· welcome"
                     style={{ fontFamily: F.serif, fontSize: 16, fontStyle: "italic", fontWeight: 400, color: C.muted, margin: "0 0 32px", lineHeight: 1.8, padding: "0 16px" }} />
                 </Reveal>
 
@@ -1215,7 +1215,7 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                   </div>
                 </Reveal>
 
-                {/* DATE block — the hero date */}
+                {/* DATE block â€” the hero date */}
                 <Reveal delay={0.22}>
                   <div style={{ marginBottom: 28 }}>
                     <GoldDivider style={{ marginBottom: 24 }} />
@@ -1258,7 +1258,7 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
             </BlockStyleProvider>
           </Reveal>
 
-          {/* ── BLOCKS ── */}
+          {/* â”€â”€ BLOCKS â”€â”€ */}
           <div>
             {editMode && (
               <InsertBlockButton insertIdx={-1} openInsertAt={openInsertAt} setOpenInsertAt={setOpenInsertAt}
@@ -1277,10 +1277,10 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                       </div>
                     )}
 
-                    {/* ── DIVIDER ── */}
+                    {/* â”€â”€ DIVIDER â”€â”€ */}
                     {block.type === "divider" && <GoldDivider style={{ padding: "4px 0" }} />}
 
-                    {/* ── RSVP ── */}
+                    {/* â”€â”€ RSVP â”€â”€ */}
                     {block.type === "rsvp" && (
                       <Reveal>
                         <div style={{ textAlign: "center", padding: "8px 0" }}>
@@ -1295,13 +1295,13 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                             style={{ padding: "14px 48px", background: C.ink, border: "none", cursor: "pointer", fontFamily: F.sans, fontSize: 9, fontWeight: 600, letterSpacing: ".42em", textTransform: "uppercase", color: C.ivory, transition: "background .25s" }}
                             onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = C.gold; }}
                             onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = C.ink; }}>
-                            <InlineEdit tag="span" editMode={editMode} value={block.label || "Confirmați Prezența"} onChange={v => updBlock(idx, { label: v })} textLabel="RSVP · text" />
+                            <InlineEdit tag="span" editMode={editMode} value={block.label || "Confirmati Prezenta"} onChange={v => updBlock(idx, { label: v })} textLabel="RSVP Â· text" />
                           </button>
                         </div>
                       </Reveal>
                     )}
 
-                    {/* ── PHOTO ── */}
+                    {/* â”€â”€ PHOTO â”€â”€ */}
                     {block.type === "photo" && (
                       <Reveal>
                         <div onClick={editMode ? () => onBlockSelect?.(block, idx) : undefined}
@@ -1311,7 +1311,7 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── TEXT ── */}
+                    {/* â”€â”€ TEXT â”€â”€ */}
                     {block.type === "text" && (
                       <Reveal>
                         <div style={{ textAlign: "center", padding: "4px 8px" }}>
@@ -1321,14 +1321,14 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── LOCATION ── */}
+                    {/* â”€â”€ LOCATION â”€â”€ */}
                     {block.type === "location" && (
                       <Reveal>
                         <LocCard block={block} editMode={editMode} onUpdate={p => updBlock(idx, p)} />
                       </Reveal>
                     )}
 
-                    {/* ── CALENDAR ── */}
+                    {/* â”€â”€ CALENDAR â”€â”€ */}
                     {block.type === "calendar" && (
                       <Reveal>
                         <ElegantCard floralDeco={{ src: IMG.floral1, side: "left", top: -22, size: 72 }}>
@@ -1337,17 +1337,17 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── COUNTDOWN ── */}
+                    {/* â”€â”€ COUNTDOWN â”€â”€ */}
                     {block.type === "countdown" && (
                       <Reveal>
                         <ElegantCard floralDeco={{ src: IMG.floral2, side: "right", top: -22, size: 72 }}>
-                          <p style={{ fontFamily: F.sans, fontSize: 8, fontWeight: 500, letterSpacing: ".45em", textTransform: "uppercase", color: C.gold, textAlign: "center", margin: "0 0 18px" }}>Timp rămas</p>
+                          <p style={{ fontFamily: F.sans, fontSize: 8, fontWeight: 500, letterSpacing: ".45em", textTransform: "uppercase", color: C.gold, textAlign: "center", margin: "0 0 18px" }}>Timp ramas</p>
                           <Countdown targetDate={profile.weddingDate} />
                         </ElegantCard>
                       </Reveal>
                     )}
 
-                    {/* ── TIMELINE ── */}
+                    {/* â”€â”€ TIMELINE â”€â”€ */}
                     {block.type === "timeline" && (() => {
                       const timelineItems = getTimelineItems();
                       if (!editMode && timelineItems.length === 0) return null;
@@ -1373,10 +1373,10 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                                     <InlineEdit tag="span" editMode={editMode} value={item.title || ""} onChange={v => updateTimelineItem(item.id, { title: v })} placeholder="Moment..." textKey={`tl:${item.id}:title`} textLabel={`Titlu ${i + 1}`}
                                       style={{ fontFamily: F.sans, fontSize: 14, fontWeight: 400, color: C.ink, display: "block", lineHeight: 1.4 }} />
-                                    {editMode && <button type="button" onClick={() => removeTimelineItem(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: C.muted, fontSize: 12, padding: "0 2px", opacity: .5 }}>✕</button>}
+                                    {editMode && <button type="button" onClick={() => removeTimelineItem(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: C.muted, fontSize: 12, padding: "0 2px", opacity: .5 }}>X</button>}
                                   </div>
                                   {(editMode || item.notice) && (
-                                    <InlineEdit tag="span" editMode={editMode} value={item.notice || ""} onChange={v => updateTimelineItem(item.id, { notice: v })} placeholder="Notă..." textKey={`tl:${item.id}:notice`} textLabel={`Notă ${i + 1}`}
+                                    <InlineEdit tag="span" editMode={editMode} value={item.notice || ""} onChange={v => updateTimelineItem(item.id, { notice: v })} placeholder="Nota..." textKey={`tl:${item.id}:notice`} textLabel={`Nota ${i + 1}`}
                                       style={{ fontFamily: F.serif, fontSize: 12, fontStyle: "italic", color: C.muted, display: "block", marginTop: 2, lineHeight: 1.55 }} />
                                   )}
                                 </div>
@@ -1388,20 +1388,20 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                       );
                     })()}
 
-                    {/* ── MUSIC ── */}
+                    {/* â”€â”€ MUSIC â”€â”€ */}
                     {block.type === "music" && (
                       <Reveal><MusicBlock block={block} editMode={editMode} onUpdate={p => updBlock(idx, p)} imperativeRef={musicPlayRef} /></Reveal>
                     )}
 
-                    {/* ── GIFT ── */}
+                    {/* â”€â”€ GIFT â”€â”€ */}
                     {block.type === "gift" && (
                       <Reveal>
                         <ElegantCard>
                           <div style={{ textAlign: "center" }}>
-                            <p style={{ fontFamily: F.sans, fontSize: 8, fontWeight: 500, letterSpacing: ".45em", textTransform: "uppercase", color: C.gold, margin: "0 0 6px" }}>◆</p>
-                            <InlineEdit tag="h3" editMode={editMode} value={block.sectionTitle || "Sugestie de Cadou"} onChange={v => updBlock(idx, { sectionTitle: v })} textLabel="Cadou · titlu"
+                            <p style={{ fontFamily: F.sans, fontSize: 8, fontWeight: 500, letterSpacing: ".45em", textTransform: "uppercase", color: C.gold, margin: "0 0 6px" }}>*</p>
+                            <InlineEdit tag="h3" editMode={editMode} value={block.sectionTitle || "Sugestie de Cadou"} onChange={v => updBlock(idx, { sectionTitle: v })} textLabel="Cadou Â· titlu"
                               style={{ fontFamily: F.display, fontSize: 20, fontStyle: "italic", fontWeight: 400, color: C.ink, marginBottom: 10 }} />
-                            <InlineEdit tag="p" editMode={editMode} value={block.content || ""} onChange={v => updBlock(idx, { content: v })} multiline textLabel="Cadou · text"
+                            <InlineEdit tag="p" editMode={editMode} value={block.content || ""} onChange={v => updBlock(idx, { content: v })} multiline textLabel="Cadou Â· text"
                               style={{ fontFamily: F.serif, fontSize: 13, fontStyle: "italic", color: C.muted, lineHeight: 1.7 }} />
                             {(block.iban || editMode) && (
                               <div style={{ marginTop: 14, padding: "10px 16px", border: `.5px solid ${rgba(C.gold, .35)}`, background: C.cream }}>
@@ -1414,7 +1414,7 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── WHATSAPP ── */}
+                    {/* â”€â”€ WHATSAPP â”€â”€ */}
                     {block.type === "whatsapp" && (
                       <Reveal>
                         <div style={{ textAlign: "center" }}>
@@ -1424,15 +1424,15 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                               <MessageCircle style={{ width: 18, height: 18, color: "white" }} />
                             </div>
                             <div style={{ textAlign: "left" }}>
-                              <InlineEdit tag="p" editMode={editMode} value={block.label || "Contact WhatsApp"} onChange={v => updBlock(idx, { label: v })} textLabel="WhatsApp · label"
+                              <InlineEdit tag="p" editMode={editMode} value={block.label || "Contact WhatsApp"} onChange={v => updBlock(idx, { label: v })} textLabel="WhatsApp Â· label"
                                 style={{ fontFamily: F.sans, fontWeight: 500, fontSize: 13, color: C.ink, margin: 0, letterSpacing: ".04em" }} />
-                              <p style={{ fontFamily: F.sans, fontSize: 10, color: C.muted, margin: 0 }}>Răspundem cu promptitudine</p>
+                              <p style={{ fontFamily: F.sans, fontSize: 10, color: C.muted, margin: 0 }}>Raspundem cu promptitudine</p>
                             </div>
                           </a>
                           {editMode && (
                             <div style={{ display: "flex", alignItems: "center", gap: 8, border: `.5px solid ${rgba(C.gold, .25)}`, padding: "8px 16px", marginTop: 8, justifyContent: "center", background: C.cream }}>
-                              <span style={{ fontFamily: F.sans, fontSize: 9, fontWeight: 600, letterSpacing: ".15em", textTransform: "uppercase", color: C.muted }}>Număr:</span>
-                              <InlineEdit tag="span" editMode={editMode} value={block.content || "0700000000"} onChange={v => updBlock(idx, { content: v })} textLabel="WhatsApp · număr"
+                              <span style={{ fontFamily: F.sans, fontSize: 9, fontWeight: 600, letterSpacing: ".15em", textTransform: "uppercase", color: C.muted }}>Numar:</span>
+                              <InlineEdit tag="span" editMode={editMode} value={block.content || "0700000000"} onChange={v => updBlock(idx, { content: v })} textLabel="WhatsApp · numar"
                                 style={{ fontFamily: F.sans, fontSize: 13, color: C.ink, fontWeight: 500 }} />
                             </div>
                           )}
@@ -1440,7 +1440,7 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── FAMILY ── */}
+                    {/* â”€â”€ FAMILY â”€â”€ */}
                     {block.type === "family" && (() => {
                       const members: { name1: string; name2: string }[] = (() => { try { return JSON.parse(block.members || "[]"); } catch { return []; } })();
                       const updateMembers = (nm: { name1: string; name2: string }[]) => updBlock(idx, { members: JSON.stringify(nm) } as any);
@@ -1448,9 +1448,9 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                         <Reveal>
                           <ElegantCard>
                             <div style={{ textAlign: "center", marginBottom: 14 }}>
-                              <InlineEdit tag="p" editMode={editMode} value={block.label || "Părinții"} onChange={v => updBlock(idx, { label: v })} textLabel="Familie · titlu"
+                              <InlineEdit tag="p" editMode={editMode} value={block.label || "Parintii"} onChange={v => updBlock(idx, { label: v })} textLabel="Familie Â· titlu"
                                 style={{ fontFamily: F.sans, fontSize: 8, fontWeight: 600, letterSpacing: ".42em", textTransform: "uppercase", color: C.gold, margin: "0 0 6px" }} />
-                              <InlineEdit tag="p" editMode={editMode} value={block.content || "Cu drag și recunoștință"} onChange={v => updBlock(idx, { content: v })} textLabel="Familie · text"
+                              <InlineEdit tag="p" editMode={editMode} value={block.content || "Cu drag si recunostinta"} onChange={v => updBlock(idx, { content: v })} textLabel="Familie Â· text"
                                 style={{ fontFamily: F.serif, fontSize: 13, fontStyle: "italic", color: C.muted, margin: 0, lineHeight: 1.7 }} />
                             </div>
                             <GoldDivider thin style={{ marginBottom: 16 }} />
@@ -1458,12 +1458,12 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                               {members.map((m, mi) => (
                                 <div key={mi}>
                                   <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-                                    <InlineEdit tag="span" editMode={editMode} value={m.name1} onChange={v => { const nm = [...members]; nm[mi] = { ...nm[mi], name1: v }; updateMembers(nm); }} textLabel={`Familie · ${mi + 1}A`}
+                                    <InlineEdit tag="span" editMode={editMode} value={m.name1} onChange={v => { const nm = [...members]; nm[mi] = { ...nm[mi], name1: v }; updateMembers(nm); }} textLabel={`Familie Â· ${mi + 1}A`}
                                       style={{ fontFamily: F.display, fontSize: 18, fontStyle: "italic", fontWeight: 400, color: C.ink, letterSpacing: "-.01em" }} />
                                     <span style={{ fontFamily: F.serif, color: rgba(C.gold, .6), fontSize: 14, fontStyle: "italic" }}>&amp;</span>
-                                    <InlineEdit tag="span" editMode={editMode} value={m.name2} onChange={v => { const nm = [...members]; nm[mi] = { ...nm[mi], name2: v }; updateMembers(nm); }} textLabel={`Familie · ${mi + 1}B`}
+                                    <InlineEdit tag="span" editMode={editMode} value={m.name2} onChange={v => { const nm = [...members]; nm[mi] = { ...nm[mi], name2: v }; updateMembers(nm); }} textLabel={`Familie Â· ${mi + 1}B`}
                                       style={{ fontFamily: F.display, fontSize: 18, fontStyle: "italic", fontWeight: 400, color: C.ink, letterSpacing: "-.01em" }} />
-                                    {editMode && members.length > 1 && <button type="button" onClick={() => updateMembers(members.filter((_, i) => i !== mi))} style={{ background: "none", border: "none", cursor: "pointer", color: C.muted, fontSize: 12, padding: "0 2px" }}>✕</button>}
+                                    {editMode && members.length > 1 && <button type="button" onClick={() => updateMembers(members.filter((_, i) => i !== mi))} style={{ background: "none", border: "none", cursor: "pointer", color: C.muted, fontSize: 12, padding: "0 2px" }}>X</button>}
                                   </div>
                                   {mi < members.length - 1 && <div style={{ height: .5, background: `linear-gradient(to right, transparent, ${rgba(C.gold, .2)}, transparent)`, margin: "8px 32px 0" }} />}
                                 </div>
@@ -1472,7 +1472,7 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                             {editMode && (
                               <button type="button" onClick={() => updateMembers([...members, { name1: "Nume 1", name2: "Nume 2" }])}
                                 style={{ marginTop: 14, background: "transparent", border: `.5px dashed ${rgba(C.gold, .4)}`, padding: "5px 20px", cursor: "pointer", fontFamily: F.sans, fontSize: 9, fontWeight: 600, letterSpacing: ".25em", textTransform: "uppercase", color: C.gold, display: "block", margin: "14px auto 0" }}>
-                                + Adaugă
+                                + Adauga
                               </button>
                             )}
                           </ElegantCard>
@@ -1480,7 +1480,7 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                       );
                     })()}
 
-                    {/* ── DATE ── */}
+                    {/* â”€â”€ DATE â”€â”€ */}
                     {block.type === "date" && (
                       <Reveal>
                         <div style={{ textAlign: "center", padding: "4px 0" }}>
@@ -1491,7 +1491,7 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
                       </Reveal>
                     )}
 
-                    {/* ── DESCRIPTION ── */}
+                    {/* â”€â”€ DESCRIPTION â”€â”€ */}
                     {block.type === "description" && (
                       <Reveal>
                         <div style={{ textAlign: "center", padding: "0 16px" }}>
@@ -1511,10 +1511,10 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
             ))}
           </div>
 
-          {/* ── FOOTER ── */}
+          {/* â”€â”€ FOOTER â”€â”€ */}
           <Reveal from="fade" delay={0.1}>
             <div style={{ marginTop: 40, textAlign: "center" }}>
-              <GoldDivider ornament="◆" />
+              <GoldDivider ornament="*" />
               <div style={{ padding: "28px 0 16px", position: "relative" }}>
                 <img src={IMG.floral3} alt="" style={{ position: "absolute", left: "50%", top: -4, transform: "translateX(-50%)", width: 180, objectFit: "contain", opacity: .26, pointerEvents: "none" }} />
                 {/* Rings */}
@@ -1550,11 +1550,12 @@ export const CASTLE_DEFAULTS = {
   partner1Name:        "Elena",
   partner2Name:        "Alexandru",
   eventType:           "wedding",
-  welcomeText:         "la celebrarea căsătoriei lor",
-  celebrationText:     "căsătoriei",
+  welcomeText:         "la celebrarea casatoriei lor",
+  celebrationText:     "casatoriei",
   showWelcomeText:     true,
   showCelebrationText: true,
   weddingDate:         "",
-  rsvpButtonText:      "Confirmați Prezența",
+  rsvpButtonText:      "Confirmati Prezenta",
   colorTheme:          "default",
 };
+
