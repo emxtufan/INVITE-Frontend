@@ -20,6 +20,7 @@ export type SimpleThemeSet =
   | "lord"
   | "luxury"
   | "maison"
+  | "mirage"
   | "none";
 
 export type SimpleEventType = "wedding" | "baptism" | "anniversary" | "office";
@@ -75,6 +76,16 @@ export const TEMPLATEURI_SAMPLE: SimpleTemplateSample[] = [
     description: "A digital invitation experience inspired by modern design principles, clean, elegant, and thoughtfully crafted down to the smallest detail.",
     supportsIntroEditor: false,
     themeSet: "royal_rose",
+    eventTypes: ["wedding"],
+    status: "active",
+  },
+  {
+    id: "mirage-floral-simple",
+    name: "Mirage Floral",
+    description:
+      "Template editorial autonom, inspirat din galerii contemporane si compozitii arhitecturale.",
+    supportsIntroEditor: false,
+    themeSet: "mirage",
     eventTypes: ["wedding"],
     status: "active",
   },

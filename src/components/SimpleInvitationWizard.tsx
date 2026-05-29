@@ -2052,6 +2052,14 @@ const SimpleInvitationWizard: React.FC<SimpleInvitationWizardProps> = ({
         mid: "#fda4af",
       };
     }
+    if (themeSet === "mirage") {
+      return {
+        previewBg: "bg-stone-50 border-stone-200",
+        accent: "#1c1917",
+        soft: "#f7f4ee",
+        mid: "#c5a880",
+      };
+    }
     if (themeSet === "blush_bloom") {
       return {
         previewBg: "bg-pink-50 border-pink-200",

@@ -29,6 +29,10 @@ import {
 } from "./royal-rose-simple-full";
 import { ROYAL_ROSE_NOIR_DEFAULTS } from "./royal-rose-noir-simple";
 import {
+  MIRAGE_FLORAL_DEFAULT_BLOCKS,
+  MIRAGE_FLORAL_DEFAULTS,
+} from "./mirage-floral-simple";
+import {
   CASTLE_DEFAULTS as BLUSH_BLOOM_DEFAULTS,
 } from "./blush-bloom-simple-full";
 import {
@@ -301,6 +305,11 @@ const SIMPLE_DEFAULTS_REGISTRY: Record<string, DefaultsEntry> = {
       "royal-rose-noir",
     ],
   },
+  "mirage-floral-simple": {
+    profileDefaults: MIRAGE_FLORAL_DEFAULTS as Partial<UserProfile>,
+    blocks: MIRAGE_FLORAL_DEFAULT_BLOCKS,
+    configTemplateIds: ["mirage-floral-simple", "mirage-floral"],
+  },
   "blush-bloom-simple": {
     profileDefaults: BLUSH_BLOOM_DEFAULTS as Partial<UserProfile>,
     blocks: getSharedDefaultBlocks("blush-bloom-simple"),
@@ -542,8 +551,11 @@ export const buildSimpleTemplateDefaultPatch = (
 
   return {
     customSections: JSON.stringify(cloneBlocks(blocks)),
-    timeline: "[]",
-    showTimeline: false,
+    timeline:
+      typeof defaults.timeline === "string"
+        ? defaults.timeline
+        : JSON.stringify(defaults.timeline || []),
+    showTimeline: defaults.showTimeline ?? false,
     colorTheme: defaults.colorTheme || "default",
     welcomeText: defaults.welcomeText || "",
     celebrationText: defaults.celebrationText || "",

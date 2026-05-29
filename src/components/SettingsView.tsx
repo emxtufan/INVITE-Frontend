@@ -35,7 +35,9 @@ import JurassicTemplate from "./invitations/JurassicTemplate";
 import ZootropolisTemplate from "./invitations/ZootropolisTemplate";
 import { TextSelectionCtx } from "./BlockStyleContext";
 import LittleMermaidTemplate  from "./invitations/LittleMermaidTemplate";
+import MirageFloralSimpleFull from "./simple-templates/mirage-floral-simple-full";
 import { CASTLE_THEMES, GIRL_THEMES, BOY_THEMES, CASTLE_DEFAULTS, CASTLE_DEFAULT_BLOCKS, CASTLE_PREVIEW_DATA, ROMANTIC_THEMES, LORD_MONO_THEMES, GABBY_THEMES, FROZEN_THEMES, UNICORN_THEMES, ADVENTURE_BOY_THEMES, ADVENTURE_GIRL_THEMES, JURASSIC_BOY_THEMES, JURASSIC_GIRL_THEMES, ZOOTROPOLIS_BOY_THEMES, ZOOTROPOLIS_GIRL_THEMES, MERMAID_BOY_THEMES, MERMAID_GIRL_THEMES, ROYAL_ROSE_THEMES, BLUSH_BLOOM_THEMES, VELUM_THEMES, ETERN_BOTANICA_THEMES } from "./invitations/castleDefaults";
+import { MIRAGE_FLORAL_SIMPLE_PALETTES as MIRAGE_FLORAL_RAW_PALETTES } from "./simple-templates/mirage-floral-simple";
 import { getTemplateDefaultBlocks, getTemplateDefaultProfile } from "./invitations/registry";
 import { TemplateMeta } from "./invitations/types";
 import { API_URL } from "../config/api";
@@ -69,9 +71,19 @@ const EDITABLE_TEMPLATES: Record<string, React.FC<EditableTemplateProps>> = {
   'jurassic-park':  JurassicTemplate as React.FC<EditableTemplateProps>,
   'zootropolis':  ZootropolisTemplate as React.FC<EditableTemplateProps>,
   'little-mermaid':  LittleMermaidTemplate as React.FC<EditableTemplateProps>,
+  'mirage-floral-simple': MirageFloralSimpleFull as React.FC<EditableTemplateProps>,
 };
 const getEditableTemplate = (id: string): React.FC<EditableTemplateProps> =>
   EDITABLE_TEMPLATES[id] || ClassicTemplate as React.FC<EditableTemplateProps>;
+
+const MIRAGE_FLORAL_PALETTES = MIRAGE_FLORAL_RAW_PALETTES.map((palette) => ({
+  id: palette.id,
+  name: palette.name,
+  emoji: '🖼️',
+  PINK_DARK: palette.primary,
+  PINK_L: palette.secondary,
+  PINK_XL: palette.surface,
+}));
 
 const INTRO_TEMPLATES = new Set([
   'castle-magic',
@@ -83,6 +95,7 @@ const INTRO_TEMPLATES = new Set([
   'regal',
   'jurassic-park',
   'little-mermaid',
+  'mirage-floral-simple',
 ]);
 
 const CONFIG_TEMPLATE_TOUR_VERSION = "v1";
@@ -101,7 +114,8 @@ const HAS_COLOR_THEME_PANEL = (templateId?: string) =>
     templateId === "adventure-road" ||
     templateId === "jurassic-park" ||
     templateId === "zootropolis" ||
-    templateId === "little-mermaid"
+    templateId === "little-mermaid" ||
+    templateId === "mirage-floral-simple"
   );
 
 interface SettingsViewProps {
@@ -527,7 +541,7 @@ const SettingsContent: React.FC<{
         </div>
       </Collapsible>
 
-      {((selectedTemplate?.startsWith('castle-magic')) || selectedTemplate === 'lord-effects' || selectedTemplate === 'romantic' || selectedTemplate === 'royal-rose' || selectedTemplate === 'blush-bloom' || selectedTemplate === 'velum' || selectedTemplate === 'etern-botanica' || selectedTemplate === 'gabbys-dollhouse' || selectedTemplate === 'frozen' || selectedTemplate === 'unicorn-academy' || selectedTemplate === 'adventure-road' || selectedTemplate === 'jurassic-park' || selectedTemplate === 'zootropolis' || selectedTemplate === 'little-mermaid') && (() => {
+      {((selectedTemplate?.startsWith('castle-magic')) || selectedTemplate === 'lord-effects' || selectedTemplate === 'mirage-floral-simple' || selectedTemplate === 'romantic' || selectedTemplate === 'royal-rose' || selectedTemplate === 'blush-bloom' || selectedTemplate === 'velum' || selectedTemplate === 'etern-botanica' || selectedTemplate === 'gabbys-dollhouse' || selectedTemplate === 'frozen' || selectedTemplate === 'unicorn-academy' || selectedTemplate === 'adventure-road' || selectedTemplate === 'jurassic-park' || selectedTemplate === 'zootropolis' || selectedTemplate === 'little-mermaid') && (() => {
         const themes = selectedTemplate === 'lord-effects'
           ? LORD_MONO_THEMES
           : selectedTemplate === 'castle-magic-boys'
@@ -550,6 +564,8 @@ const SettingsContent: React.FC<{
                     ? [...MERMAID_BOY_THEMES, ...MERMAID_GIRL_THEMES]
                   : selectedTemplate === 'royal-rose'
                     ? ROYAL_ROSE_THEMES
+                  : selectedTemplate === 'mirage-floral-simple'
+                    ? MIRAGE_FLORAL_PALETTES
                   : selectedTemplate === 'blush-bloom'
                     ? BLUSH_BLOOM_THEMES
                   : selectedTemplate === 'velum'
@@ -1891,7 +1907,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
   // ── Door images preview — fetch din admin config ─────────────────────────────
   const [doorImages, setDoorImages] = useState<Record<string, { desktop?: string; mobile?: string }>>({});
   useEffect(() => {
-    if (!(selectedTemplate?.startsWith('castle-magic') || selectedTemplate === 'lord-effects' || selectedTemplate === 'jurassic-park' || selectedTemplate === 'zootropolis' || selectedTemplate === 'little-mermaid')) return;
+    if (!(selectedTemplate?.startsWith('castle-magic') || selectedTemplate === 'lord-effects' || selectedTemplate === 'mirage-floral-simple' || selectedTemplate === 'jurassic-park' || selectedTemplate === 'zootropolis' || selectedTemplate === 'little-mermaid')) return;
     fetch(`${API_URL}/config/template-defaults/${selectedTemplate}`, {
       headers: { Authorization: `Bearer ${session?.token || ''}` },
     })

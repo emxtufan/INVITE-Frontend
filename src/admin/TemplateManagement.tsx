@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Save, Upload, Check, Loader2, Trash2, ChevronDown, ChevronUp, RefreshCw, Plus, X, Pencil } from 'lucide-react';
 import { CASTLE_THEMES, GIRL_THEMES, BOY_THEMES, getCastleTheme, getLordTheme, getLuxuryTheme, CastleColorTheme, ROMANTIC_THEMES, LORD_MONO_THEMES, LUXURY_NEUTRAL_THEMES, JURASSIC_BOY_THEMES, JURASSIC_GIRL_THEMES, getJurassicTheme, ZOOTROPOLIS_BOY_THEMES, ZOOTROPOLIS_GIRL_THEMES, getZootropolisTheme, MERMAID_BOY_THEMES, MERMAID_GIRL_THEMES, getMermaidTheme } from '../components/invitations/castleDefaults';
+import { MIRAGE_FLORAL_PALETTES } from '../components/simple-templates/mirage-floral-simple-full';
 import { templates as hardcodedTemplates } from '../components/invitations/registry';
 import { TemplateVisibilityStatus } from '../components/invitations/types';
 import { TEMPLATEURI_SAMPLE } from '../components/templateuri_sample';
@@ -170,6 +171,7 @@ const VARIANTS = [
   { id: 'castle-magic-girl', label: 'Castel Regal',   emoji: '🏰', color: '#7c3aed', bg: '#faf5ff', desc: 'Varianta unificata (fete + baieti) pentru wizard simplu' },
   { id: 'lord-effects',      label: 'Lord Effects',   emoji: '👑', color: '#1d4ed8', bg: '#eff6ff', desc: 'Varianta Lord Effects cu imagini per tema' },
   { id: 'luxury-style-simple', label: 'Luxury Style', emoji: '✨', color: '#14532d', bg: '#ecfdf5', desc: 'Varianta Luxury Style cu imagini per tema' },
+  { id: 'mirage-floral-simple', label: 'Mirage Floral', emoji: '🖼️', color: '#b45309', bg: '#fff7ed', desc: 'Varianta Mirage Floral cu imagini per tema' },
   { id: 'romantic', label: 'Romantic',    emoji: '🌸', color: '#7f0000', bg: '#faf5ff', desc: 'Versiunea pentru fete' },
   { id: 'jurassic-park', label: 'Jurassic Park', emoji: '🦕', color: '#c87820', bg: '#fdf8ec', desc: 'Aventura jurasica — teme baieti & fete' },
   { id: 'zootropolis',   label: 'Zootropolis',   emoji: '🦊', color: '#E85D04', bg: '#fff7ed', desc: 'Metropola animala — teme baieti & fete' },
@@ -190,6 +192,18 @@ const CASTEL_REGAL_THEMES: CastleColorTheme[] = Array.from(
     [...GIRL_THEMES, ...BOY_THEMES].map((theme) => [theme.id, theme]),
   ).values(),
 );
+
+const MIRAGE_ADMIN_THEMES = Object.values(MIRAGE_FLORAL_PALETTES).map((theme) => ({
+  id: theme.id,
+  name: theme.name,
+  emoji: '🖼️',
+  PINK_DARK: theme.primary,
+  PINK_L: theme.secondary,
+  PINK_XL: theme.background,
+}));
+
+const getMirageTheme = (themeId?: string) =>
+  MIRAGE_ADMIN_THEMES.find((theme) => theme.id === (themeId || 'mirage_floral')) || MIRAGE_ADMIN_THEMES[0];
 
 const emptyConfig = (): VariantConfig => ({ colorTheme: 'default', themeImages: {}, introVariants: {} });
 
@@ -1775,7 +1789,7 @@ Fisierele vor fi sterse permanent.`)) return;
                   <span style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', fontFamily: 'monospace', background: '#f3f4f6', padding: '2px 8px', borderRadius: 6 }}>{variant.id}</span>
                 </div>
                 <p style={{ margin: '2px 0 0', fontSize: 12, color: '#6b7280' }}>
-                  {variant.desc} · Tema implicita: <strong style={{ color: variant.color }}>{variant.id === 'lord-effects' ? getLordTheme(cfg.colorTheme).emoji : variant.id === 'luxury-style-simple' ? getLuxuryTheme(cfg.colorTheme).emoji : variant.id === 'jurassic-park' ? getJurassicTheme(cfg.colorTheme).emoji : variant.id === 'zootropolis' ? getZootropolisTheme(cfg.colorTheme).emoji : variant.id === 'little-mermaid' ? getMermaidTheme(cfg.colorTheme).emoji : getCastleTheme(cfg.colorTheme).emoji} {variant.id === 'lord-effects' ? getLordTheme(cfg.colorTheme).name : variant.id === 'luxury-style-simple' ? getLuxuryTheme(cfg.colorTheme).name : variant.id === 'jurassic-park' ? getJurassicTheme(cfg.colorTheme).name : variant.id === 'zootropolis' ? getZootropolisTheme(cfg.colorTheme).name : variant.id === 'little-mermaid' ? getMermaidTheme(cfg.colorTheme).name : getCastleTheme(cfg.colorTheme).name}</strong>
+                  {variant.desc} · Tema implicita: <strong style={{ color: variant.color }}>{variant.id === 'lord-effects' ? getLordTheme(cfg.colorTheme).emoji : variant.id === 'luxury-style-simple' ? getLuxuryTheme(cfg.colorTheme).emoji : variant.id === 'mirage-floral-simple' ? getMirageTheme(cfg.colorTheme).emoji : variant.id === 'jurassic-park' ? getJurassicTheme(cfg.colorTheme).emoji : variant.id === 'zootropolis' ? getZootropolisTheme(cfg.colorTheme).emoji : variant.id === 'little-mermaid' ? getMermaidTheme(cfg.colorTheme).emoji : getCastleTheme(cfg.colorTheme).emoji} {variant.id === 'lord-effects' ? getLordTheme(cfg.colorTheme).name : variant.id === 'luxury-style-simple' ? getLuxuryTheme(cfg.colorTheme).name : variant.id === 'mirage-floral-simple' ? getMirageTheme(cfg.colorTheme).name : variant.id === 'jurassic-park' ? getJurassicTheme(cfg.colorTheme).name : variant.id === 'zootropolis' ? getZootropolisTheme(cfg.colorTheme).name : variant.id === 'little-mermaid' ? getMermaidTheme(cfg.colorTheme).name : getCastleTheme(cfg.colorTheme).name}</strong>
                   {themesWithImgs > 0 && <> · <span style={{ color: '#4f46e5' }}>🚪 {themesWithImgs} teme cu imagini</span></>}
                 </p>
               </div>
@@ -1913,6 +1927,8 @@ Fisierele vor fi sterse permanent.`)) return;
             ? LORD_MONO_THEMES
             : variant.id === 'luxury-style-simple'
             ? LUXURY_NEUTRAL_THEMES
+            : variant.id === 'mirage-floral-simple'
+            ? MIRAGE_ADMIN_THEMES as unknown as CastleColorTheme[]
             : variant.id === 'castle-magic-girl'
                 ? CASTEL_REGAL_THEMES
                 : variant.id === 'romantic'

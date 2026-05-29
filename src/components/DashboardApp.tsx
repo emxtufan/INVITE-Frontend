@@ -741,6 +741,7 @@ const DashboardApp = () => {
         "zootropolis-simple",
         "royal-rose-simple",
         "royal-rose-noir-simple",
+        "mirage-floral-simple",
         "blush-bloom-simple",
         "garden-romantic-simple",
         "etern-botanica-simple",

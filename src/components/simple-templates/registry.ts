@@ -33,6 +33,9 @@ import RoyalRoseSimpleTemplate, {
 import RoyalRoseNoirSimpleTemplate, {
   ROYAL_ROSE_NOIR_SIMPLE_PALETTES,
 } from "./royal-rose-noir-simple";
+import MirageFloralSimpleTemplate, {
+  MIRAGE_FLORAL_SIMPLE_PALETTES,
+} from "./mirage-floral-simple";
 import BlushBloomSimpleTemplate, {
   BLUSH_BLOOM_SIMPLE_PALETTES,
 } from "./blush-bloom-simple";
@@ -100,6 +103,16 @@ export const SIMPLE_TEMPLATE_DEFINITIONS: SimpleTemplateDefinition[] = [
     showPaletteImagePreview: false,
     palettes: ROYAL_ROSE_NOIR_SIMPLE_PALETTES,
     component: RoyalRoseNoirSimpleTemplate,
+  },
+  {
+    id: "mirage-floral-simple",
+    name: "Mirage Floral",
+    description:
+      "Template editorial autonom, cu layout de galerie si compozitie arhitecturala moderna.",
+    supportsIntroEditor: true,
+    showPaletteImagePreview: false,
+    palettes: MIRAGE_FLORAL_SIMPLE_PALETTES,
+    component: MirageFloralSimpleTemplate,
   },
   {
     id: "blush-bloom-simple",
