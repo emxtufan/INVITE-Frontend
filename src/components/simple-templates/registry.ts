@@ -30,6 +30,9 @@ import ClassicSimpleTemplate, {
 import RoyalRoseSimpleTemplate, {
   ROYAL_ROSE_SIMPLE_PALETTES,
 } from "./royal-rose-simple";
+import RoyalRoseNoirSimpleTemplate, {
+  ROYAL_ROSE_NOIR_SIMPLE_PALETTES,
+} from "./royal-rose-noir-simple";
 import BlushBloomSimpleTemplate, {
   BLUSH_BLOOM_SIMPLE_PALETTES,
 } from "./blush-bloom-simple";
@@ -87,6 +90,16 @@ export const SIMPLE_TEMPLATE_DEFINITIONS: SimpleTemplateDefinition[] = [
     showPaletteImagePreview: false,
     palettes: ROYAL_ROSE_SIMPLE_PALETTES,
     component: RoyalRoseSimpleTemplate,
+  },
+  {
+    id: "royal-rose-noir-simple",
+    name: "Cupertino Noir",
+    description:
+      "Template Royal Rose reinterpretat intr-un stil dark premium.",
+    supportsIntroEditor: false,
+    showPaletteImagePreview: false,
+    palettes: ROYAL_ROSE_NOIR_SIMPLE_PALETTES,
+    component: RoyalRoseNoirSimpleTemplate,
   },
   {
     id: "blush-bloom-simple",

@@ -27,6 +27,7 @@ import {
 import {
   CASTLE_DEFAULTS as ROYAL_ROSE_DEFAULTS,
 } from "./royal-rose-simple-full";
+import { ROYAL_ROSE_NOIR_DEFAULTS } from "./royal-rose-noir-simple";
 import {
   CASTLE_DEFAULTS as BLUSH_BLOOM_DEFAULTS,
 } from "./blush-bloom-simple-full";
@@ -291,6 +292,14 @@ const SIMPLE_DEFAULTS_REGISTRY: Record<string, DefaultsEntry> = {
     profileDefaults: ROYAL_ROSE_DEFAULTS as Partial<UserProfile>,
     blocks: getSharedDefaultBlocks("royal-rose-simple"),
     configTemplateIds: ["royal-rose-simple", "royal-rose"],
+  },
+  "royal-rose-noir-simple": {
+    profileDefaults: ROYAL_ROSE_NOIR_DEFAULTS as Partial<UserProfile>,
+    blocks: getSharedDefaultBlocks("royal-rose-noir-simple"),
+    configTemplateIds: [
+      "royal-rose-noir-simple",
+      "royal-rose-noir",
+    ],
   },
   "blush-bloom-simple": {
     profileDefaults: BLUSH_BLOOM_DEFAULTS as Partial<UserProfile>,

@@ -1,0 +1,302 @@
+ROYAL ROSE - NEW TEMPLATE BRIEF
+================================
+
+Scop
+----
+Vreau un nou template de invitatie, bazat pe fluxul si datele din "Royal Rose",
+dar cu alt design vizual.
+
+Important:
+- logica trebuie sa ramana compatibila cu proiectul actual
+- nu se schimba modelul de date
+- nu se schimba block types
+- nu se schimba prop-urile principale
+- schimbam doar UI, layout, animatii, decoratiuni, compozitie si stil
+
+
+Ce fisiere de referinta sa primesti
+-----------------------------------
+Trimite lui Claude aceste fisiere sau fragmentele relevante din ele:
+
+1. Componenta principala de referinta
+   Frontend/src/components/simple-templates/royal-rose-simple-full.tsx
+
+2. Wrapperul simplu
+   Frontend/src/components/simple-templates/royal-rose-simple.tsx
+
+3. Paletele / theme tokens
+   Frontend/src/components/invitations/castleDefaults.ts
+   Cauta:
+   - ROYAL_ROSE_THEMES
+   - getRoyalRoseTheme
+
+4. Default blocks shared pentru wedding templates
+   Frontend/src/components/simple-templates/shared-default-blocks.ts
+
+5. Inregistrarea template-urilor simple
+   Frontend/src/components/simple-templates/registry.ts
+
+6. Default profile si config lookup
+   Frontend/src/components/simple-templates/defaults-registry.ts
+
+7. Cardul care apare in selectorul de template-uri
+   Frontend/src/components/templateuri_sample.ts
+
+8. Tipurile de baza, daca are nevoie
+   Frontend/src/components/simple-templates/types.ts
+   Frontend/src/components/invitations/types.ts
+   Frontend/src/types.ts
+
+
+Ce trebuie sa inteleaga Claude
+------------------------------
+Noul template trebuie sa functioneze exact ca Royal Rose la nivel de date si editare:
+
+- primeste "data"
+- foloseste "data.profile"
+- foloseste "customSections"
+- foloseste aceleasi block types
+- poate deschide RSVP cu "onOpenRSVP"
+- poate actualiza profilul prin "onProfileUpdate"
+- poate actualiza blocurile prin "onBlocksUpdate"
+
+Pe scurt:
+aceeasi logica, alt design.
+
+
+Contractul pe care NU are voie sa il schimbe
+--------------------------------------------
+1. Wrapper simplu de forma:
+   - componenta wrapper care primeste SimpleTemplateRenderProps
+   - pasa data mai departe catre componenta full
+   - converteste onBlocksUpdate in customSections JSON
+
+2. Componenta full trebuie sa ramana compatibila cu:
+   - InvitationTemplateProps
+   - InvitationBlock
+   - UserProfile
+
+3. Trebuie sa existe:
+   - export const meta
+   - export const CASTLE_DEFAULTS
+   - export const CASTLE_DEFAULT_BLOCKS
+   - export const CASTLE_PREVIEW_DATA
+   - export default pentru componenta principala
+
+4. Trebuie sa foloseasca aceeasi idee de tema:
+   - colorTheme din profile
+   - palete compatibile cu registry-ul actual
+
+
+Prompt gata de trimis lui Claude
+--------------------------------
+You are helping me build a new React + TypeScript invitation template for an existing codebase.
+
+I already have a working template called "Royal Rose". I want a NEW template that keeps the same data model and editing flow, but has a different visual design.
+
+Very important:
+- Do NOT invent a new data schema.
+- Do NOT change the existing props contract.
+- Do NOT change the block types.
+- Do NOT change how customSections are stored.
+- Keep it compatible with the existing project so I can drop it in with minimal integration work.
+
+Use the existing "Royal Rose" template as the functional reference:
+- same data usage
+- same block rendering concept
+- same RSVP behavior
+- same profile update behavior
+- same block update behavior
+
+What should change:
+- overall visual identity
+- layout
+- section composition
+- decorative elements
+- transitions / animation style
+- typography choices
+- visual rhythm
+
+Please generate TWO files:
+
+1. new-template-simple-full.tsx
+   Requirements:
+   - React + TypeScript
+   - export const meta
+   - export const CASTLE_DEFAULTS
+   - export const CASTLE_DEFAULT_BLOCKS
+   - export const CASTLE_PREVIEW_DATA
+   - export default main template component
+   - keep compatibility with InvitationTemplateProps
+   - keep support for profile, customSections, blocks, RSVP, music, countdown, timeline, locations, parents, godparents, gift, thankyou, etc.
+
+2. new-template-simple.tsx
+   Requirements:
+   - simple wrapper around the full component
+   - same pattern as royal-rose-simple.tsx
+   - converts block updates into customSections JSON
+   - uses SimpleTemplateRenderProps
+
+Design direction:
+- elegant
+- premium
+- romantic
+- editorial
+- clean but expressive
+- not a clone of Royal Rose
+- still suitable for wedding invitations
+
+Use existing theme token logic similar to Royal Rose.
+Do not hardcode a completely unrelated state structure.
+
+Output only the code for the two files.
+
+
+Ce output trebuie sa imi dea Claude
+-----------------------------------
+Ideal, Claude trebuie sa iti dea doar:
+
+1. new-template-simple-full.tsx
+2. new-template-simple.tsx
+
+Fara explicatii foarte lungi.
+Fara sa schimbe alte fisiere din proiect.
+
+
+Nume recomandate pentru noul template
+-------------------------------------
+Alege unul dintre acestea:
+
+- royal-rose-noir-simple
+- royal-rose-luxe-simple
+- royal-rose-editorial-simple
+- royal-rose-opera-simple
+- royal-rose-signature-simple
+
+Recomandare:
+royal-rose-editorial-simple
+
+
+Unde punem fisierele noi
+------------------------
+In:
+
+Frontend/src/components/simple-templates/
+
+Exemplu:
+- royal-rose-editorial-simple-full.tsx
+- royal-rose-editorial-simple.tsx
+
+
+Ce modificam noi dupa ce primim codul
+------------------------------------
+1. Adaugam componenta in registry:
+   Frontend/src/components/simple-templates/registry.ts
+
+2. Adaugam defaults registry:
+   Frontend/src/components/simple-templates/defaults-registry.ts
+
+3. Adaugam cardul in selector:
+   Frontend/src/components/templateuri_sample.ts
+
+4. Adaugam template ID-ul in lista simpla:
+   Frontend/src/components/DashboardApp.tsx
+
+5. Daca este template de wedding, il adaugam in:
+   Frontend/src/components/simple-templates/shared-default-blocks.ts
+   in WEDDING_TEMPLATE_IDS
+
+6. Daca vrem aceleasi palete ca Royal Rose:
+   in templateuri_sample.ts folosim:
+   themeSet: "royal_rose"
+
+
+Snippets de integrare
+---------------------
+1. registry.ts
+
+Import:
+import RoyalRoseEditorialSimpleTemplate, {
+  ROYAL_ROSE_EDITORIAL_SIMPLE_PALETTES,
+} from "./royal-rose-editorial-simple";
+
+Entry:
+{
+  id: "royal-rose-editorial-simple",
+  name: "Royal Rose Editorial",
+  description: "Template nou pe fluxul Royal Rose, cu design editorial.",
+  supportsIntroEditor: false,
+  showPaletteImagePreview: false,
+  palettes: ROYAL_ROSE_EDITORIAL_SIMPLE_PALETTES,
+  component: RoyalRoseEditorialSimpleTemplate,
+},
+
+
+2. defaults-registry.ts
+
+"royal-rose-editorial-simple": {
+  profileDefaults: ROYAL_ROSE_EDITORIAL_DEFAULTS as Partial<UserProfile>,
+  blocks: getSharedDefaultBlocks("royal-rose-editorial-simple"),
+  configTemplateIds: ["royal-rose-editorial-simple", "royal-rose-editorial"],
+},
+
+
+3. templateuri_sample.ts
+
+{
+  id: "royal-rose-editorial-simple",
+  name: "Royal Rose Editorial",
+  description: "Template Royal Rose reinterpretat intr-un stil editorial.",
+  supportsIntroEditor: false,
+  themeSet: "royal_rose",
+  eventTypes: ["wedding"],
+  status: "active",
+},
+
+
+4. DashboardApp.tsx
+
+Adauga in SIMPLE_TEMPLATE_IDS:
+"royal-rose-editorial-simple",
+
+
+5. shared-default-blocks.ts
+
+Adauga in WEDDING_TEMPLATE_IDS:
+"royal-rose-editorial",
+"royal-rose-editorial-simple",
+
+
+Ce trebuie verificat dupa integrare
+-----------------------------------
+1. Template-ul apare in selector
+2. Se poate selecta
+3. Se deschide preview-ul
+4. Se deschide editorul
+5. Se salveaza customSections corect
+6. RSVP merge
+7. Culorile se schimba corect daca foloseste palete
+8. Invitatia publica se randareaza corect
+9. npm run build trece fara erori
+
+
+Observatii importante
+---------------------
+- Daca Claude schimba prop names, nu accepta varianta.
+- Daca Claude inventeaza alt shape pentru blocks, nu accepta varianta.
+- Daca Claude scoate support pentru customSections JSON, nu accepta varianta.
+- Daca Claude iti da doar HTML/CSS fara integrarea React/TSX, nu accepta varianta.
+
+
+Varianta cea mai sigura
+-----------------------
+Spune-i lui Claude sa porneasca direct din structura lui royal-rose-simple-full.tsx
+si sa schimbe doar:
+- markup-ul
+- className-urile
+- compozitia sectiunilor
+- decoratiunile
+- stilul animatiilor
+
+Nu logica.
+

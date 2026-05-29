@@ -740,6 +740,7 @@ const DashboardApp = () => {
         "unicorn-academy-simple",
         "zootropolis-simple",
         "royal-rose-simple",
+        "royal-rose-noir-simple",
         "blush-bloom-simple",
         "garden-romantic-simple",
         "etern-botanica-simple",

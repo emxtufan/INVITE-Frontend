@@ -23,6 +23,8 @@ const TEMPLATE_SPECIFIC_DEFAULT_BLOCKS: Record<string, InvitationBlock[]> = {
 const WEDDING_TEMPLATE_IDS = new Set([
   "royal-rose",
   "royal-rose-simple",
+  "royal-rose-noir",
+  "royal-rose-noir-simple",
   "blush-bloom",
   "blush-bloom-simple",
   "garden-romantic",

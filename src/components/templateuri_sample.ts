@@ -70,6 +70,15 @@ export const TEMPLATEURI_SAMPLE: SimpleTemplateSample[] = [
     status: "active",
   },
   {
+    id: "royal-rose-noir-simple",
+    name: "Nest Zero",
+    description: "A digital invitation experience inspired by modern design principles, clean, elegant, and thoughtfully crafted down to the smallest detail.",
+    supportsIntroEditor: false,
+    themeSet: "royal_rose",
+    eventTypes: ["wedding"],
+    status: "active",
+  },
+  {
     id: "blush-bloom-simple",
     name: "Blush Bloom",
     description: "Template Blush Bloom in fluxul simplu.",
