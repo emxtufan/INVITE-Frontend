@@ -121,6 +121,8 @@ export const meta: TemplateMeta = {
   elementsClass: "bg-stone-300",
 };
 
+const MIRAGE_CONFIG_CANDIDATES = [meta.id, "mirage-floral"];
+
 const APPLE_DISPLAY_FONT =
   'ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif';
 const EDITORIAL_SERIF =
@@ -1481,6 +1483,167 @@ type JungleIntroProps = {
   onRevealed?: () => void;
 };
 
+const MirageStaticIntroPreview: React.FC<{
+  imageDesktop?: string;
+  imageMobile?: string;
+  headerText?: string;
+  footerText?: string;
+  introTextStyles?: Record<string, TextStyle>;
+}> = ({ imageDesktop, imageMobile, headerText, footerText, introTextStyles }) => {
+  const isMob = typeof window !== "undefined" && window.innerWidth < 768;
+  const img = isMob ? imageMobile || imageDesktop : imageDesktop || imageMobile;
+  const defImg =
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'%3E%3Crect width='1200' height='800' fill='%231a0a2e'/%3E%3C/svg%3E";
+  const introStyleOf = (
+    key: "intro:header" | "intro:footer",
+  ): React.CSSProperties => {
+    const style = introTextStyles?.[key];
+    if (!style) return {};
+    const out: React.CSSProperties = {};
+    if (style.fontFamily != null) out.fontFamily = style.fontFamily;
+    if (style.fontSize != null) out.fontSize = `${style.fontSize}px`;
+    if (style.fontWeight != null) out.fontWeight = style.fontWeight;
+    if (style.fontStyle != null) out.fontStyle = style.fontStyle;
+    if (style.letterSpacing != null) out.letterSpacing = `${style.letterSpacing * 0.01}em`;
+    if (style.lineHeight != null) out.lineHeight = `${style.lineHeight * 0.01}`;
+    if (style.color != null) out.color = style.color;
+    if (style.textAlign != null) out.textAlign = style.textAlign;
+    return out;
+  };
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        minHeight: isMob ? 520 : 620,
+        height: isMob ? "72vh" : "74vh",
+        overflow: "hidden",
+        background: "#f7f4ee",
+      }}
+    >
+      <img
+        src={img || defImg}
+        alt=""
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "center top",
+          display: "block",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(9,7,6,0.12) 0%, rgba(9,7,6,0.18) 34%, rgba(9,7,6,0.14) 62%, rgba(9,7,6,0.34) 100%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: isMob ? 24 : 30,
+          left: 0,
+          width: "100%",
+          padding: isMob ? "0 20px" : "0 32px",
+          textAlign: "center",
+          color: "#ffffff",
+          fontFamily: '"Tangerine", cursive',
+          fontSize: isMob ? 50 : 60,
+          fontWeight: 700,
+          textShadow: "0 6px 18px rgba(0,0,0,0.28)",
+          whiteSpace: "normal",
+          overflowWrap: "anywhere",
+          ...introStyleOf("intro:header"),
+        }}
+      >
+        {headerText || "Save The Date"}
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: isMob ? 28 : 30,
+          left: 0,
+          width: "100%",
+          padding: isMob ? "0 20px" : "0 32px",
+          textAlign: "center",
+          color: "#ffffff",
+          fontSize: isMob ? 14 : 13,
+          fontWeight: 600,
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          textShadow: "0 6px 18px rgba(0,0,0,0.28)",
+          whiteSpace: "normal",
+          overflowWrap: "anywhere",
+          ...introStyleOf("intro:footer"),
+        }}
+      >
+        {footerText || "Data Evenimentului"}
+      </div>
+    </div>
+  );
+};
+
+const RevealOnView: React.FC<{
+  children: React.ReactNode;
+  delay?: number;
+  enabled?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}> = ({ children, delay = 0, enabled = true, className, style }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(!enabled);
+
+  useEffect(() => {
+    if (!enabled) {
+      setVisible(true);
+      return;
+    }
+    const node = ref.current;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.24,
+        rootMargin: "0px 0px -18% 0px",
+      },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [enabled]);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        ...style,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0) scale(1)" : "translateY(22px) scale(0.985)",
+        filter: visible ? "blur(0)" : "blur(12px)",
+        transition:
+          "opacity 920ms cubic-bezier(0.22, 1, 0.36, 1), transform 920ms cubic-bezier(0.22, 1, 0.36, 1), filter 920ms cubic-bezier(0.22, 1, 0.36, 1)",
+        transitionDelay: `${delay}ms`,
+        willChange: "opacity, transform, filter",
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
 const DissolveIntro: React.FC<JungleIntroProps> = ({
   castleUrl,
   castleUrlMobile,
@@ -1991,9 +2154,10 @@ const formatLongDate = (dateStr: string) => {
 
 const mirageCardStyle = (theme: Palette): React.CSSProperties => ({
   border: `1px solid ${theme.border}`,
-  background: theme.cardBg,
+  background: `linear-gradient(180deg, ${theme.cardBg} 0%, ${theme.cardBg} 62%, ${theme.secondary} 180%)`,
   borderRadius: 28,
-  boxShadow: "0 18px 50px rgba(28,25,23,0.06)",
+  boxShadow:
+    "0 24px 70px rgba(28,25,23,0.08), inset 0 1px 0 rgba(255,255,255,0.72)",
 });
 
 const BUTTON_STYLE = (theme: Palette): React.CSSProperties => ({
@@ -2109,7 +2273,62 @@ export default function MirageFloralSimpleFull({
     ...CASTLE_DEFAULTS,
     ...data.profile,
   } as UserProfile & Record<string, any>;
-  const theme = getMirageFloralTheme(profile.colorTheme);
+  const [globalConfig, setGlobalConfig] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadGlobalConfig = async () => {
+      for (const configId of MIRAGE_CONFIG_CANDIDATES) {
+        try {
+          const response = await fetch(`${API_URL}/config/template-defaults/${configId}`);
+          if (!response.ok) continue;
+          const cfg = await response.json();
+          if (!cancelled && cfg && typeof cfg === "object") {
+            setGlobalConfig(cfg);
+            return;
+          }
+        } catch {}
+      }
+
+      if (!cancelled) setGlobalConfig({});
+    };
+
+    loadGlobalConfig();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const cleanAssetUrl = (value: unknown): string | undefined => {
+    if (typeof value !== "string") return undefined;
+    const trimmed = value.trim();
+    if (!trimmed || trimmed === "undefined" || trimmed === "null") return undefined;
+    return trimmed;
+  };
+
+  const profileTheme = typeof profile.colorTheme === "string" ? profile.colorTheme.trim() : "";
+  const hasExplicitTheme =
+    profileTheme.length > 0 && profileTheme !== "default" && profileTheme !== "undefined";
+  const activeColorTheme = hasExplicitTheme
+    ? profileTheme
+    : cleanAssetUrl(globalConfig.colorTheme) || profileTheme || CASTLE_DEFAULTS.colorTheme;
+  const theme = getMirageFloralTheme(activeColorTheme);
+  const themeImgs = globalConfig.themeImages?.[activeColorTheme] || {};
+  const defaultImgs = globalConfig.themeImages?.default || {};
+  const introHeroBgImage =
+    cleanAssetUrl(themeImgs.desktop) ||
+    cleanAssetUrl(defaultImgs.desktop) ||
+    cleanAssetUrl(globalConfig.heroBgImage) ||
+    cleanAssetUrl(profile.heroBgImage) ||
+    cleanAssetUrl(CASTLE_DEFAULTS.heroBgImage);
+  const introHeroBgImageMobile =
+    cleanAssetUrl(themeImgs.mobile) ||
+    cleanAssetUrl(defaultImgs.mobile) ||
+    cleanAssetUrl(globalConfig.heroBgImageMobile) ||
+    cleanAssetUrl(profile.heroBgImageMobile) ||
+    cleanAssetUrl(CASTLE_DEFAULTS.heroBgImageMobile);
 
   const [blocks, setBlocks] = useState<InvitationBlock[]>(() => {
     const fromDb = safeJSON<InvitationBlock[] | null>(profile.customSections, null);
@@ -2457,31 +2676,12 @@ export default function MirageFloralSimpleFull({
 
   if (introOnly) {
     return (
-      <DissolveIntro
-        castleUrl={profile.heroBgImage}
-        castleUrlMobile={profile.heroBgImageMobile}
-        childName={profile.partner1Name || "Maria"}
-        partner2Name={profile.partner2Name || "Alexandru"}
-        subtitle=""
-        welcomeText=""
-        inviteTop={undefined}
-        inviteMiddle={undefined}
-        inviteBottom={undefined}
-        inviteTag={undefined}
-        dateStr={introDateText}
-        inviteText=""
+      <MirageStaticIntroPreview
+        imageDesktop={introHeroBgImage}
+        imageMobile={introHeroBgImageMobile}
         headerText={introHeaderText}
         footerText={introFooterText}
         introTextStyles={(profile as any).introTextStyles}
-        themeColors={{
-          pinkDark: theme.primary,
-          pinkL: theme.secondary,
-          pinkXL: theme.background,
-          gold: theme.accent,
-          text: theme.headingColor,
-          cream: theme.cardBg,
-        }}
-        onRevealed={() => {}}
       />
     );
   }
@@ -2490,8 +2690,8 @@ export default function MirageFloralSimpleFull({
     <>
       {showIntro && (
         <DissolveIntro
-          castleUrl={profile.heroBgImage}
-          castleUrlMobile={profile.heroBgImageMobile}
+          castleUrl={introHeroBgImage}
+          castleUrlMobile={introHeroBgImageMobile}
           childName={profile.partner1Name || "Maria"}
           partner2Name={profile.partner2Name || "Alexandru"}
           subtitle=""
@@ -2522,8 +2722,8 @@ export default function MirageFloralSimpleFull({
           background: theme.background,
           color: theme.textColor,
           fontFamily: APPLE_DISPLAY_FONT,
-          marginTop: showIntro ? "calc(var(--jungle-vh, 1vh) * -69)" : undefined,
-          paddingTop: showIntro ? "calc(var(--jungle-vh, 1vh) * 2)" : undefined,
+          marginTop: showIntro ? "calc(var(--jungle-vh, 1vh) * -64 - 30px)" : undefined,
+          paddingTop: showIntro ? "calc(var(--jungle-vh, 1vh) * 4)" : undefined,
           position: "relative",
           zIndex: 5,
         }}
@@ -2545,7 +2745,12 @@ export default function MirageFloralSimpleFull({
         </div>
       )}
 
-      <div className="mx-auto mb-10 flex w-full max-w-4xl items-center justify-between border-b px-2 pb-6" style={{ borderColor: theme.border }}>
+      <RevealOnView
+        enabled={!editMode}
+        delay={60}
+        className="mx-auto mb-10 flex w-full max-w-4xl items-center justify-between border-b px-2 pb-6"
+        style={{ borderColor: theme.border }}
+      >
         <span
           className="block text-[10px] font-bold tracking-[0.4em]"
           style={{ color: theme.headingColor }}
@@ -2563,9 +2768,10 @@ export default function MirageFloralSimpleFull({
             {isPlayingHero ? "Audio pornit" : "Reda sunet"}
           </button>
         ) : null}
-      </div>
+      </RevealOnView>
 
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-8">
+        <RevealOnView enabled={!editMode} delay={140}>
         <div style={{ ...mirageCardStyle(theme), padding: "28px 24px" }}>
           <div className="relative">
             <InlineEdit
@@ -2753,6 +2959,7 @@ export default function MirageFloralSimpleFull({
             </div>
           </div>
         </div>
+        </RevealOnView>
 
         {editMode && (
           <InsertBlockButton
@@ -2826,7 +3033,12 @@ export default function MirageFloralSimpleFull({
             const isSelected = selectedBlockId === block.id;
 
             return (
-              <div key={block.id} className="group/insert">
+              <RevealOnView
+                key={block.id}
+                enabled={!editMode}
+                delay={120 + Math.min(realIdx, 8) * 55}
+                className="group/insert"
+              >
                 <div
                   className={cn(
                     "relative group/block",
@@ -3838,7 +4050,7 @@ export default function MirageFloralSimpleFull({
                     theme={theme}
                   />
                 )}
-              </div>
+              </RevealOnView>
             );
           })}
 
