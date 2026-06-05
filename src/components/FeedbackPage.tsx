@@ -16,11 +16,14 @@ const FeedbackPage = () => {
   const campaignId = params.get("campaign") || "";
   const recipientId = params.get("recipient") || "";
   const initialChoice = params.get("choice") || "";
+  const unsubscribeMode = params.get("unsubscribe") === "1";
+  const unsubscribeToken = params.get("token") || "";
   const isDemo = params.get("demo") === "1" || (!campaignId && !recipientId);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [unsubscribed, setUnsubscribed] = useState(false);
   const [error, setError] = useState("");
   const [pageData, setPageData] = useState<any>(null);
   const [choice, setChoice] = useState(initialChoice);
@@ -30,6 +33,55 @@ const FeedbackPage = () => {
     let cancelled = false;
 
     const load = async () => {
+      if (unsubscribeMode) {
+        if (isDemo) {
+          if (!cancelled) {
+            setPageData({
+              campaign: { title: "Dezabonare feedback" },
+              recipient: { name: "prietene" },
+            });
+            setUnsubscribed(true);
+            setLoading(false);
+          }
+          return;
+        }
+
+        if (!campaignId || !recipientId || !unsubscribeToken) {
+          if (!cancelled) {
+            setError("Linkul de dezabonare este invalid.");
+            setLoading(false);
+          }
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_URL}/email-feedback/unsubscribe`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              campaign: campaignId,
+              recipient: recipientId,
+              token: unsubscribeToken,
+            }),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data?.error || "Nu am putut procesa dezabonarea.");
+          if (cancelled) return;
+          setPageData({
+            campaign: { title: "Dezabonare feedback" },
+            recipient: { name: "prietene" },
+          });
+          setUnsubscribed(true);
+        } catch (err: any) {
+          if (!cancelled) {
+            setError(err?.message || "Nu am putut procesa dezabonarea.");
+          }
+        } finally {
+          if (!cancelled) setLoading(false);
+        }
+        return;
+      }
+
       if (isDemo) {
         if (!cancelled) {
           setPageData({
@@ -84,7 +136,7 @@ const FeedbackPage = () => {
     return () => {
       cancelled = true;
     };
-  }, [campaignId, recipientId, initialChoice, isDemo]);
+  }, [campaignId, recipientId, initialChoice, isDemo, unsubscribeMode, unsubscribeToken]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,6 +184,15 @@ const FeedbackPage = () => {
           ) : error ? (
             <div className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
               {error}
+            </div>
+          ) : unsubscribed ? (
+            <div className="space-y-4 py-8">
+              <h1 className="text-3xl font-semibold tracking-tight text-[#2b180f]">
+                Ai fost dezabonat
+              </h1>
+              <p className="text-[15px] leading-7 text-[#5a4337]">
+                Nu iti voi mai trimite emailuri de feedback pentru aceasta categorie de campanii.
+              </p>
             </div>
           ) : submitted ? (
             <div className="space-y-4 py-8">

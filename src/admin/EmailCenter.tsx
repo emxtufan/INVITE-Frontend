@@ -412,10 +412,10 @@ const DEFAULT_FEEDBACK_CAMPAIGN_HTML = `<!doctype html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ne poti ajuta cu un feedback de 10 secunde?</title>
+    <title>O intrebare pentru tine</title>
   </head>
   <body style="margin:0;padding:0;background:#fdf6f0;font-family:Georgia,serif;color:#1a1a1a">
-    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Ai creat un cont pe Event Smart Assistant, dar nu ai cumparat un plan. Care a fost principalul motiv?</div>
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Am vazut ca ti-ai creat cont pe Event Smart Assistant si vreau sa inteleg cum te pot ajuta mai bine.</div>
     <div style="max-width:600px;margin:0 auto;padding:32px 16px">
       <div style="background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 40px rgba(0,0,0,0.08)">
         <div style="background:linear-gradient(135deg,#f9e4d4 0%,#fce4ec 50%,#e8d5f5 100%);padding:40px 36px 32px;text-align:center">
@@ -423,78 +423,42 @@ const DEFAULT_FEEDBACK_CAMPAIGN_HTML = `<!doctype html>
             Un mesaj personal
           </div>
           <h1 style="margin:0;font-size:26px;line-height:1.3;font-weight:400;color:#2d1b0e">
-            Ne poti ajuta cu un <em style="color:#e07a5f">feedback de 10 secunde</em>?
+            Buna!<br />Ma bucur ca esti<br />
+            <em style="color:#e07a5f">aici cu noi</em>
           </h1>
         </div>
 
         <div style="padding:32px 36px">
           <p style="margin:0 0 20px;font-size:15px;line-height:1.75;color:#3d3028">
-            Ai creat un cont pe <strong style="color:#1a1a1a">Event Smart Assistant</strong>, dar nu ai cumparat un plan.
+            Am vazut ca ti-ai creat un cont pe <strong style="color:#1a1a1a">Event Smart Assistant</strong>. Lucrez la acest proiect pentru a ajuta cuplurile sa scape de stresul Excel-ului, foile interminabile, cifrele incurcate si panica de la 2 noaptea cand nu mai stii cine a confirmat.
+          </p>
+
+          <p style="margin:0 0 28px;font-size:15px;line-height:1.75;color:#3d3028">
+            Vreau sa construiesc ceva care <em>chiar</em> sa ajute. Si pentru asta am nevoie sa inteleg experienta ta.
           </p>
 
           <div style="background:linear-gradient(135deg,#fff5f0 0%,#fef9ff 100%);border:1.5px solid #f4c8b8;border-radius:16px;padding:24px 28px;margin-bottom:28px">
             <p style="margin:0 0 6px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#e07a5f">Intrebarea mea pentru tine</p>
             <p style="margin:0;font-size:18px;line-height:1.55;color:#2d1b0e;font-style:italic">
-              Care a fost principalul motiv?
+              "Ai creat un cont pe Event Smart Assistant, dar nu ai cumparat un plan. Care a fost principalul motiv?"
             </p>
           </div>
 
-          <p style="margin:0 0 14px;font-size:13px;color:#9a8a80;text-align:center">Poti alege rapid una dintre variante:</p>
-
-          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:10px">
-            <tr>
-              <td style="padding:0 6px 10px 0;width:50%;vertical-align:top">
-                <a href="{{feedbackUrl:nu-am-inteles}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
-                  Nu am inteles exact ce primesc
-                </a>
-              </td>
-              <td style="padding:0 0 10px 6px;width:50%;vertical-align:top">
-                <a href="{{feedbackUrl:pret-prea-mare}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
-                  Pretul este prea mare
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:0 6px 10px 0;vertical-align:top">
-                <a href="{{feedbackUrl:nu-am-nevoie-acum}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
-                  Nu am nevoie acum
-                </a>
-              </td>
-              <td style="padding:0 0 10px 6px;vertical-align:top">
-                <a href="{{feedbackUrl:alta-solutie}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
-                  Am ales alta solutie
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:0 6px 10px 0;vertical-align:top">
-                <a href="{{feedbackUrl:nu-am-avut-incredere}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
-                  Nu am avut suficienta incredere
-                </a>
-              </td>
-              <td style="padding:0 0 10px 6px;vertical-align:top">
-                <a href="{{feedbackUrl:demo-mai-clar}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
-                  Mi-ar fi placut un demo mai clar
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2" style="padding:0 0 10px 0;vertical-align:top">
-                <a href="{{feedbackUrl:alt-motiv}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
-                  Alt motiv: ______
-                </a>
-              </td>
-            </tr>
-          </table>
-
           <div style="text-align:center;margin:28px 0 8px">
             <a href="{{feedbackUrl}}" style="display:inline-block;padding:14px 32px;background:#e07a5f;color:#ffffff;text-decoration:none;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 6px 20px rgba(224,122,95,.35)">
-              Deschide formularul complet
+              Raspunde in 30 de secunde
             </a>
           </div>
 
           <p style="margin:16px 0 0;font-size:12px;color:#b0a098;text-align:center">
             Sau raspunde direct la acest email. Citesc fiecare mesaj personal.
+          </p>
+          <p style="margin:14px 0 0;font-size:11px;color:#b0a098;text-align:center;line-height:1.6">
+            Daca nu mai vrei astfel de mesaje, te poti dezabona oricand aici:
+            <br />
+            <a href="{{unsubscribeUrl}}" style="color:#9d5c45;text-decoration:underline">
+              Dezabonare feedback
+            </a>
           </p>
         </div>
       </div>
@@ -504,8 +468,8 @@ const DEFAULT_FEEDBACK_CAMPAIGN_HTML = `<!doctype html>
 
 const createFeedbackCampaignDraft = (): FeedbackCampaignDraft => ({
   title: "Feedback clienti fara achizitie",
-  subject: "Ne poti ajuta cu un feedback de 10 secunde?",
-  preheader: "Ai creat un cont pe Event Smart Assistant, dar nu ai cumparat un plan. Care a fost principalul motiv?",
+  subject: "O intrebare pentru tine",
+  preheader: "Am vazut ca ti-ai creat cont pe Event Smart Assistant si vreau sa inteleg cum te pot ajuta mai bine.",
   html: DEFAULT_FEEDBACK_CAMPAIGN_HTML,
   pauseMs: 2500,
   limit: 140,
@@ -523,12 +487,20 @@ const buildPreviewFeedbackUrl = (choice = "") => {
   return url.toString();
 };
 
+const buildPreviewUnsubscribeUrl = () => {
+  const url = new URL("https://event-smart-assistant.com/feedback");
+  url.searchParams.set("demo", "1");
+  url.searchParams.set("unsubscribe", "1");
+  return url.toString();
+};
+
 const personalizePreviewHtml = (html = "") =>
   String(html || "")
     .replace(/\{\{\s*feedbackUrl\s*\}\}/g, buildPreviewFeedbackUrl())
     .replace(/\{\{\s*feedbackUrl:([a-z0-9_-]+)\s*\}\}/gi, (_, choice) =>
       buildPreviewFeedbackUrl(String(choice || "").trim()),
-    );
+    )
+    .replace(/\{\{\s*unsubscribeUrl\s*\}\}/g, buildPreviewUnsubscribeUrl());
 
 const EmailCenter = ({ token }: { token: string }) => {
   const { toast } = useToast();
