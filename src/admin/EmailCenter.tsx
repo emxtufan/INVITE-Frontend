@@ -536,6 +536,8 @@ const EmailCenter = ({ token }: { token: string }) => {
   const [selectedCampaignDetail, setSelectedCampaignDetail] = useState<any>(null);
   const [loadingCampaigns, setLoadingCampaigns] = useState(false);
   const [sendingCampaign, setSendingCampaign] = useState(false);
+  const [campaignUserSearch, setCampaignUserSearch] = useState("");
+  const [selectedCampaignUserIds, setSelectedCampaignUserIds] = useState<string[]>([]);
 
   useEffect(() => {
     void loadStatus();
@@ -570,6 +572,7 @@ const EmailCenter = ({ token }: { token: string }) => {
       const list = Array.isArray(data) ? data : [];
       setUsers(list);
       if (list.length && !selectedUserId) setSelectedUserId(list[0]._id);
+      setSelectedCampaignUserIds((prev) => (prev.length ? prev : list.map((user) => user._id)));
     } catch (err: any) {
       toast({
         title: "Eroare",
@@ -646,6 +649,41 @@ const EmailCenter = ({ token }: { token: string }) => {
     () => users.find((u) => u._id === selectedUserId) || null,
     [users, selectedUserId],
   );
+
+  const campaignEligibleUsers = useMemo(() => {
+    let list = [...users];
+    if (campaignDraft.onlyVerified) {
+      list = list.filter((user) => user?.emailVerified !== false);
+    }
+    if (campaignDraft.onlyWithoutPayments) {
+      list = list.filter((user) => !Array.isArray(user?.payments) || user.payments.length === 0);
+    }
+    if (campaignDraft.onlyFreePlan) {
+      list = list.filter((user) => String(user?.plan || "").toLowerCase() === "free");
+    }
+    return list;
+  }, [
+    users,
+    campaignDraft.onlyVerified,
+    campaignDraft.onlyWithoutPayments,
+    campaignDraft.onlyFreePlan,
+  ]);
+
+  const filteredCampaignUsers = useMemo(() => {
+    const lower = campaignUserSearch.trim().toLowerCase();
+    if (!lower) return users;
+    return users.filter((user) => {
+      const fullName = `${user?.profile?.firstName || ""} ${user?.profile?.lastName || ""}`
+        .trim()
+        .toLowerCase();
+      const eventName = String(user?.profile?.eventName || "").toLowerCase();
+      return (
+        String(user?.user || "").toLowerCase().includes(lower) ||
+        fullName.includes(lower) ||
+        eventName.includes(lower)
+      );
+    });
+  }, [users, campaignUserSearch]);
 
   useEffect(() => {
     const statusValue = selectedCampaignDetail?.campaign?.status;
@@ -761,6 +799,14 @@ const EmailCenter = ({ token }: { token: string }) => {
       });
       return;
     }
+    if (!selectedCampaignUserIds.length) {
+      toast({
+        title: "Niciun utilizator selectat",
+        description: "Selecteaza cel putin un utilizator pentru campanie.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setSendingCampaign(true);
     try {
@@ -770,7 +816,10 @@ const EmailCenter = ({ token }: { token: string }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(campaignDraft),
+        body: JSON.stringify({
+          ...campaignDraft,
+          selectedUserIds: selectedCampaignUserIds,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Campaign send failed");
@@ -813,6 +862,30 @@ const EmailCenter = ({ token }: { token: string }) => {
         variant: "destructive",
       });
     }
+  };
+
+  const toggleCampaignUser = (userId: string) => {
+    setSelectedCampaignUserIds((prev) =>
+      prev.includes(userId) ? prev.filter((id) => id !== userId) : [...prev, userId],
+    );
+  };
+
+  const selectAllCampaignUsers = () => {
+    setSelectedCampaignUserIds(users.map((user) => user._id));
+  };
+
+  const deselectAllCampaignUsers = () => {
+    setSelectedCampaignUserIds([]);
+  };
+
+  const selectEligibleCampaignUsers = () => {
+    setSelectedCampaignUserIds(campaignEligibleUsers.slice(0, campaignDraft.limit).map((user) => user._id));
+  };
+
+  const invertCampaignSelection = () => {
+    setSelectedCampaignUserIds((prev) =>
+      users.map((user) => user._id).filter((userId) => !prev.includes(userId)),
+    );
   };
 
   return (
@@ -1266,6 +1339,86 @@ const EmailCenter = ({ token }: { token: string }) => {
             <div>Formular feedback: {status?.feedbackFormUrl || "-"}</div>
             <div>Webhook Resend: {status?.resendWebhookConfigured ? "configurat" : "neconfigurat"}</div>
             <div>Reply inbox: {status?.feedbackReplyConfigured ? status?.feedbackReplyDomain : "neconfigurat"}</div>
+          </div>
+
+          <div className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <div className="text-sm font-semibold text-zinc-900">Destinatari campanie</div>
+                <div className="mt-1 text-xs text-zinc-500">
+                  Selectati: {selectedCampaignUserIds.length} din {users.length} utilizatori
+                </div>
+              </div>
+              <Input
+                placeholder="Cauta in lista..."
+                value={campaignUserSearch}
+                onChange={(e: any) => setCampaignUserSearch(e.target.value)}
+                className="max-w-xs"
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" size="sm" onClick={selectAllCampaignUsers}>
+                Selecteaza toti
+              </Button>
+              <Button variant="outline" size="sm" onClick={selectEligibleCampaignUsers}>
+                Selecteaza eligibili
+              </Button>
+              <Button variant="outline" size="sm" onClick={invertCampaignSelection}>
+                Inverseaza
+              </Button>
+              <Button variant="outline" size="sm" onClick={deselectAllCampaignUsers}>
+                Deselecteaza toti
+              </Button>
+            </div>
+
+            <div className="max-h-[360px] overflow-auto rounded-xl border border-zinc-200">
+              <div className="divide-y divide-zinc-100">
+                {filteredCampaignUsers.map((user) => {
+                  const checked = selectedCampaignUserIds.includes(user._id);
+                  const paymentsCount = Array.isArray(user?.payments) ? user.payments.length : 0;
+                  const eligible = campaignEligibleUsers.some((candidate) => candidate._id === user._id);
+                  const fullName = `${user?.profile?.firstName || ""} ${user?.profile?.lastName || ""}`.trim();
+
+                  return (
+                    <label
+                      key={user._id}
+                      className="flex cursor-pointer items-start gap-3 px-4 py-3 hover:bg-zinc-50"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => toggleCampaignUser(user._id)}
+                        className="mt-1"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <div className="font-medium text-zinc-900">{user.user}</div>
+                          {eligible ? (
+                            <Badge variant="outline" className="text-emerald-700 border-emerald-200 bg-emerald-50">
+                              Eligibil
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="text-zinc-500">
+                              In afara filtrelor
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="mt-1 text-xs text-zinc-600">
+                          {fullName || "Fara nume"} · plan {user?.plan || "free"} · {paymentsCount} plati
+                          · email {user?.emailVerified === false ? "neverificat" : "verificat"}
+                        </div>
+                        {user?.profile?.eventName && (
+                          <div className="mt-1 text-xs text-zinc-500">
+                            Eveniment: {user.profile.eventName}
+                          </div>
+                        )}
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           <div className="space-y-2">
