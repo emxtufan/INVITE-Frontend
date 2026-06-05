@@ -36,6 +36,13 @@ const App = () => {
 
     // Determine view based on path
     const renderView = () => {
+        const decodedPath = (() => {
+            try {
+                return decodeURIComponent(currentPath);
+            } catch {
+                return currentPath;
+            }
+        })();
         const storedSessionRaw = localStorage.getItem('weddingPro_session');
         let hasActiveSession = false;
         if (storedSessionRaw) {
@@ -61,7 +68,7 @@ const App = () => {
             return <PublicInvitation />;
         }
 
-        if (currentPath === '/feedback') {
+        if (currentPath === '/feedback' || decodedPath.includes('{{feedbackUrl')) {
             return <FeedbackPage />;
         }
 

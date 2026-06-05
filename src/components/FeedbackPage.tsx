@@ -16,6 +16,7 @@ const FeedbackPage = () => {
   const campaignId = params.get("campaign") || "";
   const recipientId = params.get("recipient") || "";
   const initialChoice = params.get("choice") || "";
+  const isDemo = params.get("demo") === "1" || (!campaignId && !recipientId);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -29,6 +30,17 @@ const FeedbackPage = () => {
     let cancelled = false;
 
     const load = async () => {
+      if (isDemo) {
+        if (!cancelled) {
+          setPageData({
+            campaign: { title: "Ne poti ajuta cu un feedback de 10 secunde?" },
+            recipient: { name: "prietene", answerChoice: "", answerText: "", formSubmittedAt: null },
+          });
+          setLoading(false);
+        }
+        return;
+      }
+
       if (!campaignId || !recipientId) {
         if (!cancelled) {
           setError("Linkul de feedback este invalid.");
@@ -72,13 +84,18 @@ const FeedbackPage = () => {
     return () => {
       cancelled = true;
     };
-  }, [campaignId, recipientId, initialChoice]);
+  }, [campaignId, recipientId, initialChoice, isDemo]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     setError("");
     try {
+      if (isDemo) {
+        await new Promise((resolve) => window.setTimeout(resolve, 400));
+        setSubmitted(true);
+        return;
+      }
       const res = await fetch(`${API_URL}/email-feedback/submit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

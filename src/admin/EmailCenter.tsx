@@ -166,6 +166,10 @@ const EMAIL_TEMPLATE_META: Record<
   },
 };
 
+const DARK_CARD = "border-zinc-800 bg-[#0f1115] text-zinc-100";
+const DARK_SURFACE = "border-zinc-800 bg-[#151922] text-zinc-100";
+const DARK_MUTED = "text-zinc-400";
+
 const escapeHtml = (value: string): string =>
   String(value || "")
     .replace(/&/g, "&amp;")
@@ -510,6 +514,22 @@ const createFeedbackCampaignDraft = (): FeedbackCampaignDraft => ({
   onlyFreePlan: false,
 });
 
+const buildPreviewFeedbackUrl = (choice = "") => {
+  const url = new URL("https://event-smart-assistant.com/feedback");
+  url.searchParams.set("demo", "1");
+  if (choice) {
+    url.searchParams.set("choice", choice);
+  }
+  return url.toString();
+};
+
+const personalizePreviewHtml = (html = "") =>
+  String(html || "")
+    .replace(/\{\{\s*feedbackUrl\s*\}\}/g, buildPreviewFeedbackUrl())
+    .replace(/\{\{\s*feedbackUrl:([a-z0-9_-]+)\s*\}\}/gi, (_, choice) =>
+      buildPreviewFeedbackUrl(String(choice || "").trim()),
+    );
+
 const EmailCenter = ({ token }: { token: string }) => {
   const { toast } = useToast();
 
@@ -538,11 +558,13 @@ const EmailCenter = ({ token }: { token: string }) => {
   const [sendingCampaign, setSendingCampaign] = useState(false);
   const [campaignUserSearch, setCampaignUserSearch] = useState("");
   const [selectedCampaignUserIds, setSelectedCampaignUserIds] = useState<string[]>([]);
+  const [inboxEvents, setInboxEvents] = useState<any[]>([]);
 
   useEffect(() => {
     void loadStatus();
     void loadUsers();
     void loadCampaigns();
+    void loadInbox();
   }, [token]);
 
   const loadStatus = async () => {
@@ -631,6 +653,23 @@ const EmailCenter = ({ token }: { token: string }) => {
       toast({
         title: "Eroare",
         description: err?.message || "Nu am putut incarca detaliile campaniei.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const loadInbox = async () => {
+    try {
+      const res = await fetch(`${API_URL}/admin/email/inbox`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Inbox unavailable");
+      setInboxEvents(Array.isArray(data?.events) ? data.events : []);
+    } catch (err: any) {
+      toast({
+        title: "Eroare",
+        description: err?.message || "Nu am putut incarca inbox-ul de reply-uri.",
         variant: "destructive",
       });
     }
@@ -890,8 +929,8 @@ const EmailCenter = ({ token }: { token: string }) => {
 
   return (
     <div className="space-y-6">
-      <Card className="overflow-hidden border-zinc-200/80 bg-gradient-to-br from-white via-white to-zinc-50/80">
-        <CardHeader className="border-b border-zinc-200/70 bg-gradient-to-r from-zinc-950 to-zinc-900 text-white">
+      <Card className={cn("overflow-hidden", DARK_CARD)}>
+        <CardHeader className="border-b border-zinc-800 bg-gradient-to-r from-black via-zinc-950 to-zinc-900 text-white">
           <CardTitle className="flex items-center gap-2 text-xl">
             <Mail className="w-5 h-5 text-amber-300" />
             Email Center
@@ -900,19 +939,19 @@ const EmailCenter = ({ token }: { token: string }) => {
             Gestioneaza campanii test, template-uri HTML si preview live pentru emailurile trimise din Esa.
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-5">
+        <CardContent className="p-5 bg-[#0f1115]">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="rounded-xl border border-zinc-200 bg-white p-4">
-              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-zinc-500">
+            <div className={cn("rounded-xl border p-4", DARK_SURFACE)}>
+              <div className={cn("flex items-center gap-2 text-xs uppercase tracking-[0.16em]", DARK_MUTED)}>
                 <Sparkles className="w-4 h-4 text-indigo-500" />
                 Provider
               </div>
-              <div className="mt-3 text-lg font-semibold text-zinc-900">
+              <div className="mt-3 text-lg font-semibold text-zinc-100">
                 {status?.provider || "resend"}
               </div>
             </div>
-            <div className="rounded-xl border border-zinc-200 bg-white p-4">
-              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-zinc-500">
+            <div className={cn("rounded-xl border p-4", DARK_SURFACE)}>
+              <div className={cn("flex items-center gap-2 text-xs uppercase tracking-[0.16em]", DARK_MUTED)}>
                 <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                 Status
               </div>
@@ -925,19 +964,19 @@ const EmailCenter = ({ token }: { token: string }) => {
                 {status?.enabled ? "Activ" : "Inactiv"}
               </div>
             </div>
-            <div className="rounded-xl border border-zinc-200 bg-white p-4">
-              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-zinc-500">
+            <div className={cn("rounded-xl border p-4", DARK_SURFACE)}>
+              <div className={cn("flex items-center gap-2 text-xs uppercase tracking-[0.16em]", DARK_MUTED)}>
                 <Users className="w-4 h-4 text-sky-500" />
                 Utilizatori
               </div>
-              <div className="mt-3 text-lg font-semibold text-zinc-900">{users.length}</div>
+              <div className="mt-3 text-lg font-semibold text-zinc-100">{users.length}</div>
             </div>
           </div>
         </CardContent>
       </Card>
 
       <div className="grid grid-cols-1 xl:grid-cols-[360px_minmax(0,1fr)] gap-6">
-        <Card className="border-zinc-200/80">
+        <Card className={DARK_CARD}>
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2">
               <Wand2 className="w-5 h-5 text-fuchsia-500" />
@@ -947,15 +986,16 @@ const EmailCenter = ({ token }: { token: string }) => {
               Alege un template, personalizeaza-l si trimite un email test catre un utilizator.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 bg-[#0f1115]">
             <Input
               placeholder="Cauta utilizator dupa email sau nume..."
               value={search}
               onChange={(e: any) => setSearch(e.target.value)}
+              className="border-zinc-700 bg-[#151922] text-zinc-100 placeholder:text-zinc-500"
             />
 
             <select
-              className="w-full h-10 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+              className="w-full h-10 rounded-md border border-zinc-700 bg-[#151922] px-3 text-sm text-zinc-100 shadow-sm focus:outline-none focus:ring-1 focus:ring-zinc-500"
               value={selectedUserId}
               onChange={(e) => setSelectedUserId(e.target.value)}
             >
@@ -984,15 +1024,15 @@ const EmailCenter = ({ token }: { token: string }) => {
                       meta.accent,
                       isActive
                         ? "border-primary shadow-lg shadow-primary/10 ring-2 ring-primary/20"
-                        : "border-zinc-200 hover:border-zinc-300",
+                        : "border-zinc-700 hover:border-zinc-500",
                     )}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <div className="text-sm font-semibold text-zinc-900">
+                        <div className="text-sm font-semibold text-zinc-100">
                           {meta.title}
                         </div>
-                        <div className="mt-1 text-xs leading-relaxed text-zinc-600">
+                        <div className="mt-1 text-xs leading-relaxed text-zinc-300">
                           {meta.subtitle}
                         </div>
                       </div>
@@ -1009,10 +1049,10 @@ const EmailCenter = ({ token }: { token: string }) => {
             </div>
 
             {selectedUser && (
-              <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm">
-                <div className="font-semibold text-zinc-900">{getUserDisplayName(selectedUser)}</div>
-                <div className="mt-1 text-zinc-600">{selectedUser.user}</div>
-                <div className="mt-2 text-xs text-zinc-500">
+              <div className={cn("rounded-xl border p-4 text-sm", DARK_SURFACE)}>
+                <div className="font-semibold text-zinc-100">{getUserDisplayName(selectedUser)}</div>
+                <div className="mt-1 text-zinc-300">{selectedUser.user}</div>
+                <div className="mt-2 text-xs text-zinc-400">
                   Eveniment: {selectedUser?.profile?.eventName || "-"} (
                   {selectedUser?.profile?.eventType || "wedding"})
                 </div>
@@ -1033,7 +1073,7 @@ const EmailCenter = ({ token }: { token: string }) => {
         </Card>
 
         <div className="space-y-6">
-          <Card className="border-zinc-200/80">
+          <Card className={DARK_CARD}>
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5 text-indigo-500" />
@@ -1043,7 +1083,7 @@ const EmailCenter = ({ token }: { token: string }) => {
                 Subiectul, preheader-ul si HTML-ul sunt trimise direct in payload catre endpointul de test.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 bg-[#0f1115]">
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
@@ -1055,6 +1095,7 @@ const EmailCenter = ({ token }: { token: string }) => {
                       setEmailDraft((prev) => ({ ...prev, subject: e.target.value }))
                     }
                     placeholder="Subiect email"
+                    className="border-zinc-700 bg-[#151922] text-zinc-100 placeholder:text-zinc-500"
                   />
                 </div>
                 <div className="space-y-2">
@@ -1067,6 +1108,7 @@ const EmailCenter = ({ token }: { token: string }) => {
                       setEmailDraft((prev) => ({ ...prev, preheader: e.target.value }))
                     }
                     placeholder="Text scurt afisat in inbox"
+                    className="border-zinc-700 bg-[#151922] text-zinc-100 placeholder:text-zinc-500"
                   />
                 </div>
               </div>
@@ -1086,14 +1128,14 @@ const EmailCenter = ({ token }: { token: string }) => {
                   onChange={(e) =>
                     setEmailDraft((prev) => ({ ...prev, html: e.target.value }))
                   }
-                  className="min-h-[320px] w-full rounded-xl border border-input bg-background px-4 py-3 text-sm font-mono shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                  className="min-h-[320px] w-full rounded-xl border border-zinc-700 bg-[#151922] px-4 py-3 text-sm font-mono text-zinc-100 shadow-sm focus:outline-none focus:ring-1 focus:ring-zinc-500"
                   placeholder="<html>...</html>"
                 />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-zinc-200/80 overflow-hidden">
+          <Card className={cn(DARK_CARD, "overflow-hidden")}>
             <CardHeader className="pb-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
@@ -1105,15 +1147,15 @@ const EmailCenter = ({ token }: { token: string }) => {
                     Verifica rapid cum arata emailul randat sau codul HTML brut.
                   </CardDescription>
                 </div>
-                <div className="inline-flex rounded-lg border border-zinc-200 bg-zinc-50 p-1">
+                <div className="inline-flex rounded-lg border border-zinc-700 bg-[#151922] p-1">
                   <button
                     type="button"
                     onClick={() => setPreviewMode("rendered")}
                     className={cn(
                       "rounded-md px-3 py-1.5 text-xs font-semibold transition-colors",
                       previewMode === "rendered"
-                        ? "bg-white text-zinc-900 shadow-sm"
-                        : "text-zinc-500",
+                        ? "bg-zinc-100 text-zinc-950 shadow-sm"
+                        : "text-zinc-400",
                     )}
                   >
                     <Eye className="w-3.5 h-3.5 inline mr-1.5" />
@@ -1125,8 +1167,8 @@ const EmailCenter = ({ token }: { token: string }) => {
                     className={cn(
                       "rounded-md px-3 py-1.5 text-xs font-semibold transition-colors",
                       previewMode === "html"
-                        ? "bg-white text-zinc-900 shadow-sm"
-                        : "text-zinc-500",
+                        ? "bg-zinc-100 text-zinc-950 shadow-sm"
+                        : "text-zinc-400",
                     )}
                   >
                     <Code2 className="w-3.5 h-3.5 inline mr-1.5" />
@@ -1136,16 +1178,16 @@ const EmailCenter = ({ token }: { token: string }) => {
               </div>
             </CardHeader>
             <CardContent className="pt-0">
-              <div className="rounded-2xl border border-zinc-200 bg-zinc-50 overflow-hidden">
+              <div className="rounded-2xl border border-zinc-700 bg-[#151922] overflow-hidden">
                 {previewMode === "rendered" ? (
                   <iframe
                     title="Preview email"
-                    srcDoc={emailDraft.html}
+                    srcDoc={personalizePreviewHtml(emailDraft.html)}
                     className="h-[620px] w-full bg-white"
                   />
                 ) : (
-                  <pre className="max-h-[620px] overflow-auto p-4 text-xs leading-relaxed text-zinc-800 whitespace-pre-wrap break-words">
-                    {emailDraft.html}
+                  <pre className="max-h-[620px] overflow-auto p-4 text-xs leading-relaxed text-zinc-200 whitespace-pre-wrap break-words">
+                    {personalizePreviewHtml(emailDraft.html)}
                   </pre>
                 )}
               </div>
@@ -1154,7 +1196,7 @@ const EmailCenter = ({ token }: { token: string }) => {
         </div>
       </div>
 
-      <Card>
+      <Card className={DARK_CARD}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <BellRing className="w-5 h-5 text-blue-500" />
@@ -1164,7 +1206,7 @@ const EmailCenter = ({ token }: { token: string }) => {
             Trimite reminder-e in bulk pentru evenimentele apropiate.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 bg-[#0f1115]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-1">
               <label className="text-xs uppercase tracking-wide text-muted-foreground">
@@ -1176,6 +1218,7 @@ const EmailCenter = ({ token }: { token: string }) => {
                 max={30}
                 value={daysAhead}
                 onChange={(e: any) => setDaysAhead(Number(e.target.value || 0))}
+                className="border-zinc-700 bg-[#151922] text-zinc-100"
               />
             </div>
             <div className="flex items-end">
@@ -1195,12 +1238,12 @@ const EmailCenter = ({ token }: { token: string }) => {
               ].map(([label, value]) => (
                 <div
                   key={label}
-                  className="rounded-xl border border-zinc-200 bg-white p-4 text-sm"
+                  className={cn("rounded-xl border p-4 text-sm", DARK_SURFACE)}
                 >
-                  <div className="text-xs uppercase tracking-wide text-zinc-500">
+                  <div className={cn("text-xs uppercase tracking-wide", DARK_MUTED)}>
                     {label}
                   </div>
-                  <div className="mt-2 text-xl font-semibold text-zinc-900">
+                  <div className="mt-2 text-xl font-semibold text-zinc-100">
                     {value as any}
                   </div>
                 </div>
@@ -1210,7 +1253,7 @@ const EmailCenter = ({ token }: { token: string }) => {
         </CardContent>
       </Card>
 
-      <Card className="border-zinc-200/80">
+      <Card className={DARK_CARD}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Mail className="w-5 h-5 text-rose-500" />
@@ -1221,7 +1264,7 @@ const EmailCenter = ({ token }: { token: string }) => {
             raspunsurile din formular si reply-urile venite direct pe email.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-5">
+        <CardContent className="space-y-5 bg-[#0f1115]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
@@ -1232,6 +1275,7 @@ const EmailCenter = ({ token }: { token: string }) => {
                 onChange={(e: any) =>
                   setCampaignDraft((prev) => ({ ...prev, title: e.target.value }))
                 }
+                className="border-zinc-700 bg-[#151922] text-zinc-100"
               />
             </div>
             <div className="space-y-2">
@@ -1243,6 +1287,7 @@ const EmailCenter = ({ token }: { token: string }) => {
                 onChange={(e: any) =>
                   setCampaignDraft((prev) => ({ ...prev, subject: e.target.value }))
                 }
+                className="border-zinc-700 bg-[#151922] text-zinc-100"
               />
             </div>
           </div>
@@ -1256,6 +1301,7 @@ const EmailCenter = ({ token }: { token: string }) => {
               onChange={(e: any) =>
                 setCampaignDraft((prev) => ({ ...prev, preheader: e.target.value }))
               }
+              className="border-zinc-700 bg-[#151922] text-zinc-100"
             />
           </div>
 
@@ -1275,6 +1321,7 @@ const EmailCenter = ({ token }: { token: string }) => {
                     pauseMs: Number(e.target.value || 0),
                   }))
                 }
+                className="border-zinc-700 bg-[#151922] text-zinc-100"
               />
             </div>
             <div className="space-y-2">
@@ -1292,9 +1339,10 @@ const EmailCenter = ({ token }: { token: string }) => {
                     limit: Number(e.target.value || 1),
                   }))
                 }
+                className="border-zinc-700 bg-[#151922] text-zinc-100"
               />
             </div>
-            <label className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+            <label className="flex items-center gap-3 rounded-xl border border-zinc-700 bg-[#151922] px-4 py-3 text-sm text-zinc-200">
               <input
                 type="checkbox"
                 checked={campaignDraft.onlyWithoutPayments}
@@ -1307,7 +1355,7 @@ const EmailCenter = ({ token }: { token: string }) => {
               />
               Fara achizitii
             </label>
-            <label className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+            <label className="flex items-center gap-3 rounded-xl border border-zinc-700 bg-[#151922] px-4 py-3 text-sm text-zinc-200">
               <input
                 type="checkbox"
                 checked={campaignDraft.onlyVerified}
@@ -1320,7 +1368,7 @@ const EmailCenter = ({ token }: { token: string }) => {
               />
               Doar email verificat
             </label>
-            <label className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+            <label className="flex items-center gap-3 rounded-xl border border-zinc-700 bg-[#151922] px-4 py-3 text-sm text-zinc-200">
               <input
                 type="checkbox"
                 checked={campaignDraft.onlyFreePlan}
@@ -1335,17 +1383,17 @@ const EmailCenter = ({ token }: { token: string }) => {
             </label>
           </div>
 
-          <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+          <div className="rounded-xl border border-zinc-700 bg-[#151922] px-4 py-3 text-sm text-zinc-200">
             <div>Formular feedback: {status?.feedbackFormUrl || "-"}</div>
             <div>Webhook Resend: {status?.resendWebhookConfigured ? "configurat" : "neconfigurat"}</div>
             <div>Reply inbox: {status?.feedbackReplyConfigured ? status?.feedbackReplyDomain : "neconfigurat"}</div>
           </div>
 
-          <div className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-4">
+          <div className="space-y-4 rounded-2xl border border-zinc-700 bg-[#151922] p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <div className="text-sm font-semibold text-zinc-900">Destinatari campanie</div>
-                <div className="mt-1 text-xs text-zinc-500">
+                <div className="text-sm font-semibold text-zinc-100">Destinatari campanie</div>
+                <div className="mt-1 text-xs text-zinc-400">
                   Selectati: {selectedCampaignUserIds.length} din {users.length} utilizatori
                 </div>
               </div>
@@ -1353,7 +1401,7 @@ const EmailCenter = ({ token }: { token: string }) => {
                 placeholder="Cauta in lista..."
                 value={campaignUserSearch}
                 onChange={(e: any) => setCampaignUserSearch(e.target.value)}
-                className="max-w-xs"
+                className="max-w-xs border-zinc-700 bg-[#0f1115] text-zinc-100 placeholder:text-zinc-500"
               />
             </div>
 
@@ -1372,8 +1420,8 @@ const EmailCenter = ({ token }: { token: string }) => {
               </Button>
             </div>
 
-            <div className="max-h-[360px] overflow-auto rounded-xl border border-zinc-200">
-              <div className="divide-y divide-zinc-100">
+            <div className="max-h-[360px] overflow-auto rounded-xl border border-zinc-700 bg-[#0f1115]">
+              <div className="divide-y divide-zinc-800">
                 {filteredCampaignUsers.map((user) => {
                   const checked = selectedCampaignUserIds.includes(user._id);
                   const paymentsCount = Array.isArray(user?.payments) ? user.payments.length : 0;
@@ -1383,7 +1431,7 @@ const EmailCenter = ({ token }: { token: string }) => {
                   return (
                     <label
                       key={user._id}
-                      className="flex cursor-pointer items-start gap-3 px-4 py-3 hover:bg-zinc-50"
+                      className="flex cursor-pointer items-start gap-3 px-4 py-3 hover:bg-zinc-900/50"
                     >
                       <input
                         type="checkbox"
@@ -1393,23 +1441,23 @@ const EmailCenter = ({ token }: { token: string }) => {
                       />
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <div className="font-medium text-zinc-900">{user.user}</div>
+                          <div className="font-medium text-zinc-100">{user.user}</div>
                           {eligible ? (
-                            <Badge variant="outline" className="text-emerald-700 border-emerald-200 bg-emerald-50">
+                            <Badge variant="outline" className="border-emerald-500/30 bg-emerald-500/15 text-emerald-300">
                               Eligibil
                             </Badge>
                           ) : (
-                            <Badge variant="outline" className="text-zinc-500">
+                            <Badge variant="outline" className="border-zinc-600 bg-zinc-800 text-zinc-300">
                               In afara filtrelor
                             </Badge>
                           )}
                         </div>
-                        <div className="mt-1 text-xs text-zinc-600">
+                        <div className="mt-1 text-xs text-zinc-300">
                           {fullName || "Fara nume"} · plan {user?.plan || "free"} · {paymentsCount} plati
                           · email {user?.emailVerified === false ? "neverificat" : "verificat"}
                         </div>
                         {user?.profile?.eventName && (
-                          <div className="mt-1 text-xs text-zinc-500">
+                          <div className="mt-1 text-xs text-zinc-400">
                             Eveniment: {user.profile.eventName}
                           </div>
                         )}
@@ -1445,13 +1493,18 @@ const EmailCenter = ({ token }: { token: string }) => {
               onChange={(e) =>
                 setCampaignDraft((prev) => ({ ...prev, html: e.target.value }))
               }
-              className="min-h-[340px] w-full rounded-xl border border-input bg-background px-4 py-3 text-sm font-mono shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
-            />
+                  className="min-h-[340px] w-full rounded-xl border border-zinc-700 bg-[#151922] px-4 py-3 text-sm font-mono text-zinc-100 shadow-sm focus:outline-none focus:ring-1 focus:ring-zinc-500"
+                />
+            <div className="rounded-xl border border-zinc-700 bg-[#151922] px-4 py-3 text-xs text-zinc-300">
+              In emailul test si in preview, <code>{'{{feedbackUrl}}'}</code> si variantele{" "}
+              <code>{'{{feedbackUrl:optiune}}'}</code> sunt inlocuite automat cu un formular demo
+              functional.
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="border-zinc-200/80">
+      <Card className={DARK_CARD}>
         <CardHeader>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -1470,11 +1523,11 @@ const EmailCenter = ({ token }: { token: string }) => {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="space-y-5">
+        <CardContent className="space-y-5 bg-[#0f1115]">
           <div className="grid grid-cols-1 xl:grid-cols-[320px_minmax(0,1fr)] gap-5">
             <div className="space-y-3">
               <select
-                className="w-full h-10 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                className="w-full h-10 rounded-md border border-zinc-700 bg-[#151922] px-3 text-sm text-zinc-100 shadow-sm focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 value={selectedCampaignId}
                 onChange={(e) => {
                   const nextId = e.target.value;
@@ -1504,24 +1557,24 @@ const EmailCenter = ({ token }: { token: string }) => {
                       className={cn(
                         "w-full rounded-2xl border p-4 text-left transition-all",
                         isActive
-                          ? "border-primary bg-primary/5 shadow-sm"
-                          : "border-zinc-200 bg-white hover:border-zinc-300",
+                          ? "border-primary bg-primary/10 shadow-sm"
+                          : "border-zinc-700 bg-[#151922] hover:border-zinc-500",
                       )}
                     >
                       <div className="flex items-center justify-between gap-3">
-                        <div className="text-sm font-semibold text-zinc-900">{campaign.title}</div>
+                        <div className="text-sm font-semibold text-zinc-100">{campaign.title}</div>
                         <Badge variant={isActive ? "default" : "outline"}>
                           {campaign.status}
                         </Badge>
                       </div>
-                      <div className="mt-2 text-xs text-zinc-500">
+                      <div className="mt-2 text-xs text-zinc-400">
                         {campaign?.stats?.sent || 0} trimise, {campaign?.stats?.submitted || 0} raspunsuri
                       </div>
                     </button>
                   );
                 })}
                 {!campaigns.length && !loadingCampaigns && (
-                  <div className="rounded-xl border border-dashed border-zinc-200 px-4 py-6 text-sm text-zinc-500">
+                  <div className="rounded-xl border border-dashed border-zinc-700 px-4 py-6 text-sm text-zinc-400">
                     Nu exista campanii inca.
                   </div>
                 )}
@@ -1541,20 +1594,20 @@ const EmailCenter = ({ token }: { token: string }) => {
                     ].map(([label, value]) => (
                       <div
                         key={String(label)}
-                        className="rounded-xl border border-zinc-200 bg-white p-4 text-sm"
+                        className={cn("rounded-xl border p-4 text-sm", DARK_SURFACE)}
                       >
-                        <div className="text-xs uppercase tracking-wide text-zinc-500">
+                        <div className={cn("text-xs uppercase tracking-wide", DARK_MUTED)}>
                           {label}
                         </div>
-                        <div className="mt-2 text-2xl font-semibold text-zinc-900">
+                        <div className="mt-2 text-2xl font-semibold text-zinc-100">
                           {value as any}
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700">
-                    <div className="font-semibold text-zinc-900">{selectedCampaignDetail.campaign.title}</div>
+                  <div className="rounded-2xl border border-zinc-700 bg-[#151922] p-4 text-sm text-zinc-200">
+                    <div className="font-semibold text-zinc-100">{selectedCampaignDetail.campaign.title}</div>
                     <div className="mt-1">Subiect: {selectedCampaignDetail.campaign.subject}</div>
                     <div className="mt-1">
                       Creata:{" "}
@@ -1565,9 +1618,10 @@ const EmailCenter = ({ token }: { token: string }) => {
                     <div className="mt-1">Status: {selectedCampaignDetail.campaign.status}</div>
                   </div>
 
-                  <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
+                  <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.9fr)] gap-4">
+                    <div className="overflow-x-auto rounded-2xl border border-zinc-700 bg-[#151922]">
                     <table className="min-w-full text-sm">
-                      <thead className="bg-zinc-50 text-zinc-500">
+                      <thead className="bg-[#0f1115] text-zinc-400">
                         <tr>
                           <th className="px-4 py-3 text-left font-semibold">Email</th>
                           <th className="px-4 py-3 text-left font-semibold">Status</th>
@@ -1579,20 +1633,20 @@ const EmailCenter = ({ token }: { token: string }) => {
                       </thead>
                       <tbody>
                         {(selectedCampaignDetail.recipients || []).map((recipient: any) => (
-                          <tr key={recipient._id} className="border-t border-zinc-100 align-top">
+                          <tr key={recipient._id} className="border-t border-zinc-800 align-top">
                             <td className="px-4 py-3">
-                              <div className="font-medium text-zinc-900">{recipient.email}</div>
-                              <div className="text-xs text-zinc-500">{recipient.name || "-"}</div>
+                              <div className="font-medium text-zinc-100">{recipient.email}</div>
+                              <div className="text-xs text-zinc-400">{recipient.name || "-"}</div>
                             </td>
                             <td className="px-4 py-3">
-                              <Badge variant="outline">{recipient.status}</Badge>
+                              <Badge variant="outline" className="border-zinc-600 bg-zinc-900 text-zinc-200">{recipient.status}</Badge>
                             </td>
-                            <td className="px-4 py-3">{recipient.visitCount || 0}</td>
-                            <td className="px-4 py-3">{recipient.answerChoice || "-"}</td>
-                            <td className="px-4 py-3 max-w-[260px] whitespace-pre-wrap text-zinc-700">
+                            <td className="px-4 py-3 text-zinc-200">{recipient.visitCount || 0}</td>
+                            <td className="px-4 py-3 text-zinc-200">{recipient.answerChoice || "-"}</td>
+                            <td className="px-4 py-3 max-w-[260px] whitespace-pre-wrap text-zinc-200">
                               {recipient.answerText || "-"}
                             </td>
-                            <td className="px-4 py-3 max-w-[260px] whitespace-pre-wrap text-zinc-700">
+                            <td className="px-4 py-3 max-w-[260px] whitespace-pre-wrap text-zinc-200">
                               {recipient.lastReplyPreview || "-"}
                             </td>
                           </tr>
@@ -1600,13 +1654,120 @@ const EmailCenter = ({ token }: { token: string }) => {
                       </tbody>
                     </table>
                   </div>
+
+                    <div className="space-y-4">
+                      <div className="rounded-2xl border border-zinc-700 bg-[#151922] p-4">
+                        <div className="text-sm font-semibold text-zinc-100">Mesaje lasate in formular</div>
+                        <div className="mt-4 space-y-3">
+                          {(selectedCampaignDetail.recipients || [])
+                            .filter((recipient: any) => String(recipient.answerText || "").trim())
+                            .map((recipient: any) => (
+                              <div key={`form-${recipient._id}`} className="rounded-xl border border-zinc-700 bg-[#0f1115] p-3">
+                                <div className="text-sm font-semibold text-zinc-100">{recipient.name || recipient.email}</div>
+                                <div className="mt-1 text-xs text-zinc-400">{recipient.email}</div>
+                                <div className="mt-2 rounded-lg bg-zinc-950 px-3 py-2 text-sm whitespace-pre-wrap text-zinc-200">
+                                  {recipient.answerText}
+                                </div>
+                              </div>
+                            ))}
+                          {(selectedCampaignDetail.recipients || []).filter((recipient: any) => String(recipient.answerText || "").trim()).length === 0 && (
+                            <div className="rounded-xl border border-dashed border-zinc-700 px-3 py-4 text-sm text-zinc-400">
+                              Inca nu exista mesaje completate in formular.
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="rounded-2xl border border-zinc-700 bg-[#151922] p-4">
+                        <div className="text-sm font-semibold text-zinc-100">Reply-uri primite pe email</div>
+                        <div className="mt-4 space-y-3">
+                          {(selectedCampaignDetail.recipients || [])
+                            .filter((recipient: any) => String(recipient.lastReplyPreview || "").trim())
+                            .map((recipient: any) => (
+                              <div key={`reply-${recipient._id}`} className="rounded-xl border border-zinc-700 bg-[#0f1115] p-3">
+                                <div className="text-sm font-semibold text-zinc-100">{recipient.name || recipient.email}</div>
+                                <div className="mt-1 text-xs text-zinc-400">{recipient.email}</div>
+                                <div className="mt-2 rounded-lg bg-zinc-950 px-3 py-2 text-sm whitespace-pre-wrap text-zinc-200">
+                                  {recipient.lastReplyPreview}
+                                </div>
+                              </div>
+                            ))}
+                          {(selectedCampaignDetail.recipients || []).filter((recipient: any) => String(recipient.lastReplyPreview || "").trim()).length === 0 && (
+                            <div className="rounded-xl border border-dashed border-zinc-700 px-3 py-4 text-sm text-zinc-400">
+                              Inca nu exista reply-uri primite pe email.
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </>
               ) : (
-                <div className="rounded-2xl border border-dashed border-zinc-200 px-6 py-10 text-sm text-zinc-500">
+                <div className="rounded-2xl border border-dashed border-zinc-700 px-6 py-10 text-sm text-zinc-400">
                   Alege o campanie din stanga pentru a vedea detaliile.
                 </div>
               )}
             </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className={DARK_CARD}>
+        <CardHeader>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <Mail className="w-5 h-5 text-emerald-400" />
+                Inbox reply-uri
+              </CardTitle>
+              <CardDescription>
+                Aici vezi toate reply-urile primite prin Resend, inclusiv pe cele care nu au fost
+                legate automat de o campanie.
+              </CardDescription>
+            </div>
+            <Button variant="outline" onClick={() => void loadInbox()}>
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Reincarca inbox
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="bg-[#0f1115]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {inboxEvents.map((event) => (
+              <div key={event._id} className="rounded-2xl border border-zinc-700 bg-[#151922] p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="text-sm font-semibold text-zinc-100">
+                    {event?.meta?.from || "Expeditor necunoscut"}
+                  </div>
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      "border-zinc-600 bg-zinc-900 text-zinc-200",
+                      event.type === "received_unmatched" && "border-amber-500/30 bg-amber-500/10 text-amber-300",
+                    )}
+                  >
+                    {event.type === "received_unmatched" ? "Neasociat" : "Asociat"}
+                  </Badge>
+                </div>
+                <div className="mt-1 text-xs text-zinc-400">
+                  Catre: {Array.isArray(event?.meta?.to) ? event.meta.to.join(", ") : event?.meta?.to || "-"}
+                </div>
+                <div className="mt-1 text-xs text-zinc-400">
+                  Subiect: {event?.meta?.subject || "-"}
+                </div>
+                <div className="mt-1 text-xs text-zinc-500">
+                  {event?.createdAt ? new Date(event.createdAt).toLocaleString("ro-RO") : "-"}
+                </div>
+                <div className="mt-3 rounded-xl bg-[#0b0d12] px-3 py-3 text-sm whitespace-pre-wrap text-zinc-200">
+                  {event?.meta?.text || event?.meta?.preview || "(fara continut text)"}
+                </div>
+              </div>
+            ))}
+            {!inboxEvents.length && (
+              <div className="rounded-xl border border-dashed border-zinc-700 px-4 py-6 text-sm text-zinc-400">
+                Nu exista reply-uri in inbox inca.
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
