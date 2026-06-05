@@ -36,6 +36,18 @@ type EmailDraft = {
   html: string;
 };
 
+type FeedbackCampaignDraft = {
+  title: string;
+  subject: string;
+  preheader: string;
+  html: string;
+  pauseMs: number;
+  limit: number;
+  onlyWithoutPayments: boolean;
+  onlyVerified: boolean;
+  onlyFreePlan: boolean;
+};
+
 const DASHBOARD_URL = "https://esaevents.ro/login";
 type EmailThemeId =
   | "slate"
@@ -391,6 +403,113 @@ const buildDraftForType = (type: EmailType, user: any): EmailDraft => {
   }
 };
 
+const DEFAULT_FEEDBACK_CAMPAIGN_HTML = `<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ne poti ajuta cu un feedback de 10 secunde?</title>
+  </head>
+  <body style="margin:0;padding:0;background:#fdf6f0;font-family:Georgia,serif;color:#1a1a1a">
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Ai creat un cont pe Event Smart Assistant, dar nu ai cumparat un plan. Care a fost principalul motiv?</div>
+    <div style="max-width:600px;margin:0 auto;padding:32px 16px">
+      <div style="background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 40px rgba(0,0,0,0.08)">
+        <div style="background:linear-gradient(135deg,#f9e4d4 0%,#fce4ec 50%,#e8d5f5 100%);padding:40px 36px 32px;text-align:center">
+          <div style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:4px 14px;border-radius:999px;border:1px solid rgba(224,122,95,0.35);color:#e07a5f;background:rgba(255,255,255,0.6);margin-bottom:16px">
+            Un mesaj personal
+          </div>
+          <h1 style="margin:0;font-size:26px;line-height:1.3;font-weight:400;color:#2d1b0e">
+            Ne poti ajuta cu un <em style="color:#e07a5f">feedback de 10 secunde</em>?
+          </h1>
+        </div>
+
+        <div style="padding:32px 36px">
+          <p style="margin:0 0 20px;font-size:15px;line-height:1.75;color:#3d3028">
+            Ai creat un cont pe <strong style="color:#1a1a1a">Event Smart Assistant</strong>, dar nu ai cumparat un plan.
+          </p>
+
+          <div style="background:linear-gradient(135deg,#fff5f0 0%,#fef9ff 100%);border:1.5px solid #f4c8b8;border-radius:16px;padding:24px 28px;margin-bottom:28px">
+            <p style="margin:0 0 6px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#e07a5f">Intrebarea mea pentru tine</p>
+            <p style="margin:0;font-size:18px;line-height:1.55;color:#2d1b0e;font-style:italic">
+              Care a fost principalul motiv?
+            </p>
+          </div>
+
+          <p style="margin:0 0 14px;font-size:13px;color:#9a8a80;text-align:center">Poti alege rapid una dintre variante:</p>
+
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:10px">
+            <tr>
+              <td style="padding:0 6px 10px 0;width:50%;vertical-align:top">
+                <a href="{{feedbackUrl:nu-am-inteles}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
+                  Nu am inteles exact ce primesc
+                </a>
+              </td>
+              <td style="padding:0 0 10px 6px;width:50%;vertical-align:top">
+                <a href="{{feedbackUrl:pret-prea-mare}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
+                  Pretul este prea mare
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 6px 10px 0;vertical-align:top">
+                <a href="{{feedbackUrl:nu-am-nevoie-acum}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
+                  Nu am nevoie acum
+                </a>
+              </td>
+              <td style="padding:0 0 10px 6px;vertical-align:top">
+                <a href="{{feedbackUrl:alta-solutie}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
+                  Am ales alta solutie
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 6px 10px 0;vertical-align:top">
+                <a href="{{feedbackUrl:nu-am-avut-incredere}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
+                  Nu am avut suficienta incredere
+                </a>
+              </td>
+              <td style="padding:0 0 10px 6px;vertical-align:top">
+                <a href="{{feedbackUrl:demo-mai-clar}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
+                  Mi-ar fi placut un demo mai clar
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="padding:0 0 10px 0;vertical-align:top">
+                <a href="{{feedbackUrl:alt-motiv}}" style="display:block;text-decoration:none;padding:14px 16px;background:#fff;border:1.5px solid #e8ddd8;border-radius:12px;font-size:13px;color:#3d3028;line-height:1.45">
+                  Alt motiv: ______
+                </a>
+              </td>
+            </tr>
+          </table>
+
+          <div style="text-align:center;margin:28px 0 8px">
+            <a href="{{feedbackUrl}}" style="display:inline-block;padding:14px 32px;background:#e07a5f;color:#ffffff;text-decoration:none;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 6px 20px rgba(224,122,95,.35)">
+              Deschide formularul complet
+            </a>
+          </div>
+
+          <p style="margin:16px 0 0;font-size:12px;color:#b0a098;text-align:center">
+            Sau raspunde direct la acest email. Citesc fiecare mesaj personal.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>`;
+
+const createFeedbackCampaignDraft = (): FeedbackCampaignDraft => ({
+  title: "Feedback clienti fara achizitie",
+  subject: "Ne poti ajuta cu un feedback de 10 secunde?",
+  preheader: "Ai creat un cont pe Event Smart Assistant, dar nu ai cumparat un plan. Care a fost principalul motiv?",
+  html: DEFAULT_FEEDBACK_CAMPAIGN_HTML,
+  pauseMs: 2500,
+  limit: 140,
+  onlyWithoutPayments: true,
+  onlyVerified: true,
+  onlyFreePlan: false,
+});
+
 const EmailCenter = ({ token }: { token: string }) => {
   const { toast } = useToast();
 
@@ -409,10 +528,19 @@ const EmailCenter = ({ token }: { token: string }) => {
   const [sendingBulk, setSendingBulk] = useState(false);
   const [daysAhead, setDaysAhead] = useState(3);
   const [bulkResult, setBulkResult] = useState<any>(null);
+  const [campaignDraft, setCampaignDraft] = useState<FeedbackCampaignDraft>(() =>
+    createFeedbackCampaignDraft(),
+  );
+  const [campaigns, setCampaigns] = useState<any[]>([]);
+  const [selectedCampaignId, setSelectedCampaignId] = useState("");
+  const [selectedCampaignDetail, setSelectedCampaignDetail] = useState<any>(null);
+  const [loadingCampaigns, setLoadingCampaigns] = useState(false);
+  const [sendingCampaign, setSendingCampaign] = useState(false);
 
   useEffect(() => {
     void loadStatus();
     void loadUsers();
+    void loadCampaigns();
   }, [token]);
 
   const loadStatus = async () => {
@@ -451,6 +579,60 @@ const EmailCenter = ({ token }: { token: string }) => {
     }
   };
 
+  const loadCampaigns = async (campaignIdToOpen?: string) => {
+    setLoadingCampaigns(true);
+    try {
+      const res = await fetch(`${API_URL}/admin/email/campaigns`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Campaigns unavailable");
+      const list = Array.isArray(data?.campaigns) ? data.campaigns : [];
+      setCampaigns(list);
+
+      const nextId =
+        campaignIdToOpen ||
+        selectedCampaignId ||
+        list[0]?._id ||
+        "";
+      if (nextId) {
+        setSelectedCampaignId(nextId);
+        await loadCampaignDetail(nextId);
+      } else {
+        setSelectedCampaignDetail(null);
+      }
+    } catch (err: any) {
+      toast({
+        title: "Eroare",
+        description: err?.message || "Nu am putut incarca istoria campaniilor.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoadingCampaigns(false);
+    }
+  };
+
+  const loadCampaignDetail = async (campaignId: string) => {
+    if (!campaignId) {
+      setSelectedCampaignDetail(null);
+      return;
+    }
+    try {
+      const res = await fetch(`${API_URL}/admin/email/campaigns/${campaignId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Campaign detail unavailable");
+      setSelectedCampaignDetail(data);
+    } catch (err: any) {
+      toast({
+        title: "Eroare",
+        description: err?.message || "Nu am putut incarca detaliile campaniei.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const filteredUsers = useMemo(() => {
     const lower = search.trim().toLowerCase();
     if (!lower) return users;
@@ -464,6 +646,20 @@ const EmailCenter = ({ token }: { token: string }) => {
     () => users.find((u) => u._id === selectedUserId) || null,
     [users, selectedUserId],
   );
+
+  useEffect(() => {
+    const statusValue = selectedCampaignDetail?.campaign?.status;
+    if (statusValue !== "queued" && statusValue !== "sending") return;
+
+    const timer = window.setInterval(() => {
+      if (selectedCampaignId) {
+        void loadCampaignDetail(selectedCampaignId);
+        void loadCampaigns(selectedCampaignId);
+      }
+    }, 8000);
+
+    return () => window.clearInterval(timer);
+  }, [selectedCampaignDetail?.campaign?.status, selectedCampaignId]);
 
   useEffect(() => {
     setEmailDraft(buildDraftForType(emailType, selectedUser));
@@ -553,6 +749,47 @@ const EmailCenter = ({ token }: { token: string }) => {
       });
     } finally {
       setSendingBulk(false);
+    }
+  };
+
+  const sendFeedbackCampaign = async () => {
+    if (!campaignDraft.subject.trim() || !campaignDraft.html.trim()) {
+      toast({
+        title: "Campanie incompleta",
+        description: "Completeaza subiectul si HTML-ul campaniei inainte de trimitere.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSendingCampaign(true);
+    try {
+      const res = await fetch(`${API_URL}/admin/email/campaigns/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(campaignDraft),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Campaign send failed");
+
+      toast({
+        title: "Campanie pornita",
+        description: `Au fost puse in coada ${data?.queued || 0} emailuri.`,
+        variant: "success",
+      });
+
+      await loadCampaigns(data?.campaignId || "");
+    } catch (err: any) {
+      toast({
+        title: "Eroare campanie",
+        description: err?.message || "Nu am putut porni campania.",
+        variant: "destructive",
+      });
+    } finally {
+      setSendingCampaign(false);
     }
   };
 
@@ -897,6 +1134,327 @@ const EmailCenter = ({ token }: { token: string }) => {
               ))}
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      <Card className="border-zinc-200/80">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Mail className="w-5 h-5 text-rose-500" />
+            Campanie feedback clienti
+          </CardTitle>
+          <CardDescription>
+            Trimite acelasi email in bulk, cu pauza intre mesaje, si urmareste vizitele,
+            raspunsurile din formular si reply-urile venite direct pe email.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Titlu intern campanie
+              </label>
+              <Input
+                value={campaignDraft.title}
+                onChange={(e: any) =>
+                  setCampaignDraft((prev) => ({ ...prev, title: e.target.value }))
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Subiect email
+              </label>
+              <Input
+                value={campaignDraft.subject}
+                onChange={(e: any) =>
+                  setCampaignDraft((prev) => ({ ...prev, subject: e.target.value }))
+                }
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Preheader
+            </label>
+            <Input
+              value={campaignDraft.preheader}
+              onChange={(e: any) =>
+                setCampaignDraft((prev) => ({ ...prev, preheader: e.target.value }))
+              }
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Delay ms
+              </label>
+              <Input
+                type="number"
+                min={0}
+                max={60000}
+                value={campaignDraft.pauseMs}
+                onChange={(e: any) =>
+                  setCampaignDraft((prev) => ({
+                    ...prev,
+                    pauseMs: Number(e.target.value || 0),
+                  }))
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Limita
+              </label>
+              <Input
+                type="number"
+                min={1}
+                max={500}
+                value={campaignDraft.limit}
+                onChange={(e: any) =>
+                  setCampaignDraft((prev) => ({
+                    ...prev,
+                    limit: Number(e.target.value || 1),
+                  }))
+                }
+              />
+            </div>
+            <label className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+              <input
+                type="checkbox"
+                checked={campaignDraft.onlyWithoutPayments}
+                onChange={(e) =>
+                  setCampaignDraft((prev) => ({
+                    ...prev,
+                    onlyWithoutPayments: e.target.checked,
+                  }))
+                }
+              />
+              Fara achizitii
+            </label>
+            <label className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+              <input
+                type="checkbox"
+                checked={campaignDraft.onlyVerified}
+                onChange={(e) =>
+                  setCampaignDraft((prev) => ({
+                    ...prev,
+                    onlyVerified: e.target.checked,
+                  }))
+                }
+              />
+              Doar email verificat
+            </label>
+            <label className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+              <input
+                type="checkbox"
+                checked={campaignDraft.onlyFreePlan}
+                onChange={(e) =>
+                  setCampaignDraft((prev) => ({
+                    ...prev,
+                    onlyFreePlan: e.target.checked,
+                  }))
+                }
+              />
+              Doar plan free
+            </label>
+          </div>
+
+          <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+            <div>Formular feedback: {status?.feedbackFormUrl || "-"}</div>
+            <div>Webhook Resend: {status?.resendWebhookConfigured ? "configurat" : "neconfigurat"}</div>
+            <div>Reply inbox: {status?.feedbackReplyConfigured ? status?.feedbackReplyDomain : "neconfigurat"}</div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-3">
+              <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                HTML campanie
+              </label>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCampaignDraft(createFeedbackCampaignDraft())}
+                >
+                  Reset template
+                </Button>
+                <Button onClick={sendFeedbackCampaign} disabled={sendingCampaign}>
+                  <Send className="w-4 h-4 mr-2" />
+                  {sendingCampaign ? "Se porneste..." : "Porneste campania"}
+                </Button>
+              </div>
+            </div>
+            <textarea
+              value={campaignDraft.html}
+              onChange={(e) =>
+                setCampaignDraft((prev) => ({ ...prev, html: e.target.value }))
+              }
+              className="min-h-[340px] w-full rounded-xl border border-input bg-background px-4 py-3 text-sm font-mono shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border-zinc-200/80">
+        <CardHeader>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="w-5 h-5 text-sky-500" />
+                Istoric campanii feedback
+              </CardTitle>
+              <CardDescription>
+                Vezi ce ai trimis, cine a vizitat formularul, ce raspuns a venit si cine a
+                raspuns direct pe email.
+              </CardDescription>
+            </div>
+            <Button variant="outline" onClick={() => void loadCampaigns(selectedCampaignId)}>
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Reincarca
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          <div className="grid grid-cols-1 xl:grid-cols-[320px_minmax(0,1fr)] gap-5">
+            <div className="space-y-3">
+              <select
+                className="w-full h-10 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                value={selectedCampaignId}
+                onChange={(e) => {
+                  const nextId = e.target.value;
+                  setSelectedCampaignId(nextId);
+                  void loadCampaignDetail(nextId);
+                }}
+              >
+                <option value="">Alege campania</option>
+                {campaigns.map((campaign) => (
+                  <option key={campaign._id} value={campaign._id}>
+                    {campaign.title} - {campaign.status}
+                  </option>
+                ))}
+              </select>
+
+              <div className="space-y-3">
+                {campaigns.map((campaign) => {
+                  const isActive = selectedCampaignId === campaign._id;
+                  return (
+                    <button
+                      key={campaign._id}
+                      type="button"
+                      onClick={() => {
+                        setSelectedCampaignId(campaign._id);
+                        void loadCampaignDetail(campaign._id);
+                      }}
+                      className={cn(
+                        "w-full rounded-2xl border p-4 text-left transition-all",
+                        isActive
+                          ? "border-primary bg-primary/5 shadow-sm"
+                          : "border-zinc-200 bg-white hover:border-zinc-300",
+                      )}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="text-sm font-semibold text-zinc-900">{campaign.title}</div>
+                        <Badge variant={isActive ? "default" : "outline"}>
+                          {campaign.status}
+                        </Badge>
+                      </div>
+                      <div className="mt-2 text-xs text-zinc-500">
+                        {campaign?.stats?.sent || 0} trimise, {campaign?.stats?.submitted || 0} raspunsuri
+                      </div>
+                    </button>
+                  );
+                })}
+                {!campaigns.length && !loadingCampaigns && (
+                  <div className="rounded-xl border border-dashed border-zinc-200 px-4 py-6 text-sm text-zinc-500">
+                    Nu exista campanii inca.
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {selectedCampaignDetail?.campaign ? (
+                <>
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    {[
+                      ["Trimise", selectedCampaignDetail.campaign?.stats?.sent || 0],
+                      ["Deschise", selectedCampaignDetail.campaign?.stats?.opened || 0],
+                      ["Vizite", selectedCampaignDetail.campaign?.stats?.visited || 0],
+                      ["Formulare", selectedCampaignDetail.campaign?.stats?.submitted || 0],
+                      ["Reply", selectedCampaignDetail.campaign?.stats?.replied || 0],
+                    ].map(([label, value]) => (
+                      <div
+                        key={String(label)}
+                        className="rounded-xl border border-zinc-200 bg-white p-4 text-sm"
+                      >
+                        <div className="text-xs uppercase tracking-wide text-zinc-500">
+                          {label}
+                        </div>
+                        <div className="mt-2 text-2xl font-semibold text-zinc-900">
+                          {value as any}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700">
+                    <div className="font-semibold text-zinc-900">{selectedCampaignDetail.campaign.title}</div>
+                    <div className="mt-1">Subiect: {selectedCampaignDetail.campaign.subject}</div>
+                    <div className="mt-1">
+                      Creata:{" "}
+                      {selectedCampaignDetail.campaign.createdAt
+                        ? new Date(selectedCampaignDetail.campaign.createdAt).toLocaleString("ro-RO")
+                        : "-"}
+                    </div>
+                    <div className="mt-1">Status: {selectedCampaignDetail.campaign.status}</div>
+                  </div>
+
+                  <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
+                    <table className="min-w-full text-sm">
+                      <thead className="bg-zinc-50 text-zinc-500">
+                        <tr>
+                          <th className="px-4 py-3 text-left font-semibold">Email</th>
+                          <th className="px-4 py-3 text-left font-semibold">Status</th>
+                          <th className="px-4 py-3 text-left font-semibold">Vizite</th>
+                          <th className="px-4 py-3 text-left font-semibold">Alegere</th>
+                          <th className="px-4 py-3 text-left font-semibold">Mesaj formular</th>
+                          <th className="px-4 py-3 text-left font-semibold">Reply email</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(selectedCampaignDetail.recipients || []).map((recipient: any) => (
+                          <tr key={recipient._id} className="border-t border-zinc-100 align-top">
+                            <td className="px-4 py-3">
+                              <div className="font-medium text-zinc-900">{recipient.email}</div>
+                              <div className="text-xs text-zinc-500">{recipient.name || "-"}</div>
+                            </td>
+                            <td className="px-4 py-3">
+                              <Badge variant="outline">{recipient.status}</Badge>
+                            </td>
+                            <td className="px-4 py-3">{recipient.visitCount || 0}</td>
+                            <td className="px-4 py-3">{recipient.answerChoice || "-"}</td>
+                            <td className="px-4 py-3 max-w-[260px] whitespace-pre-wrap text-zinc-700">
+                              {recipient.answerText || "-"}
+                            </td>
+                            <td className="px-4 py-3 max-w-[260px] whitespace-pre-wrap text-zinc-700">
+                              {recipient.lastReplyPreview || "-"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-zinc-200 px-6 py-10 text-sm text-zinc-500">
+                  Alege o campanie din stanga pentru a vedea detaliile.
+                </div>
+              )}
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>

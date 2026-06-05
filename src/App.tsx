@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import PublicInvitation from "./components/PublicInvitation";
+import FeedbackPage from "./components/FeedbackPage";
 import TemplatePreviewPage from "./components/TemplatePreviewPage";
 import SimpleTemplatePreviewPage from "./components/SimpleTemplatePreviewPage";
 import DashboardApp from "./components/DashboardApp";
@@ -58,6 +59,10 @@ const App = () => {
         
         if (currentPath.includes('/invite/') || currentPath.includes('/public')) {
             return <PublicInvitation />;
+        }
+
+        if (currentPath === '/feedback') {
+            return <FeedbackPage />;
         }
 
         if (currentPath.startsWith('/templates/') && currentPath.endsWith('/preview')) {
