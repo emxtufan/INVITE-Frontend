@@ -138,6 +138,8 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import UpgradeModal from "./UpgradeModal";
+import PaymentAccessGate from "./PaymentAccessGate";
+import { isPaymentRequired } from "../lib/paymentAccess";
 import {
   getTemplateDefaultBlocks,
   getTemplateDefaultProfile,
@@ -156,7 +158,7 @@ const MobileOverlay = ({
 }) => (
   <div
     className={cn(
-      "fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden transition-opacity",
+      "fixed inset-0 z-40 bg-black/100 backdrop-blur-sm md:hidden transition-opacity",
       isOpen ? "opacity-100" : "opacity-0 pointer-events-none",
     )}
     onClick={onClose}
@@ -387,6 +389,49 @@ const sanitizeProfileForProjectSave = (
   return next as Partial<UserProfile>;
 };
 
+const normalizeGuestName = (value = "") => value.trim().toLowerCase();
+
+const getGuestMemberCount = (guest: GuestListEntry) =>
+  Math.max(
+    1,
+    guest.rsvp?.participants?.length || 0,
+    guest.rsvp?.confirmedCount || 0,
+  );
+
+const getGuestMemberName = (guest: GuestListEntry, memberIndex: number) => {
+  const participantName =
+    guest.rsvp?.participants?.[memberIndex]?.label?.trim();
+  if (participantName) return participantName;
+
+  return getGuestMemberCount(guest) > 1
+    ? `${guest.name} (${memberIndex + 1})`
+    : guest.name;
+};
+
+const getUnseatedGuestMemberIndexes = (
+  guest: GuestListEntry,
+  seatedGuestNameCounts: globalThis.Map<string, number>,
+) => {
+  const remainingSeatedNames = new globalThis.Map(seatedGuestNameCounts);
+
+  return Array.from(
+    { length: getGuestMemberCount(guest) },
+    (_, memberIndex) => memberIndex,
+  ).filter((memberIndex) => {
+    const memberName = normalizeGuestName(
+      getGuestMemberName(guest, memberIndex),
+    );
+    const seatedCount = remainingSeatedNames.get(memberName) || 0;
+
+    if (seatedCount > 0) {
+      remainingSeatedNames.set(memberName, seatedCount - 1);
+      return false;
+    }
+
+    return true;
+  });
+};
+
 const GuestInput = memo(
   ({
     initialName,
@@ -410,21 +455,10 @@ const GuestInput = memo(
     }, [initialName]);
 
     const availableGuests = useMemo(() => {
-      const currentNameNormalized = initialName
-        ? initialName.trim().toLowerCase()
-        : "";
-
       return allGuests.filter((g: GuestListEntry) => {
-        const guestNameNormalized = g.name.trim().toLowerCase();
-        if (
-          currentNameNormalized &&
-          currentNameNormalized.includes(guestNameNormalized)
-        ) {
-          return true;
-        }
-        return !seatedGuestNames.has(guestNameNormalized);
+        return getUnseatedGuestMemberIndexes(g, seatedGuestNames).length > 0;
       });
-    }, [allGuests, seatedGuestNames, initialName]);
+    }, [allGuests, seatedGuestNames]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const text = e.target.value;
@@ -440,7 +474,15 @@ const GuestInput = memo(
         const lowerText = text.toLowerCase();
         const matches = availableGuests
           .filter((g: GuestListEntry) => {
-            return g.name.toLowerCase().includes(lowerText);
+            const searchableNames = [
+              g.name,
+              ...(g.rsvp?.participants || []).map(
+                (participant) => participant.label,
+              ),
+            ]
+              .join(" ")
+              .toLowerCase();
+            return searchableNames.includes(lowerText);
           })
           .sort((a: GuestListEntry, b: GuestListEntry) => {
             const aConfirmed = a.status === "confirmed" ? 1 : 0;
@@ -802,6 +844,7 @@ const DashboardApp = () => {
     nearestTable?: CanvasElement;
     needed: number;
     available: number;
+    memberIndexes: number[];
   } | null>(null);
 
   const currentPlan = session?.plan || "free";
@@ -928,15 +971,13 @@ const DashboardApp = () => {
   }, [session?.profile?.eventType]);
 
   const seatedGuestNames = useMemo(() => {
-    const names = new Set<string>();
+    const names = new globalThis.Map<string, number>();
     elements.forEach((el) => {
       if (el.guests) {
         el.guests.forEach((g) => {
           if (g && g.name) {
-            const lowerName = g.name.trim().toLowerCase();
-            names.add(lowerName);
-            const groupMatch = lowerName.match(/^(.*?)\s\(\d+\)$/);
-            if (groupMatch && groupMatch[1]) names.add(groupMatch[1]);
+            const lowerName = normalizeGuestName(g.name);
+            names.set(lowerName, (names.get(lowerName) || 0) + 1);
           }
         });
       }
@@ -946,6 +987,7 @@ const DashboardApp = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("weddingPro_session");
+    localStorage.removeItem("weddingPro_view");
     if (session?.userId) {
       localStorage.removeItem(`weddingPro_hasCustomSections_${session.userId}`);
       localStorage.removeItem(`weddingPro_hasProfileOverrides_${session.userId}`);
@@ -960,11 +1002,7 @@ const DashboardApp = () => {
     setNotificationActivity({});
     setIsNotificationsPanelOpen(false);
     setIsAccountPanelOpen(false);
-    toast({
-      title: "Deconectat",
-      description: "Te asteptam sa revii!",
-      variant: "default",
-    });
+    window.location.replace("/login");
   };
 
   const openAccountPanel = useCallback(async () => {
@@ -2275,6 +2313,7 @@ const DashboardApp = () => {
     const newSession = normalizeMediaFieldsDeep({
       ...session,
       plan: "premium",
+      requiresPayment: false,
       limits: PLAN_LIMITS.premium,
       payments: payments || session.payments,
     } as UserSession);
@@ -2499,9 +2538,19 @@ const DashboardApp = () => {
     guestEntry: GuestListEntry,
     countToPlace: number,
     groupOffset: number = 0,
+    memberIndexes?: number[],
   ) => {
     const message = guestEntry.rsvp?.message;
+    const allergies = guestEntry.rsvp?.allergies?.trim();
     const totalInGroup = countToPlace;
+    const participantDetails = guestEntry.rsvp?.participants || [];
+    const vegetarianCount = Math.max(
+      0,
+      Number(
+        guestEntry.rsvp?.vegetarianCount ??
+          (guestEntry.rsvp?.dietary === "vegetarian" ? 1 : 0),
+      ),
+    );
 
     const adultsCount =
       guestEntry.rsvp?.adultsCount !== undefined
@@ -2540,19 +2589,41 @@ const DashboardApp = () => {
           const currentSeatIdx = (startIdx + i) % capacity;
           if (newGuests[currentSeatIdx] !== null) openSeatAt(currentSeatIdx);
 
-          const absoluteMemberIdx = groupOffset + i;
-          const isChild = absoluteMemberIdx >= adultsCount;
+          const absoluteMemberIdx = memberIndexes?.[i] ?? groupOffset + i;
+          const participant = participantDetails[absoluteMemberIdx];
+          const isChild = participant
+            ? participant.type === "child"
+            : absoluteMemberIdx >= adultsCount;
+          const participantAllergies = participant?.allergies?.trim();
 
           newGuests[currentSeatIdx] = {
             id: Math.random().toString(36).substr(2, 9),
             name:
-              (guestEntry.rsvp?.confirmedCount || 1) > 1
+              participant?.label?.trim() ||
+              ((guestEntry.rsvp?.confirmedCount || 1) > 1
                 ? `${guestEntry.name} (${absoluteMemberIdx + 1})`
-                : guestEntry.name,
-            menuType: isChild ? "kids" : "standard",
+                : guestEntry.name),
+            menuType:
+              participant?.menuType ||
+              (isChild
+                ? "kids"
+                : absoluteMemberIdx < vegetarianCount
+                  ? "vegetarian"
+                  : "standard"),
             isChild: isChild,
             allergies:
-              absoluteMemberIdx === 0 && message ? `Msg: ${message}` : "",
+              participant
+                ? [
+                    participantAllergies,
+                    absoluteMemberIdx === 0 && message ? `Msg: ${message}` : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" | ")
+                : absoluteMemberIdx === 0
+                  ? [allergies, message ? `Msg: ${message}` : ""]
+                      .filter(Boolean)
+                      .join(" | ")
+                  : "",
           };
         }
         return { ...el, guests: newGuests };
@@ -2566,7 +2637,20 @@ const DashboardApp = () => {
     guestEntry: GuestListEntry,
   ) => {
     if (!handleActionAttempt()) return;
-    const confirmedCount = guestEntry.rsvp?.confirmedCount || 1;
+    const memberIndexes = getUnseatedGuestMemberIndexes(
+      guestEntry,
+      seatedGuestNames,
+    );
+    const confirmedCount = memberIndexes.length;
+
+    if (confirmedCount === 0) {
+      toast({
+        title: "Invitati deja asezati",
+        description: "Toate persoanele din acest grup sunt deja la mese.",
+      });
+      return;
+    }
+
     const currentTable = elements.find((el) => el.id === elId);
     if (!currentTable || !currentTable.guests) return;
 
@@ -2599,12 +2683,26 @@ const DashboardApp = () => {
         nearestTable: availableTables[0],
         needed: confirmedCount,
         available: emptySlots,
+        memberIndexes,
       });
       return;
     }
 
-    placeGuestOnTable(elId, startIdx, guestEntry, confirmedCount, 0);
-    toast({ title: "Grup Adaugat", variant: "success" });
+    placeGuestOnTable(
+      elId,
+      startIdx,
+      guestEntry,
+      confirmedCount,
+      0,
+      memberIndexes,
+    );
+    toast({
+      title:
+        confirmedCount === getGuestMemberCount(guestEntry)
+          ? "Grup adaugat"
+          : "Persoanele ramase au fost adaugate",
+      variant: "success",
+    });
   };
 
   const resolveConflict = (action: "move_all" | "split") => {
@@ -2617,6 +2715,7 @@ const DashboardApp = () => {
       nearestTable,
       needed,
       available,
+      memberIndexes,
     } = conflictData;
 
     if (action === "move_all") {
@@ -2629,7 +2728,14 @@ const DashboardApp = () => {
         return;
       }
       const targetIdx = nearestTable.guests?.indexOf(null) ?? 0;
-      placeGuestOnTable(nearestTable.id, targetIdx, guestEntry, needed, 0);
+      placeGuestOnTable(
+        nearestTable.id,
+        targetIdx,
+        guestEntry,
+        needed,
+        0,
+        memberIndexes,
+      );
       toast({
         title: "Grup Mutat",
         description: `Tot grupul a fost asezat la ${nearestTable.name}.`,
@@ -2642,6 +2748,7 @@ const DashboardApp = () => {
         guestEntry,
         available,
         0,
+        memberIndexes.slice(0, available),
       );
       const remaining = needed - available;
       if (nearestTable && remaining > 0) {
@@ -2651,7 +2758,8 @@ const DashboardApp = () => {
           targetIdx,
           guestEntry,
           remaining,
-          available,
+          0,
+          memberIndexes.slice(available),
         );
         toast({
           title: "Grup Impartit",
@@ -2737,6 +2845,7 @@ const DashboardApp = () => {
   };
 
   if (!session) return <AuthForm onLogin={handleLogin} syncAuthPath={false} />;
+  if (isPaymentRequired(session)) return <PaymentAccessGate />;
   if (isLoadingData)
     return (
       <div className="flex h-screen w-full items-center justify-center bg-background">
@@ -3162,19 +3271,37 @@ const DashboardApp = () => {
           )}
         >
           <div className="flex items-center overflow-hidden">
-            <div className="w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center shrink-0">
+            <div className={cn(
+              "w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center shrink-0",
+              !isCollapsed &&
+                (session?.profile?.eventType || "wedding") === "wedding" &&
+                "hidden",
+            )}>
               <Sparkles className="w-5 h-5" />
             </div>
-            <span
-              className={cn(
-                "font-bold text-lg tracking-tight whitespace-nowrap overflow-hidden",
-                isCollapsed
-                  ? "w-0 opacity-0 ml-0"
-                  : "w-auto max-w-[200px] opacity-100 ml-3",
-              )}
-            >
-              {dynamicTitle}
-            </span>
+            {(session?.profile?.eventType || "wedding") === "wedding" ? (
+              <img
+                src="/brand/logo-esa-smart.svg"
+                alt="Event Smart Assistant"
+                className={cn(
+                  "h-auto object-contain transition-all duration-300",
+                  isCollapsed
+                    ? "w-0 opacity-0 ml-0"
+                    : "w-[172px] opacity-100",
+                )}
+              />
+            ) : (
+              <span
+                className={cn(
+                  "font-bold text-lg tracking-tight whitespace-nowrap overflow-hidden",
+                  isCollapsed
+                    ? "w-0 opacity-0 ml-0"
+                    : "w-auto max-w-[200px] opacity-100 ml-3",
+                )}
+              >
+                {dynamicTitle}
+              </span>
+            )}
           </div>
           {!isCollapsed && (
             <Button

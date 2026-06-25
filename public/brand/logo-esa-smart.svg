@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1613.99 345.71">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: .77em;
+      }
+
+      .cls-2 {
+        letter-spacing: .65em;
+      }
+
+      .cls-3 {
+        letter-spacing: .8em;
+      }
+
+      .cls-4 {
+        letter-spacing: .8em;
+      }
+
+      .cls-5 {
+        letter-spacing: .76em;
+      }
+
+      .cls-6 {
+        font-size: 228.15px;
+      }
+
+      .cls-6, .cls-7 {
+        font-family: EuropaGroteskSH-DemBol, 'Europa Grotesk SH';
+      }
+
+      .cls-8 {
+        letter-spacing: .02em;
+      }
+
+      .cls-7 {
+        font-size: 114.08px;
+      }
+
+      .cls-9 {
+        fill: #ff7633;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="cls-9" d="M121.8,107.67v126.52c0,5.49,4.43,9.95,9.89,9.95h170.12c5.46,0,9.89,4.45,9.89,9.95v81.67c0,5.49-4.43,9.95-9.89,9.95H9.89C4.43,345.71,0,341.25,0,335.76v-102.38c0-2.71,1.1-5.31,3.05-7.18l42.38-40.84c6.38-6.15,6.38-16.41,0-22.56-11.79-11.33-29.96-28.8-42.39-40.73C1.09,120.2,0,117.62,0,114.92V9.95C0,4.45,4.43,0,9.89,0h291.92c5.46,0,9.89,4.45,9.89,9.95v77.82c0,5.49-4.43,9.95-9.89,9.95h-170.12c-5.46,0-9.89,4.45-9.89,9.95Z"/>
+    <polyline points="176.94 108.22 176.94 238.39 242.65 172.29"/>
+  </g>
+  <text class="cls-6" transform="translate(331.1 190.78)"><tspan class="cls-8" x="0" y="0">EVENT </tspan><tspan class="cls-9" x="722.55" y="0">smart</tspan></text>
+  <text class="cls-7" transform="translate(330.76 316.03)"><tspan class="cls-5" x="0" y="0">A</tspan><tspan class="cls-3" x="162.67" y="0">SSI</tspan><tspan class="cls-1" x="595.36" y="0">S</tspan><tspan class="cls-2" x="750.39" y="0">T</tspan><tspan class="cls-4" x="889" y="0">ANT</tspan></text>
+</svg>

@@ -36,7 +36,18 @@ export interface GuestListEntry {
     childrenCount?: number;
     hasChildren: boolean;
     message: string;
-    dietary: string;
+    dietary?: string;
+    vegetarianCount?: number;
+    veganCount?: number;
+    allergies?: string;
+    participants?: Array<{
+      id?: string;
+      type: 'adult' | 'child';
+      label: string;
+      menuType: 'standard' | 'vegetarian' | 'vegan' | 'kids' | 'special';
+      allergies: string;
+    }>;
+    needsAccommodation?: boolean;
   }
 }
 
@@ -381,6 +392,7 @@ export interface UserSession {
   userId: string;
   user: string;
   plan: 'free' | 'basic' | 'premium';
+  requiresPayment?: boolean;
   profile: UserProfile;
   limits?: PlanLimits;
   token?: string;

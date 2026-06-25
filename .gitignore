@@ -2,3 +2,13 @@ node_modules/
 .env
 dist/
 uploads/
+temp/
+public/process-videos/preview/GifBlack.gif
+public/process-videos/preview/GifParis.gif
+public/process-videos/preview/apple.gif
+public/process-videos/preview/gif1.gif
+public/process-videos/preview/gif2.gif
+public/process-videos/01-creeaza-cont.gif
+public/landing-gifs/panou-invitati.gif
+public/brand/logo-esa-smart.png
+public/brand/logo-esa-smart-svg.svg

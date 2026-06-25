@@ -24,6 +24,8 @@ import {
 interface UpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
+  mandatory?: boolean;
+  onLogout?: () => void;
   userId: string;
   currentPlan?: 'free' | 'basic' | 'premium';
   userEmail?: string;
@@ -102,6 +104,8 @@ const createEmptyCheckoutAddress = (): CheckoutContactAddress => ({
 const UpgradeModal: React.FC<UpgradeModalProps> = ({
   isOpen,
   onClose,
+  mandatory = false,
+  onLogout,
   userId,
   currentPlan,
   userEmail,
@@ -487,14 +491,27 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
           'Toate functiile din Basic',
           'Planificator mese & seating',
           'Calendar, task-uri, buget complet',
-          'Servicii, istoric, tool-uri premium',
+          'Contactele furnizorilor si tool-uri premium',
         ];
   const selectClassName =
     'w-full h-10 rounded-md border border-input bg-background px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring';
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[calc(100vw-1rem)] max-w-2xl max-h-[90vh] overflow-y-auto p-0 border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950 shadow-2xl">
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open && mandatory) return;
+        onClose();
+      }}
+    >
+      <DialogContent
+        dismissible={!mandatory}
+        className={`w-[calc(100vw-1rem)] max-w-2xl max-h-[90vh] overflow-y-auto p-0 shadow-2xl ${
+          mandatory
+            ? 'dark border-white/10 bg-[#0b0e0d] text-white'
+            : 'border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950'
+        }`}
+      >
         <div className="p-4 sm:p-6 space-y-5">
           <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/40 p-4 sm:p-5">
             <div className="flex items-start gap-3">
@@ -503,10 +520,12 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
               </div>
               <div>
                 <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100 tracking-tight">
-                  Upgrade plan
+                  {mandatory ? 'Alege planul pentru a activa contul' : 'Upgrade plan'}
                 </h2>
                 <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 leading-relaxed">
-                  Alege planul, completeaza rapid adresa de facturare si continua spre plata.
+                  {mandatory
+                    ? 'Selecteaza Basic sau Premium, completeaza datele de facturare si continua spre plata securizata.'
+                    : 'Alege planul, completeaza rapid adresa de facturare si continua spre plata.'}
                 </p>
               </div>
             </div>
@@ -883,9 +902,11 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
                 <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
                   {normalizedCurrentPlan === 'basic' && selectedPlan === 'premium' ? 'De plata (diferenta)' : 'Pret de plata'}
                 </p>
-                <p className="text-[11px] text-neutral-500 mt-1">
-                  Plan curent: {normalizedCurrentPlan === 'free' ? 'Free' : normalizedCurrentPlan === 'basic' ? 'Basic' : 'Premium'} ({displayCurrentPlanPrice} LEI)
-                </p>
+                {!mandatory && (
+                  <p className="text-[11px] text-neutral-500 mt-1">
+                    Plan curent: {normalizedCurrentPlan === 'free' ? 'Free' : normalizedCurrentPlan === 'basic' ? 'Basic' : 'Premium'} ({displayCurrentPlanPrice} LEI)
+                  </p>
+                )}
                 {displayOldPrice && <p className="text-sm text-neutral-400 line-through mt-1">{displayOldPrice} LEI</p>}
               </div>
               <p className="text-2xl font-bold text-neutral-900 dark:text-white">{displayPrice} LEI</p>
@@ -913,6 +934,15 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
           <p className="text-[11px] text-center text-neutral-400 pb-1">
             Plata securizata. Nu stocam datele cardului.
           </p>
+          {mandatory && onLogout && (
+            <button
+              type="button"
+              className="mx-auto block text-xs font-medium text-neutral-500 underline underline-offset-4 transition-colors hover:text-neutral-900 dark:hover:text-white"
+              onClick={onLogout}
+            >
+              Foloseste alt cont
+            </button>
+          )}
         </div>
       </DialogContent>
     </Dialog>

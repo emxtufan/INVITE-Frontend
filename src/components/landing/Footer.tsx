@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Instagram, Facebook, Linkedin, Twitter, Mail, X, Shield, FileText, Cookie, Lock } from 'lucide-react';
+import { ArrowRight, Instagram, Facebook, Twitter, X, Shield, FileText, Cookie, Lock } from 'lucide-react';
 import NTPLogo from "ntp-logo-react";
 
 type LegalSection =
@@ -209,21 +209,25 @@ export default function Footer() {
         {/* Big Background Text */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 select-none pointer-events-none translate-y-[20%]">
           <h1 className="text-[18vw] font-black text-white/[0.03] whitespace-nowrap leading-none tracking-tighter">
-            Esa Planner
+            EVENT SMART
           </h1>
         </div>
 
-        <div className="wp-container relative z-10">
+        <div className="relative z-10 mx-auto max-w-[1280px] px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-20">
 
             {/* Column 1: Brand & Contact */}
             <div className="md:col-span-4 flex flex-col items-start">
-              <div className="flex items-center gap-2 mb-6">
-                  <span className="font-bold text-white text-xl tracking-tight">Event Smart Assistant</span>
+              <div className="mb-6 rounded-xl bg-white px-3 py-2">
+                <img
+                  src="/brand/logo-esa-smart.svg"
+                  alt="Event Smart Assistant"
+                  className="h-auto w-[210px] object-contain"
+                />
               </div>
               <p className="text-gray-400 text-sm mb-8 max-w-xs leading-relaxed">
-                Platforma completa pentru nunta ta. <br/>
-                AI agents for modern event workflows.
+                Invitatii digitale, RSVP si organizare intr-un singur loc. <br/>
+                Creat pentru evenimente clare, fara liste imprastiate.
               </p>
 
               <div className="mb-6 w-full max-w-md rounded-xl border border-white/10 bg-white/[0.03] p-4 text-xs text-gray-300 space-y-1">
@@ -253,11 +257,11 @@ export default function Footer() {
             <div className="md:col-span-3 md:col-start-6">
               <h4 className="text-white font-bold text-sm mb-6">Platforma</h4>
               <ul className="space-y-4 text-sm text-gray-500 font-medium">
-                  <li><a href="#features" className="hover:text-white transition-colors">Functionalitati</a></li>
-                  <li><a href="#design" className="hover:text-white transition-colors">Design</a></li>
+                  <li><a href="#featured-works" className="hover:text-white transition-colors">Invitatii</a></li>
                   <li><a href="#process" className="hover:text-white transition-colors">Cum functioneaza</a></li>
-                  <li><a href="#pricing" className="hover:text-white transition-colors">Preturi</a></li>
-                  <li><a href="#testimonials" className="hover:text-white transition-colors">Testimoniale</a></li>
+                  <li><a href="#features" className="hover:text-white transition-colors">Functionalitati</a></li>
+                  <li><a href="#pricing" className="hover:text-white transition-colors">Planuri</a></li>
+                  <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
               </ul>
             </div>
 

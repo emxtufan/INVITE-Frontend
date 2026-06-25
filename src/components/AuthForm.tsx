@@ -9,7 +9,7 @@ import { UserSession } from "../types";
 import { cn } from "../lib/utils";
 
 interface AuthFormProps {
-    onLogin: (session: UserSession) => void;
+    onLogin: (session: UserSession) => void | Promise<void>;
     className?: string;
     initialView?: 'login' | 'register'; // New prop
     syncAuthPath?: boolean;
@@ -178,7 +178,7 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
           
           const data = await res.json();
           if (!res.ok) throw new Error(data.error || "Google login failed");
-          onLogin(data);
+          await onLogin(data);
       } catch (err: any) {
           const rawMessage = String(err?.message || "");
           if (/Failed to fetch|NetworkError|Load failed/i.test(rawMessage)) {
@@ -222,7 +222,7 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
       if (!response.ok) throw new Error(data.error || "Cod OTP invalid.");
 
       if (data?.token) {
-        onLogin(data);
+        await onLogin(data);
         return;
       }
 
@@ -438,9 +438,9 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
           }
           throw new Error(loginData.error || 'Authentication failed');
         }
-        onLogin(loginData);
+        await onLogin(loginData);
       } else {
-        onLogin(data);
+        await onLogin(data);
       }
 
     } catch (err: any) {
@@ -847,7 +847,7 @@ const AuthForm = ({ onLogin, className, initialView = 'login', syncAuthPath = tr
 
             <Button type="submit" className="w-full mt-4 h-11 text-base shadow-lg" disabled={loading}>
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isRegister ? "Inregistreaza-te Gratuit" : "Intra in Cont"}
+              {isRegister ? "Creeaza contul" : "Intra in Cont"}
             </Button>
 
             <div className="text-center text-sm pt-2">

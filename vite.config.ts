@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: '0.0.0.0', // Permite accesul din retea
       allowedHosts: [
-        'handmade-suggest-troops-handmade.trycloudflare.com'
+        'wind-administered-ballet-amanda.trycloudflare.com'
       ],
       proxy: {
         '/uploads': {

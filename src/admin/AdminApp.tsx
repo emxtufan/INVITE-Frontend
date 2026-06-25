@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Users, ShieldCheck, LogOut, Settings, ChevronLeft, ChevronRight, Bell, Layout, ShoppingBag, Inbox, Mail } from 'lucide-react';
+import { LayoutDashboard, Users, ShieldCheck, LogOut, Settings, ChevronLeft, ChevronRight, Bell, Layout, ShoppingBag, Inbox, Mail, Image as ImageIcon, ListOrdered } from 'lucide-react';
 import { UserSession } from '../types';
 import Button from '../components/ui/button';
 import { useToast } from '../components/ui/use-toast';
@@ -10,6 +10,9 @@ import TemplateManagement from './TemplateManagement';
 import ServiceManagement from './ServiceManagement';
 import ServiceRequests from '../components/ServiceRequests';
 import EmailCenter from './EmailCenter';
+import LandingCarouselManagement from './LandingCarouselManagement';
+import LandingProcessManagement from './LandingProcessManagement';
+import LandingSupplierShowcaseManagement from './LandingSupplierShowcaseManagement';
 import AuthForm from '../components/AuthForm';
 import { cn } from '../lib/utils';
 import { Avatar, AvatarFallback } from '../components/ui/avatar';
@@ -17,7 +20,7 @@ import { Toaster } from 'react-hot-toast';
 
 const AdminApp = () => {
     const [session, setSession] = useState<UserSession | null>(null);
-    const [view, setView] = useState<'dashboard' | 'users' | 'settings' | 'templates' | 'services' | 'service-requests' | 'emails'>('dashboard');
+    const [view, setView] = useState<'dashboard' | 'users' | 'settings' | 'templates' | 'services' | 'service-requests' | 'emails' | 'landing-carousel' | 'landing-process' | 'landing-suppliers'>('dashboard');
     const [isLoading, setIsLoading] = useState(true);
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const { toast } = useToast();
@@ -36,17 +39,21 @@ const AdminApp = () => {
     const handleLogin = (userSession: UserSession) => {
         if (userSession.isAdmin) {
             setSession(userSession);
+            localStorage.removeItem('weddingPro_view');
             localStorage.setItem('weddingPro_session', JSON.stringify(userSession));
             toast({ title: 'Admin Login Successful', variant: 'success' as any });
         } else {
-            toast({ title: 'Acces Interzis', description: 'Acest cont nu are drepturi de administrator.', variant: 'destructive' });
+            localStorage.removeItem('weddingPro_view');
+            localStorage.setItem('weddingPro_session', JSON.stringify(userSession));
+            window.location.replace('/dashboard');
         }
     };
 
     const handleLogout = () => {
         setSession(null);
         localStorage.removeItem('weddingPro_session');
-        window.location.href = '/';
+        localStorage.removeItem('weddingPro_view');
+        window.location.replace('/login');
     };
 
     if (isLoading) return (
@@ -89,6 +96,9 @@ const AdminApp = () => {
         { id: 'services',         label: 'Servicii',          icon: ShoppingBag },
         { id: 'service-requests', label: 'Cereri Servicii',    icon: Inbox       },
         { id: 'emails',           label: 'Email Center',       icon: Mail        },
+        { id: 'landing-carousel', label: 'Carusel Landing',    icon: ImageIcon   },
+        { id: 'landing-process',  label: 'Pasi Landing',       icon: ListOrdered },
+        { id: 'landing-suppliers', label: 'Furnizori Landing', icon: ShoppingBag },
         { id: 'templates',  label: 'Template-uri',      icon: Layout          },
         { id: 'settings',   label: 'Setari Sistem',     icon: Settings        },
     ];
@@ -99,6 +109,9 @@ const AdminApp = () => {
         services:           'Servicii Marketplace',
         'service-requests': 'Cereri Servicii',
         emails:    'Email Center',
+        'landing-carousel': 'Carusel Landing Page',
+        'landing-process': 'Pasi Landing Page',
+        'landing-suppliers': 'Furnizori Landing Page',
         // templates: 'Template-uri',
         settings:  'Setari Sistem',
     };
@@ -112,14 +125,21 @@ const AdminApp = () => {
                 isSidebarCollapsed ? 'w-[70px]' : 'w-64'
             )}>
                 <div className="h-16 flex items-center px-4 border-b border-border">
-                    <div className="flex items-center gap-3 overflow-hidden">
-                        <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shrink-0 shadow-sm text-white">
+                    <div className="flex w-full items-center overflow-hidden">
+                        <div className={cn(
+                            'w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shrink-0 shadow-sm text-white',
+                            !isSidebarCollapsed && 'hidden'
+                        )}>
                             <ShieldCheck className="w-5 h-5" />
                         </div>
-                        <span className={cn(
-                            'font-bold text-lg tracking-tight whitespace-nowrap transition-all duration-300',
-                            isSidebarCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'
-                        )}>WeddingPro</span>
+                        <img
+                            src="/brand/logo-esa-smart.svg"
+                            alt="Event Smart Assistant"
+                            className={cn(
+                                'h-auto w-[170px] object-contain transition-all duration-300',
+                                isSidebarCollapsed ? 'w-0 opacity-0' : 'opacity-100'
+                            )}
+                        />
                     </div>
                 </div>
 
@@ -175,7 +195,7 @@ const AdminApp = () => {
                 <header className="h-16 bg-background/80 backdrop-blur-md border-b border-border flex items-center justify-between px-6 shrink-0 z-10">
                     <div>
                         <h1 className="text-lg font-bold tracking-tight">{viewTitle[view]}</h1>
-                        <p className="text-xs text-muted-foreground hidden sm:block">Zona de administrare WeddingPro.</p>
+                        <p className="text-xs text-muted-foreground hidden sm:block">Zona de administrare Event Smart Assistant.</p>
                     </div>
                     <div className="flex items-center gap-4">
                         <Button variant="ghost" size="icon" className="text-muted-foreground relative">
@@ -201,6 +221,9 @@ const AdminApp = () => {
                         {view === 'users'     && <UserManagement token={session.token || ''} />}
                         {view === 'services'  && <ServiceManagement token={session.token || ''} />}
                         {view === 'emails'    && <EmailCenter token={session.token || ''} />}
+                        {view === 'landing-carousel' && <LandingCarouselManagement token={session.token || ''} />}
+                        {view === 'landing-process' && <LandingProcessManagement token={session.token || ''} />}
+                        {view === 'landing-suppliers' && <LandingSupplierShowcaseManagement token={session.token || ''} />}
                         {view === 'templates' && <TemplateManagement />}
                         {view === 'settings'          && <AdminSettings token={session.token || ''} />}
                         {view === 'service-requests'  && <ServiceRequests session={session} />}

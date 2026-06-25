@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@distube/ytdl-core": "^4.16.12",
+    "@gsap/react": "^2.1.2",
     "@heroicons/react": "^2.2.0",
     "@react-pdf/renderer": "^4.3.2",
     "@react-three/drei": "^9.122.0",

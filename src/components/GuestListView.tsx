@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Plus, Search, Copy, Check, ExternalLink, Trash2, Mail, Users, Baby, Heart,
-  AlertTriangle, MessageSquare, Info, Lock, Crown, UserPlus, Globe, Link as LinkIcon, Send
+  AlertTriangle, MessageSquare, Info, Lock, Crown, UserPlus, Globe, Link as LinkIcon, Send, Vegan, BedDouble, ChevronDown
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import Button from "./ui/button";
@@ -42,6 +42,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
   const [isAdding, setIsAdding] = useState(false);
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
   const [publicLinkCopied, setPublicLinkCopied] = useState(false);
+  const [expandedRsvpGuestId, setExpandedRsvpGuestId] = useState<string | null>(null);
   
   // Dynamic Limits
   const normalizedPlan = String(session.plan || "").trim().toLowerCase();
@@ -478,21 +479,22 @@ const GuestListView: React.FC<GuestListViewProps> = ({
               <div className="rounded-lg border bg-background overflow-hidden">
                 <div className="w-full overflow-x-auto">
                   <div className="max-h-[62vh] overflow-y-auto">
-                    <table className="w-full min-w-[920px] caption-bottom text-sm text-left">
+                    <table className="w-full min-w-[1080px] caption-bottom text-sm text-left">
                       <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
                         <tr className="border-b">
                           <th className="h-9 px-3 align-middle font-medium text-muted-foreground w-[42px]">#</th>
                           <th className="h-9 px-3 align-middle font-medium text-muted-foreground w-[220px]">Nume</th>
                           <th className="h-9 px-3 align-middle font-medium text-muted-foreground">Link / Sursa</th>
+                          <th className="h-9 px-3 align-middle font-medium text-muted-foreground w-[190px]">Mesaj</th>
                           <th className="h-9 px-3 align-middle font-medium text-muted-foreground w-[108px]">Status</th>
-                          <th className="h-9 px-3 align-middle font-medium text-muted-foreground w-[190px]">Detalii RSVP</th>
+                          <th className="h-9 px-3 align-middle font-medium text-muted-foreground w-[240px]">Detalii RSVP</th>
                           <th className="h-9 px-3 align-middle font-medium text-muted-foreground text-right w-[112px] whitespace-nowrap">Actiuni</th>
                         </tr>
                       </thead>
                       <tbody className="[&_tr:last-child]:border-0">
                         {isLoading ? (
                           <tr>
-                            <td colSpan={6} className="p-8 text-center text-muted-foreground">
+                            <td colSpan={7} className="p-8 text-center text-muted-foreground">
                               Se incarca lista de invitati...
                             </td>
                           </tr>
@@ -501,6 +503,11 @@ const GuestListView: React.FC<GuestListViewProps> = ({
                             const fullInviteUrl = `${inviteBaseUrl}${guest.token}`;
                             const isPublicSource = guest.source === "public";
                             const rsvp = guest.rsvp;
+                            const hasRsvpDetails = Boolean(
+                              rsvp?.participants?.length ||
+                              rsvp?.allergies,
+                            );
+                            const isRsvpExpanded = expandedRsvpGuestId === guest._id;
 
                             return (
                               <tr key={guest._id} className="border-b transition-colors hover:bg-muted/40">
@@ -560,11 +567,24 @@ const GuestListView: React.FC<GuestListViewProps> = ({
                                     </div>
                                   )}
                                 </td>
+                                <td className="px-3 py-2.5 align-top">
+                                  {rsvp?.message ? (
+                                    <div
+                                      className="flex max-w-[190px] items-center gap-1.5 text-xs text-muted-foreground"
+                                      title={rsvp.message}
+                                    >
+                                      <MessageSquare className="h-3.5 w-3.5 shrink-0" />
+                                      <span className="truncate italic">"{rsvp.message}"</span>
+                                    </div>
+                                  ) : (
+                                    <span className="text-xs text-muted-foreground/50">Fara mesaj</span>
+                                  )}
+                                </td>
                                 <td className="px-3 py-2.5 align-top">{getStatusBadge(guest.status, guest.openedAt, guest.isSent)}</td>
                                 <td className="px-3 py-2.5 align-top">
                                   <div className="flex flex-col gap-1.5 min-w-0">
                                     {guest.status === "confirmed" && rsvp && (
-                                      <div className="flex items-center gap-2 flex-wrap">
+                                      <div className="flex flex-wrap items-center gap-1.5">
                                         <div title="Adulti" className="flex items-center gap-1 text-xs font-medium bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-700 dark:text-zinc-300">
                                           <Users className="w-3 h-3" />
                                           {(rsvp.adultsCount !== undefined) ? rsvp.adultsCount : (rsvp.confirmedCount || 1)}
@@ -575,12 +595,73 @@ const GuestListView: React.FC<GuestListViewProps> = ({
                                             {rsvp.childrenCount ? rsvp.childrenCount : "Da"}
                                           </div>
                                         )}
+                                        {(rsvp.vegetarianCount || rsvp.dietary === "vegetarian") && (
+                                          <div title="Meniuri vegetariene" className="flex items-center gap-1 rounded border border-green-100 bg-green-50 px-1.5 py-0.5 text-xs text-green-700 dark:border-green-900 dark:bg-green-900/30 dark:text-green-300">
+                                            <Vegan className="h-3 w-3" />
+                                            {rsvp.vegetarianCount || 1} vegetarian
+                                          </div>
+                                        )}
+                                        {!!rsvp.veganCount && (
+                                          <div title="Meniuri vegane" className="flex items-center gap-1 rounded border border-emerald-100 bg-emerald-50 px-1.5 py-0.5 text-xs text-emerald-700 dark:border-emerald-900 dark:bg-emerald-900/30 dark:text-emerald-300">
+                                            <Vegan className="h-3 w-3" />
+                                            {rsvp.veganCount} vegan
+                                          </div>
+                                        )}
+                                        <div
+                                          title="Cazare"
+                                          className={cn(
+                                            "flex items-center gap-1 rounded border px-1.5 py-0.5 text-xs",
+                                            rsvp.needsAccommodation === true
+                                              ? "border-orange-100 bg-orange-50 text-orange-700 dark:border-orange-900 dark:bg-orange-900/30 dark:text-orange-300"
+                                              : "border-zinc-200 bg-zinc-50 text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400",
+                                          )}
+                                        >
+                                          <BedDouble className="h-3 w-3" />
+                                          Cazare: {rsvp.needsAccommodation === undefined ? "Nespecificat" : rsvp.needsAccommodation ? "Da" : "Nu"}
+                                        </div>
                                       </div>
                                     )}
-                                    {guest.rsvp?.message && (
-                                      <div className="flex items-start gap-1 text-xs text-muted-foreground mt-1">
-                                        <MessageSquare className="w-3 h-3 mt-0.5 shrink-0" />
-                                        <span className="italic break-words whitespace-normal">"{guest.rsvp.message}"</span>
+                                    {hasRsvpDetails && (
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          setExpandedRsvpGuestId((current) =>
+                                            current === guest._id ? null : guest._id,
+                                          )
+                                        }
+                                        className="inline-flex w-fit items-center gap-1 rounded-md px-1 py-0.5 text-[11px] font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                                        aria-expanded={isRsvpExpanded}
+                                      >
+                                        {isRsvpExpanded
+                                          ? "Ascunde detalii"
+                                          : rsvp?.participants?.length
+                                            ? `Vezi ${rsvp.participants.length} ${rsvp.participants.length === 1 ? "persoana" : "persoane"}`
+                                            : "Vezi detalii"}
+                                        <ChevronDown
+                                          className={cn(
+                                            "h-3.5 w-3.5 transition-transform duration-200",
+                                            isRsvpExpanded && "rotate-180",
+                                          )}
+                                        />
+                                      </button>
+                                    )}
+                                    {isRsvpExpanded && !!guest.rsvp?.participants?.length && (
+                                      <div className="mt-1 space-y-1">
+                                        {guest.rsvp.participants.map((participant, index) => (
+                                          <div key={participant.id || `${guest._id}-participant-${index}`} className="rounded-md bg-muted/50 px-2 py-1 text-[11px] text-foreground">
+                                            <span className="font-semibold">{participant.label}:</span>{" "}
+                                            <span className="capitalize">{participant.menuType === "kids" ? "meniu copil" : participant.menuType}</span>
+                                            {participant.allergies && (
+                                              <span className="text-amber-700 dark:text-amber-300"> · Alergii: {participant.allergies}</span>
+                                            )}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    )}
+                                    {isRsvpExpanded && guest.rsvp?.allergies && !guest.rsvp?.participants?.length && (
+                                      <div className="mt-1 flex items-start gap-1 text-xs text-amber-700 dark:text-amber-300">
+                                        <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" />
+                                        <span className="break-words whitespace-normal">Alergii: {guest.rsvp.allergies}</span>
                                       </div>
                                     )}
                                   </div>
@@ -632,7 +713,7 @@ const GuestListView: React.FC<GuestListViewProps> = ({
                           })
                         ) : (
                           <tr>
-                            <td colSpan={6} className="p-10 text-center text-muted-foreground">
+                            <td colSpan={7} className="p-10 text-center text-muted-foreground">
                               Niciun invitat gasit. Adauga unul din formularul de mai sus.
                             </td>
                           </tr>
