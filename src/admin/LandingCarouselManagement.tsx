@@ -191,6 +191,16 @@ const LandingCarouselManagement = ({ token }: { token: string }) => {
     field: "previewSrc" | "posterSrc",
     file: File,
   ) => {
+    if (file.size > 200 * 1024 * 1024) {
+      toast({
+        title: "Fisier prea mare",
+        description:
+          "Limita este 200 MB. Pentru animatii mari, converteste GIF-ul in WebM.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const uploadKey = `${itemId}-${field}`;
     setUploadingField(uploadKey);
 
@@ -531,7 +541,7 @@ const CarouselItemEditor = ({
               />
               <UploadButton
                 busy={uploadingField === `${item.id}-previewSrc`}
-                accept="image/jpeg,image/png,image/webp,image/gif,image/avif,video/mp4"
+                accept="image/jpeg,image/png,image/webp,image/gif,image/avif,video/mp4,video/webm"
                 onFile={(file) => onUpload("previewSrc", file)}
               />
             </div>

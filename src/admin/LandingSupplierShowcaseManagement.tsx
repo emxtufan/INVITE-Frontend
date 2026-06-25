@@ -160,6 +160,15 @@ const LandingSupplierShowcaseManagement = ({
   };
 
   const uploadImage = async (itemId: string, file: File) => {
+    if (file.size > 200 * 1024 * 1024) {
+      toast({
+        title: "Fisier prea mare",
+        description: "Limita pentru upload este 200 MB.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setUploadingItemId(itemId);
     try {
       const form = new FormData();

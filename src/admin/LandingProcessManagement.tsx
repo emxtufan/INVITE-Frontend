@@ -161,6 +161,16 @@ const LandingProcessManagement = ({ token }: { token: string }) => {
     field: "videoSrc" | "posterSrc",
     file: File,
   ) => {
+    if (file.size > 200 * 1024 * 1024) {
+      toast({
+        title: "Fisier prea mare",
+        description:
+          "Limita este 200 MB. Pentru animatii mari, converteste GIF-ul in WebM.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const uploadKey = `${stepId}-${field}`;
     setUploadingField(uploadKey);
 
@@ -483,7 +493,7 @@ const LandingProcessManagement = ({ token }: { token: string }) => {
                         />
                         <UploadButton
                           busy={uploadingField === `${step.id}-videoSrc`}
-                          accept="image/gif,video/mp4"
+                          accept="image/gif,video/mp4,video/webm"
                           onFile={(file) =>
                             uploadMedia(step.id, "videoSrc", file)
                           }
