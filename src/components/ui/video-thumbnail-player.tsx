@@ -34,6 +34,7 @@ const VideoPlayer = React.forwardRef<HTMLDivElement, VideoPlayerProps>(
     ref,
   ) => {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const scrollPositionRef = React.useRef(0);
     const isEmbedVideo =
       videoUrl.includes("youtube.com/embed") ||
       videoUrl.includes("player.vimeo.com");
@@ -42,20 +43,35 @@ const VideoPlayer = React.forwardRef<HTMLDivElement, VideoPlayerProps>(
     React.useEffect(() => {
       if (!isModalOpen) return;
 
+      scrollPositionRef.current = window.scrollY;
       const previousOverflow = document.body.style.overflow;
       const previousHtmlOverflow = document.documentElement.style.overflow;
+      const previousPosition = document.body.style.position;
+      const previousTop = document.body.style.top;
+      const previousWidth = document.body.style.width;
       const handleEsc = (event: KeyboardEvent) => {
         if (event.key === "Escape") setIsModalOpen(false);
       };
 
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollPositionRef.current}px`;
+      document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
       window.addEventListener("keydown", handleEsc);
 
       return () => {
+        document.body.style.position = previousPosition;
+        document.body.style.top = previousTop;
+        document.body.style.width = previousWidth;
         document.body.style.overflow = previousOverflow;
         document.documentElement.style.overflow = previousHtmlOverflow;
         window.removeEventListener("keydown", handleEsc);
+        window.scrollTo({
+          top: scrollPositionRef.current,
+          left: 0,
+          behavior: "instant",
+        });
       };
     }, [isModalOpen]);
 
@@ -71,7 +87,10 @@ const VideoPlayer = React.forwardRef<HTMLDivElement, VideoPlayerProps>(
       >
         <button
           type="button"
-          onClick={() => setIsModalOpen(false)}
+          onClick={(event) => {
+            event.stopPropagation();
+            setIsModalOpen(false);
+          }}
           className="absolute right-4 top-4 z-10 rounded-full bg-white/12 p-3 text-white backdrop-blur-md transition-colors hover:bg-white/22"
           aria-label="Inchide video"
         >
