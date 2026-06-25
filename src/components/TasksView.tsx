@@ -248,7 +248,7 @@ const TasksView: React.FC<TasksViewProps> = ({
   const getPriorityIcon = (priority: string) => { switch (priority) { case 'High': return <ArrowUp className="w-4 h-4 text-red-500" />; case 'Medium': return <ArrowRight className="w-4 h-4 text-amber-500" />; case 'Low': return <ArrowDown className="w-4 h-4 text-green-500" />; default: return <ArrowRight className="w-4 h-4 text-muted-foreground" />; } };
 
   // --- FORM CONTENT (Reusable) ---
-  const FormContent = () => (
+  const renderFormContent = () => (
       <div className="space-y-4 py-2 relative min-h-[350px]">
           {/* SUCCESS OVERLAY FOR MOBILE */}
           {isSuccess && (
@@ -378,7 +378,7 @@ const TasksView: React.FC<TasksViewProps> = ({
   if (variant === 'form') {
       return (
         <>
-            <FormContent />
+            {renderFormContent()}
             <AlertDialog open={!!taskToDelete} onOpenChange={(open) => !open && setTaskToDelete(null)}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
@@ -613,7 +613,7 @@ const TasksView: React.FC<TasksViewProps> = ({
                       Gestioneaza detaliile sarcinii pentru a ramane organizat.
                   </DialogDescription>
               </DialogHeader>
-              <FormContent />
+              {renderFormContent()}
           </DialogContent>
       </Dialog>
     </div>
