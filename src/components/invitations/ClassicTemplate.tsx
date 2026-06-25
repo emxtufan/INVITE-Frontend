@@ -194,8 +194,8 @@ const ClassicTemplate: React.FC<ClassicTemplateProps> = ({
     });
   };
 
-  const welcomeText     = profile.welcomeText?.trim()     || 'Impreuna cu familiile noastre';
-  const celebrationText = profile.celebrationText?.trim() || 'nuntii noastre';
+  const welcomeText     = profile.welcomeText?.trim()     ?? 'Impreuna cu familiile noastre';
+  const celebrationText = profile.celebrationText?.trim() ?? 'nuntii noastre';
   const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = profile.showRsvpButton !== false;
   const isSingleNameEvent = String(profile.eventType || "").toLowerCase() !== "wedding";

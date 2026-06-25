@@ -1244,9 +1244,13 @@ const GardenRomanticTemplate: React.FC<GardenRomanticProps> = ({
   const delGodparent = (i:number) => setGodparents(prev => { const ng=prev.filter((_,j)=>j!==i); upProfile('godparents',JSON.stringify(ng)); return ng; });
   const updParent = (field:string, val:string) => setParentsData((prev:any) => { const np={...prev,[field]:val}; upProfile('parents',JSON.stringify(np)); return np; });
 
-  const welcomeText     = profile.welcomeText?.trim()     || 'va invita la nunta lor';
+  const welcomeText     = profile.welcomeText?.trim()     ?? 'va invita la nunta lor';
   const legacyInvitationText = `${String(profile.celebrationText || '').trim()}`.trim();
-  const invitationText = (String((profile as any).invitationText || legacyInvitationText || 'Va invita cu drag la nuntii noastre')).trim() || 'Va invita cu drag la nuntii noastre';
+  const storedInvitationText = (profile as any).invitationText;
+  const invitationText =
+    typeof storedInvitationText === 'string'
+      ? storedInvitationText.trim()
+      : legacyInvitationText || 'Va invita cu drag la nuntii noastre';
   const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = profile.showRsvpButton !== false;
   const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';

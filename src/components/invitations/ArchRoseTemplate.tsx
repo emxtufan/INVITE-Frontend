@@ -794,7 +794,7 @@ const ArchRoseTemplate: React.FC<ArchRoseProps> = ({
               </div>
               <p style={{fontFamily:SERIF,fontSize:22,fontWeight:300,color:ROSE_D,margin:0}}>{initials}</p>
               {profile.showWelcomeText && (
-                <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText?.trim()||'Va invitam cu drag sa fiti alaturi de noi in aceasta zi speciala.'} onChange={v=>upProfile('welcomeText',v)} placeholder="Text introductiv..." multiline
+                <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText?.trim() ?? 'Va invitam cu drag sa fiti alaturi de noi in aceasta zi speciala.'} onChange={v=>upProfile('welcomeText',v)} placeholder="Text introductiv..." multiline
                   style={{fontFamily:SERIF,fontSize:13,fontStyle:'italic',color:MUTED,lineHeight:1.8,textAlign:'center',maxWidth:320,padding:'0 20px'}}/>
               )}
             </div>

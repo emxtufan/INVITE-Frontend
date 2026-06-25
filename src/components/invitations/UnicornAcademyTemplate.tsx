@@ -1100,8 +1100,8 @@ const UnicornAcademyTemplate: React.FC<UnicornAcademyTemplateProps> = ({
     };
     const d = map[profile.eventType || 'wedding'] || map.wedding;
     return {
-      welcome:     profile.welcomeText?.trim()     || d.welcome,
-      celebration: profile.celebrationText?.trim() || d.celebration,
+      welcome:     profile.welcomeText?.trim()     ?? d.welcome,
+      celebration: profile.celebrationText?.trim() ?? d.celebration,
       churchLabel: profile.churchLabel?.trim()     || d.churchLabel,
       venueLabel:  profile.venueLabel?.trim()      || d.venueLabel,
       civilLabel:  profile.civilLabel?.trim()      || d.civilLabel,

@@ -834,7 +834,7 @@ const MickeyMouseTemplate: React.FC<InvitationTemplateProps & {
       kids:        { welcome: 'Oh boy! Te invitam la', celebration: 'ziua de nastere' },
     };
     const d = map[profile.eventType || 'kids'] || map.kids;
-    return { welcome: profile.welcomeText?.trim() || d.welcome, celebration: profile.celebrationText?.trim() || d.celebration };
+    return { welcome: profile.welcomeText?.trim() ?? d.welcome, celebration: profile.celebrationText?.trim() ?? d.celebration };
   };
   const texts = getEventText();
 

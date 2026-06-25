@@ -4549,7 +4549,7 @@ const TerraBohoTemplate: React.FC<TerraBohoProps> = ({
                     tag="p"
                     editMode={editMode}
                     value={
-                      profile.welcomeText?.trim() ||
+                      profile.welcomeText?.trim() ??
                       "Nos complace anunciar nuestro matrimonio y queremos compartir contigo este momento."
                     }
                     onChange={(v) => upProfile("welcomeText", v)}

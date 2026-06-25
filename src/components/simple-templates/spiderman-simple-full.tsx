@@ -1231,7 +1231,7 @@ const SpidermanTemplate: React.FC<InvitationTemplateProps & {
       kids:        { welcome: 'Te invitam la',         celebration: 'ziua de nastere' },
     };
     const d = map[profile.eventType || 'baptism'] || map.baptism;
-    return { welcome: profile.welcomeText?.trim() || d.welcome, celebration: profile.celebrationText?.trim() || d.celebration };
+    return { welcome: profile.welcomeText?.trim() ?? d.welcome, celebration: profile.celebrationText?.trim() ?? d.celebration };
   };
   const texts = getEventText();
 

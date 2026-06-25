@@ -1201,7 +1201,7 @@ const MaisonWeddingTemplate: React.FC<InvitationTemplateProps & {
 
                 {/* Welcome text */}
                 <Reveal delay={0.15}>
-                  <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText || "la celebrarea casatoriei lor"} onChange={v => upProfile("welcomeText", v)} textLabel="Hero Â· welcome"
+                  <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText ?? "la celebrarea casatoriei lor"} onChange={v => upProfile("welcomeText", v)} textLabel="Hero Â· welcome"
                     style={{ fontFamily: F.serif, fontSize: 16, fontStyle: "italic", fontWeight: 400, color: C.muted, margin: "0 0 32px", lineHeight: 1.8, padding: "0 16px" }} />
                 </Reveal>
 

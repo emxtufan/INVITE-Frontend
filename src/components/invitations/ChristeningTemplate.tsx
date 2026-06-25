@@ -1151,10 +1151,10 @@ const CastleMagicTemplate: React.FC<InvitationTemplateProps & {
               <InlineEdit tag="h1" editMode={editMode} value={name1} onChange={v => upProfile('partner1Name', v)} style={{ fontFamily: SCRIPT, fontSize: '4rem', color: PINK_DARK, lineHeight: 1.2 }} />
               <div className="h-px w-24 bg-pink-200 mx-auto my-6" />
               {profile.showWelcomeText !== false && (
-                <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText || 'Va invitam la povestea noastra'} onChange={v => upProfile('welcomeText', v)} style={{ fontFamily: SERIF, fontStyle: 'italic', color: PINK_DARK, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: 8 }} />
+                <InlineEdit tag="p" editMode={editMode} value={profile.welcomeText ?? 'Va invitam la povestea noastra'} onChange={v => upProfile('welcomeText', v)} style={{ fontFamily: SERIF, fontStyle: 'italic', color: PINK_DARK, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: 8 }} />
               )}
               {profile.showCelebrationText !== false && (
-                <InlineEdit tag="p" editMode={editMode} value={(profile as any).celebrationText || 'nuntii noastre'} onChange={v => upProfile('celebrationText', v)} style={{ fontFamily: SERIF, fontStyle: 'italic', color: PINK_DARK, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: 8 }} />
+                <InlineEdit tag="p" editMode={editMode} value={(profile as any).celebrationText ?? 'nuntii noastre'} onChange={v => upProfile('celebrationText', v)} style={{ fontFamily: SERIF, fontStyle: 'italic', color: PINK_DARK, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: 8 }} />
               )}
               <p className="font-sans font-bold text-pink-400 tracking-[0.3em] text-[10px]">{dateStr}</p>
             </Reveal>

@@ -1270,8 +1270,8 @@ const EternBotanicaTemplate: React.FC<EternBotanicaProps> = ({
   const delGodparent = (i: number) => setGodparents(prev => { const ng = prev.filter((_, j) => j !== i); upProfile('godparents', JSON.stringify(ng)); return ng; });
   const updParent = (field: string, val: string) => setParentsData((prev: any) => { const np = { ...prev, [field]: val }; upProfile('parents', JSON.stringify(np)); return np; });
 
-  const welcomeText     = profile.welcomeText?.trim()     || 'Cu inimile pline de emotie si bucurie';
-  const celebrationText = profile.celebrationText?.trim() || 'va invitam sa fiti alaturi de noi';
+  const welcomeText     = profile.welcomeText?.trim()     ?? 'Cu inimile pline de emotie si bucurie';
+  const celebrationText = profile.celebrationText?.trim() ?? 'va invitam sa fiti alaturi de noi';
   const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = profile.showRsvpButton !== false;
   const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';

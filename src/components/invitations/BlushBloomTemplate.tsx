@@ -1182,8 +1182,12 @@ const BlushBloomTemplate: React.FC<BlushBloomProps> = ({
   const delGodparent = (i: number) => setGodparents(prev => { const ng = prev.filter((_, j) => j !== i); upProfile('godparents', JSON.stringify(ng)); return ng; });
   const updParent = (field: string, val: string) => setParentsData((prev: any) => { const np = { ...prev, [field]: val }; upProfile('parents', JSON.stringify(np)); return np; });
 
-  const welcomeText     = profile.welcomeText?.trim()     || CASTLE_DEFAULTS.welcomeText;
-  const invitationText = (String((profile as any).invitationText || legacyInvitationText || CASTLE_DEFAULTS.invitationText)).trim() || CASTLE_DEFAULTS.invitationText;
+  const welcomeText = profile.welcomeText?.trim() ?? CASTLE_DEFAULTS.welcomeText;
+  const storedInvitationText = (profile as any).invitationText;
+  const invitationText =
+    typeof storedInvitationText === 'string'
+      ? storedInvitationText.trim()
+      : legacyInvitationText || CASTLE_DEFAULTS.invitationText;
   const rsvpText        = profile.rsvpButtonText?.trim()  || CASTLE_DEFAULTS.rsvpButtonText;
   const showRsvp        = profile.showRsvpButton !== false;
   const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';

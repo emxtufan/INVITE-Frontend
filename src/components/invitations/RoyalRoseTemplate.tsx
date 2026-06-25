@@ -784,7 +784,10 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
     partner1Name: profile.partner1Name ?? CASTLE_DEFAULTS.partner1Name,
     partner2Name: profile.partner2Name ?? CASTLE_DEFAULTS.partner2Name,
     welcomeText: profile.welcomeText ?? CASTLE_DEFAULTS.welcomeText,
-    invitationText: (profile as any).invitationText || legacyInvitationText || CASTLE_DEFAULTS.invitationText,
+    invitationText:
+      typeof (profile as any).invitationText === 'string'
+        ? (profile as any).invitationText
+        : legacyInvitationText || CASTLE_DEFAULTS.invitationText,
     heroCountdownText: (profile as any).heroCountdownText ?? CASTLE_DEFAULTS.heroCountdownText,
     showWelcomeText: profile.showWelcomeText ?? CASTLE_DEFAULTS.showWelcomeText,
     showCelebrationText: profile.showCelebrationText ?? CASTLE_DEFAULTS.showCelebrationText,
@@ -856,8 +859,8 @@ const RoyalRoseTemplate: React.FC<RoyalRoseProps> = ({
   const p2 = (p.partner2Name || 'M').trim()[0]?.toUpperCase() || 'M';
   const initials = `${p1} & ${p2}`;
 
-  const welcomeText     = p.welcomeText?.trim()    || 'Impreuna cu familiile noastre';
-  const invitationText = String((p as any).invitationText || CASTLE_DEFAULTS.invitationText).trim() || CASTLE_DEFAULTS.invitationText;
+  const welcomeText     = p.welcomeText?.trim()    ?? 'Impreuna cu familiile noastre';
+  const invitationText = String((p as any).invitationText ?? CASTLE_DEFAULTS.invitationText).trim();
   const heroCountdownText = ((p as any).heroCountdownText || CASTLE_DEFAULTS.heroCountdownText).trim() || CASTLE_DEFAULTS.heroCountdownText;
   const rsvpText        = p.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = p.showRsvpButton !== false;

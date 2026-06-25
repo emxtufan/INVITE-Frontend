@@ -702,8 +702,23 @@ const DashboardApp = () => {
   } | null>(null);
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
+    const lightDefaultVersion = "dashboard-light-default-v1";
+    const initializedVersion = localStorage.getItem(
+      "weddingPro_dashboard_theme_version",
+    );
+
+    if (initializedVersion !== lightDefaultVersion) {
+      localStorage.setItem("weddingPro_theme", "light");
+      localStorage.setItem(
+        "weddingPro_dashboard_theme_version",
+        lightDefaultVersion,
+      );
+      document.documentElement.classList.remove("dark");
+      return false;
+    }
+
     const saved = localStorage.getItem("weddingPro_theme");
-    return saved ? saved === "dark" : true; // default dark
+    return saved === "dark";
   });
   // UI States
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -3281,7 +3296,11 @@ const DashboardApp = () => {
             </div>
             {(session?.profile?.eventType || "wedding") === "wedding" ? (
               <img
-                src="/brand/logo-esa-smart.svg"
+                src={
+                  isDarkMode
+                    ? "/brand/esa-white.svg"
+                    : "/brand/logo-esa-smart.svg"
+                }
                 alt="Event Smart Assistant"
                 className={cn(
                   "h-auto object-contain transition-all duration-300",

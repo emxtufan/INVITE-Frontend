@@ -120,7 +120,7 @@ const App = () => {
 
         // Apply theme
         const savedTheme = localStorage.getItem('weddingPro_theme');
-        const isDark = savedTheme ? savedTheme === 'dark' : true;
+        const isDark = savedTheme ? savedTheme === 'dark' : false;
         if (isDark) {
             document.documentElement.classList.add('dark');
         } else {

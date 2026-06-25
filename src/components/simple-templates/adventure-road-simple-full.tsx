@@ -1230,8 +1230,8 @@ const AdventureRoadTemplate: React.FC<InvitationTemplateProps & {
     };
     const d = map[profile.eventType||'baptism']||map.baptism;
     return {
-      welcome:     profile.welcomeText?.trim()     || d.welcome,
-      celebration: profile.celebrationText?.trim() || d.celebration,
+      welcome:     profile.welcomeText?.trim()     ?? d.welcome,
+      celebration: profile.celebrationText?.trim() ?? d.celebration,
       eventLabel:  profile.churchLabel?.trim()     || d.eventLabel,
       partyLabel:  profile.venueLabel?.trim()      || d.partyLabel,
       civilLabel:  profile.civilLabel?.trim()      || d.civilLabel,

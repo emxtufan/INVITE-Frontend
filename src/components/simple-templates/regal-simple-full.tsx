@@ -705,8 +705,8 @@ const DarkRoyalTemplate: React.FC<DarkRoyalProps> = ({
   const delGodparent = (i: number) => setGodparents(prev => { const ng = prev.filter((_, j) => j !== i); upProfile('godparents', JSON.stringify(ng)); return ng; });
   const updParent = (field: string, val: string) => setParentsData((prev: any) => { const np = { ...prev, [field]: val }; upProfile('parents', JSON.stringify(np)); return np; });
 
-  const welcomeText     = profile.welcomeText?.trim()     || 'Impreuna cu familiile noastre';
-  const celebrationText = profile.celebrationText?.trim() || 'nuntii noastre';
+  const welcomeText     = profile.welcomeText?.trim()     ?? 'Impreuna cu familiile noastre';
+  const celebrationText = profile.celebrationText?.trim() ?? 'nuntii noastre';
   const rsvpText        = profile.rsvpButtonText?.trim()  || 'Confirma Prezenta';
   const showRsvp        = profile.showRsvpButton !== false;
   const isBaptism       = profile.eventType === 'baptism' || profile.eventType === 'kids';

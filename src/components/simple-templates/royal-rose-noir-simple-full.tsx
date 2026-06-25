@@ -1325,9 +1325,9 @@ const RoyalRoseNoirTemplate: React.FC<RoyalRoseNoirProps> = ({
     partner2Name: profile.partner2Name ?? CASTLE_DEFAULTS.partner2Name,
     welcomeText: profile.welcomeText ?? CASTLE_DEFAULTS.welcomeText,
     invitationText:
-      (profile as any).invitationText ||
-      legacyInvitationText ||
-      CASTLE_DEFAULTS.invitationText,
+      typeof (profile as any).invitationText === "string"
+        ? (profile as any).invitationText
+        : legacyInvitationText || CASTLE_DEFAULTS.invitationText,
     heroCountdownText:
       (profile as any).heroCountdownText ?? CASTLE_DEFAULTS.heroCountdownText,
     showWelcomeText: profile.showWelcomeText ?? CASTLE_DEFAULTS.showWelcomeText,
@@ -1680,7 +1680,7 @@ const RoyalRoseNoirTemplate: React.FC<RoyalRoseNoirProps> = ({
                     <InlineEdit
                       tag="p"
                       editMode={editMode}
-                      value={p.welcomeText?.trim() || "Impreuna cu familiile noastre"}
+                      value={p.welcomeText?.trim() ?? "Impreuna cu familiile noastre"}
                       onChange={(v) => upProfile("welcomeText", v)}
                       textKey="hero:intro-welcome"
                       textLabel="Intro welcome"
@@ -1794,10 +1794,9 @@ const RoyalRoseNoirTemplate: React.FC<RoyalRoseNoirProps> = ({
                     <InlineEdit
                       tag="p"
                       editMode={editMode}
-                      value={
-                        String((p as any).invitationText || CASTLE_DEFAULTS.invitationText).trim() ||
-                        CASTLE_DEFAULTS.invitationText
-                      }
+                      value={String(
+                        (p as any).invitationText ?? CASTLE_DEFAULTS.invitationText,
+                      ).trim()}
                       onChange={(v) => upProfile("invitationText", v)}
                       placeholder="Text invitatie..."
                       textKey="hero:intro-invite-text"
