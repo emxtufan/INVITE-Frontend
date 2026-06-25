@@ -4,12 +4,6 @@ export const isPaymentRequired = (
   session?: Partial<UserSession> | null,
 ) => {
   if (!session || session.isAdmin === true) return false;
-  const hasPaidPayment = session.payments?.some(
-    (payment) => String(payment.status || "").toLowerCase() === "paid",
-  );
-  return (
-    session.requiresPayment === true ||
-    session.plan === "free" ||
-    !hasPaidPayment
-  );
+  const plan = String(session.plan || "free").toLowerCase();
+  return plan !== "basic" && plan !== "premium";
 };
