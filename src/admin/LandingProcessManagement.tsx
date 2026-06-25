@@ -5,6 +5,7 @@ import {
   ChevronDown,
   ImagePlus,
   Loader2,
+  Play,
   Plus,
   Save,
   Trash2,
@@ -113,6 +114,7 @@ const LandingProcessManagement = ({ token }: { token: string }) => {
       description: "",
       videoSrc: "",
       posterSrc: "",
+      mediaMode: "popup",
       background: "#edf7fb",
       points: [],
     };
@@ -466,6 +468,29 @@ const LandingProcessManagement = ({ token }: { token: string }) => {
                         />
                       </div>
                     </Field>
+                    <Field label="Afisare media">
+                      <select
+                        value={
+                          step.mediaMode ||
+                          (index === 0 ? "loop" : "popup")
+                        }
+                        onChange={(event) =>
+                          updateStep(step.id, {
+                            mediaMode: event.target.value as
+                              | "loop"
+                              | "popup",
+                          })
+                        }
+                        className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                      >
+                        <option value="loop">
+                          Ruleaza automat in card (loop)
+                        </option>
+                        <option value="popup">
+                          Preview cu Play si popup
+                        </option>
+                      </select>
+                    </Field>
                     <Field label="Etichete scurte">
                       <Input
                         value={step.points.join(", ")}
@@ -540,6 +565,7 @@ const ProcessMediaPreview = ({ step }: { step: LandingProcessStep }) => {
   const mediaUrl = resolveMediaUrl(step.videoSrc);
   const posterUrl = resolveMediaUrl(step.posterSrc || "");
   const isGif = /\.gif(?:$|\?)/i.test(mediaUrl || "");
+  const mediaMode = step.mediaMode || "popup";
 
   return (
     <div
@@ -548,13 +574,13 @@ const ProcessMediaPreview = ({ step }: { step: LandingProcessStep }) => {
     >
       <div className="flex aspect-video items-center justify-center p-2">
         {mediaUrl ? (
-          isGif ? (
+          isGif && mediaMode === "loop" ? (
             <img
               src={mediaUrl}
               alt=""
               className="h-full w-full rounded-xl object-contain"
             />
-          ) : (
+          ) : mediaMode === "loop" ? (
             <video
               src={mediaUrl}
               poster={posterUrl || undefined}
@@ -564,6 +590,27 @@ const ProcessMediaPreview = ({ step }: { step: LandingProcessStep }) => {
               autoPlay
               playsInline
             />
+          ) : (
+            <div className="relative h-full w-full overflow-hidden rounded-xl bg-zinc-950">
+              {posterUrl ? (
+                <img
+                  src={posterUrl}
+                  alt=""
+                  className="h-full w-full object-contain"
+                />
+              ) : !isGif ? (
+                <video
+                  src={mediaUrl}
+                  className="h-full w-full object-contain"
+                  muted
+                  playsInline
+                  preload="metadata"
+                />
+              ) : null}
+              <span className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm">
+                <Play className="ml-0.5 h-5 w-5 fill-current" />
+              </span>
+            </div>
           )
         ) : (
           <ImagePlus className="h-8 w-8 text-zinc-500" />

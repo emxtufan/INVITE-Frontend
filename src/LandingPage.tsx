@@ -382,6 +382,7 @@ export interface LandingProcessStep {
   description: string;
   videoSrc: string;
   posterSrc?: string;
+  mediaMode?: "loop" | "popup";
   background: string;
   status?: string;
   points: string[];
@@ -405,6 +406,7 @@ export const processShowcase: LandingProcessStep[] = [
       "Completezi datele de baza si ai imediat spatiul in care vei organiza intregul eveniment.",
     videoSrc: "/process-videos/01-creeaza-cont.webm",
     posterSrc: "/process-videos/01-creeaza-cont.jpg",
+    mediaMode: "loop",
     background: "#edf7fb",
     status: "Cont creat",
     points: ["Configurare rapida", "Toate evenimentele intr-un loc"],
@@ -418,6 +420,7 @@ export const processShowcase: LandingProcessStep[] = [
       "Schimbi textele, imaginile, data, programul si locatia, iar preview-ul se actualizeaza pe loc.",
     videoSrc: "/process-videos/02-alege-template.webm",
     posterSrc: "/maison/hero-bg.jpg",
+    mediaMode: "popup",
     background: "#fff1e9",
     status: "Invitatie salvata",
     points: ["Design ales de tine", "Editare fara ajutor"],
@@ -431,6 +434,7 @@ export const processShowcase: LandingProcessStep[] = [
       "Publici invitatia, copiezi linkul si il distribui rapid. Invitatii vad toate detaliile si confirma participarea online.",
     videoSrc: "/process-videos/03-trimite-invitatii.webm",
     posterSrc: "/maison/a5d51dd50cc3f51657a8ca13ad8c9b8e.jpg",
+    mediaMode: "popup",
     background: "#eef6e8",
     status: "Link pregatit",
     points: ["Link public unic", "RSVP din acelasi link"],
@@ -444,6 +448,7 @@ export const processShowcase: LandingProcessStep[] = [
       "Creezi mesele, alegi capacitatea lor si asezi fiecare invitat exact acolo unde iti doresti.",
     videoSrc: "/process-videos/04-gestioneaza-mese.webm",
     posterSrc: "/maison/175140437c82741b2167bfb8c40c098e.jpg",
+    mediaMode: "popup",
     background: "#f4f0e8",
     status: "Mese actualizate",
     points: ["Asezare clara", "Modificari rapide"],
@@ -457,6 +462,7 @@ export const processShowcase: LandingProcessStep[] = [
       "Adaugi costurile, avansurile si platile ramase ca sa stii permanent cat ai cheltuit si ce urmeaza sa platesti.",
     videoSrc: "/process-videos/05-gestioneaza-buget.webm",
     posterSrc: "/maison/hero-bg-alt.jpg",
+    mediaMode: "popup",
     background: "#f1f4fb",
     status: "Buget la zi",
     points: ["Cheltuieli si plati", "Total mereu actualizat"],
@@ -470,6 +476,7 @@ export const processShowcase: LandingProcessStep[] = [
       "Notezi fiecare lucru de facut, stabilesti prioritatea si termenul limita si urmaresti progresul pana la eveniment.",
     videoSrc: "/process-videos/06-gestioneaza-taskuri.webm",
     posterSrc: "/ArchRoseTemplate/roses-side.jpg",
+    mediaMode: "popup",
     background: "#fff5ec",
     status: "Task-uri planificate",
     points: ["Termene si prioritati", "Stii mereu ce urmeaza"],
@@ -483,6 +490,7 @@ export const processShowcase: LandingProcessStep[] = [
       "Generezi listele finale pentru print si le trimiti invitatilor masa si locul atribuit, fara cautari si explicatii in ultima zi.",
     videoSrc: "/process-videos/07-liste-si-notificari.webm",
     posterSrc: "/maison/a5d51dd50cc3f51657a8ca13ad8c9b8e.jpg",
+    mediaMode: "popup",
     background: "#eef7f4",
     status: "Invitati notificati",
     points: ["Liste gata de print", "Masa si locul ajung la invitat"],
@@ -1772,6 +1780,7 @@ function ProcessStepCard({
 }) {
   const cardContainerRef = React.useRef<HTMLDivElement | null>(null);
   const mediaFirst = index % 2 === 1;
+  const mediaMode = step.mediaMode || (index === 0 ? "loop" : "popup");
   const targetScale = Math.max(
     0.82,
     1 - (totalSteps - index) * 0.028
@@ -1853,7 +1862,9 @@ function ProcessStepCard({
               title={step.title}
               aspectRatio="16/9"
               showDetails={false}
-              previewAsVideo
+              previewAsVideo={mediaMode === "loop"}
+              openInModal={mediaMode === "popup"}
+              showPlayButton={mediaMode === "popup"}
               className="w-full rounded-[26px]"
             />
           </motion.div>

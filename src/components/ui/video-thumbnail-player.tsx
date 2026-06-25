@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+import { Play, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -12,6 +12,8 @@ interface VideoPlayerProps extends React.HTMLAttributes<HTMLDivElement> {
   aspectRatio?: "16/9" | "4/3" | "1/1";
   showDetails?: boolean;
   previewAsVideo?: boolean;
+  openInModal?: boolean;
+  showPlayButton?: boolean;
 }
 
 const VideoPlayer = React.forwardRef<HTMLDivElement, VideoPlayerProps>(
@@ -25,6 +27,8 @@ const VideoPlayer = React.forwardRef<HTMLDivElement, VideoPlayerProps>(
       aspectRatio = "16/9",
       showDetails = true,
       previewAsVideo = false,
+      openInModal = true,
+      showPlayButton = false,
       ...props
     },
     ref,
@@ -109,24 +113,30 @@ const VideoPlayer = React.forwardRef<HTMLDivElement, VideoPlayerProps>(
         <div
           ref={ref}
           className={cn(
-            "group relative cursor-pointer overflow-hidden rounded-2xl shadow-[0_24px_60px_rgba(16,23,23,0.18)]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            "group relative overflow-hidden rounded-2xl shadow-[0_24px_60px_rgba(16,23,23,0.18)]",
+            openInModal &&
+              "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             className,
           )}
           style={{ aspectRatio }}
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            if (openInModal) setIsModalOpen(true);
+          }}
           onKeyDown={(event) => {
-            if (event.key === "Enter" || event.key === " ") {
+            if (
+              openInModal &&
+              (event.key === "Enter" || event.key === " ")
+            ) {
               event.preventDefault();
               setIsModalOpen(true);
             }
           }}
-          tabIndex={0}
-          role="button"
-          aria-label={`Reda video: ${title}`}
+          tabIndex={openInModal ? 0 : undefined}
+          role={openInModal ? "button" : undefined}
+          aria-label={openInModal ? `Reda video: ${title}` : undefined}
           {...props}
         >
-          {isGif ? (
+          {isGif && previewAsVideo ? (
             <img
               src={videoUrl}
               alt={`Preview pentru ${title}`}
@@ -144,14 +154,33 @@ const VideoPlayer = React.forwardRef<HTMLDivElement, VideoPlayerProps>(
               aria-hidden="true"
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             />
-          ) : (
+          ) : thumbnailUrl && thumbnailUrl !== videoUrl ? (
             <img
               src={thumbnailUrl}
               alt={`Preview pentru ${title}`}
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             />
+          ) : !isGif && !isEmbedVideo ? (
+            <video
+              src={videoUrl}
+              muted
+              playsInline
+              preload="metadata"
+              aria-hidden="true"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+          ) : (
+            <div className="h-full w-full bg-zinc-950" />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/42 via-black/0 to-transparent" />
+
+          {showPlayButton && openInModal ? (
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/50 bg-black/45 text-white shadow-xl backdrop-blur-md transition-transform duration-300 group-hover:scale-110 sm:h-16 sm:w-16">
+                <Play className="ml-1 h-6 w-6 fill-current sm:h-7 sm:w-7" />
+              </span>
+            </div>
+          ) : null}
 
           {showDetails ? (
             <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
