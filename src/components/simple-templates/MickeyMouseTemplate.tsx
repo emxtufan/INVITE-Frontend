@@ -540,8 +540,12 @@ const MickeyIntro: React.FC<{ l1: string; l2: string; onDone: () => void }> = ({
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 9999, overflow: 'hidden',
-      background: `linear-gradient(135deg, ${C.black} 0%, ${C.softBlack} 38%, ${C.cream} 72%, ${C.darkRed} 100%)`,
-      backgroundSize: '400% 400%', animation: 'mm-bgShift 6s ease infinite',
+      background: [
+        `radial-gradient(circle at 50% 46%, ${C.darkRed}F2 0%, ${C.red}D9 30%, transparent 62%)`,
+        `linear-gradient(135deg, ${C.darkRed} 0%, ${C.red} 34%, ${C.yellow} 66%, ${C.darkYellow} 82%, ${C.red} 100%)`,
+      ].join(', '),
+      backgroundSize: '140% 140%, 300% 300%',
+      animation: 'mm-bgShift 8s ease-in-out infinite',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       opacity: fade ? 0 : 1, transition: fade ? 'opacity .75s ease' : 'none',
       pointerEvents: fade ? 'none' : 'auto',
@@ -554,7 +558,9 @@ const MickeyIntro: React.FC<{ l1: string; l2: string; onDone: () => void }> = ({
         <div key={i} style={{
           position: 'fixed',
           width: 16 + (i % 4) * 8, height: 16 + (i % 4) * 8,
-          borderRadius: '50%', background: `${C.white}18`,
+          borderRadius: '50%',
+          background: i % 3 === 0 ? `${C.black}26` : `${C.yellow}38`,
+          border: i % 3 === 0 ? `1px solid ${C.yellow}24` : `1px solid ${C.darkRed}20`,
           left: `${(i * 13 + 3) % 94}%`, top: `${(i * 17 + 5) % 90}%`,
           pointerEvents: 'none',
         }} />
