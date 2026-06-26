@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   AlertTriangle,
   Baby,
@@ -77,6 +77,7 @@ const RsvpModal: React.FC<RsvpModalProps> = ({
   const [message, setMessage] = useState("");
   const [publicName, setPublicName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const previousAutoLabelRef = useRef(isPublic ? "" : guestName.trim());
 
   const adults = participants.filter(
     (participant) => participant.type === "adult",
@@ -85,6 +86,30 @@ const RsvpModal: React.FC<RsvpModalProps> = ({
     (participant) => participant.type === "child",
   ).length;
 
+  const getAutoParticipantLabel = () =>
+    (isPublic ? publicName : guestName).trim();
+
+  useEffect(() => {
+    const previousAutoLabel = previousAutoLabelRef.current;
+    const nextAutoLabel = getAutoParticipantLabel();
+    previousAutoLabelRef.current = nextAutoLabel;
+
+    setParticipants((current) => {
+      if (current.length !== 1) return current;
+
+      const [onlyParticipant] = current;
+      const currentLabel = onlyParticipant.label.trim();
+      const canUseAutoLabel =
+        !currentLabel || currentLabel === previousAutoLabel;
+
+      if (!canUseAutoLabel || onlyParticipant.label === nextAutoLabel) {
+        return current;
+      }
+
+      return [{ ...onlyParticipant, label: nextAutoLabel }];
+    });
+  }, [guestName, isPublic, publicName]);
+
   if (!isOpen) return null;
 
   const changeParticipantCount = (
@@ -92,6 +117,17 @@ const RsvpModal: React.FC<RsvpModalProps> = ({
     delta: number,
   ) => {
     setParticipants((current) => {
+      const autoLabel = getAutoParticipantLabel();
+      const removeAutoFilledLabels = (items: RsvpParticipant[]) =>
+        items.map((participant) =>
+          autoLabel && participant.label.trim() === autoLabel
+            ? { ...participant, label: "" }
+            : participant,
+        );
+      const applySinglePersonAutoLabel = (items: RsvpParticipant[]) =>
+        items.length === 1 && autoLabel && !items[0].label.trim()
+          ? [{ ...items[0], label: autoLabel }]
+          : items;
       const sameType = current.filter(
         (participant) => participant.type === type,
       );
@@ -101,18 +137,31 @@ const RsvpModal: React.FC<RsvpModalProps> = ({
       if (nextCount === sameType.length) return current;
       if (nextCount > sameType.length) {
         const newParticipant = createParticipant(type, sameType.length);
+        let nextParticipants: RsvpParticipant[];
+
         if (type === "adult") {
-          return [
+          nextParticipants = [
             ...current.filter((participant) => participant.type === "adult"),
             newParticipant,
             ...current.filter((participant) => participant.type === "child"),
           ];
+        } else {
+          nextParticipants = [...current, newParticipant];
         }
-        return [...current, newParticipant];
+
+        return nextParticipants.length > 1
+          ? removeAutoFilledLabels(nextParticipants)
+          : applySinglePersonAutoLabel(nextParticipants);
       }
 
       const idToRemove = sameType[sameType.length - 1]?.id;
-      return current.filter((participant) => participant.id !== idToRemove);
+      const nextParticipants = current.filter(
+        (participant) => participant.id !== idToRemove,
+      );
+
+      return nextParticipants.length > 1
+        ? removeAutoFilledLabels(nextParticipants)
+        : applySinglePersonAutoLabel(nextParticipants);
     });
   };
 
